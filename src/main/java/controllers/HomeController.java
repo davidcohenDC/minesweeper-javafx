@@ -2,9 +2,6 @@ package controllers;
 
 import java.io.IOException;
 import java.util.Optional;
-
-import controlutility.ReadRules;
-import controlutility.ReadRulesImpl;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

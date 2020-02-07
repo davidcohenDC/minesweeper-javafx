@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.util.stream.Collectors;
-
+// da cancellare e anche main.fxml
 /**
  * The Controller related to the main.fxml GUI.
  *

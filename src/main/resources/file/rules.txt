@@ -1,11 +1,14 @@
 MODALITA' DI GIOCO STANDARD:
 Il campo di gioco consiste in un campo rettangolare (o quadrato) a sua volta suddiviso in tanti piccoli quadrati. Ogni quadrato viene ripulito, o scoperto, cliccando su di esso. Molti quadrati contengono mine: quando viene cliccato un quadrato con una mina, essa esploderà e farà terminare il gioco. Se il quadrato cliccato non contiene una mina, possono accadere due eventi. Se nel quadrato appare un numero, ciò indica la quantità di quadrati adiacenti (inclusi quelli in diagonale) che contengono mine, che possono essere da 1 a 8. Se non appare nessun numero significa che tutti gli 8 quadrati adiacenti non contengono una mina: in questo caso il gioco ripulisce automaticamente tutti i quadrati vuoti adiacenti a quello cliccato (fino a quando non si arriva a quadrati che contengano un numero). Si vince la partita quando tutti i quadrati che non contengono mine saranno scoperti.Il giocatore può segnare ogni quadrato in cui crede che sia presente una mina con una bandiera, cliccando su di esso con il tasto destro. In qualche versione, cliccando con il tasto centrale del mouse (o con entrambi i tasti del mouse contemporaneamente) sopra un numero che corrisponde al numero delle bandiere adiacenti rivela tutti i quadrati non segnati vicino al numero. Altre versioni permettono al giocatore di muovere il mouse con il tasto destro del mouse tenuto premuto dopo aver segnato una mina; il giocatore può allora premere il tasto destro su altri quadrati durante il suo percorso, in modo da pulire un'ampia zona in poco tempo.Il tracciato delle mine viene creato non appena viene iniziata la partita, e quindi appena prima che il giocatore effettui la prima cliccatadi scopertura sul tracciato. Se tale prima cliccata cade in corrispondenza di una mina, il tracciato viene istantaneamente modificato (seppur in minima parte) per far sì che il primo tentativo del giocatore sia sempre a lui favorevole, cadendo su una casella libera da mine.
+
 MODALITA' DI GIOCO 1 VS 1:
 /*TODO*/
 La modalità di gioco la stessa per quella standard, ma lo scermo sarà diviso in due e a turno i giocatori faranno la propria mossa
+
 MODALITA' DI GIOCO BEAT THE TIMER:
 /*TODO*/
 Cerca di battere il un timer
+
 DIFFICOLTA':
 esistono 4 tipi di gioco:
 easy(facile): campo 9 × 9 con 10 mine
