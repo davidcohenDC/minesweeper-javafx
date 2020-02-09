@@ -94,22 +94,22 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Text>
-                        <RadioButton mnemonicParsing="false" prefHeight="42.0" prefWidth="200.0" text="EASY" textFill="#ff4d00" GridPane.rowIndex="1">
+                        <RadioButton fx:id="rbtEasy" mnemonicParsing="false" onAction="#rbtEasy" prefHeight="42.0" prefWidth="200.0" text="EASY" textFill="#ff4d00" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" prefHeight="42.0" prefWidth="200.0" text="MEDIUM" textFill="#ff4d00" GridPane.rowIndex="2">
+                        <RadioButton fx:id="rbtMedium" mnemonicParsing="false" onAction="#rbtMedium" prefHeight="42.0" prefWidth="200.0" text="MEDIUM" textFill="#ff4d00" GridPane.rowIndex="2">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" prefHeight="42.0" prefWidth="200.0" text="HARD" textFill="#ff4d00" GridPane.rowIndex="3">
+                        <RadioButton fx:id="rbtHard" mnemonicParsing="false" onAction="#rbtHard" prefHeight="42.0" prefWidth="200.0" text="HARD" textFill="#ff4d00" GridPane.rowIndex="3">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" prefHeight="42.0" prefWidth="200.0" text="PERSONALIZED" textFill="#ff4d00" GridPane.rowIndex="4">
+                        <RadioButton fx:id="rbtPersonalized" mnemonicParsing="false" onAction="#rbtPersonalized" prefHeight="42.0" prefWidth="200.0" text="PERSONALIZED" textFill="#ff4d00" GridPane.rowIndex="4">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -125,9 +125,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Spinner editable="true" prefHeight="25.0" prefWidth="100.0" GridPane.columnIndex="1" />
-                              <Spinner prefHeight="25.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Spinner prefHeight="25.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Spinner fx:id="sMines" editable="true" prefHeight="25.0" prefWidth="100.0" GridPane.columnIndex="1" />
+                              <Spinner fx:id="sHeight" prefHeight="25.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Spinner fx:id="sWidth" prefHeight="25.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="MINES" textAlignment="CENTER" wrappingWidth="83.390625">
                                  <font>
                                     <Font size="14.0" />
