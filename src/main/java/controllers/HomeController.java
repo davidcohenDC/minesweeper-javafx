@@ -23,6 +23,7 @@ public final class HomeController {
     @FXML
     private AnchorPane rootPane;
 
+
     /** used to switch scene on the same stage. */
     private void switchScene(final Parent pane) {
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
@@ -41,14 +42,15 @@ public final class HomeController {
     @FXML
     private void btHowToPlay(final ActionEvent event) throws IOException {
         event.consume();
-        final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/howToPlay.fxml")); //
+        final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/howToPlay.fxml"));
         this.switchScene(pane);
     }
 
     @FXML
     private void btSettings(final ActionEvent event) throws IOException {
         event.consume();
-        // TODO
+        final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/settings.fxml"));
+        this.switchScene(pane);
     }
 
     @FXML

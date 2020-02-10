@@ -9,15 +9,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
 /**
  * The Controller related to the playGame.fxml GUI.
  *
  */
-public class PlayGameController extends BackHomeController {
+public final class PlayGameController extends BackHomeController {
     /**number of min mines.
      * */
     public static final int MIN_MINES = 10;
@@ -60,11 +59,11 @@ public class PlayGameController extends BackHomeController {
     private RadioButton rbtPersonalized = new RadioButton();
 
     @FXML
-    private Spinner<Integer> sMines = new Spinner<>();
+    private TextField tfMines = new TextField();
     @FXML
-    private Spinner<Integer> sWidth = new Spinner<>();
+    private TextField tfWidth = new TextField();
     @FXML
-    private Spinner<Integer> sHeight = new Spinner<>();
+    private TextField tfHeight = new TextField();
 
     /**
      * Initialize fiels to start.
@@ -82,11 +81,24 @@ public class PlayGameController extends BackHomeController {
         this.personalized = false;
         this.modality = Optional.empty();
         this.difficulty = Optional.empty();
-        //
-        this.sMines.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(MIN_MINES, MAX_MINES, MIN_MINES));
-        this.sWidth.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(MIN_WIDTH, MAX_WIDTH, MIN_WIDTH));
-        this.sHeight.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(MIN_HEIGHT, MAX_HEIGHT, MIN_HEIGHT));
-        this.setSpinner();
+        this.enableTextField();
+
+    }
+
+    private void enableTextField() {
+        if (this.personalized) {
+            this.tfMines.setDisable(false);
+            this.tfHeight.setDisable(false);
+            this.tfWidth.setDisable(false);
+        } else {
+            this.tfMines.setText(String.valueOf(MIN_MINES));
+            this.tfHeight.setText(String.valueOf(MIN_HEIGHT));
+            this.tfWidth.setText(String.valueOf(MIN_WIDTH));
+
+            this.tfMines.setDisable(true);
+            this.tfHeight.setDisable(true);
+            this.tfWidth.setDisable(true);
+        }
     }
 
     private void loadModality(final Modality mod) {
@@ -163,6 +175,7 @@ public class PlayGameController extends BackHomeController {
         event.consume();
         checkDiff();
         this.loadDifficulty(Difficulty.EASY);
+        this.enableTextField();
     }
 
     @FXML
@@ -170,6 +183,7 @@ public class PlayGameController extends BackHomeController {
         event.consume();
         checkDiff();
         this.loadDifficulty(Difficulty.MEDIUM);
+        this.enableTextField();
     }
 
     @FXML
@@ -177,6 +191,7 @@ public class PlayGameController extends BackHomeController {
         event.consume();
         checkDiff();
         this.loadDifficulty(Difficulty.HARD);
+        this.enableTextField();
     }
 
     @FXML
@@ -184,20 +199,50 @@ public class PlayGameController extends BackHomeController {
         event.consume();
         checkDiff();
         this.loadDifficulty(Difficulty.PERSONALIZED);
-        this.setSpinner();
+        this.enableTextField();
     }
 
-
-    private void setSpinner() {
-        if (this.personalized) {
-            this.sMines.setDisable(false);
-            this.sHeight.setDisable(false);
-            this.sWidth.setDisable(false);
-        } else {
-            this.sMines.setDisable(true);
-            this.sHeight.setDisable(true);
-            this.sWidth.setDisable(true);
+    @FXML
+    private void tfCheckMines() {
+        try {
+            if (!this.tfMines.getText().isEmpty()) {
+                Integer.parseInt(this.tfMines.getText());
+            }
+        } catch (NumberFormatException e) {
+            this.alertNumberFormat();
+            this.tfMines.setText(String.valueOf(MIN_MINES));
         }
+    }
+
+    @FXML
+    private void tfCheckHeight() {
+        try {
+            if (!this.tfHeight.getText().isEmpty()) {
+                Integer.parseInt(this.tfHeight.getText());
+            }
+        } catch (NumberFormatException e) {
+            this.alertNumberFormat();
+            this.tfHeight.setText(String.valueOf(MIN_HEIGHT));
+        }
+    }
+
+    @FXML
+    private void tfCheckWidth() {
+        try {
+            if (!this.tfWidth.getText().isEmpty()) {
+                Integer.parseInt(this.tfWidth.getText());
+            }
+        } catch (NumberFormatException e) {
+            this.alertNumberFormat();
+            this.tfWidth.setText(String.valueOf(MIN_WIDTH));
+        }
+    }
+
+    private void alertNumberFormat() {
+        final Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error...");
+        alert.setContentText("Only number format");
+        alert.showAndWait();
     }
 
     @FXML
@@ -210,15 +255,32 @@ public class PlayGameController extends BackHomeController {
             alert.setContentText("You haven't select the modality or the difficulty");
             alert.showAndWait();
         } else {
-            System.out.println("sono playButton");
-            System.out.println("modalità " + modality + " difficoltà " + difficulty);
-            if (this.personalized) {
-                System.out.println("mines: " + sMines.getValue());
-                System.out.println("width: " + sWidth.getValue());
-                System.out.println("height: " + sHeight.getValue());
+            if (this.checkRange()) {
+                System.out.println("sono playButton");
+                System.out.println("modalità " + modality + " difficoltà " + difficulty);
+                if (this.personalized) {
+                    System.out.println("mines: " + tfMines.getText());
+                    System.out.println("width: " + tfWidth.getText());
+                    System.out.println("height: " + tfHeight.getText());
+                }
+                // TODO chiama metodo per gioco
             }
-            // TODO chiama metodo per gioco
         }
+    }
+
+    private boolean checkRange() {
+        int valueM = Integer.parseInt(this.tfMines.getText());
+        int valueH = Integer.parseInt(this.tfHeight.getText());
+        int valueW = Integer.parseInt(this.tfWidth.getText());
+        if (valueM < MIN_MINES || valueM > MAX_MINES || valueH < MIN_HEIGHT || valueH > MAX_HEIGHT || valueW < MIN_WIDTH
+                || valueW > MAX_WIDTH) {
+            final Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error...");
+            alert.setContentText("number of Mines or Height or Width out of range");
+            alert.showAndWait();
+        }
+        return valueM > MIN_MINES && valueM < MAX_MINES || valueH > MIN_HEIGHT && valueH < MAX_HEIGHT
+                || valueW > MIN_WIDTH && valueW < MAX_WIDTH;
     }
 
     private void check() {

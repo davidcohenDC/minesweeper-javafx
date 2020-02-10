@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -25,10 +25,16 @@
          <bottom>
             <BorderPane prefHeight="46.0" prefWidth="611.0" BorderPane.alignment="CENTER">
                <left>
-                  <Button id="button" mnemonicParsing="false" onAction="#btBackHome" prefHeight="38.0" prefWidth="76.0" text="HOME" BorderPane.alignment="CENTER" />
+                  <Button id="button" mnemonicParsing="false" onAction="#btBackHome" prefHeight="38.0" prefWidth="76.0" text="HOME" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
                </left>
                <right>
-                  <Button id="button" mnemonicParsing="false" onAction="#btPlay" prefHeight="38.0" prefWidth="76.0" text="PLAY" BorderPane.alignment="CENTER" />
+                  <Button id="button" mnemonicParsing="false" onAction="#btPlay" prefHeight="38.0" prefWidth="76.0" text="PLAY" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
                </right>
             </BorderPane>
          </bottom>
@@ -114,10 +120,10 @@
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </RadioButton>
-                        <GridPane GridPane.rowIndex="5">
+                        <GridPane prefHeight="103.0" prefWidth="327.0" GridPane.rowIndex="5">
                           <columnConstraints>
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="238.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="89.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -125,24 +131,24 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Spinner fx:id="sMines" editable="true" prefHeight="25.0" prefWidth="100.0" GridPane.columnIndex="1" />
-                              <Spinner fx:id="sHeight" prefHeight="25.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Spinner fx:id="sWidth" prefHeight="25.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="MINES" textAlignment="CENTER" wrappingWidth="83.390625">
+                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="MINES (10-667)" textAlignment="CENTER" wrappingWidth="111.390625">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="System Bold" size="14.0" />
                                  </font>
                               </Text>
-                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="HEIGHT" textAlignment="CENTER" wrappingWidth="83.390625" GridPane.rowIndex="1">
+                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="HEIGHT (9-24)" textAlignment="CENTER" wrappingWidth="112.390625" GridPane.rowIndex="1">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="System Bold" size="14.0" />
                                  </font>
                               </Text>
-                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="WIDTH" textAlignment="CENTER" wrappingWidth="83.390625" GridPane.rowIndex="2">
+                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="WIDTH (9-30)" textAlignment="CENTER" wrappingWidth="108.390625" GridPane.rowIndex="2">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="System Bold" size="14.0" />
                                  </font>
                               </Text>
+                              <TextField fx:id="tfHeight" alignment="CENTER" onKeyTyped="#tfCheckHeight" prefHeight="25.0" prefWidth="105.0" text="9" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="tfMines" alignment="CENTER" onKeyTyped="#tfCheckMines" prefHeight="25.0" prefWidth="105.0" text="10" GridPane.columnIndex="1" />
+                              <TextField fx:id="tfWidth" alignment="CENTER" onKeyTyped="#tfCheckWidth" prefHeight="25.0" prefWidth="105.0" text="9" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                      </children>
