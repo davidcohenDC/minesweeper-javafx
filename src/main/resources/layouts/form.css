@@ -5,14 +5,17 @@
              -fx-padding: 10 10 10 10;
              -fx-background-radius: 20;
             }
-            #borderPane {
-             -fx-background-color:  linear-gradient(gray, DimGrey );
-            }
-            #button {
-                -fx-background-radius: 30, 30, 29, 28;
-                -fx-padding: 3px 10px 3px 10px;
-                -fx-background-color: linear-gradient(orange, orangered );
-            }
-            #text {
-             -fx-fill:  linear-gradient(orange , orangered);
+#borderPane {
+			-fx-background-color:  linear-gradient(gray, DimGrey );
 			}
+#button {
+		-fx-background-radius: 30, 30, 29, 28;
+		-fx-padding: 3px 10px 3px 10px;
+		-fx-background-color: linear-gradient(#4d66cc, #00ffff );
+		}	
+#text {
+		 -fx-fill:  linear-gradient(#4d66cc , #00ffff);
+		}
+#txt {
+		 -fx-fill:  linear-gradient(black , black);
+		}

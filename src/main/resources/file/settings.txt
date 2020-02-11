@@ -1,0 +1,5 @@
+panda.png
+bianca.png
+4d66cc
+00ffff
+sound

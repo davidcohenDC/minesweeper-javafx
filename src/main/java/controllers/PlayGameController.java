@@ -279,8 +279,8 @@ public final class PlayGameController extends BackHomeController {
             alert.setContentText("number of Mines or Height or Width out of range");
             alert.showAndWait();
         }
-        return valueM > MIN_MINES && valueM < MAX_MINES || valueH > MIN_HEIGHT && valueH < MAX_HEIGHT
-                || valueW > MIN_WIDTH && valueW < MAX_WIDTH;
+        return valueM >= MIN_MINES && valueM <= MAX_MINES && valueH >= MIN_HEIGHT && valueH <= MAX_HEIGHT
+                && valueW >= MIN_WIDTH && valueW <= MAX_WIDTH;
     }
 
     private void check() {

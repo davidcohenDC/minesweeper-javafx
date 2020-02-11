@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -50,7 +49,7 @@
                <children>
                   <GridPane prefHeight="378.0" prefWidth="343.0">
                     <columnConstraints>
-                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="33.0" valignment="TOP" vgrow="SOMETIMES" />
@@ -59,32 +58,31 @@
                       <RowConstraints maxHeight="219.0" minHeight="10.0" prefHeight="109.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Text id="text" strokeType="OUTSIDE" strokeWidth="0.0" text="MODALITY" textAlignment="CENTER" wrappingWidth="172.13671875">
+                        <Text id="txt" strokeType="OUTSIDE" strokeWidth="0.0" text="MODALITY" textAlignment="CENTER" wrappingWidth="172.13671875">
                            <font>
-                              <Font name="System Bold" size="24.0" />
+                              <Font name="Bradley Hand ITC" size="24.0" />
                            </font>
                         </Text>
-                        <RadioButton fx:id="rbtStd" mnemonicParsing="false" onAction="#rbtStandard" prefHeight="42.0" prefWidth="200.0" text="STANDARD" textFill="#ff4d00" GridPane.rowIndex="1">
+                        <RadioButton id="txt" fx:id="rbtStd" mnemonicParsing="false" onAction="#rbtStandard" prefHeight="42.0" prefWidth="200.0" text="STANDARD" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton fx:id="rbtOnevsOne" mnemonicParsing="false" onAction="#rbtOnevsOne" prefHeight="42.0" prefWidth="200.0" text="1 VS 1" textFill="#ff4d00" GridPane.rowIndex="2">
+                        <RadioButton fx:id="rbtOnevsOne" mnemonicParsing="false" onAction="#rbtOnevsOne" prefHeight="42.0" prefWidth="200.0" text="1 VS 1" GridPane.rowIndex="2">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton fx:id="rbtBtt" mnemonicParsing="false" onAction="#rbtBtt" prefHeight="42.0" prefWidth="200.0" text="BEAT THE TIMER" textFill="#ff4d00" GridPane.rowIndex="3">
+                        <RadioButton fx:id="rbtBtt" mnemonicParsing="false" onAction="#rbtBtt" prefHeight="42.0" prefWidth="200.0" text="BEAT THE TIMER" GridPane.rowIndex="3">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </RadioButton>
                      </children>
                   </GridPane>
-                  <Line endX="-100.41421508789062" endY="351.29290771484375" startX="-100.41459655761719" startY="37.32231521606445" stroke="#ff7500" strokeWidth="2.0" GridPane.columnIndex="1" />
                   <GridPane prefHeight="369.0" prefWidth="422.0" GridPane.columnIndex="1">
                     <columnConstraints>
-                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="33.0" valignment="TOP" vgrow="SOMETIMES" />
@@ -95,27 +93,27 @@
                       <RowConstraints maxHeight="134.0" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Text id="text" strokeType="OUTSIDE" strokeWidth="0.0" text="DIFFICULTY" textAlignment="CENTER" wrappingWidth="172.13671875">
+                        <Text id="txt" strokeType="OUTSIDE" strokeWidth="0.0" text="DIFFICULTY" textAlignment="CENTER" wrappingWidth="172.13671875">
                            <font>
-                              <Font name="System Bold" size="24.0" />
+                              <Font name="Bradley Hand ITC" size="24.0" />
                            </font>
                         </Text>
-                        <RadioButton fx:id="rbtEasy" mnemonicParsing="false" onAction="#rbtEasy" prefHeight="42.0" prefWidth="200.0" text="EASY" textFill="#ff4d00" GridPane.rowIndex="1">
+                        <RadioButton fx:id="rbtEasy" mnemonicParsing="false" onAction="#rbtEasy" prefHeight="42.0" prefWidth="200.0" text="EASY" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton fx:id="rbtMedium" mnemonicParsing="false" onAction="#rbtMedium" prefHeight="42.0" prefWidth="200.0" text="MEDIUM" textFill="#ff4d00" GridPane.rowIndex="2">
+                        <RadioButton fx:id="rbtMedium" mnemonicParsing="false" onAction="#rbtMedium" prefHeight="42.0" prefWidth="200.0" text="MEDIUM" GridPane.rowIndex="2">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton fx:id="rbtHard" mnemonicParsing="false" onAction="#rbtHard" prefHeight="42.0" prefWidth="200.0" text="HARD" textFill="#ff4d00" GridPane.rowIndex="3">
+                        <RadioButton fx:id="rbtHard" mnemonicParsing="false" onAction="#rbtHard" prefHeight="42.0" prefWidth="200.0" text="HARD" GridPane.rowIndex="3">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton fx:id="rbtPersonalized" mnemonicParsing="false" onAction="#rbtPersonalized" prefHeight="42.0" prefWidth="200.0" text="PERSONALIZED" textFill="#ff4d00" GridPane.rowIndex="4">
+                        <RadioButton fx:id="rbtPersonalized" mnemonicParsing="false" onAction="#rbtPersonalized" prefHeight="42.0" prefWidth="200.0" text="PERSONALIZED" GridPane.rowIndex="4">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -131,17 +129,17 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="MINES (10-667)" textAlignment="CENTER" wrappingWidth="111.390625">
+                              <Text id="txt" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="MINES (10-667)" textAlignment="CENTER" wrappingWidth="111.390625">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Text>
-                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="HEIGHT (9-24)" textAlignment="CENTER" wrappingWidth="112.390625" GridPane.rowIndex="1">
+                              <Text id="txt" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="HEIGHT (9-24)" textAlignment="CENTER" wrappingWidth="112.390625" GridPane.rowIndex="1">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Text>
-                              <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="WIDTH (9-30)" textAlignment="CENTER" wrappingWidth="108.390625" GridPane.rowIndex="2">
+                              <Text id="txt" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="WIDTH (9-30)" textAlignment="CENTER" wrappingWidth="108.390625" GridPane.rowIndex="2">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
