@@ -41,6 +41,7 @@ public class TimerImpl implements Timer {
     @Override
     public final void unPause() {
         this.paused = false;
+        run();
     }
 
     @Override
