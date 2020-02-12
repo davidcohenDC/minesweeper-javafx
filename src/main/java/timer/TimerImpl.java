@@ -43,4 +43,9 @@ public class TimerImpl implements Timer {
         this.paused = false;
     }
 
+    @Override
+    public final boolean isPaused() {
+        return paused;
+    }
+
 }

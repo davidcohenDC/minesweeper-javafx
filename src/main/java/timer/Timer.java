@@ -7,4 +7,6 @@ public interface Timer extends Runnable {
     void pause();
 
     void unPause();
+
+    boolean isPaused();
 }
