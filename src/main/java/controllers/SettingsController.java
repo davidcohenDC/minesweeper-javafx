@@ -39,28 +39,28 @@ public final class SettingsController extends BackHomeController {
     private final String separator = System.getProperty("file.separator");
 
     @FXML
-    private final Button btBackHome = new Button();
+    private  Button btBackHome = new Button();
 
     @FXML
-    private final ColorPicker colorPicker1 = new ColorPicker();
+    private  ColorPicker colorPicker1 = new ColorPicker();
 
     @FXML
-    private final ColorPicker colorPicker2 = new ColorPicker();
+    private  ColorPicker colorPicker2 = new ColorPicker();
 
     @FXML
-    private final Button btPreview = new Button();
+    private  Button btPreview = new Button();
 
     @FXML
-    private final MenuButton mbtMines = new MenuButton();
+    private  MenuButton mbtMines = new MenuButton();
 
     @FXML
-    private final MenuButton mbtFlags = new MenuButton();
+    private  MenuButton mbtFlags = new MenuButton();
 
     @FXML
-    private final ImageView ivMines = new ImageView();
+    private  ImageView ivMines = new ImageView();
 
     @FXML
-    private final ImageView ivFlags = new ImageView();
+    private  ImageView ivFlags = new ImageView();
 
     /**
      * initialize fields.

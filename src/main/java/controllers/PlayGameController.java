@@ -43,27 +43,27 @@ public final class PlayGameController extends BackHomeController {
     private boolean personalized; // abilita/ disabilita gli spinner
 
     @FXML
-    private final RadioButton rbtStd = new RadioButton();
+    private  RadioButton rbtStd = new RadioButton();
     @FXML
-    private final RadioButton rbtOnevsOne = new RadioButton();
+    private  RadioButton rbtOnevsOne = new RadioButton();
     @FXML
-    private final RadioButton rbtBtt = new RadioButton();
+    private  RadioButton rbtBtt = new RadioButton();
 
     @FXML
-    private final RadioButton rbtEasy = new RadioButton();
+    private  RadioButton rbtEasy = new RadioButton();
     @FXML
-    private final RadioButton rbtMedium = new RadioButton();
+    private  RadioButton rbtMedium = new RadioButton();
     @FXML
-    private final RadioButton rbtHard = new RadioButton();
+    private  RadioButton rbtHard = new RadioButton();
     @FXML
-    private final RadioButton rbtPersonalized = new RadioButton();
+    private  RadioButton rbtPersonalized = new RadioButton();
 
     @FXML
-    private final TextField tfMines = new TextField();
+    private  TextField tfMines = new TextField();
     @FXML
-    private final TextField tfWidth = new TextField();
+    private  TextField tfWidth = new TextField();
     @FXML
-    private final TextField tfHeight = new TextField();
+    private  TextField tfHeight = new TextField();
 
     /**
      * Initialize fiels to start.
