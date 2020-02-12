@@ -11,10 +11,10 @@
 #button {
 		-fx-background-radius: 30, 30, 29, 28;
 		-fx-padding: 3px 10px 3px 10px;
-		-fx-background-color: linear-gradient(#4d66cc, #00ffff );
+		-fx-background-color: linear-gradient(#00ffff, #ccffff );
 		}	
 #text {
-		 -fx-fill:  linear-gradient(#4d66cc , #00ffff);
+		 -fx-fill:  linear-gradient(#00ffff , #ccffff);
 		}
 #txt {
 		 -fx-fill:  linear-gradient(black , black);

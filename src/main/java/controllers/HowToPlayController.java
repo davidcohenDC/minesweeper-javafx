@@ -17,9 +17,8 @@ public final class HowToPlayController extends BackHomeController {
 
     @FXML
     private AnchorPane rootPane;
-
     @FXML
-    private  TextArea txtArea = new TextArea();
+    private TextArea txtArea;
 
     /**
      * @exception IOException

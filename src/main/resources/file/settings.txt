@@ -1,5 +1,5 @@
 panda.png
-bianca.png
-4d66cc
+scacchi.png
 00ffff
+ccffff
 sound
