@@ -36,30 +36,31 @@ public final class SettingsController extends BackHomeController {
     private Color secondColor;
     private WriteCss writeCss;
     private RWSettings rwSett;
+    private final String separator = System.getProperty("file.separator");
 
     @FXML
-    private Button btBackHome = new Button();
+    private final Button btBackHome = new Button();
 
     @FXML
-    private ColorPicker colorPicker1 = new ColorPicker();
+    private final ColorPicker colorPicker1 = new ColorPicker();
 
     @FXML
-    private ColorPicker colorPicker2 = new ColorPicker();
+    private final ColorPicker colorPicker2 = new ColorPicker();
 
     @FXML
-    private Button btPreview = new Button();
+    private final Button btPreview = new Button();
 
     @FXML
-    private MenuButton mbtMines = new MenuButton();
+    private final MenuButton mbtMines = new MenuButton();
 
     @FXML
-    private MenuButton mbtFlags = new MenuButton();
+    private final MenuButton mbtFlags = new MenuButton();
 
     @FXML
-    private ImageView ivMines = new ImageView();
+    private final ImageView ivMines = new ImageView();
 
     @FXML
-    private ImageView ivFlags = new ImageView();
+    private final ImageView ivFlags = new ImageView();
 
     /**
      * initialize fields.
@@ -68,12 +69,12 @@ public final class SettingsController extends BackHomeController {
      *                            if an I/O error occurs.
      */
     public void initialize() throws IOException {
-        this.urlImgMine = "src" + System.getProperty("file.separator") + "main" + System.getProperty("file.separator") + "resources"
-                + System.getProperty("file.separator") + "image" + System.getProperty("file.separator") 
-                + "mines" + System.getProperty("file.separator");
-        this.urlImgFlag = "src" + System.getProperty("file.separator") + "main" + System.getProperty("file.separator") + "resources"
-                + System.getProperty("file.separator") + "image" + System.getProperty("file.separator") 
-                + "flags" + System.getProperty("file.separator");
+        this.urlImgMine = "src" + this.separator + "main" + this.separator + "resources"
+                + this.separator + "image" + this.separator
+                + "mines" + this.separator;
+        this.urlImgFlag = "src" + this.separator + "main" + this.separator + "resources"
+                + this.separator + "image" + this.separator
+                + "flags" + this.separator;
 
         this.rwSett = new RWSettingsImpl();
         this.writeCss = new WriteCssImpl(this.rwSett.getFirstColor(), this.rwSett.getSecondColor());
@@ -86,7 +87,8 @@ public final class SettingsController extends BackHomeController {
         this.updateBtPreview();
     }
 
-    private EventHandler<ActionEvent> selectMine = new EventHandler<ActionEvent>() {
+    private final EventHandler<ActionEvent> selectMine = new EventHandler<ActionEvent>() {
+        @Override
         public void handle(final ActionEvent e) {
             rwSett.setMines(((MenuItem) e.getSource()).getText());
             try {
@@ -98,7 +100,8 @@ public final class SettingsController extends BackHomeController {
     };
 
 
-    private EventHandler<ActionEvent> selectFlag = new EventHandler<ActionEvent>() {
+    private final EventHandler<ActionEvent> selectFlag = new EventHandler<ActionEvent>() {
+        @Override
         public void handle(final ActionEvent e) {
             rwSett.setFlags(((MenuItem) e.getSource()).getText());
             try {
@@ -112,11 +115,11 @@ public final class SettingsController extends BackHomeController {
     private void createMenuButtonM() {
         try (Stream<Path> walk = Files.walk(Paths.get(urlImgMine))) {
 
-            List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
+            final List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
 
-            for (String s : result) {
-                String name = s.replace(urlImgMine, "");
-                MenuItem item = new MenuItem(name);
+            for (final String s : result) {
+                final String name = s.replace(urlImgMine, "");
+                final MenuItem item = new MenuItem(name);
                 this.mbtMines.getItems().add(item);
             }
 
@@ -134,11 +137,11 @@ public final class SettingsController extends BackHomeController {
     private void createMenuButtonF() {
         try (Stream<Path> walk = Files.walk(Paths.get(urlImgFlag))) {
 
-            List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
+            final List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
 
-            for (String s : result) {
-                String name = s.replace(urlImgFlag, "");
-                MenuItem item = new MenuItem(name);
+            for (final String s : result) {
+                final String name = s.replace(urlImgFlag, "");
+                final MenuItem item = new MenuItem(name);
                 this.mbtFlags.getItems().add(item);
             }
 
@@ -154,9 +157,9 @@ public final class SettingsController extends BackHomeController {
     }
 
     private void updateBtPreview() {
-        String fc = this.convertColor(this.firstColor);
-        String sc = this.convertColor(this.secondColor);
-        String btStyle = "-fx-background-color: linear-gradient(#" + fc + ", #" + sc
+        final String fc = this.convertColor(this.firstColor);
+        final String sc = this.convertColor(this.secondColor);
+        final String btStyle = "-fx-background-color: linear-gradient(#" + fc + ", #" + sc
                 + "); -fx-background-radius: 30, 30, 29, 28;-fx-padding: 3px 10px 3px 10px;";
         this.btPreview.setStyle(btStyle);
     }

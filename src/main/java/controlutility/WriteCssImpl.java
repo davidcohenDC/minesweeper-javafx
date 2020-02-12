@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,8 @@ import java.util.stream.Collectors;
 
 public class WriteCssImpl implements WriteCss {
     private final String fileName;
-    private List<String> lines = new ArrayList<>();
+    private final String separator = System.getProperty("file.separator");
+    private final List<String> lines;
     private String oldCol1;
     private String oldCol2;
 
@@ -25,17 +27,17 @@ public class WriteCssImpl implements WriteCss {
      *                            if an I/O error occurs.
      */
     public WriteCssImpl(final String old1, final String old2) throws IOException {
-        this.fileName = "src" + System.getProperty("file.separator") + "main" + System.getProperty("file.separator") + "resources"
-                + System.getProperty("file.separator") + "layouts" + System.getProperty("file.separator") + "form.css";
+        this.fileName = "src" + this.separator + "main" + this.separator + "resources"
+                + this.separator + "layouts" + this.separator + "form.css";
 
-        this.lines = Files.lines(Paths.get(fileName)).collect(Collectors.toList());
+        this.lines = new ArrayList<>(Files.lines(Paths.get(fileName)).collect(Collectors.toList()));
         this.oldCol1 = old1;
         this.oldCol2 = old2;
     }
 
     @Override
     public final void update(final String first, final String second) {
-        List<String> wkl = new ArrayList<>(lines);
+        final List<String> wkl = new ArrayList<>(lines);
         // sostituisco i colori
         for (int i = 0; i < lines.size(); i++) {
             if (lines.get(i).contains(this.oldCol1) && lines.get(i).contains(this.oldCol2)) {
@@ -47,16 +49,17 @@ public class WriteCssImpl implements WriteCss {
         }
         // riscrivo su file
         try (PrintStream ps = new PrintStream(fileName)) {
-            for (String s : wkl) {
+            for (final String s : wkl) {
                 ps.println(s);
             }
         } catch (IOException e) {
-            throw new IllegalStateException();
+            e.printStackTrace();
         }
 
         this.oldCol1 = first;
         this.oldCol2 = second;
-        this.lines = wkl;
+        this.lines.clear();
+        this.lines.addAll(Collections.unmodifiableList(wkl));
     }
 
 

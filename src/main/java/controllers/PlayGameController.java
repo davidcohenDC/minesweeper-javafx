@@ -36,34 +36,34 @@ public final class PlayGameController extends BackHomeController {
      * */
     public static final int MAX_HEIGHT = 24;
 
-    private EnumMap<Modality, Boolean> btsModality = new EnumMap<>(Modality.class);
-    private EnumMap<Difficulty, Boolean> btsDifficulty = new EnumMap<>(Difficulty.class);
+    private final EnumMap<Modality, Boolean> btsModality = new EnumMap<>(Modality.class);
+    private final EnumMap<Difficulty, Boolean> btsDifficulty = new EnumMap<>(Difficulty.class);
     private Optional<Modality> modality;
     private Optional<Difficulty> difficulty;
     private boolean personalized; // abilita/ disabilita gli spinner
 
     @FXML
-    private RadioButton rbtStd = new RadioButton();
+    private final RadioButton rbtStd = new RadioButton();
     @FXML
-    private RadioButton rbtOnevsOne = new RadioButton();
+    private final RadioButton rbtOnevsOne = new RadioButton();
     @FXML
-    private RadioButton rbtBtt = new RadioButton();
+    private final RadioButton rbtBtt = new RadioButton();
 
     @FXML
-    private RadioButton rbtEasy = new RadioButton();
+    private final RadioButton rbtEasy = new RadioButton();
     @FXML
-    private RadioButton rbtMedium = new RadioButton();
+    private final RadioButton rbtMedium = new RadioButton();
     @FXML
-    private RadioButton rbtHard = new RadioButton();
+    private final RadioButton rbtHard = new RadioButton();
     @FXML
-    private RadioButton rbtPersonalized = new RadioButton();
+    private final RadioButton rbtPersonalized = new RadioButton();
 
     @FXML
-    private TextField tfMines = new TextField();
+    private final TextField tfMines = new TextField();
     @FXML
-    private TextField tfWidth = new TextField();
+    private final TextField tfWidth = new TextField();
     @FXML
-    private TextField tfHeight = new TextField();
+    private final TextField tfHeight = new TextField();
 
     /**
      * Initialize fiels to start.
@@ -107,7 +107,7 @@ public final class PlayGameController extends BackHomeController {
             this.modality = Optional.empty();
         } else {
             if (this.btsModality.containsValue(true)) {
-                Modality key = this.btsModality.entrySet().stream().filter(m -> m.getValue()).map(m -> m.getKey()).findAny()
+                final Modality key = this.btsModality.entrySet().stream().filter(m -> m.getValue()).map(m -> m.getKey()).findAny()
                         .get();
                 this.btsModality.replace(key, false);
             }
@@ -130,7 +130,7 @@ public final class PlayGameController extends BackHomeController {
             this.difficulty = Optional.empty();
         } else {
             if (this.btsDifficulty.containsValue(true)) {
-                Difficulty key = this.btsDifficulty.entrySet().stream().filter(m -> m.getValue()).map(m -> m.getKey()).findAny()
+                final Difficulty key = this.btsDifficulty.entrySet().stream().filter(m -> m.getValue()).map(m -> m.getKey()).findAny()
                         .get();
                 this.btsDifficulty.replace(key, false);
             }
@@ -269,9 +269,9 @@ public final class PlayGameController extends BackHomeController {
     }
 
     private boolean checkRange() {
-        int valueM = Integer.parseInt(this.tfMines.getText());
-        int valueH = Integer.parseInt(this.tfHeight.getText());
-        int valueW = Integer.parseInt(this.tfWidth.getText());
+        final int valueM = Integer.parseInt(this.tfMines.getText());
+        final int valueH = Integer.parseInt(this.tfHeight.getText());
+        final int valueW = Integer.parseInt(this.tfWidth.getText());
         if (valueM < MIN_MINES || valueM > MAX_MINES || valueH < MIN_HEIGHT || valueH > MAX_HEIGHT || valueW < MIN_WIDTH
                 || valueW > MAX_WIDTH) {
             final Alert alert = new Alert(AlertType.ERROR);

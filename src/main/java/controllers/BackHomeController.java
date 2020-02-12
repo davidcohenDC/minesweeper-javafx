@@ -24,8 +24,9 @@ public class BackHomeController {
     private void btBackHome(final ActionEvent event) throws IOException {
         event.consume();
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/home.fxml"));
-        Stage stage = (Stage) this.rootPane.getScene().getWindow();
+        final Stage stage = (Stage) this.rootPane.getScene().getWindow();
         final Scene scene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
         stage.setScene(scene);
     }
+
 }

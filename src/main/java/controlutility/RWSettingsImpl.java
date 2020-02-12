@@ -11,16 +11,17 @@ import java.util.stream.Collectors;
 /***/
 public class RWSettingsImpl implements RWSettings {
     private final String fileName;
-    private List<String> lines = new ArrayList<>();
+    private final List<String> lines;
+    private final String separator = System.getProperty("file.separator");
 
     /**
      * @exception IOException
      *                            if an I/O error occurs.
      */
     public RWSettingsImpl() throws IOException {
-        this.fileName = "src" + System.getProperty("file.separator") + "main" + System.getProperty("file.separator") + "resources"
-                + System.getProperty("file.separator") + "file" + System.getProperty("file.separator") + "settings.txt";
-        this.lines = Files.lines(Paths.get(fileName)).collect(Collectors.toList());
+        this.fileName = "src" + this.separator + "main" + this.separator + "resources" + this.separator + "file" + this.separator
+                + "settings.txt";
+        this.lines = new ArrayList<>(Files.lines(Paths.get(fileName)).collect(Collectors.toList()));
 
     }
 
@@ -56,41 +57,36 @@ public class RWSettingsImpl implements RWSettings {
 
     @Override
     public final String getFirstColor() {
-        String out = this.lines.get(2);
-        return out;
+        return this.lines.get(2);
     }
 
     @Override
     public final String getSecondColor() {
-        String out = this.lines.get(3);
-        return out;
+        return this.lines.get(3);
     }
 
     @Override
     public final String getSong() {
-        String out = this.lines.get(4);
-        return out;
+        return this.lines.get(4);
     }
 
     @Override
     public final String getMines() {
-        String out = this.lines.get(0);
-        return out;
+        return this.lines.get(0);
     }
 
     @Override
     public final String getFlags() {
-        String out = this.lines.get(1);
-        return out;
+        return this.lines.get(1);
     }
 
     private void save() {
         try (PrintStream ps = new PrintStream(fileName)) {
-            for (String s : lines) {
+            for (final String s : lines) {
                 ps.println(s);
             }
         } catch (IOException e) {
-            throw new IllegalStateException();
+            e.printStackTrace();
         }
     }
 

@@ -12,22 +12,22 @@ import java.util.stream.Collectors;
  * */
 public class ReadRulesImpl implements ReadRules {
 
-    private List<String> lines = new ArrayList<>();
+    private final List<String> lines;
+    private final String separator = System.getProperty("file.separator");
 
     /**
      * @exception IOException
      *                            if an I/O error occurs.
      */
     public ReadRulesImpl() throws IOException {
-        final String fileName = "src" + System.getProperty("file.separator") + "main" + System.getProperty("file.separator")
-                + "resources" + System.getProperty("file.separator") + "file" + System.getProperty("file.separator")
+        final String fileName = "src" + this.separator + "main" + this.separator
+                + "resources" + this.separator + "file" + this.separator
                 + "rules.txt";
-        this.lines = Files.lines(Paths.get(fileName)).collect(Collectors.toList());
+        this.lines = new ArrayList<>(Files.lines(Paths.get(fileName)).collect(Collectors.toList()));
     }
 
     @Override
     public final List<String> getAllLines() {
-        //System.out.println(lines);
         return Collections.unmodifiableList(lines);
     }
 
