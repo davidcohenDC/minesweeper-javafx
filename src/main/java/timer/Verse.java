@@ -13,7 +13,7 @@ public enum Verse {
 	
 	private final int verseIncrementValue;
 	
-	Verse(final int incrementValue){
+	Verse(final int incrementValue) {
 		verseIncrementValue = incrementValue;
 	}
 	
