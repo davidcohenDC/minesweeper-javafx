@@ -4,7 +4,7 @@ public class TimerImpl implements Timer {
 
     private static final int SLEEP_TIME = 1_000;
 
-    private Verse verse;
+    private final Verse verse;
     private int value;
     private boolean paused = false;
 
