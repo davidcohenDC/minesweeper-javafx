@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
  * */
 
 public class WriteCssImpl implements WriteCss {
+    private static final String SEPARATOR = System.getProperty("file.separator");
     private final String fileName;
-    private final String separator = System.getProperty("file.separator");
     private final List<String> lines;
     private String oldCol1;
     private String oldCol2;
@@ -27,8 +27,8 @@ public class WriteCssImpl implements WriteCss {
      *                            if an I/O error occurs.
      */
     public WriteCssImpl(final String old1, final String old2) throws IOException {
-        this.fileName = "src" + this.separator + "main" + this.separator + "resources"
-                + this.separator + "layouts" + this.separator + "form.css";
+        this.fileName = "src" + SEPARATOR + "main" + SEPARATOR + "resources"
+                + SEPARATOR + "layouts" + SEPARATOR + "form.css";
 
         this.lines = new ArrayList<>(Files.lines(Paths.get(fileName)).collect(Collectors.toList()));
         this.oldCol1 = old1;

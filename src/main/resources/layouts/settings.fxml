@@ -112,7 +112,24 @@
                         </Button>
                      </children>
                   </HBox>
-                  <MenuButton fx:id="mbtSound" mnemonicParsing="false" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <ImageView fitHeight="72.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" />
+                        <MenuButton fx:id="mbtSound" mnemonicParsing="false" textAlignment="JUSTIFY">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </MenuButton>
+                        <Button id="button" mnemonicParsing="false" onAction="#btStop" text="■">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </GridPane>
          </center>

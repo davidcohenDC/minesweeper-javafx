@@ -2,4 +2,4 @@ panda.png
 scacchi.png
 00ffff
 ccffff
-sound
+prova2.wav

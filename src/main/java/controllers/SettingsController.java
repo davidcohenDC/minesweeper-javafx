@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
@@ -27,8 +32,6 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-//import javafx.scene.media.Media;
-//import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -36,17 +39,18 @@ import javafx.stage.FileChooser.ExtensionFilter;
  * */
 
 public final class SettingsController extends BackHomeController {
-    private final String separator = System.getProperty("file.separator");
-    private final String urlImgMine = "src" + this.separator + "main" + this.separator + "resources" + this.separator + "image"
-            + this.separator + "mines" + this.separator;
-    private final String urlImgFlag = "src" + this.separator + "main" + this.separator + "resources" + this.separator + "image"
-            + this.separator + "flags" + this.separator;
-    private final String urlSound = "src" + this.separator + "main" + this.separator + "resources" + this.separator + "sound"
-            + this.separator;
+    private static final String SEPARATOR = System.getProperty("file.separator");
+    private final String urlImgMine = "src" + SEPARATOR + "main" + SEPARATOR + "resources" + SEPARATOR + "image"
+            + SEPARATOR + "mines" + SEPARATOR;
+    private final String urlImgFlag = "src" + SEPARATOR + "main" + SEPARATOR + "resources" + SEPARATOR + "image"
+            + SEPARATOR + "flags" + SEPARATOR;
+    private final String urlSound = "src" + SEPARATOR + "main" + SEPARATOR + "resources" + SEPARATOR + "sound"
+            + SEPARATOR;
     private Color firstColor;
     private Color secondColor;
     private WriteCss writeCss;
     private RWSettings rwSett;
+    private Clip clip;
 
 
     @FXML
@@ -81,8 +85,10 @@ public final class SettingsController extends BackHomeController {
      * 
      * @exception IOException
      *                            if an I/O error occurs.
+     * @throws LineUnavailableException 
      */
-    public void initialize() throws IOException {
+    public void initialize() throws IOException, LineUnavailableException {
+        this.clip = AudioSystem.getClip(); 
         this.rwSett = new RWSettingsImpl();
         this.writeCss = new WriteCssImpl(this.rwSett.getFirstColor(), this.rwSett.getSecondColor());
         this.firstColor = Color.web(this.rwSett.getFirstColor());
@@ -151,7 +157,7 @@ public final class SettingsController extends BackHomeController {
         fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
         final File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
-            final Path destination = Paths.get(this.urlImgMine + this.separator + selectedFile.getName());
+            final Path destination = Paths.get(this.urlImgMine + SEPARATOR + selectedFile.getName());
             Files.copy(selectedFile.toPath(), destination);
             this.rwSett.setMines(selectedFile.getName());
             this.mbtMines.getItems().clear(); 
@@ -191,7 +197,7 @@ public final class SettingsController extends BackHomeController {
         fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
         final File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
-            final Path destination = Paths.get(this.urlImgFlag + this.separator + selectedFile.getName());
+            final Path destination = Paths.get(this.urlImgFlag + SEPARATOR + selectedFile.getName());
             Files.copy(selectedFile.toPath(), destination);
             this.rwSett.setFlags(selectedFile.getName());
             this.mbtFlags.getItems().clear(); 
@@ -243,11 +249,14 @@ public final class SettingsController extends BackHomeController {
         public void handle(final ActionEvent e) {
             rwSett.setSong(((MenuItem) e.getSource()).getText());
             mbtSound.setText(rwSett.getSong());
-            /*final String path = urlSound + rwSett.getSong();
-            final Media media = new Media(new File(path).toURI().toString());
-            final MediaPlayer mediaPlayer = new MediaPlayer(media);
-            // by setting this property to true, the audio will be played
-            mediaPlayer.setAutoPlay(true);*/
+            final String path = urlSound + rwSett.getSong();
+            try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile())) {
+                btStop();
+                clip.open(audioStream);
+                clip.start();
+            } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex) {
+                ex.printStackTrace();
+            }
         }
     };
 
@@ -265,5 +274,15 @@ public final class SettingsController extends BackHomeController {
         }
         this.mbtSound.getItems().forEach(e -> e.setOnAction(selectSound));
         this.mbtSound.setText(rwSett.getSong());
+    }
+    /**
+     * The handler for the click event generated by the 'stop' button.
+     */
+    @FXML
+    public void btStop() {
+        if (clip.isOpen()) {
+            clip.stop();
+            clip.close();
+        }
     }
 }

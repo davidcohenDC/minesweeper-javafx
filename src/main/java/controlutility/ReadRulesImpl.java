@@ -11,17 +11,16 @@ import java.util.stream.Collectors;
 /**
  * */
 public class ReadRulesImpl implements ReadRules {
-
+    private static final String SEPARATOR = System.getProperty("file.separator");
     private final List<String> lines;
-    private final String separator = System.getProperty("file.separator");
 
     /**
      * @exception IOException
      *                            if an I/O error occurs.
      */
     public ReadRulesImpl() throws IOException {
-        final String fileName = "src" + this.separator + "main" + this.separator
-                + "resources" + this.separator + "file" + this.separator
+        final String fileName = "src" + SEPARATOR + "main" + SEPARATOR
+                + "resources" + SEPARATOR + "file" + SEPARATOR
                 + "rules.txt";
         this.lines = new ArrayList<>(Files.lines(Paths.get(fileName)).collect(Collectors.toList()));
     }
