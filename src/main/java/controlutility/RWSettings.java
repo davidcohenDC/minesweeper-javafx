@@ -5,20 +5,6 @@ package controlutility;
  */
 public interface RWSettings {
     /**
-     * set the first color.
-     * 
-     * @param color is the first color
-     */
-    void setFirstColor(String color);
-
-    /**
-     * set the second color.
-     * 
-     * @param color is the second color
-     */
-    void setSecondColor(String color);
-
-    /**
      * set the song.
      * 
      * @param song is the song
@@ -40,14 +26,10 @@ public interface RWSettings {
     void setFlags(String flag);
 
     /**
-     * @return the first color saved.
-     */
-    String getFirstColor();
-
-    /**
-     * @return the second color saved.
-     */
-    String getSecondColor();
+     * set css stylesheet.
+     * @param css styleshet
+     **/
+    void setCss(String css);
 
     /**
      * @return the song saved.
@@ -63,5 +45,11 @@ public interface RWSettings {
      * @return the flag image saved.
      */
     String getFlags();
+
+    /**
+     * @return css stylesheet saved.
+     */
+    String getCss();
+
 
 }

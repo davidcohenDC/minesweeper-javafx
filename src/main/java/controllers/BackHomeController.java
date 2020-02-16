@@ -2,6 +2,8 @@ package controllers;
 
 import java.io.IOException;
 
+import controlutility.RWSettings;
+import controlutility.RWSettingsImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,9 +31,11 @@ public class BackHomeController {
     @FXML
     public void btBackHome(final ActionEvent event) throws IOException {
         event.consume();
+        final RWSettings rwSett = new RWSettingsImpl();
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/home.fxml"));
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
         final Scene scene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
+        scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
         stage.setScene(scene);
     }
 

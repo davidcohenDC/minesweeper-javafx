@@ -1,38 +1,33 @@
 package controllers;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
-import controlutility.WriteCss;
-import controlutility.WriteCssImpl;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 /**
@@ -40,36 +35,26 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public final class SettingsController extends BackHomeController {
     private static final String SEPARATOR = System.getProperty("file.separator");
-    private final String urlImgMine = "src" + SEPARATOR + "main" + SEPARATOR + "resources" + SEPARATOR + "image"
-            + SEPARATOR + "mines" + SEPARATOR;
-    private final String urlImgFlag = "src" + SEPARATOR + "main" + SEPARATOR + "resources" + SEPARATOR + "image"
-            + SEPARATOR + "flags" + SEPARATOR;
-    private final String urlSound = "src" + SEPARATOR + "main" + SEPARATOR + "resources" + SEPARATOR + "sound"
-            + SEPARATOR;
-    private Color firstColor;
-    private Color secondColor;
-    private WriteCss writeCss;
+    private final String urlImgMine = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
+            + "mines" + SEPARATOR;
+    private final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
+            + "flags" + SEPARATOR;
+    private final String urlSound = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "sound" + SEPARATOR;
+    private final List<String> css = new ArrayList<>(Arrays.asList("orange.css", "blue.css", "green.css", "pink.css"));
     private RWSettings rwSett;
     private Clip clip;
 
-
     @FXML
     private  Button btBackHome;
-
-    @FXML
-    private  ColorPicker colorPicker1;
-
-    @FXML
-    private  ColorPicker colorPicker2;
-
-    @FXML
-    private  Button btPreview;
 
     @FXML
     private  MenuButton mbtMines;
 
     @FXML
     private  MenuButton mbtFlags;
+
+    @FXML
+    private  MenuButton mbtCss;
 
     @FXML
     private  MenuButton mbtSound;
@@ -90,16 +75,15 @@ public final class SettingsController extends BackHomeController {
     public void initialize() throws IOException, LineUnavailableException {
         this.clip = AudioSystem.getClip(); 
         this.rwSett = new RWSettingsImpl();
-        this.writeCss = new WriteCssImpl(this.rwSett.getFirstColor(), this.rwSett.getSecondColor());
-        this.firstColor = Color.web(this.rwSett.getFirstColor());
-        this.secondColor = Color.web(this.rwSett.getSecondColor());
         this.createMenuButtonM();
         this.createMenuButtonF();
+        this.createMenuButtonC();
         this.createMenuButtonS();
         this.updateImgMines();
         this.updateImgFlag();
-        this.updateBtPreview();
     }
+
+
 
     private final EventHandler<ActionEvent> selectMine = new EventHandler<ActionEvent>() {
         @Override
@@ -123,6 +107,15 @@ public final class SettingsController extends BackHomeController {
                 } catch (FileNotFoundException e1) {
                e1.printStackTrace();
             }
+        }
+    };
+
+    private final EventHandler<ActionEvent> selectCss = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(final ActionEvent e) {
+            rwSett.setCss(((MenuItem) e.getSource()).getText());
+            mbtCss.setText(rwSett.getCss());
+            mbtCss.getScene().getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
         }
     };
 
@@ -206,42 +199,13 @@ public final class SettingsController extends BackHomeController {
         }
     }
 
-    private void updateBtPreview() {
-        final String fc = this.convertColor(this.firstColor);
-        final String sc = this.convertColor(this.secondColor);
-        final String btStyle = "-fx-background-color: linear-gradient(#" + fc + ", #" + sc
-                + "); -fx-background-radius: 30, 30, 29, 28;-fx-padding: 3px 10px 3px 10px;";
-        this.btPreview.setStyle(btStyle);
-    }
-
-    /**
-     * The handler for the click event generated by the 'colorPicker1' button.
-     * @param event event caused by choosing color
-     */
-    @FXML
-    public void colorPicker1(final ActionEvent event) {
-        event.consume();
-        this.firstColor = this.colorPicker1.getValue();
-        this.updateBtPreview();
-        this.writeCss.update(this.convertColor(this.firstColor), this.convertColor(this.secondColor));
-        this.rwSett.setFirstColor(this.convertColor(this.firstColor));
-    }
-
-    /**
-     * The handler for the click event generated by the 'colorPicker2' button.
-     * @param event event caused by choosing color
-     */
-    @FXML
-    public void colorPicker2(final ActionEvent event) {
-        event.consume();
-        this.secondColor = this.colorPicker2.getValue();
-        this.updateBtPreview();
-        this.writeCss.update(this.convertColor(this.firstColor), this.convertColor(this.secondColor));
-        this.rwSett.setSecondColor(this.convertColor(this.secondColor));
-    }
-
-    private String convertColor(final Color col) {
-        return col.toString().substring(2, 8);
+    private void createMenuButtonC() throws IOException {
+        for (final String l : this.css) {
+            final MenuItem item = new MenuItem(l);
+            item.setOnAction(selectCss);
+            this.mbtCss.getItems().add(item);
+            this.mbtCss.setText(this.rwSett.getCss());
+        }
     }
 
     private final EventHandler<ActionEvent> selectSound = new EventHandler<ActionEvent>() {
