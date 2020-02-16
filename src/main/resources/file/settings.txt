@@ -1,5 +1,0 @@
-panda.png
-scacchi.png
-00ffff
-ccffff
-prova2.wav
