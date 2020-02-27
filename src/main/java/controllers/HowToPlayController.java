@@ -13,17 +13,14 @@ import javafx.scene.layout.AnchorPane;
  * The Controller related to the howToPlay.fxml GUI.
  *
  */
-public final class HowToPlayController extends BackHomeController {
+public final class HowToPlayController extends BackHomeController implements HowToPlayInterface {
 
     @FXML
     private AnchorPane rootPane;
     @FXML
     private TextArea txtArea;
 
-    /**
-     * @exception IOException
-     *                            if an I/O error occurs.
-     */
+    @Override
     public void initialize() throws IOException {
         final ReadRules reader = new ReadRulesImpl();
         this.txtArea.clear();
