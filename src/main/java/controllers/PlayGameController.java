@@ -280,7 +280,7 @@ public final class PlayGameController extends BackHomeController implements Play
             alert.showAndWait();
         } else {
             if (this.checkRange()) {
-                System.out.println("modalità " + modality.get().getName() + " difficoltà " + difficulty.get().getName());
+                System.out.println("modalità " + modality.get() + " difficoltà " + difficulty.get());
                 System.out.println("mines: " + this.mines);
                 System.out.println("width: " + this.width);
                 System.out.println("height: " + this.height);
