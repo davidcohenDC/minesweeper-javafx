@@ -29,23 +29,23 @@ public class TimerImpl implements Timer {
     }
 
     @Override
-    public final int getValue() {
+    public final synchronized int getValue() {
         return this.value;
     }
 
     @Override
-    public final void pause() {
+    public final synchronized void pause() {
         this.paused = true;
     }
 
     @Override
-    public final void unPause() {
+    public final synchronized void unPause() {
         this.paused = false;
         run();
     }
 
     @Override
-    public final boolean isPaused() {
+    public final synchronized boolean isPaused() {
         return paused;
     }
 
