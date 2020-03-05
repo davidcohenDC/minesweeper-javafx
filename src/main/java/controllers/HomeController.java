@@ -74,7 +74,7 @@ public final class HomeController implements HomeInterface {
     public void exit() throws IOException {
         final Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
-        alert.setContentText("Are you shure to exit?");
+        alert.setContentText("Are you sure you want to exit?");
         alert.setHeaderText(null);
         this.alStyle.setStyle(alert);
         final Optional<ButtonType> result = alert.showAndWait();
