@@ -4,7 +4,7 @@ package gameLogics;
  * Contains the possible game modality
  */
 public enum Modality {
-    NORMAL,
+    STANDARD,
     ONE_VS_ONE,
-    BIT_THE_TIMER;
+    BEAT_THE_TIMER;
 }
