@@ -4,7 +4,7 @@ public class TimerImpl implements Timer {
 
     private static final int SLEEP_TIME = 1_000;
 
-    private Verse verse;
+    private final Verse verse;
     private int value;
     private boolean paused = false;
 
@@ -29,18 +29,24 @@ public class TimerImpl implements Timer {
     }
 
     @Override
-    public final int getValue() {
+    public final synchronized int getValue() {
         return this.value;
     }
 
     @Override
-    public final void pause() {
+    public final synchronized void pause() {
         this.paused = true;
     }
 
     @Override
-    public final void unPause() {
+    public final synchronized void unPause() {
         this.paused = false;
+        run();
+    }
+
+    @Override
+    public final synchronized boolean isPaused() {
+        return paused;
     }
 
 }
