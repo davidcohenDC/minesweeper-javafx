@@ -5,6 +5,7 @@ package controlutility;
 public enum Difficulty {
 
     /**
+<<<<<<< HEAD
      * Easy level: 9 x 9 with 10 mines.
      */
     EASY(1), 
@@ -39,4 +40,5 @@ public enum Difficulty {
     public int getScoreMultiplier() {
         return this.scoreMultiplier;
     }
+
 }

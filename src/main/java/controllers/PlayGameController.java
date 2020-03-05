@@ -1,11 +1,15 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Optional;
 
 import controlutility.Modality;
+//import controlutility.RWSettings;
+//import controlutility.RWSettingsImpl;
+import controlutility.AlertStyle;
+import controlutility.AlertStyleImpl;
 import controlutility.Difficulty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
@@ -16,73 +20,80 @@ import javafx.scene.control.Alert.AlertType;
  * The Controller related to the playGame.fxml GUI.
  *
  */
-public final class PlayGameController extends BackHomeController {
-    /**number of min mines.
-     * */
-    public static final int MIN_MINES = 10;
-    /** number of max mines.
-     * */
-    public static final int MAX_MINES = 667;
-    /**number of min width.
-     * */
-    public static final int MIN_WIDTH = 9;
-    /** number of max width.
-     * */
-    public static final int MAX_WIDTH = 30;
-    /**number of min height.
-     * */
-    public static final int MIN_HEIGHT = 9;
-    /** number of max height.
-     * */
-    public static final int MAX_HEIGHT = 24;
+public final class PlayGameController extends BackHomeController implements PlayGameInterface {
+    private static final int MIN_MINES = 10;
+    private static final int MAX_MINES = 667;
+    private static final int HARD_MINES = 99;
+    private static final int MEDIUM_MINES = 40;
+    private static final int MIN_WIDTH = 9;
+    private static final int MAX_WIDTH = 30;
+    private static final int MIN_HEIGHT = 9;
+    private static final int MAX_HEIGHT = 24;
+    private static final int MEDIUM_SIZE = 16;
 
     private final EnumMap<Modality, Boolean> btsModality = new EnumMap<>(Modality.class);
     private final EnumMap<Difficulty, Boolean> btsDifficulty = new EnumMap<>(Difficulty.class);
     private Optional<Modality> modality;
     private Optional<Difficulty> difficulty;
     private boolean personalized; // abilita/ disabilita gli spinner
+    private Alert alert;
+    //private RWSettings rwSett;
+    private int width;
+    private int height;
+    private int mines;
 
     @FXML
-    private  RadioButton rbtStd = new RadioButton();
+    private RadioButton rbtStd;
     @FXML
-    private  RadioButton rbtOnevsOne = new RadioButton();
+    private RadioButton rbtOnevsOne;
     @FXML
-    private  RadioButton rbtBtt = new RadioButton();
+    private RadioButton rbtBtt;
 
     @FXML
-    private  RadioButton rbtEasy = new RadioButton();
+    private  RadioButton rbtEasy;
     @FXML
-    private  RadioButton rbtMedium = new RadioButton();
+    private  RadioButton rbtMedium;
     @FXML
-    private  RadioButton rbtHard = new RadioButton();
+    private  RadioButton rbtHard;
     @FXML
-    private  RadioButton rbtPersonalized = new RadioButton();
+    private  RadioButton rbtPersonalized;
 
     @FXML
-    private  TextField tfMines = new TextField();
+    private  TextField tfMines;
     @FXML
-    private  TextField tfWidth = new TextField();
+    private  TextField tfWidth;
     @FXML
-    private  TextField tfHeight = new TextField();
+    private  TextField tfHeight;
 
-    /**
-     * Initialize fiels to start.
-     */
+    @Override
+    public void initialize() throws IOException {
+        this.populateBtsModality();
+        this.populateBtsDifficulty();
 
-    public void initialize() {
-        this.btsModality.put(Modality.STANDARD, false);
-        this.btsModality.put(Modality.ONE_VS_ONE, false);
-        this.btsModality.put(Modality.BTT, false);
-
-        this.btsDifficulty.put(Difficulty.EASY, false);
-        this.btsDifficulty.put(Difficulty.MEDIUM, false);
-        this.btsDifficulty.put(Difficulty.HARD, false);
-        this.btsDifficulty.put(Difficulty.PERSONALIZED, false);
         this.personalized = false;
         this.modality = Optional.empty();
         this.difficulty = Optional.empty();
         this.enableTextField();
+        //this.rwSett = new RWSettingsImpl();
+        final AlertStyle alStyle = new AlertStyleImpl();
+        this.alert = new Alert(AlertType.ERROR);
+        alStyle.setStyle(alert);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+    }
 
+    private void populateBtsDifficulty() {
+        this.btsDifficulty.put(Difficulty.EASY, false);
+        this.btsDifficulty.put(Difficulty.MEDIUM, false);
+        this.btsDifficulty.put(Difficulty.HARD, false);
+        this.btsDifficulty.put(Difficulty.PERSONALIZED, false);
+
+    }
+
+    private void populateBtsModality() {
+        this.btsModality.put(Modality.STANDARD, false);
+        this.btsModality.put(Modality.ONE_VS_ONE, false);
+        this.btsModality.put(Modality.BTT, false);
     }
 
     private void enableTextField() {
@@ -121,7 +132,6 @@ public final class PlayGameController extends BackHomeController {
         this.rbtStd.setSelected(this.btsModality.get(Modality.STANDARD));
         this.rbtOnevsOne.setSelected(this.btsModality.get(Modality.ONE_VS_ONE));
         this.rbtBtt.setSelected(this.btsModality.get(Modality.BTT));
-        //System.out.println(modality);
     }
 
     private void loadDifficulty(final Difficulty diff) {
@@ -146,67 +156,80 @@ public final class PlayGameController extends BackHomeController {
         this.rbtHard.setSelected(this.btsDifficulty.get(Difficulty.HARD));
         this.rbtPersonalized.setSelected(this.btsDifficulty.get(Difficulty.PERSONALIZED));
         this.personalized = this.btsDifficulty.get(Difficulty.PERSONALIZED);
-        //System.out.println(difficulty + "personalized = " + personalized);
     }
 
     @FXML
-    private void rbtStandard(final ActionEvent event) {
-        event.consume();
+    @Override
+    public void rbtStandard() {
         check();
         this.loadModality(Modality.STANDARD);
     }
 
     @FXML
-    private void rbtOnevsOne(final ActionEvent event) {
-        event.consume();
+    @Override
+    public void rbtOnevsOne() {
         check();
         this.loadModality(Modality.ONE_VS_ONE);
     }
 
     @FXML
-    private void rbtBtt(final ActionEvent event) {
-        event.consume();
+    @Override
+    public void rbtBtt() {
         check();
         this.loadModality(Modality.BTT);
     }
 
     @FXML
-    private void rbtEasy(final ActionEvent event) {
-        event.consume();
+    @Override
+    public void rbtEasy() {
         checkDiff();
         this.loadDifficulty(Difficulty.EASY);
+        this.width = MIN_HEIGHT;
+        this.height = MIN_WIDTH;
+        this.mines = MIN_MINES;
         this.enableTextField();
     }
 
     @FXML
-    private void rbtMedium(final ActionEvent event) {
-        event.consume();
+    @Override
+    public void rbtMedium() {
         checkDiff();
         this.loadDifficulty(Difficulty.MEDIUM);
+        this.width = MEDIUM_SIZE;
+        this.height = MEDIUM_SIZE;
+        this.mines = MEDIUM_MINES;
         this.enableTextField();
     }
 
     @FXML
-    private void rbtHard(final ActionEvent event) {
-        event.consume();
+    @Override
+    public void rbtHard() {
         checkDiff();
         this.loadDifficulty(Difficulty.HARD);
+        this.width = MAX_WIDTH;
+        this.height = MEDIUM_SIZE;
+        this.mines = HARD_MINES;
         this.enableTextField();
     }
 
     @FXML
-    private void rbtPersonalized(final ActionEvent event) {
-        event.consume();
+    @Override
+    public void rbtPersonalized() {
         checkDiff();
+        this.mines = Integer.parseInt(this.tfMines.getText());
+        this.height = Integer.parseInt(this.tfHeight.getText());
+        this.width = Integer.parseInt(this.tfWidth.getText());
         this.loadDifficulty(Difficulty.PERSONALIZED);
         this.enableTextField();
     }
 
     @FXML
-    private void tfCheckMines() {
+    @Override
+    public void tfCheckMines() {
         try {
             if (!this.tfMines.getText().isEmpty()) {
                 Integer.parseInt(this.tfMines.getText());
+                this.mines = Integer.parseInt(this.tfMines.getText());
             }
         } catch (NumberFormatException e) {
             this.alertNumberFormat();
@@ -215,22 +238,27 @@ public final class PlayGameController extends BackHomeController {
     }
 
     @FXML
-    private void tfCheckHeight() {
+    @Override
+    public void tfCheckHeight() {
         try {
             if (!this.tfHeight.getText().isEmpty()) {
                 Integer.parseInt(this.tfHeight.getText());
+                this.height = Integer.parseInt(this.tfHeight.getText());
             }
         } catch (NumberFormatException e) {
             this.alertNumberFormat();
             this.tfHeight.setText(String.valueOf(MIN_HEIGHT));
         }
+
     }
 
     @FXML
-    private void tfCheckWidth() {
+    @Override
+    public void tfCheckWidth() {
         try {
             if (!this.tfWidth.getText().isEmpty()) {
                 Integer.parseInt(this.tfWidth.getText());
+                this.width = Integer.parseInt(this.tfWidth.getText());
             }
         } catch (NumberFormatException e) {
             this.alertNumberFormat();
@@ -239,48 +267,39 @@ public final class PlayGameController extends BackHomeController {
     }
 
     private void alertNumberFormat() {
-        final Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error...");
         alert.setContentText("Only number format");
         alert.showAndWait();
     }
 
     @FXML
-    private void btPlay(final ActionEvent event) {
-        event.consume();
+    @Override
+    public void btPlay() {
         if (this.modality.equals(Optional.empty()) || this.difficulty.equals(Optional.empty())) {
             System.out.println("non puoi giocare");
-            final Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error...");
             alert.setContentText("You haven't select the modality or the difficulty");
             alert.showAndWait();
         } else {
             if (this.checkRange()) {
-                System.out.println("sono playButton");
-                System.out.println("modalità " + modality + " difficoltà " + difficulty);
-                if (this.personalized) {
-                    System.out.println("mines: " + tfMines.getText());
-                    System.out.println("width: " + tfWidth.getText());
-                    System.out.println("height: " + tfHeight.getText());
-                }
+                System.out.println("modalità " + modality.get() + " difficoltà " + difficulty.get());
+                System.out.println("mines: " + this.mines);
+                System.out.println("width: " + this.width);
+                System.out.println("height: " + this.height);
                 // TODO chiama metodo per gioco
             }
         }
     }
 
     private boolean checkRange() {
-        final int valueM = Integer.parseInt(this.tfMines.getText());
-        final int valueH = Integer.parseInt(this.tfHeight.getText());
-        final int valueW = Integer.parseInt(this.tfWidth.getText());
-        if (valueM < MIN_MINES || valueM > MAX_MINES || valueH < MIN_HEIGHT || valueH > MAX_HEIGHT || valueW < MIN_WIDTH
-                || valueW > MAX_WIDTH) {
-            final Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error...");
+        if (this.mines < MIN_MINES || this.mines > MAX_MINES || this.height < MIN_HEIGHT || this.height > MAX_HEIGHT || this.width < MIN_WIDTH
+                || this.width > MAX_WIDTH) {
             alert.setContentText("number of Mines or Height or Width out of range");
             alert.showAndWait();
+        } else if (this.mines >= this.height * this.width) {
+            alert.setContentText("there are too much mines");
+            alert.showAndWait();
         }
-        return valueM >= MIN_MINES && valueM <= MAX_MINES && valueH >= MIN_HEIGHT && valueH <= MAX_HEIGHT
-                && valueW >= MIN_WIDTH && valueW <= MAX_WIDTH;
+        return this.mines >= MIN_MINES && this.mines <= MAX_MINES && this.height >= MIN_HEIGHT && this.height <= MAX_HEIGHT
+                && this.width >= MIN_WIDTH && this.width <= MAX_WIDTH && this.mines <= this.height * this.width;
     }
 
     private void check() {

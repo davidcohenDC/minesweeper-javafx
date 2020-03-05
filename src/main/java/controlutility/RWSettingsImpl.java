@@ -10,38 +10,20 @@ import java.util.stream.Collectors;
 
 /***/
 public class RWSettingsImpl implements RWSettings {
+    private static final String SEPARATOR = System.getProperty("file.separator");
     private final String fileName;
     private final List<String> lines;
-    private final String separator = System.getProperty("file.separator");
 
     /**
      * @exception IOException
      *                            if an I/O error occurs.
      */
     public RWSettingsImpl() throws IOException {
-        this.fileName = "src" + this.separator + "main" + this.separator + "resources" + this.separator + "file" + this.separator
+        this.fileName = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "settings" + SEPARATOR
                 + "settings.txt";
         this.lines = new ArrayList<>(Files.lines(Paths.get(fileName)).collect(Collectors.toList()));
-
     }
 
-    @Override
-    public final void setFirstColor(final String color) {
-        this.lines.set(2, color);
-        this.save();
-    }
-
-    @Override
-    public final void setSecondColor(final String color) {
-        this.lines.set(3, color);
-        this.save();
-    }
-
-    @Override
-    public final void setSong(final String song) {
-        this.lines.set(4, song);
-        this.save();
-    }
 
     @Override
     public final void setMines(final String mine) {
@@ -55,19 +37,17 @@ public class RWSettingsImpl implements RWSettings {
         this.save();
     }
 
+
     @Override
-    public final String getFirstColor() {
-        return this.lines.get(2);
+    public final void setSong(final String song) {
+        this.lines.set(2, song);
+        this.save();
     }
 
     @Override
-    public final String getSecondColor() {
-        return this.lines.get(3);
-    }
-
-    @Override
-    public final String getSong() {
-        return this.lines.get(4);
+    public final void setCss(final String css) {
+        this.lines.set(3, css);
+        this.save();
     }
 
     @Override
@@ -80,6 +60,16 @@ public class RWSettingsImpl implements RWSettings {
         return this.lines.get(1);
     }
 
+    @Override
+    public final String getSong() {
+        return this.lines.get(2);
+    }
+
+    @Override
+    public final String getCss() {
+        return this.lines.get(3);
+    }
+
     private void save() {
         try (PrintStream ps = new PrintStream(fileName)) {
             for (final String s : lines) {
@@ -89,5 +79,6 @@ public class RWSettingsImpl implements RWSettings {
             e.printStackTrace();
         }
     }
+
 
 }

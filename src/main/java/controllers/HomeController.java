@@ -2,8 +2,12 @@ package controllers;
 
 import java.io.IOException;
 import java.util.Optional;
+
+import controlutility.AlertStyle;
+import controlutility.AlertStyleImpl;
+import controlutility.RWSettings;
+import controlutility.RWSettingsImpl;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,55 +20,63 @@ import javafx.stage.Stage;
 
 /**
  * The Controller related to the home.fxml GUI.
- *
  */
-public final class HomeController {
+public final class HomeController implements HomeInterface {
+    private RWSettings rwSett;
+    private AlertStyle alStyle;
 
     @FXML
     private AnchorPane rootPane;
 
+    @Override
+    public void initialize() throws IOException  {
+        this.rwSett = new RWSettingsImpl();
+        this.alStyle = new AlertStyleImpl();
+    }
 
     /** used to switch scene on the same stage. */
     private void switchScene(final Parent pane) {
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
         final Scene scene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
-
+        scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
         stage.setScene(scene);
     }
 
     @FXML
-    private void btPlayGame(final ActionEvent event) throws IOException {
-        event.consume();
+    @Override
+    public void btPlayGame() throws IOException {
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/playGame.fxml"));
         this.switchScene(pane);
     }
 
     @FXML
-    private void btHowToPlay(final ActionEvent event) throws IOException {
-        event.consume();
+    @Override
+    public void btHowToPlay() throws IOException {
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/howToPlay.fxml"));
         this.switchScene(pane);
     }
 
     @FXML
-    private void btSettings(final ActionEvent event) throws IOException {
-        event.consume();
+    @Override
+    public void btSettings() throws IOException {
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/settings.fxml"));
         this.switchScene(pane);
     }
 
     @FXML
-    private void btStatistics(final ActionEvent event) throws IOException {
-        event.consume();
+    @Override
+    public void btStatistics() throws IOException {
         // TODO
     }
 
     @FXML
-    private void exit(final ActionEvent event) {
-        event.consume();
+    @Override
+    public void exit() throws IOException {
         final Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
         alert.setContentText("Are you shure to exit?");
+        alert.setHeaderText(null);
+        this.alStyle.setStyle(alert);
         final Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             Platform.exit();

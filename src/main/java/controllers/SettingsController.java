@@ -1,91 +1,83 @@
 package controllers;
 
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
-import controlutility.WriteCss;
-import controlutility.WriteCssImpl;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 /**
  * */
 
-public final class SettingsController extends BackHomeController {
-    private Color firstColor;
-    private String urlImgMine;
-    private String urlImgFlag;
-    private Color secondColor;
-    private WriteCss writeCss;
+public final class SettingsController extends BackHomeController implements SettingsInterface {
+    private static final String SEPARATOR = System.getProperty("file.separator");
+    private final String urlImgMine = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
+            + "mines" + SEPARATOR;
+    private final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
+            + "flags" + SEPARATOR;
+    private final String urlSound = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "sound" + SEPARATOR;
+    private final List<String> css = new ArrayList<>(Arrays.asList("orange.css", "blue.css", "green.css", "pink.css"));
     private RWSettings rwSett;
-    private final String separator = System.getProperty("file.separator");
+    private Clip clip;
 
     @FXML
-    private  Button btBackHome = new Button();
+    private  Button btBackHome;
 
     @FXML
-    private  ColorPicker colorPicker1 = new ColorPicker();
+    private  MenuButton mbtMines;
 
     @FXML
-    private  ColorPicker colorPicker2 = new ColorPicker();
+    private  MenuButton mbtFlags;
 
     @FXML
-    private  Button btPreview = new Button();
+    private  MenuButton mbtCss;
 
     @FXML
-    private  MenuButton mbtMines = new MenuButton();
+    private  MenuButton mbtSound;
 
     @FXML
-    private  MenuButton mbtFlags = new MenuButton();
+    private  ImageView ivMines;
 
     @FXML
-    private  ImageView ivMines = new ImageView();
+    private  ImageView ivFlags;
 
-    @FXML
-    private  ImageView ivFlags = new ImageView();
-
-    /**
-     * initialize fields.
-     * 
-     * @exception IOException
-     *                            if an I/O error occurs.
-     */
-    public void initialize() throws IOException {
-        this.urlImgMine = "src" + this.separator + "main" + this.separator + "resources"
-                + this.separator + "image" + this.separator
-                + "mines" + this.separator;
-        this.urlImgFlag = "src" + this.separator + "main" + this.separator + "resources"
-                + this.separator + "image" + this.separator
-                + "flags" + this.separator;
-
+    @Override
+    public void initialize() throws IOException, LineUnavailableException {
+        this.clip = AudioSystem.getClip(); 
         this.rwSett = new RWSettingsImpl();
-        this.writeCss = new WriteCssImpl(this.rwSett.getFirstColor(), this.rwSett.getSecondColor());
-        this.firstColor = Color.web(this.rwSett.getFirstColor());
-        this.secondColor = Color.web(this.rwSett.getSecondColor());
         this.createMenuButtonM();
         this.createMenuButtonF();
+        this.createMenuButtonC();
+        this.createMenuButtonS();
         this.updateImgMines();
         this.updateImgFlag();
-        this.updateBtPreview();
     }
+
+
 
     private final EventHandler<ActionEvent> selectMine = new EventHandler<ActionEvent>() {
         @Override
@@ -112,17 +104,24 @@ public final class SettingsController extends BackHomeController {
         }
     };
 
+    private final EventHandler<ActionEvent> selectCss = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(final ActionEvent e) {
+            rwSett.setCss(((MenuItem) e.getSource()).getText());
+            mbtCss.setText(rwSett.getCss());
+            mbtCss.getScene().getStylesheets().clear();
+            mbtCss.getScene().getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
+        }
+    };
+
     private void createMenuButtonM() {
         try (Stream<Path> walk = Files.walk(Paths.get(urlImgMine))) {
-
             final List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
-
             for (final String s : result) {
                 final String name = s.replace(urlImgMine, "");
                 final MenuItem item = new MenuItem(name);
                 this.mbtMines.getItems().add(item);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,17 +133,31 @@ public final class SettingsController extends BackHomeController {
         this.mbtMines.setText(this.rwSett.getMines());
     }
 
+    @FXML
+    @Override
+    public void btAddImgMines() throws IOException {
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select new mines image");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        final File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            final Path destination = Paths.get(this.urlImgMine + SEPARATOR + selectedFile.getName());
+            Files.copy(selectedFile.toPath(), destination);
+            this.rwSett.setMines(selectedFile.getName());
+            this.mbtMines.getItems().clear(); 
+            this.createMenuButtonM();
+            this.updateImgMines();
+        }
+    }
+
     private void createMenuButtonF() {
         try (Stream<Path> walk = Files.walk(Paths.get(urlImgFlag))) {
-
             final List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
-
             for (final String s : result) {
                 final String name = s.replace(urlImgFlag, "");
                 final MenuItem item = new MenuItem(name);
                 this.mbtFlags.getItems().add(item);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -156,33 +169,70 @@ public final class SettingsController extends BackHomeController {
         this.mbtFlags.setText(this.rwSett.getFlags());
     }
 
-    private void updateBtPreview() {
-        final String fc = this.convertColor(this.firstColor);
-        final String sc = this.convertColor(this.secondColor);
-        final String btStyle = "-fx-background-color: linear-gradient(#" + fc + ", #" + sc
-                + "); -fx-background-radius: 30, 30, 29, 28;-fx-padding: 3px 10px 3px 10px;";
-        this.btPreview.setStyle(btStyle);
+    @FXML
+    @Override
+    public void btAddImgFlags() throws IOException {
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select new flag image");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg"));
+        final File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            final Path destination = Paths.get(this.urlImgFlag + SEPARATOR + selectedFile.getName());
+            Files.copy(selectedFile.toPath(), destination);
+            this.rwSett.setFlags(selectedFile.getName());
+            this.mbtFlags.getItems().clear(); 
+            this.createMenuButtonF();
+            this.updateImgFlag();
+        }
+    }
+
+    private void createMenuButtonC() throws IOException {
+        for (final String l : this.css) {
+            final MenuItem item = new MenuItem(l);
+            item.setOnAction(selectCss);
+            this.mbtCss.getItems().add(item);
+            this.mbtCss.setText(this.rwSett.getCss());
+        }
+    }
+
+    private final EventHandler<ActionEvent> selectSound = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(final ActionEvent e) {
+            rwSett.setSong(((MenuItem) e.getSource()).getText());
+            mbtSound.setText(rwSett.getSong());
+            final String path = urlSound + rwSett.getSong();
+            try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile())) {
+                btStop();
+                clip.open(audioStream);
+                clip.start();
+            } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex) {
+                ex.printStackTrace();
+            }
+        }
+    };
+
+
+    private void createMenuButtonS() {
+        try (Stream<Path> walk = Files.walk(Paths.get(urlSound))) {
+            final List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
+            for (final String s : result) {
+                final String name = s.replace(urlSound, "");
+                final MenuItem item = new MenuItem(name);
+                this.mbtSound.getItems().add(item);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.mbtSound.getItems().forEach(e -> e.setOnAction(selectSound));
+        this.mbtSound.setText(rwSett.getSong());
     }
 
     @FXML
-    private void colorPicker1(final ActionEvent event) {
-        event.consume();
-        this.firstColor = this.colorPicker1.getValue();
-        this.updateBtPreview();
-        this.writeCss.update(this.convertColor(this.firstColor), this.convertColor(this.secondColor));
-        this.rwSett.setFirstColor(this.convertColor(this.firstColor));
-    }
-
-    @FXML
-    private void colorPicker2(final ActionEvent event) {
-        event.consume();
-        this.secondColor = this.colorPicker2.getValue();
-        this.updateBtPreview();
-        this.writeCss.update(this.convertColor(this.firstColor), this.convertColor(this.secondColor));
-        this.rwSett.setSecondColor(this.convertColor(this.secondColor));
-    }
-
-    private String convertColor(final Color col) {
-        return col.toString().substring(2, 8);
+    @Override
+    public void btStop() {
+        if (clip.isOpen()) {
+            clip.stop();
+            clip.close();
+        }
     }
 }
