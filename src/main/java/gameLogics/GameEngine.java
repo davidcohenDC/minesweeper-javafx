@@ -9,5 +9,5 @@ public interface GameEngine {
      * Set the kind of game engine per Modality
      * @param mod
      */
-    void setGameEngine(Modality mod);
+    void setGameEngine(GameModality mod);
 }
