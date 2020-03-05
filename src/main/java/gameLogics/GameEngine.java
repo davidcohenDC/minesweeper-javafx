@@ -1,12 +1,13 @@
 package gameLogics;
 
-import java.util.HashMap;
-
+/**
+ * Interface for game managing
+ * */
 public interface GameEngine {
 
-    void hit(Pair<Integer, Integer> coord);
-
-    void setFlag(Pair<Integer, Integer> coord);
-
-    HashMap<Pair<Integer, Integer>, Integer> getBoard();
+    /**
+     * Set the kind of game engine per Modality
+     * @param mod
+     */
+    void setGameEngine(Modality mod);
 }
