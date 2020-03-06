@@ -16,7 +16,7 @@ public interface Box {
     void hit();
 
     /**
-     *
+     * get the position X Y of the box in board
      * @return the position of the box
      */
     Pair<Integer, Integer> getPosition();
