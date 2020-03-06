@@ -6,11 +6,12 @@ public class GameEngineImpl implements GameEngine{
 
     private final Board board;
 
-    public GameEngineImpl(int width, int height) {
+    public GameEngineImpl(int width, int height, int bombs) {
         final BoardBuilder bb = new BoardBuilderImpl().setWidth(width).setHeight(height);
         for(int i=0; i<width; i++) {
             for(int j=0; j<height; j++) {
                 final Box box = new BoxImpl(new Pair<>(i, j));
+                //impl the bombs sistem
                 bb.addBox(box);
             }
         }
@@ -18,11 +19,14 @@ public class GameEngineImpl implements GameEngine{
     }
 
     public void hit(Pair<Integer, Integer> coord) {
-
+        final Box box = board.getBox(coord);
+        if(!box.isClicked()) {
+            box.hit();
+        }
     }
 
     public void setFlag(Pair<Integer, Integer> coord) {
-
+        board.getBox(coord).setFlag();
     }
 
     public GameStatus status() {
