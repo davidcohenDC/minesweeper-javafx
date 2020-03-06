@@ -16,6 +16,12 @@ public interface Box {
     void hit();
 
     /**
+     *
+     * @return the position of the box
+     */
+    Pair<Integer, Integer> getPosition();
+
+    /**
      * check if the box contains a bomb
      * */
     boolean containsBomb();

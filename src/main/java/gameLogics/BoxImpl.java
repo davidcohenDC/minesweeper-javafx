@@ -24,6 +24,10 @@ public class BoxImpl implements Box{
         this.clicked = true;
     }
 
+    public Pair<Integer, Integer> getPosition() {
+        return this.coord;
+    }
+
     public boolean containsBomb() {
         return this.withBomb;
     }
