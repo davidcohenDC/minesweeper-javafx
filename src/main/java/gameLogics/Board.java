@@ -1,15 +1,21 @@
 package gameLogics;
 
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * Interface for Board managing
  */
 public interface Board {
 
-    void hit(Pair<Integer, Integer> coord);
+    /**
+     * @param coord represent the coord of the box
+     * @return the box in position coord
+     */
+    Box getBox(Pair<Integer, Integer> coord);
 
-    void setFlag(Pair<Integer, Integer> coord);
-
-    HashMap<Pair<Integer, Integer>, Integer> getBoard();
+    /**
+     * @param box represent the box
+     * @return a list of boxes near the passed box
+     */
+    List<Box> getNearBox(Box box);
 }
