@@ -2,6 +2,7 @@ package gameLogics;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class BoardBuilderImpl implements BoardBuilder {
@@ -34,7 +35,12 @@ public class BoardBuilderImpl implements BoardBuilder {
         return new Board() {
 
             public Box getBox(Pair<Integer, Integer> coord) {
-                return null;
+                for(Box box : boxSet) {
+                    if(box.getPosition().equals(coord)) {
+                        return box;
+                    }
+                }
+                throw new NoSuchElementException("Box not found");
             }
 
             public List<Box> getNearBox(Box box) {
