@@ -1,6 +1,6 @@
 package gameLogics;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Interface for Board managing
@@ -14,8 +14,8 @@ public interface Board extends Iterable<Box> {
     Box getBox(Pair<Integer, Integer> coord);
 
     /**
-     * @param box represent the box
+     * @param selectedBox represent the box
      * @return a list of boxes near the passed box
      */
-    List<Box> getNearBox(Box box);
+    Set<Box> getNearBox(Box selectedBox);
 }
