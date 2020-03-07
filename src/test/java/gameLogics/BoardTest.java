@@ -10,7 +10,6 @@ class BoardTest {
 
     @org.junit.jupiter.api.BeforeAll
     public static void initialize() {
-
         final BoardBuilder bb = new BoardBuilderImpl()
             .setWidth(4)
             .setHeight(4);
