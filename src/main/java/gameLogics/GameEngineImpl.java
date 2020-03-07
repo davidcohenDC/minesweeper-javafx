@@ -33,7 +33,11 @@ public class GameEngineImpl implements GameEngine{
         return null;
     }
 
-    public HashMap<Pair<Integer, Integer>, Integer> getBoard() {
-        return null;
+    public HashMap<Pair<Integer, Integer>, Integer> getBoardStatus() {
+        final HashMap<Pair<Integer, Integer>, Integer> map = new HashMap<>();
+        for(Box box : board) {
+            map.put(box.getPosition(), board.getNearBox(box).size());
+        }
+        return map;
     }
 }
