@@ -36,4 +36,36 @@ public class BoxImpl implements Box{
         return this.clicked;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final Box other = (Box) obj;
+            if (this.coord.getX() == null) {
+                if (other.getPosition().getX() != null) {
+                    return false;
+                }
+            } else if (!this.coord.getX().equals(other.getPosition().getX())) {
+                return false;
+            }
+            if (this.coord.getY() == null) {
+                return other.getPosition().getY() == null;
+            } else return this.coord.getY().equals(other.getPosition().getY());
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.coord.getX() == null) ? 0 : this.coord.getX().hashCode());
+        result = prime * result + ((this.coord.getY() == null) ? 0 : this.coord.getY().hashCode());
+        return result;
+    }
 }
