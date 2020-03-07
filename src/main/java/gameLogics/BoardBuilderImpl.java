@@ -32,20 +32,6 @@ public class BoardBuilderImpl implements BoardBuilder {
     }
 
     public Board build() {
-        return new Board() {
-
-            public Box getBox(Pair<Integer, Integer> coord) {
-                for(Box box : boxSet) {
-                    if(box.getPosition().equals(coord)) {
-                        return box;
-                    }
-                }
-                throw new NoSuchElementException("Box not found");
-            }
-
-            public List<Box> getNearBox(Box box) {
-                return null;
-            }
-        };
+        return new BoardImpl(this.boxSet);
     }
 }

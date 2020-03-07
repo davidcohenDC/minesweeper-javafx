@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Interface for Board managing
  */
-public interface Board {
+public interface Board extends Iterable<Box> {
 
     /**
      * @param coord represent the coord of the box
