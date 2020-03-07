@@ -27,5 +27,5 @@ public interface GameEngine {
     /**
      * @return a data structure that describe the board status
      */
-    HashMap<Pair<Integer, Integer>, Integer> getBoard();
+    HashMap<Pair<Integer, Integer>, Integer> getBoardStatus();
 }
