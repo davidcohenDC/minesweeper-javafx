@@ -1,6 +1,8 @@
 package gameLogics;
 
+import java.util.HashSet;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,5 +34,15 @@ class BoardTest {
         assertEquals(board.getBox(new Pair<>(3,3)).getPosition(), new Pair<>(3,3));
         //Test throws exception if trying to get a box that doesn't exist
         assertThrows(NoSuchElementException.class, () -> board.getBox(new Pair<>(4,4)));
+    }
+
+    @org.junit.jupiter.api.Test
+    void getNearBox() {
+        //Test of get the box near the box in position 0,0
+        Set<Box> correctSet = new HashSet<>();
+        correctSet.add(new BoxImpl(new Pair<>(1, 0)));
+        correctSet.add(new BoxImpl(new Pair<>(0, 1)));
+        correctSet.add(new BoxImpl(new Pair<>(1, 1)));
+        assertEquals(board.getNearBox(new BoxImpl(new Pair<>(0, 0))), correctSet);
     }
 }
