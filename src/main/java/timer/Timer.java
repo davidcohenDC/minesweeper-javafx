@@ -23,4 +23,9 @@ public interface Timer extends Runnable {
      * returns a boolean which is true if the timer is currently paused 
      */
     boolean isPaused();
+
+    /**
+     * Stops the Timer.
+     */
+    void stopTimer();
 }

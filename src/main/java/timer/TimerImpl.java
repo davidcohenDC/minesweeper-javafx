@@ -49,6 +49,7 @@ public class TimerImpl extends Thread implements Timer {
         this.paused = false;
     }
 
+    @Override
     public final synchronized void stopTimer() {
         this.stop = true;
     }
