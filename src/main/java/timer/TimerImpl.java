@@ -1,10 +1,11 @@
 package timer;
 
-public class TimerImpl implements Timer {
+public class TimerImpl extends Thread implements Timer {
 
     private static final int SLEEP_TIME = 1_000;
 
     private final Verse verse;
+    private int increment;
     private int value;
     private boolean paused = false;
 
@@ -16,7 +17,7 @@ public class TimerImpl implements Timer {
      * Increases the timer value by verse. 
      */
     @Override
-    public final void run() {
+    public final synchronized void run() {
 
         while (!paused) {
             try {
@@ -29,23 +30,23 @@ public class TimerImpl implements Timer {
     }
 
     @Override
-    public final synchronized int getValue() {
+    public final int getValue() {
         return this.value;
     }
 
     @Override
-    public final synchronized void pause() {
+    public final void pause() {
         this.paused = true;
     }
 
     @Override
-    public final synchronized void unPause() {
+    public final void play() {
         this.paused = false;
-        run();
+        start();
     }
 
     @Override
-    public final synchronized boolean isPaused() {
+    public final boolean isPaused() {
         return paused;
     }
 
