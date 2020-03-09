@@ -17,7 +17,7 @@ public class TimerImpl extends Thread implements Timer {
      * Increases the timer value by verse. 
      */
     @Override
-    public final synchronized void run() {
+    public final void run() {
 
         while (!paused) {
             try {
@@ -30,23 +30,22 @@ public class TimerImpl extends Thread implements Timer {
     }
 
     @Override
-    public final int getValue() {
+    public final synchronized int getValue() {
         return this.value;
     }
 
     @Override
-    public final void pause() {
+    public final synchronized void pause() {
         this.paused = true;
     }
 
     @Override
-    public final void play() {
+    public final synchronized void play() {
         this.paused = false;
-        start();
     }
 
     @Override
-    public final boolean isPaused() {
+    public final synchronized boolean isPaused() {
         return paused;
     }
 
