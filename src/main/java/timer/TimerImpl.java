@@ -5,27 +5,32 @@ public class TimerImpl extends Thread implements Timer {
     private static final int SLEEP_TIME = 1_000;
 
     private final Verse verse;
-    private int increment;
     private int value;
-    private boolean paused = false;
+    private boolean paused;
+    private boolean stop;
 
     protected TimerImpl(final int startingTime, final Verse verse) {
         this.verse = verse;
         this.value = startingTime;
+        this.paused = true;
+        this.stop = false;
     }
     /**
      * Increases the timer value by verse. 
      */
     @Override
     public final void run() {
+        this.paused = false;
 
-        while (!paused) {
+        while (!stop) {
             try {
                 Thread.sleep(SLEEP_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            this.value = this.value + verse.getVerseIncrementValue();
+            if (!paused) {
+                this.value = this.value + this.verse.getVerseIncrementValue();
+            }
         }
     }
 
@@ -44,9 +49,12 @@ public class TimerImpl extends Thread implements Timer {
         this.paused = false;
     }
 
+    public final synchronized void stopTimer() {
+        this.stop = true;
+    }
+
     @Override
     public final synchronized boolean isPaused() {
         return paused;
     }
-
 }
