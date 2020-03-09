@@ -15,7 +15,7 @@ public interface Timer extends Runnable {
     /**
      * Starts back the timer if it was paused.
      */
-    void unPause();
+    void play();
 
     /**
      * Checks if the timer is on hold.
