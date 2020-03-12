@@ -26,12 +26,12 @@ public class GameEngineImpl implements GameEngine{
     }
 
     public void setFlag(Pair<Integer, Integer> coord) {
-        board.getBox(coord).setFlag();
+        this.board.getBox(coord).setFlag();
     }
 
     public GameStatus getGameStatus() {
         int goodBoxCount = 0;
-        for(Box box : board) {
+        for(Box box : this.board) {
             if(box.isClicked() && box.containsBomb()) {
                 return GameStatus.LOSE;
             }
@@ -39,13 +39,13 @@ public class GameEngineImpl implements GameEngine{
                 goodBoxCount++;
             }
         }
-        return goodBoxCount == board.size() ? GameStatus.WIN : GameStatus.NORMAL;
+        return goodBoxCount == this.board.size() ? GameStatus.WIN : GameStatus.NORMAL;
     }
 
     public HashMap<Pair<Integer, Integer>, Integer> getBoardStatus() {
         final HashMap<Pair<Integer, Integer>, Integer> map = new HashMap<>();
-        for(Box box : board) {
-            map.put(box.getPosition(), board.getNearBox(box).size());
+        for(Box box : this.board) {
+            map.put(box.getPosition(), this.board.getNearBox(box).size());
         }
         return map;
     }
