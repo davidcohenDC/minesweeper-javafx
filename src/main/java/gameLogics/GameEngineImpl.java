@@ -29,7 +29,7 @@ public class GameEngineImpl implements GameEngine{
         board.getBox(coord).setFlag();
     }
 
-    public GameStatus status() {
+    public GameStatus getGameStatus() {
         return null;
     }
 

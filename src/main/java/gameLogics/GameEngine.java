@@ -22,7 +22,7 @@ public interface GameEngine {
     /**
      * @return the status of the game
      */
-    GameStatus status();
+    GameStatus getGameStatus();
 
     /**
      * @return a data structure that describe the board status
