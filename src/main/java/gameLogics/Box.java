@@ -28,6 +28,13 @@ public interface Box {
 
     /**
      * check if the box is clicked
+     * @return true if the box is clicked
      * */
     boolean isClicked();
+
+    /**
+     * check if the box is flagged
+     * @return true if the box is flagged
+     */
+    boolean isFlagged();
 }

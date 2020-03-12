@@ -36,6 +36,10 @@ public class BoxImpl implements Box{
         return this.clicked;
     }
 
+    public boolean isFlagged() {
+        return this.flag;
+    }
+
     @Override
     public boolean equals(Object obj) {
             if (this == obj) {
