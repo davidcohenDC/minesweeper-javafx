@@ -18,4 +18,9 @@ public interface Board extends Iterable<Box> {
      * @return a list of boxes near the passed box
      */
     Set<Box> getNearBox(Box selectedBox);
+
+    /**
+     * @return the number of box in board
+     */
+    int size();
 }

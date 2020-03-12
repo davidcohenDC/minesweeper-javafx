@@ -35,6 +35,10 @@ public class BoardImpl implements Board{
         return set;
     }
 
+    public int size() {
+        return boxSet.size();
+    }
+
     public Iterator<Box> iterator() {
         return boxSet.iterator();
     }
