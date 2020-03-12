@@ -11,7 +11,7 @@ public class GameEngineImpl implements GameEngine{
         for(int i=0; i<width; i++) {
             for(int j=0; j<height; j++) {
                 final Box box = new BoxImpl(new Pair<>(i, j));
-                //impl the bombs sistem
+                //impl the bombs system
                 bb.addBox(box);
             }
         }
@@ -30,7 +30,16 @@ public class GameEngineImpl implements GameEngine{
     }
 
     public GameStatus getGameStatus() {
-        return null;
+        int goodBoxCount = 0;
+        for(Box box : board) {
+            if(box.isClicked() && box.containsBomb()) {
+                return GameStatus.LOSE;
+            }
+            if(box.isClicked() || box.isFlagged()) {
+                goodBoxCount++;
+            }
+        }
+        return goodBoxCount == board.size() ? GameStatus.WIN : GameStatus.NORMAL;
     }
 
     public HashMap<Pair<Integer, Integer>, Integer> getBoardStatus() {
