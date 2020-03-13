@@ -1,6 +1,6 @@
 package gameLogics;
 
-public interface BombSystem {
+public interface BombGenerator {
 
     boolean next();
 }
