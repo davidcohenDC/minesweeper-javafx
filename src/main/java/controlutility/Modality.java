@@ -1,11 +1,27 @@
 package controlutility;
-/**
- * */
 
+/**
+ * Type of modality.
+ */
 public enum Modality {
+
     /**
-     * Type of modality.
+     * Standard mode.
      */
-    STANDARD, ONE_VS_ONE, BTT;
+    STANDARD, 
+
+    /**
+     * One versus one.
+     * 
+     * Play against another player.
+     */
+    ONE_VS_ONE, 
+
+    /**
+     * Beat the Timer.
+     * 
+     * Finish the game before a certain time expires.
+     */
+    BTT;
 
 }
