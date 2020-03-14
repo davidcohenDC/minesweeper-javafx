@@ -11,16 +11,14 @@ public class PlayerImpl implements Player {
     private final Modality gameMode;
     private final Difficulty difficuly;
     private final int score;
-    private final Optional<Player> adversary;
 
     private boolean hasWon;
 
-    protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty, final int score, final Optional<Player> adversary) {
+    protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty, final int score) {
         this.name = name;
         this.score = score;
         this.gameMode = gameMode;
         this.difficuly = difficulty;
-        this.adversary = adversary;
     }
 
     @Override
