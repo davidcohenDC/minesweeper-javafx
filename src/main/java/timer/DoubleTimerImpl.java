@@ -23,7 +23,7 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
 
     @Override
     public final void switchTurn() {
-        Timer temporaryTimerHolder = timerInAction();
+        final Timer temporaryTimerHolder = timerInAction();
         timerInAction().pause();
 
         if (temporaryTimerHolder.equals(this.player1Timer)) {
