@@ -1,6 +1,6 @@
 package controlutility;
 /**
- * Type of difficulty.
+ * Difficulty levels of the game.
  **/
 public enum Difficulty {
 
