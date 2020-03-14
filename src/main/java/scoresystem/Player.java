@@ -1,4 +1,7 @@
 package scoresystem;
+
+import controlutility.Modality;
+
 /**
  * A Player.
  */
@@ -19,4 +22,10 @@ public interface Player {
      * Returns the player's score
      */
     int getScore();
+
+    /**
+     * @return
+     * Returns the player's modality.
+     */
+    Modality getModality();
 }
