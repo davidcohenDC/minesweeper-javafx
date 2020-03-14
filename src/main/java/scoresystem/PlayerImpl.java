@@ -1,7 +1,5 @@
 package scoresystem;
 
-import java.util.Optional;
-
 import controlutility.Difficulty;
 import controlutility.Modality;
 
