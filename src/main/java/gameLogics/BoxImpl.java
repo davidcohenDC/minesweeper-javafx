@@ -18,7 +18,7 @@ public class BoxImpl implements Box{
 
     public void setFlag() {
         if(!this.isClicked()) {
-            this.flag = true;
+            this.flag = !this.isFlagged();
         }
     }
 
