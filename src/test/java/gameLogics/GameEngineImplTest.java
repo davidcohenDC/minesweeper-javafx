@@ -5,22 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameEngineImplTest {
 
-    private static GameEngine ge;
-
-    @org.junit.jupiter.api.BeforeAll
-    public static void initialize() {
-        ge = new GameEngineImpl(4, 4, 1);
-    }
-
-    @Test
-    void hit() {
-
-    }
-
-    @Test
-    void setFlag() {
-    }
-
     @org.junit.jupiter.api.Test
     void getGameStatus() {
         //test without bombs for checking the win

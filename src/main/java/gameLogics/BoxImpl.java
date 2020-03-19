@@ -17,11 +17,15 @@ public class BoxImpl implements Box{
     }
 
     public void setFlag() {
-        this.flag = true;
+        if(!this.isClicked()) {
+            this.flag = !this.isFlagged();
+        }
     }
 
     public void hit() {
-        this.clicked = true;
+        if(!this.isFlagged()) {
+            this.clicked = true;
+        }
     }
 
     public Pair<Integer, Integer> getPosition() {
