@@ -29,6 +29,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+
 import javafx.stage.FileChooser.ExtensionFilter;
 /**
  * */
@@ -198,6 +199,7 @@ public final class SettingsController extends BackHomeController implements Sett
     private final EventHandler<ActionEvent> selectSound = new EventHandler<ActionEvent>() {
         @Override
         public void handle(final ActionEvent e) {
+            btStop();
             rwSett.setSong(((MenuItem) e.getSource()).getText());
             mbtSound.setText(rwSett.getSong());
             final String path = urlSound + rwSett.getSong();
@@ -233,6 +235,17 @@ public final class SettingsController extends BackHomeController implements Sett
         if (clip.isOpen()) {
             clip.stop();
             clip.close();
+        }
+    }
+
+    @FXML
+    @Override
+    public void btBackHome() {
+        this.btStop();
+        try {
+            super.btBackHome();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

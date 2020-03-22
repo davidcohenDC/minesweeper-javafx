@@ -23,7 +23,8 @@ public class BackHomeController implements BackHomeInterface {
 
     @FXML
     @Override
-    public final void btBackHome() throws IOException {
+    /**this method isn't final because in settingsController I override it.**/
+    public  void btBackHome() throws IOException {
         final RWSettings rwSett = new RWSettingsImpl();
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/home.fxml"));
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
@@ -31,5 +32,4 @@ public class BackHomeController implements BackHomeInterface {
         scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
         stage.setScene(scene);
     }
-
 }
