@@ -11,8 +11,7 @@ public class PlayerImpl implements Player {
     private final Modality gameMode;
     private final Difficulty difficuly;
     private Optional<Integer> score = Optional.empty();
-
-    private boolean hasWon;
+//    private ... result;
 
     protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty) {
         this.name = name;
@@ -22,13 +21,13 @@ public class PlayerImpl implements Player {
 
     @Override
     public final void won(final Optional<Integer> score) {
-        this.hasWon = true;
+//      this.result = null;
         this.score = score;
     }
 
     @Override
     public final void lost() {
-        this.hasWon = false;
+//        this.result = null;
     }
 
     @Override
@@ -50,4 +49,5 @@ public class PlayerImpl implements Player {
     public final Difficulty getDifficuly() {
         return difficuly;
     }
+
 }

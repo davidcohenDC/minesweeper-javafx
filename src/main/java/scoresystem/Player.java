@@ -47,4 +47,10 @@ public interface Player {
      * Returns the player's name.
      */
     String getName();
+
+    /**
+     * @return
+     * Returns the player's result.
+     */
+//    getResult();
 }
