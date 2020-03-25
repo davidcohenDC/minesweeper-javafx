@@ -23,8 +23,8 @@ public class ScoreWriterImpl implements ScoreWriter {
     private final Optional<Integer> previousHighScore = Optional.empty();
 
     private final File scoreFile;
-    private final List<String> lines;
-    private final Map<String, Integer> scoreBoard;
+    private final List<String> lines = new ArrayList<String>();
+    private final Map<String, Integer> scoreBoard = new HashMap<String, Integer>();;
 
     /**
      * Sets up the score writing process.
@@ -41,18 +41,16 @@ public class ScoreWriterImpl implements ScoreWriter {
             try {
                 scoreFile.createNewFile();
             } catch (IOException e) {
-                System.err.println("Could not create new file!!");
+                System.err.println("Could not create new file.");
             }
         }
-        this.lines = new ArrayList<String>();
-        this.scoreBoard = new HashMap<String, Integer>();
 
         try {
             for (Object line : Files.lines(scoreFile.toPath()).toArray()) {
-                lines.add(String.valueOf(line));
+                this.lines.add(String.valueOf(line));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+                System.err.println("The lines were not transfered correctly.");
         }
     }
 
