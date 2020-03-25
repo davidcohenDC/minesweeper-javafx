@@ -59,7 +59,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     public final void writeScore() {
 
         //mapping of the file lines
-        for (String line: lines) {
+        for (String line: this.lines) {
             List<String> entry = List.of(line.split(SCORE_SEPARATOR));
             this.scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size())));
         }
@@ -90,7 +90,27 @@ public class ScoreWriterImpl implements ScoreWriter {
     }
 
     private void writeScoreForSingleplayer() {
+
+        //if the player already played it replaces its previous score otherwise put a new entry in the score board map
+        if (!this.scoreboard.containsKey(this.player.getName())) {
+            this.scoreboard.put(this.player.getName(), this.player.getScore());
+        } else {
+            this.scoreboard.replace(this.player.getName(), this.player.getScore());
+        }
+
+        //sorts the map
         // TODO Auto-generated method stub
+
+        //writes to file after converting the score board entries to strings
+        for (String playerName: this.scoreboard.keySet()) {
+            this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName));
+        }
+        try {
+            Files.write(this.scoreFile.toPath(), this.lines);
+            this.lines.removeAll(lines);
+        } catch (IOException e) {
+            System.err.println("File writing was unsuccessful");
+        }
     }
 
     private boolean scoreIsWritable() {
