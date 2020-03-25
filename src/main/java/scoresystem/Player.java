@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import controlutility.Difficulty;
 import controlutility.Modality;
+import gameLogics.GameStatus;
 
 /**
  * A Player.
@@ -52,5 +53,5 @@ public interface Player {
      * @return
      * Returns the player's result.
      */
-//    getResult();
+    GameStatus getResult();
 }

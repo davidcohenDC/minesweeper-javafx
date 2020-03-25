@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import controlutility.Difficulty;
 import controlutility.Modality;
+import gameLogics.GameStatus;
 
 public class PlayerImpl implements Player {
 
@@ -11,7 +12,7 @@ public class PlayerImpl implements Player {
     private final Modality gameMode;
     private final Difficulty difficuly;
     private Optional<Integer> score = Optional.empty();
-//    private ... result;
+    private GameStatus result;
 
     protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty) {
         this.name = name;
@@ -21,13 +22,13 @@ public class PlayerImpl implements Player {
 
     @Override
     public final void won(final Optional<Integer> score) {
-//      this.result = null;
+        this.result = GameStatus.WIN;
         this.score = score;
     }
 
     @Override
     public final void lost() {
-//        this.result = null;
+        this.result = GameStatus.LOSE;
     }
 
     @Override
@@ -42,12 +43,17 @@ public class PlayerImpl implements Player {
 
     @Override
     public final String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public final Difficulty getDifficuly() {
-        return difficuly;
+        return this.difficuly;
+    }
+
+    @Override
+    public final GameStatus getResult() {
+        return this.result;
     }
 
 }
