@@ -14,7 +14,7 @@ public class PlayerImpl implements Player {
     private Optional<Integer> score = Optional.empty();
     private GameStatus result;
 
-    protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty) {
+    public PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty) {
         this.name = name;
         this.gameMode = gameMode;
         this.difficuly = difficulty;
