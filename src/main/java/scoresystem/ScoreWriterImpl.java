@@ -58,17 +58,20 @@ public class ScoreWriterImpl implements ScoreWriter {
     @Override
     public final void writeScore() {
 
-        //Mappo la scoreboard attraverso le righe del file salvate prima.
+        //mapping of the file lines
         for (String line: lines) {
             List<String> entry = List.of(line.split(SCORE_SEPARATOR));
             this.scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size())));
         }
 
+        //writes a player lost and won games
+        writePlayerStatistics(); 
+
+        //if player already played with this settings this if fetches its old high score
         if (this.scoreboard.containsKey(player.getName())) {
-            this.previousHighScore = Optional.of(this.scoreboard.get(player.getName())); 
+            this.previousHighScore = Optional.of(this.scoreboard.get(player.getName()));
         }
 
-        writePlayerStatistics(); 
         if (scoreIsWritable()) {
             if (player.getModality().equals(Modality.ONE_VS_ONE)) {
                 writeScoreForMultiplayer();
