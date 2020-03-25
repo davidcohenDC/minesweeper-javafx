@@ -20,12 +20,12 @@ public class ScoreWriterImpl implements ScoreWriter {
     private static final String FILE_EXTENCION = ".txt";
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
-    private final Player player;
-    private final Optional<Integer> previousHighScore = Optional.empty();
-
     private final File scoreFile;
     private final List<String> lines = new ArrayList<String>();
-    private final Map<String, Integer> scoreboard = new HashMap<String, Integer>();;
+    private final Map<String, Integer> scoreboard = new HashMap<String, Integer>();
+
+    private final Player player;
+    private Optional<Integer> previousHighScore = Optional.empty();
 
     /**
      * Sets up the score writing process.
@@ -57,6 +57,17 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     @Override
     public final void writeScore() {
+
+        //Mappo la scoreboard attraverso le righe del file salvate prima.
+        for (String line: lines) {
+            List<String> entry = List.of(line.split(SCORE_SEPARATOR));
+            this.scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size())));
+        }
+
+        if (this.scoreboard.containsKey(player.getName())) {
+            this.previousHighScore = Optional.of(this.scoreboard.get(player.getName())); 
+        }
+
         writePlayerStatistics(); 
         if (scoreIsWritable()) {
             if (player.getModality().equals(Modality.ONE_VS_ONE)) {
@@ -76,10 +87,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     }
 
     private void writeScoreForSingleplayer() {
-        for (String line: lines) {
-            List<String> entry = List.of(line.split(SCORE_SEPARATOR));
-            scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size())));
-        }
+        // TODO Auto-generated method stub
     }
 
     private boolean scoreIsWritable() {
@@ -90,7 +98,7 @@ public class ScoreWriterImpl implements ScoreWriter {
         try {
             check(this.player.getResult().equals(GameStatus.LOSE));
             check(this.player.getDifficuly().equals(Difficulty.PERSONALIZED));
-            check(this.player.getScore() < this.previousHighScore.get());
+            check(this.previousHighScore.isPresent() && this.player.getScore() > this.previousHighScore.get());
         } catch (IllegalStateException e) {
             return false;
         }
