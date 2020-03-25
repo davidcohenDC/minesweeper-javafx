@@ -1,37 +1,30 @@
 package scoresystem;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.google.common.collect.Streams;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import controlutility.Difficulty;
-
+import gameLogics.GameStatus;
 
 public class ScoreWriterImpl implements ScoreWriter {
 
-    //separates the player id from his score
-    private static final String PLAYER_SEPARATOR = ":";
-    //separates each score form each other based on the difficulty 
-    private static final String DIFFICULTY_SEPARATOR = "-"; 
-
-    private static final String SEPARATOR = System.getProperty("file.separator");
-    private static final String ROOT = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "score_files" + SEPARATOR;
+    private static final String SCORE_SEPARATOR = "-";
+    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    private static final String FILE_EXTENCION = ".txt";
+    private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
     private final Player player;
-    private final int previousHighScore;
+    private final Optional<Integer> previousHighScore = Optional.empty();
+
     private final File scoreFile;
-    private final Set<String> fileLines;
+    private final List<String> lines;
+    private final Map<String, Integer> scoreBoard;
 
     /**
      * Sets up the score writing process.
@@ -39,27 +32,28 @@ public class ScoreWriterImpl implements ScoreWriter {
      * The player to register the score
      */
     protected ScoreWriterImpl(final Player player) {
+
         this.player = player;
-        this.scoreFile = new File(ROOT + player.getModality().getFileName());
+        // "ROOT/MODE/Diff.txt"
+        this.scoreFile = new File(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR + this.player.getDifficuly().getName() + FILE_EXTENCION);
+
         if (!scoreFile.exists()) {
             try {
-                createNewScoreFile();
+                scoreFile.createNewFile();
             } catch (IOException e) {
-                System.err.println("Could not create new file");
+                System.err.println("Could not create new file!!");
             }
         }
+        this.lines = new ArrayList<String>();
+        this.scoreBoard = new HashMap<String, Integer>();
 
-        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        InputStream fis = loader.getResourceAsStream(this.player.getModality().getFileName());
-        InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
-        BufferedReader br = new BufferedReader(isr);
-        this.fileLines = new HashSet<String>(br.lines().collect(Collectors.toList()));
-
-        this.previousHighScore = 0;
-    }
-
-    private void createNewScoreFile() throws IOException {
-        scoreFile.createNewFile();
+        try {
+            for (Object line : Files.lines(scoreFile.toPath()).toArray()) {
+                lines.add(String.valueOf(line));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -75,9 +69,9 @@ public class ScoreWriterImpl implements ScoreWriter {
          * or if the setup is not right
          */
         try {
-//          check(this.player.getResult().equals(...));
+            check(this.player.getResult().equals(GameStatus.LOSE));
             check(this.player.getDifficuly().equals(Difficulty.PERSONALIZED));
-            check(this.previousHighScore < this.player.getScore());
+            check(this.player.getScore() < this.previousHighScore.get());
         } catch (IllegalStateException e) {
             return false;
         }
@@ -92,7 +86,7 @@ public class ScoreWriterImpl implements ScoreWriter {
      */
     private void check(final boolean expression) {
         if (expression) {
-           throw new IllegalStateException(); 
+           throw new IllegalStateException("File is NOT writable in this conditions"); 
         }
     }
 }
