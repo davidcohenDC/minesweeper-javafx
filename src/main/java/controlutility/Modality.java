@@ -24,14 +24,13 @@ public enum Modality {
      */
     BTT("BTT");
 
-    private static final String FILE_EXTENSION = ".txt";
-    private final String fileName;
+    private final String directoryName;
 
     Modality(final String name) {
-        this.fileName = name + FILE_EXTENSION;
+        this.directoryName = name;
     }
 
     public String getFileName() {
-        return this.fileName;
+        return this.directoryName;
     }
 }
