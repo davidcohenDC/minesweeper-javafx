@@ -30,7 +30,7 @@ public enum Modality {
         this.directoryName = name;
     }
 
-    public String getFileName() {
+    public String getDirectoryName() {
         return this.directoryName;
     }
 }
