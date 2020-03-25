@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import controlutility.Difficulty;
+import controlutility.Modality;
 import gameLogics.GameStatus;
 
 public class ScoreWriterImpl implements ScoreWriter {
@@ -24,7 +25,7 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     private final File scoreFile;
     private final List<String> lines = new ArrayList<String>();
-    private final Map<String, Integer> scoreBoard = new HashMap<String, Integer>();;
+    private final Map<String, Integer> scoreboard = new HashMap<String, Integer>();;
 
     /**
      * Sets up the score writing process.
@@ -50,14 +51,34 @@ public class ScoreWriterImpl implements ScoreWriter {
                 this.lines.add(String.valueOf(line));
             }
         } catch (IOException e) {
-                System.err.println("The lines were not transfered correctly.");
+                System.err.println("The lines from the file were not transfered correctly.");
         }
     }
 
     @Override
     public final void writeScore() {
+        writePlayerStatistics(); 
         if (scoreIsWritable()) {
+            if (player.getModality().equals(Modality.ONE_VS_ONE)) {
+                writeScoreForMultiplayer();
+            } else {
+                writeScoreForSingleplayer();
+            }
+        }
+    }
 
+    private void writePlayerStatistics() {
+        // TODO Auto-generated method stub
+    }
+
+    private void writeScoreForMultiplayer() {
+        // TODO Auto-generated method stub
+    }
+
+    private void writeScoreForSingleplayer() {
+        for (String line: lines) {
+            List<String> entry = List.of(line.split(SCORE_SEPARATOR));
+            scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size())));
         }
     }
 
