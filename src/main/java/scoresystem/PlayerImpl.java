@@ -12,7 +12,7 @@ public class PlayerImpl implements Player {
     private final Modality gameMode;
     private final Difficulty difficuly;
     private Optional<Integer> score = Optional.empty();
-    private Optional<GameStatus> result;
+    private Optional<GameStatus> result = Optional.empty();
 
     public PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty) {
         this.name = name;
