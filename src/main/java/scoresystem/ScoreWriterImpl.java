@@ -101,6 +101,7 @@ public class ScoreWriterImpl implements ScoreWriter {
 
         //sorts the map
         // TODO Auto-generated method stub
+        
 
         //writes to file after converting the score board entries to strings
         for (String playerName: this.scoreboard.keySet()) {
@@ -115,11 +116,8 @@ public class ScoreWriterImpl implements ScoreWriter {
     }
 
     private boolean scoreIsWritable() {
-        /*
-         * This try/catch will check if anything that is not supposed to be written tries to be written 
-         * or if the setup is not right
-         */
         try {
+            check(Optional.of(this.player.getResult()).isEmpty());
             check(this.player.getResult().equals(GameStatus.LOSE));
             check(this.player.getDifficuly().equals(Difficulty.PERSONALIZED));
             check(this.previousHighScore.isPresent() && this.player.getScore() > this.previousHighScore.get());
