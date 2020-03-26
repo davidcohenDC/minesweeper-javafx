@@ -3,6 +3,9 @@ package scoresystem;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -18,7 +21,7 @@ class TestScoreSystem {
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
     private ScoreWriter sw;
-    private File file;
+    private String filename;
 
 //TEST for PLAYER FUNCTIONALITIES
     @Test
@@ -121,13 +124,30 @@ class TestScoreSystem {
 //TEST for SCORE WRITING FUNCTIONALITIES
     @Test
     void scoreFileDoesNotExistTest() {
+        filename = ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.EASY.getName() + FILE_EXTENCION; 
+        Player p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.EASY);
 
-        file = new File(ROOT + Modality.STANDARD + FILE_SEPARATOR + Difficulty.HARD + FILE_EXTENCION);
+        try {
+            Files.deleteIfExists(Path.of(filename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-         if (file.exists()) {
-            file.delete();
-         }
-         assertTrue(!file.exists());
+        //the file we are looking for does not exist
+        assertTrue(Files.notExists(Path.of(filename)));
+
+        //by initializing the score writer the file should be created if not existent
+        sw = new ScoreWriterImpl(p);
+        assertTrue(Files.exists(Path.of(filename)));
+
+        //file should not be created if player is playing personalized modality
+        Player personalized = new PlayerImpl("personalized", Modality.STANDARD, Difficulty.PERSONALIZED);
+        filename = ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.PERSONALIZED.getName() + FILE_EXTENCION; 
+
+        assertTrue(Files.notExists(Path.of(filename)));
+        sw = new ScoreWriterImpl(personalized);
+        assertFalse(Files.exists(Path.of(filename)));
     }
+    
 
 }
