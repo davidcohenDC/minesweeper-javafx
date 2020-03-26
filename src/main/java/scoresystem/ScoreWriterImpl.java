@@ -3,6 +3,7 @@ package scoresystem;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     private static final String FILE_EXTENCION = ".txt";
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
-    private final File scoreFile;
+    private final Path path;
     private final List<String> lines = new ArrayList<String>();
     private final Map<String, Integer> scoreboard = new HashMap<String, Integer>();
 
@@ -37,22 +38,22 @@ public class ScoreWriterImpl implements ScoreWriter {
 
         this.player = player;
         // "ROOT/MODE/Diff.txt"
-        this.scoreFile = new File(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR + this.player.getDifficuly().getName() + FILE_EXTENCION);
+        this.path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR + this.player.getDifficuly().getName() + FILE_EXTENCION);
 
-        if (!player.getDifficuly().equals(Difficulty.PERSONALIZED) && !scoreFile.exists()) {
+        if (!player.getDifficuly().equals(Difficulty.PERSONALIZED) && Files.notExists(this.path)) {
             try {
-                scoreFile.createNewFile();
+                Files.createFile(this.path);
             } catch (IOException e) {
                 System.err.println("Could not create new file.");
             }
 
             try {
-                for (Object line : Files.lines(scoreFile.toPath()).toArray()) {
+                for (Object line : Files.lines(this.path).toArray()) {
                     this.lines.add(String.valueOf(line));
                 }
             } catch (IOException e) {
                     System.err.println("The lines from the file were not transfered correctly.");
-                    System.err.println(lines);
+                    System.err.println(this.lines);
             }
         }
     }
@@ -70,12 +71,12 @@ public class ScoreWriterImpl implements ScoreWriter {
         writePlayerStatistics(); 
 
         //if player already played with this settings this if fetches its old high score
-        if (this.scoreboard.containsKey(player.getName())) {
+        if (this.scoreboard.containsKey(this.player.getName())) {
             this.previousHighScore = Optional.of(this.scoreboard.get(player.getName()));
         }
 
         if (scoreIsWritable()) {
-            if (player.getModality().equals(Modality.ONE_VS_ONE)) {
+            if (this.player.getModality().equals(Modality.ONE_VS_ONE)) {
                 writeScoreForMultiplayer();
             } else {
                 writeScoreForSingleplayer();
@@ -115,8 +116,7 @@ public class ScoreWriterImpl implements ScoreWriter {
 
         //actually writes the file
         try {
-            Files.write(this.scoreFile.toPath(), this.lines);
-            this.lines.removeAll(lines);
+            Files.write(this.path, this.lines);
         } catch (IOException e) {
             System.err.println("File writing was unsuccessful");
         }
