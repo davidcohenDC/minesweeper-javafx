@@ -104,6 +104,7 @@ public class ScoreWriterImpl implements ScoreWriter {
         }
 
         //writes to file after converting the score board entries to strings
+        this.lines.removeAll(this.lines);
         for (String playerName: this.scoreboard.keySet()) {
             this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName));
         }
