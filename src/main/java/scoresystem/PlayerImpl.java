@@ -24,7 +24,9 @@ public class PlayerImpl implements Player {
     public final void won(final int score) {
         check(!this.result.isEmpty(), "Player's result cannot be modified after its initial registration");
         this.result = Optional.of(GameStatus.WIN);
-        this.score = Optional.of(score);
+        if (!this.difficuly.equals(Difficulty.PERSONALIZED)) {
+            this.score = Optional.of(score);
+        }
     }
 
     @Override
