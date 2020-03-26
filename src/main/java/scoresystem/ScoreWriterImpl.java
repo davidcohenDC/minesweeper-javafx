@@ -61,7 +61,7 @@ public class ScoreWriterImpl implements ScoreWriter {
         //mapping of the file lines
         for (String line: this.lines) {
             List<String> entry = List.of(line.split(SCORE_SEPARATOR));
-            this.scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size())));
+            this.scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size() - 1)));
         }
 
         //writes a player lost and won games
