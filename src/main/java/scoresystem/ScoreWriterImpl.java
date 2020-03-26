@@ -32,7 +32,7 @@ public class ScoreWriterImpl implements ScoreWriter {
      * @param player
      * The player to register the score
      */
-    protected ScoreWriterImpl(final Player player) {
+    public ScoreWriterImpl(final Player player) {
 
         this.player = player;
         // "ROOT/MODE/Diff.txt"
