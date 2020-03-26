@@ -2,10 +2,6 @@ package scoresystem;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -13,20 +9,16 @@ import org.junit.jupiter.api.Test;
 import controlutility.Difficulty;
 import controlutility.Modality;
 import gameLogics.GameStatus;
+/**
+ *  This class is designed to test the functionalities of the class PlayerImpl.
+ */
+class TestPlayer {
 
-class TestScoreSystem {
+    private final Player p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.MEDIUM);
 
-    private static final String FILE_EXTENCION = ".txt";
-    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
-
-    private ScoreWriter sw;
-    private String filename;
-
-//TEST for PLAYER FUNCTIONALITIES
     @Test
-    void playerGettersTest() {
-        Player p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.MEDIUM);
+    void playerTest() {
+        System.out.println("playerTest");
 
         assertEquals("luigi", p.getName());
         assertEquals(Difficulty.MEDIUM, p.getDifficuly()); 
@@ -54,7 +46,7 @@ class TestScoreSystem {
 
     @Test
     void lostTest() {
-        Player p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.MEDIUM);
+        System.out.println("lostTest");
 
         //player loses
         p.lost();
@@ -85,12 +77,23 @@ class TestScoreSystem {
         } catch (IllegalStateException e) {
             System.out.println(e);
         }
+
+        //Personalized difficulty players' scores should not be tracked 
+        Player p2 = new PlayerImpl("rossi", Modality.STANDARD, Difficulty.PERSONALIZED);
+        p2.won(8);
+        try {
+            assertEquals(Optional.empty(), Optional.of(p.getScore()));
+            fail();
+        } catch (IllegalStateException e) {
+            System.out.println(e);
+        }
         System.out.println();
     }
 
     @Test
     void wonTest() {
-        Player p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.EASY);
+        System.out.println("wonTest");
+
 
         //player wins the game in 8 seconds
         p.won(8);
@@ -120,34 +123,4 @@ class TestScoreSystem {
         System.out.println();
 
     }
-
-//TEST for SCORE WRITING FUNCTIONALITIES
-    @Test
-    void scoreFileDoesNotExistTest() {
-        filename = ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.EASY.getName() + FILE_EXTENCION; 
-        Player p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.EASY);
-
-        try {
-            Files.deleteIfExists(Path.of(filename));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //the file we are looking for does not exist
-        assertTrue(Files.notExists(Path.of(filename)));
-
-        //by initializing the score writer the file should be created if not existent
-        sw = new ScoreWriterImpl(p);
-        assertTrue(Files.exists(Path.of(filename)));
-
-        //file should not be created if player is playing personalized modality
-        Player personalized = new PlayerImpl("personalized", Modality.STANDARD, Difficulty.PERSONALIZED);
-        filename = ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.PERSONALIZED.getName() + FILE_EXTENCION; 
-
-        assertTrue(Files.notExists(Path.of(filename)));
-        sw = new ScoreWriterImpl(personalized);
-        assertFalse(Files.exists(Path.of(filename)));
-    }
-    
-
 }
