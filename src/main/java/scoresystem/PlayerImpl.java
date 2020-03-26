@@ -1,7 +1,5 @@
 package scoresystem;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.Optional;
 
 import controlutility.Difficulty;
@@ -55,7 +53,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public final GameStatus getResult() {
-        if(!(this.result.equals(GameStatus.LOSE))&&!(this.result.equals(GameStatus.LOSE))) {
+        if (!(this.result.equals(GameStatus.LOSE)) && !(this.result.equals(GameStatus.LOSE))) {
             throw new IllegalStateException("Player's result was accessed before finishing the game");
         }
         return this.result;
