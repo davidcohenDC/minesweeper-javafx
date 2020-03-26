@@ -1,7 +1,5 @@
 package scoresystem;
 
-import java.util.Optional;
-
 import controlutility.Difficulty;
 import controlutility.Modality;
 import gameLogics.GameStatus;
@@ -15,7 +13,6 @@ public interface Player {
      * The Player has won the game.
      * @param score
      * The score with which the player has won 
-     * 
      */
     void won(int score);
 
