@@ -21,9 +21,9 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public final void won(final Optional<Integer> score) {
+    public final void won(final int score) {
         this.result = Optional.of(GameStatus.WIN);
-        this.score = score;
+        this.score = Optional.of(score);
     }
 
     @Override

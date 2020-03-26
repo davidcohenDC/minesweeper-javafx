@@ -16,9 +16,8 @@ public interface Player {
      * @param score
      * The score with which the player has won 
      * 
-     * Could be empty in 1vs1 mode if the second player loses
      */
-    void won(Optional<Integer> score);
+    void won(int score);
 
     /**
      * The Player has lost the game.
@@ -54,4 +53,5 @@ public interface Player {
      * Returns the player's result.
      */
     GameStatus getResult();
+
 }
