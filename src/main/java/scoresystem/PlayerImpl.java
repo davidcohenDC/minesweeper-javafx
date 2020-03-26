@@ -12,7 +12,7 @@ public class PlayerImpl implements Player {
     private final Modality gameMode;
     private final Difficulty difficuly;
     private Optional<Integer> score = Optional.empty();
-    private GameStatus result;
+    private Optional<GameStatus> result;
 
     public PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty) {
         this.name = name;
@@ -22,13 +22,13 @@ public class PlayerImpl implements Player {
 
     @Override
     public final void won(final Optional<Integer> score) {
-        this.result = GameStatus.WIN;
+        this.result = Optional.of(GameStatus.WIN);
         this.score = score;
     }
 
     @Override
     public final void lost() {
-        this.result = GameStatus.LOSE;
+        this.result = Optional.of(GameStatus.LOSE);
     }
 
     @Override
@@ -56,10 +56,10 @@ public class PlayerImpl implements Player {
 
     @Override
     public final GameStatus getResult() {
-        if (!(this.result.equals(GameStatus.LOSE) || this.result.equals(GameStatus.WIN))) {
+        if (this.result.isEmpty()) {
             throw new IllegalStateException("Player's result was accessed before finishing the game");
         }
-        return this.result;
+        return this.result.get();
     }
 
 }
