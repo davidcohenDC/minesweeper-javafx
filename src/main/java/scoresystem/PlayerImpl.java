@@ -33,9 +33,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public final int getScore() {
-        if (this.score.isEmpty()) {
-            throw new IllegalStateException("Nothing to score");
-        }
+        check(this.score.isEmpty(), "Nothing to score");
         return this.score.get();
     }
 
@@ -56,10 +54,14 @@ public class PlayerImpl implements Player {
 
     @Override
     public final GameStatus getResult() {
-        if (this.result.isEmpty()) {
-            throw new IllegalStateException("Player's result was accessed before finishing the game");
-        }
+        check(this.result.isEmpty(), "Player's result was accessed before finishing the game");
         return this.result.get();
+    }
+
+    private void check(final boolean expression, final String errorMessage) {
+        if (expression) {
+            throw new IllegalStateException(errorMessage);
+        }
     }
 
 }
