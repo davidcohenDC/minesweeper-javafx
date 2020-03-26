@@ -44,14 +44,15 @@ public class ScoreWriterImpl implements ScoreWriter {
             } catch (IOException e) {
                 System.err.println("Could not create new file.");
             }
-        }
 
-        try {
-            for (Object line : Files.lines(scoreFile.toPath()).toArray()) {
-                this.lines.add(String.valueOf(line));
+            try {
+                for (Object line : Files.lines(scoreFile.toPath()).toArray()) {
+                    this.lines.add(String.valueOf(line));
+                }
+            } catch (IOException e) {
+                    System.err.println("The lines from the file were not transfered correctly.");
+                    System.err.println(lines);
             }
-        } catch (IOException e) {
-                System.err.println("The lines from the file were not transfered correctly.");
         }
     }
 
