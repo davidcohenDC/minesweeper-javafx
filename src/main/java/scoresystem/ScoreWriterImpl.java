@@ -38,7 +38,7 @@ public class ScoreWriterImpl implements ScoreWriter {
         // "ROOT/MODE/Diff.txt"
         this.scoreFile = new File(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR + this.player.getDifficuly().getName() + FILE_EXTENCION);
 
-        if (player.getDifficuly().equals(Difficulty.PERSONALIZED) && !scoreFile.exists()) {
+        if (!player.getDifficuly().equals(Difficulty.PERSONALIZED) && !scoreFile.exists()) {
             try {
                 scoreFile.createNewFile();
             } catch (IOException e) {
