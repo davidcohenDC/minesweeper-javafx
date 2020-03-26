@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,14 +100,20 @@ public class ScoreWriterImpl implements ScoreWriter {
             this.scoreboard.replace(this.player.getName(), this.player.getScore());
         }
 
-        //sorts the map
-        // TODO Auto-generated method stub
-        
-
         //writes to file after converting the score board entries to strings
         for (String playerName: this.scoreboard.keySet()) {
             this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName));
         }
+
+        //sorts the map
+        this.lines.sort(new Comparator<String>() {
+            @Override
+            public int compare(final String playerA, final String playerB) {
+                return Integer.valueOf(playerA.split(SCORE_SEPARATOR)[1]) - Integer.valueOf(playerB.split(SCORE_SEPARATOR)[1]);
+            }
+        });
+
+        //actually writes the file
         try {
             Files.write(this.scoreFile.toPath(), this.lines);
             this.lines.removeAll(lines);
