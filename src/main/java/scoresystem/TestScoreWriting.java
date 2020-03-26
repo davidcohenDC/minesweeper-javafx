@@ -146,16 +146,17 @@ class TestScoreWriting {
         int score;
         int numberOfPlayers = 100;
 
-        //genera un numero di player facendoli vincere con score casuali e scrivendo i loro punteggi 
+        //generate numberOfPlayers players and gives them a random score
         for (int i = 0; i < numberOfPlayers; i++) {
             p = new PlayerImpl("p" + i, Modality.STANDARD, Difficulty.MEDIUM);
             sw = new ScoreWriterImpl(p);
             score = rnd.nextInt(999);
-            expectedScoreBoard.add(score);
+            expectedScoreBoard.add(score); //this keeps track of the scores being written
             p.won(score);
             sw.writeScore();
         }
 
+        //sorts the expected score board
         expectedScoreBoard.sort(new Comparator<Integer>() {
             @Override
             public int compare(final Integer score1, final Integer score2) {
@@ -163,6 +164,7 @@ class TestScoreWriting {
             }
         });
 
+        //gets the lines from the file and puts the scores without changing the order in actualScoreBoard
         try {
             for (Object line : Files.lines(path).toArray()) {
                 String string = String.valueOf(line);
