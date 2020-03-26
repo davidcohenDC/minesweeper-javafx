@@ -33,6 +33,9 @@ public class PlayerImpl implements Player {
 
     @Override
     public final int getScore() {
+        if (this.score.isEmpty()) {
+            throw new IllegalStateException("Nothing to score");
+        }
         return this.score.get();
     }
 
