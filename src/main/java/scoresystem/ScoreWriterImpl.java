@@ -40,11 +40,14 @@ public class ScoreWriterImpl implements ScoreWriter {
         // "ROOT/MODE/Diff.txt"
         this.path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR + this.player.getDifficuly().getName() + FILE_EXTENCION);
 
-        if (!player.getDifficuly().equals(Difficulty.PERSONALIZED) && Files.notExists(this.path)) {
-            try {
-                Files.createFile(this.path);
-            } catch (IOException e) {
-                System.err.println("Could not create new file.");
+        if (!player.getDifficuly().equals(Difficulty.PERSONALIZED)) {
+
+            if (Files.notExists(this.path)) {
+                 try {
+                     Files.createFile(this.path);
+                 } catch (IOException e) {
+                     System.err.println("Could not create new file.");
+                 }
             }
 
             try {
