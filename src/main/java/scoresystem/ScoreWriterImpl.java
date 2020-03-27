@@ -14,7 +14,7 @@ import controlutility.Difficulty;
 import controlutility.Modality;
 import gameLogics.GameStatus;
 
-public class ScoreWriterImpl implements Writer {
+public class ScoreWriterImpl implements ScoreWriter {
 
     private static final String SCORE_SEPARATOR = "-";
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
@@ -31,7 +31,7 @@ public class ScoreWriterImpl implements Writer {
     /**
      * Sets up the score writing process.
      * @param player
-     * The player to register the score
+     * The player to register the score of
      */
     public ScoreWriterImpl(final Player player) {
 
@@ -86,6 +86,11 @@ public class ScoreWriterImpl implements Writer {
         }
     }
 
+    @Override
+    public final Map<String, Integer> getScoreBoard() {
+        return this.scoreboard;
+    }
+
     private void writePlayerStatistics() {
         // TODO Auto-generated method stub
     }
@@ -127,10 +132,10 @@ public class ScoreWriterImpl implements Writer {
 
     private boolean scoreIsWritable() {
         try {
-            check(Optional.of(this.player.getResult()).isEmpty());
-            check(this.player.getResult().equals(GameStatus.LOSE));
-            check(this.player.getDifficuly().equals(Difficulty.PERSONALIZED));
-            check(this.previousHighScore.isPresent() && this.player.getScore() > this.previousHighScore.get());
+            check(Optional.of(this.player.getResult()).isEmpty(), "Result is empty");
+            check(this.player.getResult().equals(GameStatus.LOSE), "Player has lost");
+            check(this.player.getDifficuly().equals(Difficulty.PERSONALIZED), "Scores for personalized difficulty must not be written");
+            check(this.previousHighScore.isPresent() && this.player.getScore() > this.previousHighScore.get(), "Previous score was better");
         } catch (IllegalStateException e) {
             return false;
         }
@@ -143,9 +148,9 @@ public class ScoreWriterImpl implements Writer {
      * @param expression
      * The expression too check
      */
-    private void check(final boolean expression) {
+    private void check(final boolean expression, final String errorMessage) {
         if (expression) {
-           throw new IllegalStateException("File is NOT writable in this conditions"); 
+           throw new IllegalStateException(errorMessage); 
         }
     }
 }
