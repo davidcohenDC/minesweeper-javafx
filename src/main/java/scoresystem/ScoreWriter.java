@@ -8,7 +8,7 @@ import controlutility.Modality;
 public interface ScoreWriter extends Writer {
  
     /**
-     * Returns the score board of a specified game mode in a specified difficulty.
+     * Returns the unordered score board of a specified game mode in a specified difficulty.
      * @param gameMode
      * the game mode of the desired score board
      * @param difficulty
