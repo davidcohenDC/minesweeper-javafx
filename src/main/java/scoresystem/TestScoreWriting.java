@@ -42,7 +42,7 @@ class TestScoreWriting {
         try {
             Files.deleteIfExists(path);
         } catch (IOException e) {
-            e.printStackTrace();
+            fail("File should have been deketed for next portion of the test");
         }
 
         //the file we are looking for does not exist

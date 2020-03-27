@@ -1,0 +1,50 @@
+package scoresystem;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import org.junit.jupiter.api.Test;
+
+import controlutility.Difficulty;
+import controlutility.Modality;
+
+/**
+ * Class to test statistics writing functionalities. 
+ *
+ * BEWARE! RUNNING THIS CLASS WILL ALTER ACTUAL STATISTICS FILES
+ */
+class TestStatisticsWriter {
+
+    private static final String FILE_EXTENCION = ".txt";
+    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
+
+    private ScoreWriter sw = new ScoreWriterImpl();
+    private Path path;
+    private Player p;
+
+    @Test
+    void singlePlayerWritingTest() {
+        //if a player looses it should be put in the statistics file
+        p = new PlayerImpl("looser", Modality.STANDARD, Difficulty.EASY);
+
+        try {
+//            Files.deleteIfExists(Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION));
+            Files.deleteIfExists(Path.of(ROOT + p.getModality().getDirectoryName() + FILE_SEPARATOR + p.getDifficuly().getName() + FILE_EXTENCION));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        p.lost();
+        sw.write(p);
+
+        assertFalse(sw.getScoreBoard(p.getModality(), p.getDifficuly()).keySet().contains(p.getName()));
+    }
+
+}

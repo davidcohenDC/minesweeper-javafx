@@ -57,13 +57,11 @@ public class StatisticsWriterImpl implements Writer {
                     data.add(Integer.valueOf(value));
                 }
                 this.statistics.put(entry.get(0), data);
-                System.out.println(this.statistics.get(player.getName()));
             }
 
             //if file does not contain the player it initializes the other field as 0
             if (!this.statistics.containsKey(this.player.getName())) {
                 this.statistics.put(this.player.getName(), Collections.nCopies(NUMBER_OF_FIELDS, 0));
-                System.out.println(this.statistics.get(player.getName()));
             }
 
             //control that player has finished the game
