@@ -1,6 +1,5 @@
 package scoresystem;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -26,7 +25,7 @@ class TestStatisticsWriter {
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
     private ScoreWriter sw = new ScoreWriterImpl();
-    private Path path;
+    private Path path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION);
     private Player p;
 
     @Test
@@ -35,16 +34,19 @@ class TestStatisticsWriter {
         p = new PlayerImpl("looser", Modality.STANDARD, Difficulty.EASY);
 
         try {
-//            Files.deleteIfExists(Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION));
+            Files.deleteIfExists(path);
             Files.deleteIfExists(Path.of(ROOT + p.getModality().getDirectoryName() + FILE_SEPARATOR + p.getDifficuly().getName() + FILE_EXTENCION));
         } catch (IOException e) {
-            e.printStackTrace();
+            fail("File should have been deketed for next portion of the test");
         }
 
         p.lost();
         sw.write(p);
 
+        //the score was not registered beacuse the player lost
         assertFalse(sw.getScoreBoard(p.getModality(), p.getDifficuly()).keySet().contains(p.getName()));
+        //but the loss was registered
+        assertTrue(Files.exists(path));
     }
 
 }
