@@ -93,8 +93,7 @@ class TestScoreWriting {
                     e.printStackTrace();
             }
         }
-
-        System.out.println();
+        System.out.println("-------");
     }
 
 

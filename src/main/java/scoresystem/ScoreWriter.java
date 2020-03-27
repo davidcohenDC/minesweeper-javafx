@@ -14,7 +14,7 @@ public interface ScoreWriter extends Writer {
      * @param difficulty
      * the difficulty of the desired score board
      * @return
-     * returns a Map<String, Integer> where players' names are the keys associates with their best score
+     * returns a Map<String, Integer> where players' names are the keys associated with their best score
      */
     Map<String, Integer> getScoreBoard(Modality gameMode, Difficulty difficulty);
 }

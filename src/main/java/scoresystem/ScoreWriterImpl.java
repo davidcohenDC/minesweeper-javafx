@@ -40,7 +40,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     public final void write(final Player player) {
 
         this.player = player;
-        // "ROOT/MODE/Diff.txt"
+        // "ROOT/MODE/Difficulty.txt"
         this.path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR + this.player.getDifficuly().getName() + FILE_EXTENCION);
 
         if (!player.getDifficuly().equals(Difficulty.PERSONALIZED)) {
@@ -52,34 +52,22 @@ public class ScoreWriterImpl implements ScoreWriter {
                      System.err.println("Could not create new file.");
                  }
             }
-
-            try {
-                for (Object line : Files.lines(this.path).toArray()) {
-                    if (String.valueOf(line).contains(SCORE_SEPARATOR)) { //this control should keep wrong format of lines out
-                        this.lines.add(String.valueOf(line));
-                    }
-                }
-            } catch (IOException e) {
-                    System.err.println("The lines from the file were not transfered correctly.");
-                    System.err.println(this.lines);
-            }
-        }
-
-        //mapping of the file lines
-        for (String line: this.lines) {
-            List<String> entry = List.of(line.split(SCORE_SEPARATOR));
-            this.scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size() - 1)));
+            this.lines.addAll(convertFileToList(this.path));
         }
 
         //writes a player statistics using a different writer
         writePlayerStatistics(); 
 
-        //if player already played with this settings this if fetches its old high score
-        if (this.scoreboard.containsKey(this.player.getName())) {
-            this.previousHighScore = Optional.of(this.scoreboard.get(player.getName()));
-        }
-
         if (scoreIsWritable()) {
+
+            //mapping of the file lines
+            this.scoreboard.putAll(getScoreBoard(this.player.getModality(), this.player.getDifficuly()));
+
+            //if player already played with this settings this if fetches its old high score
+            if (this.scoreboard.containsKey(this.player.getName())) {
+                this.previousHighScore = Optional.of(this.scoreboard.get(player.getName()));
+            }
+
             if (this.player.getModality().equals(Modality.ONE_VS_ONE)) {
                 writeScoreForMultiplayer();
             } else {
@@ -88,9 +76,38 @@ public class ScoreWriterImpl implements ScoreWriter {
         }
     }
 
+
+
     @Override
     public final Map<String, Integer> getScoreBoard(final Modality gameMode, final Difficulty difficulty) {
-        return this.scoreboard;
+        final Map<String, Integer> scoreboard = new HashMap<String, Integer>();
+        for (String line: convertFileToList(Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION))) {
+            List<String> entry = List.of(line.split(SCORE_SEPARATOR));
+            scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size() - 1)));
+        }
+        return scoreboard;
+    }
+
+    /**
+     * Converts a file in a list of its lines.
+     * @param path
+     * path of the file to convert
+     * @return
+     * return a List of strings
+     */
+    private List<String> convertFileToList(final Path path) {
+        final List<String> lines = new ArrayList<String>();
+        try {
+            for (Object line : Files.lines(path).toArray()) {
+                if (String.valueOf(line).contains(SCORE_SEPARATOR)) { //this control should keep wrong format of lines out
+                   lines.add(String.valueOf(line));
+                }
+            }
+        } catch (IOException e) {
+                System.err.println("The lines from the file were not transfered correctly.");
+                System.err.println(lines);
+        }
+        return lines;
     }
 
     private void writePlayerStatistics() {
