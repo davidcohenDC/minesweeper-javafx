@@ -30,7 +30,7 @@ class TestScoreWriting {
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
-    private ScoreWriter sw;
+    private ScoreWriter sw = new ScoreWriterImpl();
     private Path path;
     private Player p;
     private Random rnd = new Random();
@@ -58,8 +58,6 @@ class TestScoreWriting {
         path =  Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.PERSONALIZED.getName() + FILE_EXTENCION); 
 
         assertTrue(Files.notExists(path));
-        sw = new ScoreWriterImpl();
-        assertFalse(Files.exists(path));
         System.out.println();
 
     }
@@ -71,7 +69,6 @@ class TestScoreWriting {
         //Personalized players' scores are not to be kept track of so nothing should happen
         p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.PERSONALIZED);
         p.won(8);
-        sw = new ScoreWriterImpl();
         path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.PERSONALIZED.getName() + FILE_EXTENCION);
         assertTrue(Files.notExists(path));
         sw.write(p);
@@ -81,7 +78,6 @@ class TestScoreWriting {
         p = new PlayerImpl("loser", Modality.STANDARD, Difficulty.EASY);
         path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.EASY.getName() + FILE_EXTENCION);
         p.lost();
-        sw = new ScoreWriterImpl();
 
         //if file did not exist it should also not be created
         if (Files.exists(path)) {
@@ -120,8 +116,7 @@ class TestScoreWriting {
         //generate numberOfPlayers players and gives them a random score
         for (int i = 0; i < numberOfPlayers; i++) {
             p = new PlayerImpl("p" + i, Modality.STANDARD, Difficulty.MEDIUM);
-            sw = new ScoreWriterImpl();
-            score = rnd.nextInt(999);
+            score = rnd.nextInt(1_000);
             expectedScoreBoard.add(score); //this keeps track of the scores being written
             p.won(score);
             sw.write(p);
