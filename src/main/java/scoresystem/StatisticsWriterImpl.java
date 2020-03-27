@@ -17,6 +17,7 @@ public class StatisticsWriterImpl implements Writer {
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
     private static final String DATA_SEPARATOR = ":";
+    private static final int NUMBER_OF_FIELDS = 2;
 
     private final List<String> lines;
     private final Map<String, List<Integer>> statistics;
@@ -58,7 +59,7 @@ public class StatisticsWriterImpl implements Writer {
 
             //if file does not contain the player it initializes the other field as 0
             if (!this.statistics.containsKey(this.player.getName())) {
-                this.statistics.put(this.player.getName(), Collections.nCopies(3, 0));
+                this.statistics.put(this.player.getName(), Collections.nCopies(NUMBER_OF_FIELDS, 0));
             }
 
             //Depending on players result it increases the field accordingly
