@@ -30,7 +30,7 @@ class TestScoreWriting {
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
-    private Writer sw;
+    private ScoreWriter sw;
     private Path path;
     private Player p;
     private Random rnd = new Random();
