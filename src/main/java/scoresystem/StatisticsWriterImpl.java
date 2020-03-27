@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import controlutility.Difficulty;
 
 public class StatisticsWriterImpl implements Writer {
@@ -62,16 +64,19 @@ public class StatisticsWriterImpl implements Writer {
                 this.statistics.put(this.player.getName(), Collections.nCopies(NUMBER_OF_FIELDS, 0));
             }
 
-            //Depending on players result it increases the field accordingly
-            switch (player.getResult()) {
-            case WIN:
-                this.statistics.get(player.getName()).set(0, this.statistics.get(player.getName()).get(0) + 1);
-                break;
-            case LOSE:
-                this.statistics.get(player.getName()).set(1, this.statistics.get(player.getName()).get(1) + 1);
-                break;
-            default://if the player has a result differing from the ones above it will throw exception
-                throw new IllegalStateException("This player has no data to update");
+            //control that player has finished the game
+            if (Optional.of(player.getResult()).isPresent()) {
+                //Depending on players result it increases the field accordingly
+                switch (player.getResult()) {
+                case WIN:
+                    this.statistics.get(player.getName()).set(0, this.statistics.get(player.getName()).get(0) + 1);
+                    break;
+                case LOSE:
+                    this.statistics.get(player.getName()).set(1, this.statistics.get(player.getName()).get(1) + 1);
+                    break;
+                default://if the player has a result differing from the ones above it will throw exception
+                    throw new IllegalStateException("This player has no data to update");
+                }
             }
 
             //converts data map back to strings
