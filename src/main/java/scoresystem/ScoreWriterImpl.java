@@ -55,7 +55,9 @@ public class ScoreWriterImpl implements ScoreWriter {
 
             try {
                 for (Object line : Files.lines(this.path).toArray()) {
-                    this.lines.add(String.valueOf(line));
+                    if (String.valueOf(line).contains(SCORE_SEPARATOR)) { //this control should keep wrong format of lines out
+                        this.lines.add(String.valueOf(line));
+                    }
                 }
             } catch (IOException e) {
                     System.err.println("The lines from the file were not transfered correctly.");
