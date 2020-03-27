@@ -21,19 +21,23 @@ public class ScoreWriterImpl implements ScoreWriter {
     private static final String FILE_EXTENCION = ".txt";
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
-    private final Path path;
-    private final List<String> lines = new ArrayList<String>();
-    private final Map<String, Integer> scoreboard = new HashMap<String, Integer>();
+    private final List<String> lines;
+    private final Map<String, Integer> scoreboard; 
 
-    private final Player player;
+    private Player player;
+    private Path path;
     private Optional<Integer> previousHighScore = Optional.empty();
 
     /**
-     * Sets up the score writing process.
-     * @param player
-     * The player to register the score of
+     * Sets up the list and maps.
      */
-    public ScoreWriterImpl(final Player player) {
+    public ScoreWriterImpl() {
+        this.lines = new ArrayList<String>();
+        this.scoreboard = new HashMap<String, Integer>();
+    }
+
+    @Override
+    public final void write(final Player player) {
 
         this.player = player;
         // "ROOT/MODE/Diff.txt"
@@ -58,10 +62,6 @@ public class ScoreWriterImpl implements ScoreWriter {
                     System.err.println(this.lines);
             }
         }
-    }
-
-    @Override
-    public final void write() {
 
         //mapping of the file lines
         for (String line: this.lines) {
@@ -87,7 +87,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     }
 
     @Override
-    public final Map<String, Integer> getScoreBoard() {
+    public final Map<String, Integer> getScoreBoard(final Modality gameMode, final Difficulty difficulty) {
         return this.scoreboard;
     }
 

@@ -51,16 +51,16 @@ class TestScoreWriting {
         //the file we are looking for does not exist
         assertTrue(Files.notExists(path));
 
-        //by initializing the score writer the file should be created if not existent
-        sw = new ScoreWriterImpl(p);
-        assertTrue(Files.exists(path));
+        //by initializing the score writer the file should not be created if not existent
+        sw = new ScoreWriterImpl();
+        assertTrue(Files.notExists(path));
 
         //file should not be created if player is playing personalized modality
         p = new PlayerImpl("personalized", Modality.STANDARD, Difficulty.PERSONALIZED);
         path =  Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.PERSONALIZED.getName() + FILE_EXTENCION); 
 
         assertTrue(Files.notExists(path));
-        sw = new ScoreWriterImpl(p);
+        sw = new ScoreWriterImpl();
         assertFalse(Files.exists(path));
         System.out.println();
 
@@ -73,28 +73,33 @@ class TestScoreWriting {
         //Personalized players' scores are not to be kept track of so nothing should happen
         p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.PERSONALIZED);
         p.won(8);
-        sw = new ScoreWriterImpl(p);
+        sw = new ScoreWriterImpl();
         path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.PERSONALIZED.getName() + FILE_EXTENCION);
         assertTrue(Files.notExists(path));
-        sw.write();
+        sw.write(p);
         assertTrue(Files.notExists(path));
 
         //if a Player lost, his score should not be written
         p = new PlayerImpl("loser", Modality.STANDARD, Difficulty.EASY);
         path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.EASY.getName() + FILE_EXTENCION);
         p.lost();
-        sw = new ScoreWriterImpl(p);
-        assertTrue(Files.exists(path));
+        sw = new ScoreWriterImpl();
 
-        long oldSize;
-        try {
-           oldSize = Files.size(path);
-           sw.write();
-           // File's size should not have changed since nothing was written on it 
-           assertEquals(oldSize, Files.size(path));
-        } catch (IOException e) {
-                e.printStackTrace();
+        //if file did not exist it should also not be created
+        if (Files.exists(path)) {
+            long oldSize;
+            try {
+               oldSize = Files.size(path);
+               sw.write(p);
+               assertTrue(Files.exists(path));
+
+               // File's size should not have changed since nothing was written on it 
+               assertEquals(oldSize, Files.size(path));
+            } catch (IOException e) {
+                    e.printStackTrace();
+            }
         }
+
         System.out.println();
     }
 
@@ -108,10 +113,10 @@ class TestScoreWriting {
         } catch (IOException e1) {
             fail("FILE WAS NOT CANCELLED AT THE BEGGING OF THIS TEST SO IT MAKES THE REST USELESS");
         }
-        sw = new ScoreWriterImpl(p);
+        sw = new ScoreWriterImpl();
 
         //trying to write before player finished the game 
-        sw.write();
+        sw.write(p);
         try {
             assertTrue(Files.size(path) == 0L);
         } catch (IOException e1) {
@@ -119,7 +124,7 @@ class TestScoreWriting {
         }
 
         p.won(23);
-        sw.write();
+        sw.write(p);
 
         assertTrue(Files.exists(path));
         try {
@@ -149,11 +154,11 @@ class TestScoreWriting {
         //generate numberOfPlayers players and gives them a random score
         for (int i = 0; i < numberOfPlayers; i++) {
             p = new PlayerImpl("p" + i, Modality.STANDARD, Difficulty.MEDIUM);
-            sw = new ScoreWriterImpl(p);
+            sw = new ScoreWriterImpl();
             score = rnd.nextInt(999);
             expectedScoreBoard.add(score); //this keeps track of the scores being written
             p.won(score);
-            sw.write();
+            sw.write(p);
         }
 
         //sorts the expected score board

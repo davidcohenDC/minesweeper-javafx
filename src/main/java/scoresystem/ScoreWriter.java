@@ -2,7 +2,10 @@ package scoresystem;
 
 import java.util.Map;
 
-public interface ScoreWriter extends Writer {
+import controlutility.Difficulty;
+import controlutility.Modality;
 
-    Map<String, Integer> getScoreBoard();
+public interface ScoreWriter extends Writer {
+ 
+    Map<String, Integer> getScoreBoard(Modality gameMode, Difficulty difficulty);
 }
