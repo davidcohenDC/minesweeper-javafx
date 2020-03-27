@@ -53,26 +53,33 @@ public class StatisticsWriterImpl implements Writer {
             for (String line: convertFileToList(this.path)) {
                 List<String> entry = List.of(line.split(DATA_SEPARATOR));
                 List<Integer> data = new ArrayList<Integer>(); 
-                for (String value: entry.subList(1, entry.size() - 1)) {
+                for (String value: entry.subList(1, entry.size())) {
                     data.add(Integer.valueOf(value));
                 }
                 this.statistics.put(entry.get(0), data);
+                System.out.println(this.statistics.get(player.getName()));
             }
 
             //if file does not contain the player it initializes the other field as 0
             if (!this.statistics.containsKey(this.player.getName())) {
                 this.statistics.put(this.player.getName(), Collections.nCopies(NUMBER_OF_FIELDS, 0));
+                System.out.println(this.statistics.get(player.getName()));
             }
 
             //control that player has finished the game
             if (Optional.of(player.getResult()).isPresent()) {
                 //Depending on players result it increases the field accordingly
+                List<Integer> updatedField = new ArrayList<Integer>();
                 switch (player.getResult()) {
                 case WIN:
-                    this.statistics.get(player.getName()).set(0, this.statistics.get(player.getName()).get(0) + 1);
+                    updatedField.addAll(this.statistics.get(player.getName()));
+                    updatedField.set(0, updatedField.get(0) + 1);
+                    this.statistics.replace(player.getName(), updatedField);
                     break;
                 case LOSE:
-                    this.statistics.get(player.getName()).set(1, this.statistics.get(player.getName()).get(1) + 1);
+                    updatedField.addAll(this.statistics.get(player.getName()));
+                    updatedField.set(1, updatedField.get(1) + 1);
+                    this.statistics.replace(player.getName(), updatedField);
                     break;
                 default://if the player has a result differing from the ones above it will throw exception
                     throw new IllegalStateException("This player has no data to update");
@@ -86,7 +93,7 @@ public class StatisticsWriterImpl implements Writer {
                 for (Integer value: this.statistics.get(playerName)) {
                     values = values + DATA_SEPARATOR + value;
                 }
-                this.lines.add(playerName + DATA_SEPARATOR + this.statistics.get(playerName));
+                this.lines.add(playerName + values);
             }
 
             //actual file writing
