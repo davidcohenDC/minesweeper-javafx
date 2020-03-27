@@ -16,10 +16,13 @@ import gameLogics.GameStatus;
 
 public class ScoreWriterImpl implements ScoreWriter {
 
-    private static final String SCORE_SEPARATOR = "-";
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String FILE_EXTENCION = ".txt";
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
+
+    private static final String SCORE_SEPARATOR = "-";
+
+    private final Writer statisticsWriter;
 
     private final List<String> lines;
     private final Map<String, Integer> scoreboard; 
@@ -34,6 +37,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     public ScoreWriterImpl() {
         this.lines = new ArrayList<String>();
         this.scoreboard = new HashMap<String, Integer>();
+        this.statisticsWriter = new StatisticsWriterImpl();
     }
 
     @Override
@@ -53,10 +57,10 @@ public class ScoreWriterImpl implements ScoreWriter {
                  }
             }
             this.lines.addAll(convertFileToList(this.path));
-        }
 
-        //writes a player statistics using a different writer
-        writePlayerStatistics(); 
+            //writes a player statistics using a different writer
+            this.statisticsWriter.write(this.player);
+        }
 
         if (scoreIsWritable()) {
 
@@ -108,10 +112,6 @@ public class ScoreWriterImpl implements ScoreWriter {
                 System.err.println(lines);
         }
         return lines;
-    }
-
-    private void writePlayerStatistics() {
-        // TODO Auto-generated method stub
     }
 
     private void writeScoreForMultiplayer() {
