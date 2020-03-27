@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import controlutility.Difficulty;
 
-public class StatisticsWriterImpl implements Writer {
+public class StatisticsWriterImpl implements StatistcsWriter {
 
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String FILE_EXTENCION = ".txt";

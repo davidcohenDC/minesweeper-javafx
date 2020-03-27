@@ -22,7 +22,7 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     private static final String SCORE_SEPARATOR = "-";
 
-    private final Writer statisticsWriter;
+    private final StatistcsWriter statisticsWriter;
 
     private final List<String> lines;
     private final Map<String, Integer> scoreboard; 
