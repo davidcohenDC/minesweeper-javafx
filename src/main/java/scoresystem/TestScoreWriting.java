@@ -30,7 +30,7 @@ class TestScoreWriting {
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
-    private ScoreWriter sw;
+    private Writer sw;
     private Path path;
     private Player p;
     private Random rnd = new Random();
@@ -76,7 +76,7 @@ class TestScoreWriting {
         sw = new ScoreWriterImpl(p);
         path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.PERSONALIZED.getName() + FILE_EXTENCION);
         assertTrue(Files.notExists(path));
-        sw.writeScore();
+        sw.write();
         assertTrue(Files.notExists(path));
 
         //if a Player lost, his score should not be written
@@ -89,7 +89,7 @@ class TestScoreWriting {
         long oldSize;
         try {
            oldSize = Files.size(path);
-           sw.writeScore();
+           sw.write();
            // File's size should not have changed since nothing was written on it 
            assertEquals(oldSize, Files.size(path));
         } catch (IOException e) {
@@ -111,7 +111,7 @@ class TestScoreWriting {
         sw = new ScoreWriterImpl(p);
 
         //trying to write before player finished the game 
-        sw.writeScore();
+        sw.write();
         try {
             assertTrue(Files.size(path) == 0L);
         } catch (IOException e1) {
@@ -119,7 +119,7 @@ class TestScoreWriting {
         }
 
         p.won(23);
-        sw.writeScore();
+        sw.write();
 
         assertTrue(Files.exists(path));
         try {
@@ -153,7 +153,7 @@ class TestScoreWriting {
             score = rnd.nextInt(999);
             expectedScoreBoard.add(score); //this keeps track of the scores being written
             p.won(score);
-            sw.writeScore();
+            sw.write();
         }
 
         //sorts the expected score board

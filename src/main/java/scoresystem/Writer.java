@@ -1,9 +1,9 @@
 package scoresystem;
 
-public interface ScoreWriter {
+public interface Writer {
 
     /**
      * Writes the player's score into its designated file.
      */
-    void writeScore();
+    void write();
 }

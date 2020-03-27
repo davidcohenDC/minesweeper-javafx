@@ -14,7 +14,7 @@ import controlutility.Difficulty;
 import controlutility.Modality;
 import gameLogics.GameStatus;
 
-public class ScoreWriterImpl implements ScoreWriter {
+public class ScoreWriterImpl implements Writer {
 
     private static final String SCORE_SEPARATOR = "-";
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
@@ -61,7 +61,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     }
 
     @Override
-    public final void writeScore() {
+    public final void write() {
 
         //mapping of the file lines
         for (String line: this.lines) {
@@ -69,7 +69,7 @@ public class ScoreWriterImpl implements ScoreWriter {
             this.scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size() - 1)));
         }
 
-        //writes a player lost and won games
+        //writes a player statistics using a different writer
         writePlayerStatistics(); 
 
         //if player already played with this settings this if fetches its old high score
@@ -103,13 +103,13 @@ public class ScoreWriterImpl implements ScoreWriter {
             this.scoreboard.replace(this.player.getName(), this.player.getScore());
         }
 
-        //writes to file after converting the score board entries to strings
+        //converting the score board entries to strings
         this.lines.removeAll(this.lines);
         for (String playerName: this.scoreboard.keySet()) {
             this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName));
         }
 
-        //sorts the map
+        //sorts the list of lines
         this.lines.sort(new Comparator<String>() {
             @Override
             public int compare(final String playerA, final String playerB) {
