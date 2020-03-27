@@ -103,38 +103,6 @@ class TestScoreWriting {
         System.out.println();
     }
 
-    @Test
-    void writeScoreForSinglePlayerModalityTest() {
-        p = new PlayerImpl("luigi", Modality.BTT, Difficulty.MEDIUM);
-        path = Path.of(ROOT + p.getModality().getDirectoryName() + FILE_SEPARATOR + p.getDifficuly().getName() + FILE_EXTENCION);
-        //file MUST be empty in the begging of this test
-        try {
-            Files.deleteIfExists(path);
-        } catch (IOException e1) {
-            fail("FILE WAS NOT CANCELLED AT THE BEGGING OF THIS TEST SO IT MAKES THE REST USELESS");
-        }
-        sw = new ScoreWriterImpl();
-
-        //trying to write before player finished the game 
-        sw.write(p);
-        try {
-            assertTrue(Files.size(path) == 0L);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-
-        p.won(23);
-        sw.write(p);
-
-        assertTrue(Files.exists(path));
-        try {
-            //if file's size is 0 it means nothing was written
-            assertFalse(Files.size(path) == 0L);
-        } catch (IOException e) {
-            //it means the file was not written it the correct way
-            fail();
-        }
-    }
 
     @Test
     void scoreFileIsInOrderTest() {
