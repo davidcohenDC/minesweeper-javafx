@@ -37,8 +37,6 @@ class TestScoreWriting {
 
     @Test
     void scoreFileDoesNotExistTest() {
-        System.out.println("scoreFileDoesNotExistTest");
-
         path =  Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.EASY.getName() + FILE_EXTENCION); 
         p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.EASY);
 
