@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -32,6 +33,7 @@ class TestScoreWriting {
     private ScoreWriter sw;
     private Path path;
     private Player p;
+    private Random rnd = new Random();
 
     @Test
     void scoreFileDoesNotExistTest() {
@@ -130,7 +132,7 @@ class TestScoreWriting {
     }
 
     @Test
-    void scoreFileIsInOrder() {
+    void scoreFileIsInOrderTest() {
         path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.MEDIUM.getName() + FILE_EXTENCION);
 
         //file MUST be empty in the begging of this test
@@ -140,9 +142,7 @@ class TestScoreWriting {
             fail("FILE WAS NOT CANCELLED AT THE BEGGING OF THIS TEST SO IT MAKES THE REST USELESS");
         }
 
-        Random rnd = new Random();
         List<Integer> expectedScoreBoard = new ArrayList<Integer>();
-        List<Integer> actualScoreBoard = new ArrayList<Integer>();
         int score;
         int numberOfPlayers = 100;
 
@@ -163,8 +163,12 @@ class TestScoreWriting {
                 return score1 - score2;
             }
         });
+        assertEquals(expectedScoreBoard, getLines(path));
+    }
 
-        //gets the lines from the file and puts the scores without changing the order in actualScoreBoard
+    //gets the lines from the file and puts the scores without changing the order in actualScoreBoard
+    private Collection<? extends Integer> getLines(final Path path) {
+        List<Integer> actualScoreBoard = new ArrayList<Integer>();
         try {
             for (Object line : Files.lines(path).toArray()) {
                 String string = String.valueOf(line);
@@ -173,8 +177,7 @@ class TestScoreWriting {
         } catch (IOException e) {
                 System.err.println("The lines from the file were not transfered correctly.");
                 System.err.println(actualScoreBoard);
-        }
-        assertEquals(expectedScoreBoard, actualScoreBoard);
+            }
+        return actualScoreBoard;
     }
-
 }
