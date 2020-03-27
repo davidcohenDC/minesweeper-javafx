@@ -58,7 +58,7 @@ public class ScoreWriterImpl implements ScoreWriter {
             }
             this.lines.addAll(convertFileToList(this.path));
 
-            //writes a player statistics using a different writer
+            //updates a player statistics using a different writer
             this.statisticsWriter.write(this.player);
         }
 
