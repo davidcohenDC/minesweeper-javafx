@@ -108,9 +108,13 @@ public class LoadDataImpl implements LoadData {
         if (!file.exists() && file.mkdir()) {
             for (final Modality gameMode: Modality.values()) {
                 final File directory = new File(strScores + gameMode.getDirectoryName() + SEPARATOR);
-                if (!directory.exists() && !file.mkdir()) {
-                    throw new IllegalStateException("Could not properly set up scoresystem directories");
-                }
+                if (!directory.exists()) {
+                    try {
+                        Files.createDirectory(directory.toPath());
+                    } catch (IOException e) {
+                        System.err.println("Could not properly set up scoresystem directories");
+                    }
+                } 
             }
         }
 
