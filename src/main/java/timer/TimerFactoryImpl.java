@@ -14,7 +14,7 @@ public class TimerFactoryImpl implements TimerFactory {
 
     @Override
     public final DoubleTimer createTimersFor1vs1Mode() {
-        return null;
+        return new DoubleTimerImpl();
     }
 
 }
