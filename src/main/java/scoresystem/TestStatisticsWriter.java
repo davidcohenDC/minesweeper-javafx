@@ -25,15 +25,16 @@ class TestStatisticsWriter {
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
-    private ScoreWriter sw = new ScoreWriterImpl();
-    private Path path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION);
-    private Player p;
+    private static final String PLAYER_NAME = "loser";
 
-    private String playerName = "loser";
+    private final ScoreWriter sw = new ScoreWriterImpl();
+    private final Path path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION);
+
     @Test
-    void singlePlayerWritingTest() {
+    public void singlePlayerWritingTest() {
+        Player p;
         //if a player looses it should be put in the statistics file
-        p = new PlayerImpl(playerName, Modality.STANDARD, Difficulty.EASY);
+        p = new PlayerImpl(PLAYER_NAME, Modality.STANDARD, Difficulty.EASY);
 
         try {
             Files.deleteIfExists(path);
@@ -58,21 +59,21 @@ class TestStatisticsWriter {
 
         //player gets created multiple times to simulate the same player playing multiple times
         for (int i = 0; i < 2; i++) {
-            p = new PlayerImpl(playerName, Modality.STANDARD, Difficulty.EASY);
+            p = new PlayerImpl(PLAYER_NAME, Modality.STANDARD, Difficulty.EASY);
             p.lost(); //he loses 3 times
             sw.write(p);
         }
         for (int i = 0; i < 2; i++) {
-            p = new PlayerImpl(playerName, Modality.STANDARD, Difficulty.EASY);
+            p = new PlayerImpl(PLAYER_NAME, Modality.STANDARD, Difficulty.EASY);
             p.won(100); //wins 2 times
             sw.write(p);
         }
-            p = new PlayerImpl(playerName, Modality.STANDARD, Difficulty.EASY);
+            p = new PlayerImpl(PLAYER_NAME, Modality.STANDARD, Difficulty.EASY);
             p.lost(); //then loses again
             sw.write(p);
 
-        assertEquals(4, new StatisticsWriterImpl().getLosses(playerName, p.getModality()));
-        assertEquals(2, new StatisticsWriterImpl().getWins(playerName, p.getModality()));
+        assertEquals(4, new StatisticsWriterImpl().getLosses(PLAYER_NAME, p.getModality()));
+        assertEquals(2, new StatisticsWriterImpl().getWins(PLAYER_NAME, p.getModality()));
 
     }
 

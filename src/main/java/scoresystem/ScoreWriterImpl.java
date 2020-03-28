@@ -35,8 +35,8 @@ public class ScoreWriterImpl implements ScoreWriter {
      * Sets up the list and maps.
      */
     public ScoreWriterImpl() {
-        this.lines = new ArrayList<String>();
-        this.scoreboard = new HashMap<String, Integer>();
+        this.lines = new ArrayList<>();
+        this.scoreboard = new HashMap<>();
         this.statisticsWriter = new StatisticsWriterImpl();
     }
 
@@ -84,9 +84,9 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     @Override
     public final Map<String, Integer> getScoreBoard(final Modality gameMode, final Difficulty difficulty) {
-        final Map<String, Integer> scoreboard = new HashMap<String, Integer>();
-        for (String line: convertFileToList(Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION))) {
-            List<String> entry = List.of(line.split(SCORE_SEPARATOR));
+        final Map<String, Integer> scoreboard = new HashMap<>();
+        for (final String line: convertFileToList(Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION))) {
+            final List<String> entry = List.of(line.split(SCORE_SEPARATOR));
             scoreboard.put(entry.get(0), Integer.valueOf(entry.get(entry.size() - 1)));
         }
         return scoreboard;
@@ -100,9 +100,9 @@ public class ScoreWriterImpl implements ScoreWriter {
      * return a List of strings
      */
     private List<String> convertFileToList(final Path path) {
-        final List<String> lines = new ArrayList<String>();
+        final List<String> lines = new ArrayList<>();
         try {
-            for (Object line : Files.lines(path).toArray()) {
+            for (final Object line : Files.lines(path).toArray()) {
                 if (String.valueOf(line).contains(SCORE_SEPARATOR)) { //this control should keep wrong format of lines out
                    lines.add(String.valueOf(line));
                 }
@@ -128,8 +128,8 @@ public class ScoreWriterImpl implements ScoreWriter {
         }
 
         //converting the score board entries to strings
-        this.lines.removeAll(this.lines);
-        for (String playerName: this.scoreboard.keySet()) {
+        this.lines.clear();
+        for (final String playerName: this.scoreboard.keySet()) {
             this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName));
         }
 
@@ -137,7 +137,7 @@ public class ScoreWriterImpl implements ScoreWriter {
         this.lines.sort(new Comparator<String>() {
             @Override
             public int compare(final String playerA, final String playerB) {
-                return Integer.valueOf(playerA.split(SCORE_SEPARATOR)[1]) - Integer.valueOf(playerB.split(SCORE_SEPARATOR)[1]);
+                return Integer.parseInt(playerA.split(SCORE_SEPARATOR)[1]) - Integer.parseInt(playerB.split(SCORE_SEPARATOR)[1]);
             }
         });
 

@@ -1,6 +1,8 @@
 package scoresystem;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Optional;
 
@@ -17,7 +19,7 @@ class TestPlayer {
     private final Player p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.MEDIUM);
 
     @Test
-    void playerTest() {
+    public void playerTest() {
         System.out.println("playerTest");
 
         assertEquals("luigi", p.getName());
@@ -45,7 +47,7 @@ class TestPlayer {
     }
 
     @Test
-    void lostTest() {
+    public void lostTest() {
         System.out.println("lostTest");
 
         //player loses
@@ -79,7 +81,7 @@ class TestPlayer {
         }
 
         //Personalized difficulty players' scores should not be tracked 
-        Player p2 = new PlayerImpl("rossi", Modality.STANDARD, Difficulty.PERSONALIZED);
+        final Player p2 = new PlayerImpl("rossi", Modality.STANDARD, Difficulty.PERSONALIZED);
         p2.won(8);
         try {
             assertEquals(Optional.empty(), Optional.of(p.getScore()));
@@ -91,7 +93,7 @@ class TestPlayer {
     }
 
     @Test
-    void wonTest() {
+    public void wonTest() {
         System.out.println("wonTest");
 
 
