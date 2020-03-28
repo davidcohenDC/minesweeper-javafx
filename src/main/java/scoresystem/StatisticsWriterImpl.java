@@ -20,6 +20,8 @@ public class StatisticsWriterImpl implements StatistcsWriter {
 
     private static final String DATA_SEPARATOR = ":";
     private static final int NUMBER_OF_FIELDS = 2;
+    private static final int WINS_COLUMN = 0;
+    private static final int LOSSES_COLUMN = 1;
 
     private final List<String> lines;
     private final Map<String, List<Integer>> statistics;
@@ -71,12 +73,12 @@ public class StatisticsWriterImpl implements StatistcsWriter {
                 switch (player.getResult()) {
                 case WIN:
                     updatedField.addAll(this.statistics.get(player.getName()));
-                    updatedField.set(0, updatedField.get(0) + 1);
+                    updatedField.set(WINS_COLUMN, updatedField.get(WINS_COLUMN) + 1);
                     this.statistics.replace(player.getName(), updatedField);
                     break;
                 case LOSE:
                     updatedField.addAll(this.statistics.get(player.getName()));
-                    updatedField.set(1, updatedField.get(1) + 1);
+                    updatedField.set(LOSSES_COLUMN, updatedField.get(LOSSES_COLUMN) + 1);
                     this.statistics.replace(player.getName(), updatedField);
                     break;
                 default://if the player has a result differing from the ones above it will throw exception
