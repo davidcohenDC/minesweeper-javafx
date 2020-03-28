@@ -1,0 +1,157 @@
+package scoresystem;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import controlutility.Difficulty;
+import controlutility.Modality;
+
+public class StatisticsWriterImpl implements StatistcsWriter {
+
+    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    private static final String FILE_NAME = "Statistics";
+    private static final String FILE_EXTENCION = ".txt";
+    private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
+
+    private static final String DATA_SEPARATOR = ":";
+    private static final int NUMBER_OF_FIELDS = 2;
+    private static final int WINS_COLUMN = 0;
+    private static final int LOSSES_COLUMN = 1;
+
+    private final List<String> lines;
+    private final Map<String, List<Integer>> statistics;
+
+    private Path path;
+    private Player player;
+
+    public StatisticsWriterImpl() {
+        this.statistics = new HashMap<String, List<Integer>>();
+        this.lines = new ArrayList<String>();
+    }
+
+    @Override
+    public final void write(final Player player) {
+        this.player = player;
+        this.path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION);
+
+        if (!player.getDifficuly().equals(Difficulty.PERSONALIZED)) {
+
+            if (Files.notExists(this.path)) {
+                 try {
+                     Files.createFile(this.path);
+                 } catch (IOException e) {
+                     System.err.println("Could not create new file.");
+                 }
+            }
+            //represent the file in a list of lines
+            this.lines.addAll(convertFileToList(this.path));
+
+            //map the file 
+            this.statistics.putAll(mapFileLines(this.path));
+
+            //if file does not contain the player it initializes the other field as 0
+            if (!this.statistics.containsKey(this.player.getName())) {
+                this.statistics.put(this.player.getName(), Collections.nCopies(NUMBER_OF_FIELDS, 0));
+            }
+
+            //control that player has finished the game
+            if (Optional.of(player.getResult()).isPresent()) {
+                //Depending on players result it increases the field accordingly
+                switch (player.getResult()) {
+                case WIN:
+                    updateField(WINS_COLUMN);
+                    break;
+                case LOSE:
+                    updateField(LOSSES_COLUMN);
+                    break;
+                default://if the player has a result differing from the ones above it will throw exception
+                    throw new IllegalStateException("This player has no data to update");
+                }
+            }
+
+            //converts data map back to strings
+            this.lines.removeAll(this.lines);
+            for (String playerName: this.statistics.keySet()) {
+                String values = new String();
+                for (Integer value: this.statistics.get(playerName)) {
+                    values = values + DATA_SEPARATOR + value;
+                }
+                this.lines.add(playerName + values);
+            }
+
+            //actual file writing
+            try {
+                Files.write(this.path, this.lines);
+            } catch (IOException e) {
+                System.err.println("File writing was unsuccessful");
+            }
+        }
+    }
+
+    private void updateField(final int column) {
+        List<Integer> updatedField = new ArrayList<Integer>();
+        updatedField.addAll(this.statistics.get(this.player.getName()));
+        updatedField.set(column, updatedField.get(column) + 1);
+        this.statistics.replace(this.player.getName(), updatedField);
+    }
+
+    @Override
+    public final int getWins(final String playerName, final Modality gameMode) {
+        return getColumn(playerName, gameMode, WINS_COLUMN);
+    }
+
+    @Override
+    public final int getLosses(final String playerName, final Modality gameMode) {
+        return getColumn(playerName, gameMode, LOSSES_COLUMN);
+    }
+
+    private int getColumn(final String playerName, final Modality gameMode, final int column) {
+        if (!mapFileLines(Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION)).containsKey(playerName)) {
+            return 0;
+        }
+        return mapFileLines(Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION)).get(playerName)
+                                                                                                      .get(column);
+    }
+
+    private Map<String, List<Integer>> mapFileLines(final Path path) {
+        final Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
+        for (String line: convertFileToList(path)) {
+            List<String> entry = List.of(line.split(DATA_SEPARATOR));
+            List<Integer> data = new ArrayList<Integer>(); 
+            for (String value: entry.subList(1, entry.size())) {
+                data.add(Integer.valueOf(value));
+            }
+            map.put(entry.get(0), data);
+        }
+        return map;
+    }
+
+    /**
+     * Converts a file in a list of its lines.
+     * @param path
+     * path of the file to convert
+     * @return
+     * return a List of strings
+     */
+    private List<String> convertFileToList(final Path path) {
+        final List<String> lines = new ArrayList<String>();
+        try {
+            for (Object line : Files.lines(path).toArray()) {
+                if (String.valueOf(line).contains(DATA_SEPARATOR)) { //this control should keep wrong format of lines out
+                   lines.add(String.valueOf(line));
+                }
+            }
+        } catch (IOException e) {
+                System.err.println("The lines from the file were not transfered correctly.");
+                System.err.println(lines);
+        }
+        return lines;
+    }
+}

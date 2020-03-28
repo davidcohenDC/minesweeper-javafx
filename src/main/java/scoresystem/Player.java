@@ -1,9 +1,8 @@
 package scoresystem;
 
-import java.util.Optional;
-
 import controlutility.Difficulty;
 import controlutility.Modality;
+import gameLogics.GameStatus;
 
 /**
  * A Player.
@@ -14,10 +13,8 @@ public interface Player {
      * The Player has won the game.
      * @param score
      * The score with which the player has won 
-     * 
-     * Could be empty in 1vs1 mode if the second player loses
      */
-    void won(Optional<Integer> score);
+    void won(int score);
 
     /**
      * The Player has lost the game.
@@ -52,5 +49,6 @@ public interface Player {
      * @return
      * Returns the player's result.
      */
-//    getResult();
+    GameStatus getResult();
+
 }

@@ -1,9 +1,20 @@
 package scoresystem;
 
-public interface ScoreWriter {
+import java.util.Map;
 
+import controlutility.Difficulty;
+import controlutility.Modality;
+
+public interface ScoreWriter extends Writer {
+ 
     /**
-     * Writes the player's score into its designated file.
+     * Returns the unordered score board of a specified game mode in a specified difficulty.
+     * @param gameMode
+     * the game mode of the desired score board
+     * @param difficulty
+     * the difficulty of the desired score board
+     * @return
+     * returns a Map<String, Integer> where players' names are the keys associated with their best score
      */
-    void writeScore();
+    Map<String, Integer> getScoreBoard(Modality gameMode, Difficulty difficulty);
 }
