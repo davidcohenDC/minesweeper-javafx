@@ -1,5 +1,5 @@
 package scoresystem;
-
+/*
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 
 import controlutility.Difficulty;
 import controlutility.Modality;
-
+*/
 /**
  * Class to test statistics writing functionalities. 
  *
  * BEWARE! RUNNING THIS CLASS WILL ALTER ACTUAL STATISTICS FILES
  */
 class TestStatisticsWriter {
-
+/*
     private static final String FILE_EXTENCION = ".txt";
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
@@ -75,5 +75,5 @@ class TestStatisticsWriter {
         assertEquals(2, new StatisticsWriterImpl().getWins(playerName, p.getModality()));
 
     }
-
+*/
 }

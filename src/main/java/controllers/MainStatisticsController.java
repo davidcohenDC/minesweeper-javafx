@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 
+import controlutility.Modality;
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
 import javafx.fxml.FXML;
@@ -32,12 +33,11 @@ public class MainStatisticsController extends BackHomeController implements Main
     @Override
     public final void initialize() throws IOException {
         this.rwSett = new RWSettingsImpl();
-
     }
 
     /** used to switch scene on the same stage. 
      * @throws IOException */
-    private void switchScene(final String buttonText) throws IOException {
+    private void switchScene(final Modality buttonText) throws IOException {
         final FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/statistics.fxml"));
         final StatisticsControllerInterface statController = new StatisticsController(buttonText);
         loader.setController(statController);
@@ -55,17 +55,17 @@ public class MainStatisticsController extends BackHomeController implements Main
 
     @Override
     public final void btStandard() throws IOException {
-        this.switchScene(this.btStandard.getText());
+        this.switchScene(Modality.STANDARD);
     }
 
     @Override
     public final void bt1vs1() throws IOException {
-        this.switchScene(this.bt1vs1.getText());
+        this.switchScene(Modality.ONE_VS_ONE);
     }
 
     @Override
     public final void btBtt() throws IOException {
-        this.switchScene(this.btBtt.getText());
+        this.switchScene(Modality.BTT);
     }
 
 }
