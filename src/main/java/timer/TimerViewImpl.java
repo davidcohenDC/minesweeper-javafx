@@ -1,16 +1,18 @@
 package timer;
 
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 
 public class TimerViewImpl extends Label implements TimerView {
 
     private final Timer timer;
     private boolean stopTimer;
 
-    public TimerViewImpl(final Timer timer) {
+    public TimerViewImpl(final Timer timer, final Font font) {
         super();
         this.stopTimer = false;
         this.timer = timer;
+        super.setFont(font);
     }
 
     @Override

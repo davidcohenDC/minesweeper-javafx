@@ -5,6 +5,7 @@ public class TimerImpl extends Thread implements Timer {
     private static final int SLEEP_TIME = 1_000;
 
     private final Verse verse;
+
     private int value;
     private boolean paused;
     private boolean stop;
