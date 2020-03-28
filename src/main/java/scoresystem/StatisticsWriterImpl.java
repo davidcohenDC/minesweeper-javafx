@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import controlutility.Difficulty;
+import controlutility.Modality;
 
 public class StatisticsWriterImpl implements StatistcsWriter {
 
@@ -125,6 +126,18 @@ public class StatisticsWriterImpl implements StatistcsWriter {
                 System.err.println(lines);
         }
         return lines;
+    }
+
+    @Override
+    public int getWins(String playerName, Modality gameMode) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int getLosses(String playerName, Modality gameMode) {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
 }
