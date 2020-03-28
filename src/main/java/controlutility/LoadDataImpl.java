@@ -35,6 +35,7 @@ public class LoadDataImpl implements LoadData {
             loadSettings();
             loadImage();
             loadSound();
+            loadScoreSystem();
         }
     }
 
@@ -97,6 +98,20 @@ public class LoadDataImpl implements LoadData {
                 }
             }
 
+        }
+
+    }
+
+    private void loadScoreSystem() {
+        final String strScores = this.root + "score_files" + SEPARATOR;
+        final File file = new File(strScores);
+        if (!file.exists() && file.mkdir()) {
+            for (final Modality gameMode: Modality.values()) {
+                final File directory = new File(strScores + gameMode.getDirectoryName() + SEPARATOR);
+                if (!directory.exists() && !file.mkdir()) {
+                    throw new IllegalStateException("Could not properly set up scoresystem directories");
+                }
+            }
         }
 
     }
