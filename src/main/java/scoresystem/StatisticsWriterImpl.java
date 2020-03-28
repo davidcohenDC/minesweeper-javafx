@@ -112,6 +112,9 @@ public class StatisticsWriterImpl implements StatistcsWriter {
     }
 
     private int getColumn(final String playerName, final Modality gameMode, final int column) {
+        if (!mapFileLines(Path.of(ROOT + gameMode + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION)).containsKey(playerName)) {
+            return 0;
+        }
         return mapFileLines(Path.of(ROOT + gameMode + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION)).get(playerName)
                                                                                                       .get(column);
     }
