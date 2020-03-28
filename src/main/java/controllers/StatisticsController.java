@@ -1,7 +1,9 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
 
+import controlutility.Difficulty;
 import controlutility.Modality;
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
@@ -53,90 +55,36 @@ public class StatisticsController implements StatisticsControllerInterface {
         this.title.setText("STATISTICS - " + this.buttonText);
         this.vBox.setAlignment(Pos.CENTER);
         this.addGeneralChart();
-        this.addEasyChart();
-        this.addMediumChart();
-        this.addHardChart();
+        this.addClassify();
     }
 
-    private void addHardChart() {
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        final BarChart<String, Number> hardChart = new BarChart<>(xAxis, yAxis);
-        hardChart.setTitle("Classification-Hard");
-        xAxis.setLabel("PLAYERS");
-        yAxis.setLabel("POINTS");
-        //for players (messi in ordine decr.)
-        /*
-         * final XYChart.Series<String, Number> p1 = new XYChart.Series<>();
-        p1.setName("Palyer1"); -> player name
-        p1.getData().add(new XYChart.Data<>("player1", //PLAYER POINT));
-        easyChart.getData().add(p1);
-        */
-
-        final XYChart.Series<String, Number> p1 = new XYChart.Series<>();
-        p1.setName("Palyer1");
-        p1.getData().add(new XYChart.Data<>("player1",100));
-        final XYChart.Series<String, Number> p2 = new XYChart.Series<>();
-        p2.setName("Palyer2");
-        p2.getData().add(new XYChart.Data<>("player2",20));
-        hardChart.getData().add(p1);
-        hardChart.getData().add(p2);
-        hardChart.setLegendVisible(false);
-        this.vBox.getChildren().add(hardChart);
-    }
-
-    private void addMediumChart() {
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        final BarChart<String, Number> mediumChart = new BarChart<>(xAxis, yAxis);
-        mediumChart.setTitle("Classification-Medium");
-        xAxis.setLabel("PLAYERS");
-        yAxis.setLabel("POINTS");
-        //for players (messi in ordine decr.)
-        /*
-         * final XYChart.Series<String, Number> p1 = new XYChart.Series<>();
-        p1.setName("Palyer1"); -> player name
-        p1.getData().add(new XYChart.Data<>("player1", //PLAYER POINT));
-        easyChart.getData().add(p1);
-        */
-
-        final XYChart.Series<String, Number> p1 = new XYChart.Series<>();
-        p1.setName("Palyer1");
-        p1.getData().add(new XYChart.Data<>("player1",300));
-        final XYChart.Series<String, Number> p2 = new XYChart.Series<>();
-        p2.setName("Palyer2");
-        p2.getData().add(new XYChart.Data<>("player2",100));
-        mediumChart.getData().add(p1);
-        mediumChart.getData().add(p2);
-        mediumChart.setLegendVisible(false);
-        this.vBox.getChildren().add(mediumChart);
-    }
-
-    private void addEasyChart() {
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        final BarChart<String, Number> easyChart = new BarChart<>(xAxis, yAxis);
-        easyChart.setTitle("Classification-Easy");
-        xAxis.setLabel("PLAYERS");
-        yAxis.setLabel("POINTS");
-        //for players (messi in ordine decr.)
-        /*
-         * final XYChart.Series<String, Number> p1 = new XYChart.Series<>();
-        p1.setName("Palyer1"); -> player name
-        p1.getData().add(new XYChart.Data<>("player1", //PLAYER POINT));
-        easyChart.getData().add(p1);
-        */
-
-        final XYChart.Series<String, Number> p1 = new XYChart.Series<>();
-        p1.setName("Palyer1");
-        p1.getData().add(new XYChart.Data<>("player1",1200));
-        final XYChart.Series<String, Number> p2 = new XYChart.Series<>();
-        p2.setName("Palyer2");
-        p2.getData().add(new XYChart.Data<>("player2",1000));
-        easyChart.getData().add(p1);
-        easyChart.getData().add(p2);
-        easyChart.setLegendVisible(false);
-        this.vBox.getChildren().add(easyChart);
+    private void addClassify() {
+        for (final Difficulty difficulty : Difficulty.values()) {
+            if (difficulty != Difficulty.PERSONALIZED) {
+                final CategoryAxis yAxis = new CategoryAxis();
+                final NumberAxis xAxis = new NumberAxis();
+                final BarChart<Number, String> easyChart = new BarChart<>(xAxis, yAxis);
+                easyChart.setTitle("Classification-" + difficulty);
+                xAxis.setLabel("POINTS");
+                yAxis.setLabel("PLAYERS");
+                //for players (messi in ordine decr.)
+                /*
+                 * final XYChart.Series<String, Number> p1 = new XYChart.Series<>();
+                p1.setName("Palyer1"); -> player name
+                p1.getData().add(new XYChart.Data<>("player1", //PLAYER POINT));
+                easyChart.getData().add(p1);
+                */
+                for (int i = 0;i<10; i++) {
+                    final XYChart.Series<Number,String> p = new XYChart.Series<>();
+                    p.setName("Palyerrr"+ String.valueOf(i));
+                    p.getData().add(new XYChart.Data<>(i*100,p.getName()));
+                    easyChart.getData().add(p);
+                }
+                easyChart.setLegendVisible(false);
+                easyChart.setStyle("-fx-font-size: 18");
+                this.vBox.getChildren().add(easyChart);
+            }
+        }
     }
 
     private void addGeneralChart() {
@@ -147,6 +95,7 @@ public class StatisticsController implements StatisticsControllerInterface {
         final PieChart generalChart = new PieChart(generalPieChartData);
         generalChart.setData(generalPieChartData);
         generalChart.setTitle("General");
+        generalChart.setStyle("-fx-font-size: 18");
         generalChart.setLegendSide(Side.LEFT);
         this.vBox.getChildren().add(generalChart);
     }
