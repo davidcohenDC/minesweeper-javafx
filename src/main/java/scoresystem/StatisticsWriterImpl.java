@@ -16,6 +16,7 @@ import controlutility.Modality;
 public class StatisticsWriterImpl implements StatistcsWriter {
 
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    private static final String FILE_NAME = "Statistics";
     private static final String FILE_EXTENCION = ".txt";
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
@@ -38,7 +39,7 @@ public class StatisticsWriterImpl implements StatistcsWriter {
     @Override
     public final void write(final Player player) {
         this.player = player;
-        this.path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION);
+        this.path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION);
 
         if (!player.getDifficuly().equals(Difficulty.PERSONALIZED)) {
 
@@ -112,10 +113,10 @@ public class StatisticsWriterImpl implements StatistcsWriter {
     }
 
     private int getColumn(final String playerName, final Modality gameMode, final int column) {
-        if (!mapFileLines(Path.of(ROOT + gameMode + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION)).containsKey(playerName)) {
+        if (!mapFileLines(Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION)).containsKey(playerName)) {
             return 0;
         }
-        return mapFileLines(Path.of(ROOT + gameMode + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION)).get(playerName)
+        return mapFileLines(Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION)).get(playerName)
                                                                                                       .get(column);
     }
 
