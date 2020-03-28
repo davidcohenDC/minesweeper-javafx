@@ -28,4 +28,9 @@ public interface Timer extends Runnable {
      * Stops the Timer.
      */
     void stopTimer();
+
+    /**
+     * Starts the Timer.
+     */
+    void startTimer();
 }

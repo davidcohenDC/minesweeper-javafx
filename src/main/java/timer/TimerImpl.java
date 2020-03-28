@@ -59,4 +59,9 @@ public class TimerImpl extends Thread implements Timer {
     public final synchronized boolean isPaused() {
         return paused;
     }
+
+    @Override
+    public final void startTimer() {
+        start();
+    }
 }
