@@ -12,7 +12,7 @@ import java.util.Optional;
 import controlutility.Difficulty;
 import controlutility.Modality;
 import gameLogics.GameStatus;
-class TestPlayer1 {
+class TestPlayer {
 
     private final Player p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.MEDIUM);
 
