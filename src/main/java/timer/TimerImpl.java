@@ -61,7 +61,7 @@ public class TimerImpl extends Thread implements Timer {
     }
 
     @Override
-    public final void startTimer() {
+    public final synchronized void startTimer() {
         start();
     }
 }
