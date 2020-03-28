@@ -53,14 +53,7 @@ public class StatisticsWriterImpl implements StatistcsWriter {
             this.lines.addAll(convertFileToList(this.path));
 
             //map the file 
-            for (String line: convertFileToList(this.path)) {
-                List<String> entry = List.of(line.split(DATA_SEPARATOR));
-                List<Integer> data = new ArrayList<Integer>(); 
-                for (String value: entry.subList(1, entry.size())) {
-                    data.add(Integer.valueOf(value));
-                }
-                this.statistics.put(entry.get(0), data);
-            }
+            this.statistics.putAll(mapFileLines(this.path));
 
             //if file does not contain the player it initializes the other field as 0
             if (!this.statistics.containsKey(this.player.getName())) {
@@ -70,17 +63,12 @@ public class StatisticsWriterImpl implements StatistcsWriter {
             //control that player has finished the game
             if (Optional.of(player.getResult()).isPresent()) {
                 //Depending on players result it increases the field accordingly
-                List<Integer> updatedField = new ArrayList<Integer>();
                 switch (player.getResult()) {
                 case WIN:
-                    updatedField.addAll(this.statistics.get(player.getName()));
-                    updatedField.set(WINS_COLUMN, updatedField.get(WINS_COLUMN) + 1);
-                    this.statistics.replace(player.getName(), updatedField);
+                    updateField(WINS_COLUMN);
                     break;
                 case LOSE:
-                    updatedField.addAll(this.statistics.get(player.getName()));
-                    updatedField.set(LOSSES_COLUMN, updatedField.get(LOSSES_COLUMN) + 1);
-                    this.statistics.replace(player.getName(), updatedField);
+                    updateField(LOSSES_COLUMN);
                     break;
                 default://if the player has a result differing from the ones above it will throw exception
                     throw new IllegalStateException("This player has no data to update");
@@ -106,6 +94,41 @@ public class StatisticsWriterImpl implements StatistcsWriter {
         }
     }
 
+    private void updateField(final int column) {
+        List<Integer> updatedField = new ArrayList<Integer>();
+        updatedField.addAll(this.statistics.get(this.player.getName()));
+        updatedField.set(column, updatedField.get(column) + 1);
+        this.statistics.replace(this.player.getName(), updatedField);
+    }
+
+    @Override
+    public final int getWins(final String playerName, final Modality gameMode) {
+        return getColumn(playerName, gameMode, WINS_COLUMN);
+    }
+
+    @Override
+    public final int getLosses(final String playerName, final Modality gameMode) {
+        return getColumn(playerName, gameMode, LOSSES_COLUMN);
+    }
+
+    private int getColumn(final String playerName, final Modality gameMode, final int column) {
+        return mapFileLines(Path.of(ROOT + gameMode + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION)).get(playerName)
+                                                                                                      .get(column);
+    }
+
+    private Map<String, List<Integer>> mapFileLines(final Path path) {
+        final Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
+        for (String line: convertFileToList(path)) {
+            List<String> entry = List.of(line.split(DATA_SEPARATOR));
+            List<Integer> data = new ArrayList<Integer>(); 
+            for (String value: entry.subList(1, entry.size())) {
+                data.add(Integer.valueOf(value));
+            }
+            map.put(entry.get(0), data);
+        }
+        return map;
+    }
+
     /**
      * Converts a file in a list of its lines.
      * @param path
@@ -127,17 +150,4 @@ public class StatisticsWriterImpl implements StatistcsWriter {
         }
         return lines;
     }
-
-    @Override
-    public int getWins(String playerName, Modality gameMode) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public int getLosses(String playerName, Modality gameMode) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
 }
