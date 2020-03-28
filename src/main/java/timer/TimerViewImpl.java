@@ -6,23 +6,25 @@ import javafx.scene.text.Font;
 public class TimerViewImpl extends Label implements TimerView {
 
     private final Timer timer;
+    private boolean stopTimer;
 
-    public TimerViewImpl(final Timer timer, final Font font) {
+    public TimerViewImpl(final Timer timer) {
         super();
-        super.setFont(font);
+        this.stopTimer = false;
         this.timer = timer;
     }
 
     @Override
     public final void showTimer() {
-        while (!stopShowing()) {
-            super.setText(String.valueOf(timer.getValue()));
+        while (!stopTimer) {
+            super.setText(String.valueOf(this.timer.getValue()));
+            super.setVisible(true);
         }
     }
 
-    private boolean stopShowing() {
-        // TODO Auto-generated method stub
-        return false;
+    @Override
+    public final void stopShowing() {
+        this.stopTimer = true;
     }
 
 }
