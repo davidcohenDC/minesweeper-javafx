@@ -25,4 +25,22 @@ public interface StatistcsWriter extends Writer {
      * returns the number of losses
      */
     int getLosses(String playerName, Modality gameMode);
+
+    /**
+     * Get a overview on all the games won in a certain game mode.
+     * @param gameMode
+     * the game mode from which to get the statistics
+     * @return
+     * returns the total wins from all players in a game mode
+     */
+    int getAllWins(Modality gameMode);
+
+    /**
+     * Get a overview on all the games lost in a certain game mode.
+     * @param gameMode
+     * the game mode from which to get the statistics
+     * @return
+     * returns the total losses from all players in a game mode
+     */
+    int getAllLosses(Modality gameMode);
 }

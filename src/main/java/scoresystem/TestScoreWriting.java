@@ -29,13 +29,13 @@ class TestScoreWriting {
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
 
+    private final Random rnd = new Random();
     private ScoreWriter sw = new ScoreWriterImpl();
     private Path path;
     private Player p;
-    private Random rnd = new Random();
 
     @Test
-    void scoreFileDoesNotExistTest() {
+    public void scoreFileDoesNotExistTest() {
         path =  Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.EASY.getName() + FILE_EXTENCION); 
         p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.EASY);
 
@@ -62,7 +62,7 @@ class TestScoreWriting {
     }
 
     @Test
-    void notWritableScoresTest() {
+    public void notWritableScoresTest() {
         System.out.println("notWritableScores");
 
         //Personalized players' scores are not to be kept track of so nothing should happen
@@ -97,7 +97,7 @@ class TestScoreWriting {
 
 
     @Test
-    void scoreFileIsInOrderTest() {
+    public void scoreFileIsInOrderTest() {
         path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + Difficulty.MEDIUM.getName() + FILE_EXTENCION);
 
         //file MUST be empty in the begging of this test
@@ -107,9 +107,9 @@ class TestScoreWriting {
             fail("FILE WAS NOT CANCELLED AT THE BEGGING OF THIS TEST SO IT MAKES THE REST USELESS");
         }
 
-        List<Integer> expectedScoreBoard = new ArrayList<Integer>();
+        final List<Integer> expectedScoreBoard = new ArrayList<>();
         int score;
-        int numberOfPlayers = 100;
+        final int numberOfPlayers = 100;
 
         //generate numberOfPlayers players and gives them a random score
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -132,10 +132,10 @@ class TestScoreWriting {
 
     //gets the lines from the file and puts the scores without changing the order in actualScoreBoard
     private Collection<? extends Integer> getLines(final Path path) {
-        List<Integer> actualScoreBoard = new ArrayList<Integer>();
+        final List<Integer> actualScoreBoard = new ArrayList<>();
         try {
-            for (Object line : Files.lines(path).toArray()) {
-                String string = String.valueOf(line);
+            for (final Object line : Files.lines(path).toArray()) {
+                final String string = String.valueOf(line);
                 actualScoreBoard.add(Integer.valueOf(string.split("-")[1]));
             }
         } catch (IOException e) {

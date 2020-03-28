@@ -32,8 +32,8 @@ public class StatisticsWriterImpl implements StatistcsWriter {
     private Player player;
 
     public StatisticsWriterImpl() {
-        this.statistics = new HashMap<String, List<Integer>>();
-        this.lines = new ArrayList<String>();
+        this.statistics = new HashMap<>();
+        this.lines = new ArrayList<>();
     }
 
     @Override
@@ -77,11 +77,11 @@ public class StatisticsWriterImpl implements StatistcsWriter {
             }
 
             //converts data map back to strings
-            this.lines.removeAll(this.lines);
-            for (String playerName: this.statistics.keySet()) {
+            this.lines.clear();
+            for (final String playerName: this.statistics.keySet()) {
                 String values = new String();
-                for (Integer value: this.statistics.get(playerName)) {
-                    values = values + DATA_SEPARATOR + value;
+                for (final Integer value: this.statistics.get(playerName)) {
+                    values = values.concat(DATA_SEPARATOR + value);
                 }
                 this.lines.add(playerName + values);
             }
@@ -95,13 +95,6 @@ public class StatisticsWriterImpl implements StatistcsWriter {
         }
     }
 
-    private void updateField(final int column) {
-        List<Integer> updatedField = new ArrayList<Integer>();
-        updatedField.addAll(this.statistics.get(this.player.getName()));
-        updatedField.set(column, updatedField.get(column) + 1);
-        this.statistics.replace(this.player.getName(), updatedField);
-    }
-
     @Override
     public final int getWins(final String playerName, final Modality gameMode) {
         return getColumn(playerName, gameMode, WINS_COLUMN);
@@ -112,20 +105,50 @@ public class StatisticsWriterImpl implements StatistcsWriter {
         return getColumn(playerName, gameMode, LOSSES_COLUMN);
     }
 
+    @Override
+    public final int getAllWins(final Modality gameMode) {
+        return getTotalOfColumns(gameMode, WINS_COLUMN);
+    }
+
+    @Override
+    public final int getAllLosses(final Modality gameMode) {
+        return getTotalOfColumns(gameMode, LOSSES_COLUMN);
+    }
+
     private int getColumn(final String playerName, final Modality gameMode, final int column) {
-        if (!mapFileLines(Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION)).containsKey(playerName)) {
+        this.path = Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION);
+        if (!mapFileLines(this.path).containsKey(playerName)) {
             return 0;
         }
         return mapFileLines(Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION)).get(playerName)
                                                                                                       .get(column);
     }
 
+    private int getTotalOfColumns(final Modality gameMode, final int column) {
+        int field = 0;
+        this.path = Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION);
+        if (Files.exists(this.path)) {
+            for (final String playerName: mapFileLines(this.path).keySet()) {
+                getColumn(playerName, gameMode, column);
+                field = field + getColumn(playerName, gameMode, column);
+            }
+        }
+        return field;
+    }
+
+    private void updateField(final int column) {
+        final List<Integer> updatedField = new ArrayList<>();
+        updatedField.addAll(this.statistics.get(this.player.getName()));
+        updatedField.set(column, updatedField.get(column) + 1);
+        this.statistics.replace(this.player.getName(), updatedField);
+    }
+
     private Map<String, List<Integer>> mapFileLines(final Path path) {
-        final Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
-        for (String line: convertFileToList(path)) {
-            List<String> entry = List.of(line.split(DATA_SEPARATOR));
-            List<Integer> data = new ArrayList<Integer>(); 
-            for (String value: entry.subList(1, entry.size())) {
+        final Map<String, List<Integer>> map = new HashMap<>();
+        for (final String line: convertFileToList(path)) {
+            final List<String> entry = List.of(line.split(DATA_SEPARATOR));
+            final List<Integer> data = new ArrayList<>(); 
+            for (final String value: entry.subList(1, entry.size())) {
                 data.add(Integer.valueOf(value));
             }
             map.put(entry.get(0), data);
@@ -141,9 +164,9 @@ public class StatisticsWriterImpl implements StatistcsWriter {
      * return a List of strings
      */
     private List<String> convertFileToList(final Path path) {
-        final List<String> lines = new ArrayList<String>();
+        final List<String> lines = new ArrayList<>();
         try {
-            for (Object line : Files.lines(path).toArray()) {
+            for (final Object line : Files.lines(path).toArray()) {
                 if (String.valueOf(line).contains(DATA_SEPARATOR)) { //this control should keep wrong format of lines out
                    lines.add(String.valueOf(line));
                 }
@@ -154,4 +177,5 @@ public class StatisticsWriterImpl implements StatistcsWriter {
         }
         return lines;
     }
+
 }
