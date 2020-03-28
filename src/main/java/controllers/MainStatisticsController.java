@@ -37,9 +37,9 @@ public class MainStatisticsController extends BackHomeController implements Main
 
     /** used to switch scene on the same stage. 
      * @throws IOException */
-    private void switchScene(final Modality buttonText) throws IOException {
+    private void switchScene(final Modality modality, final String buttonText) throws IOException {
         final FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/statistics.fxml"));
-        final StatisticsControllerInterface statController = new StatisticsController(buttonText);
+        final StatisticsControllerInterface statController = new StatisticsController(modality, buttonText);
         loader.setController(statController);
         //final Parent pane = loader.load();
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
@@ -55,17 +55,17 @@ public class MainStatisticsController extends BackHomeController implements Main
 
     @Override
     public final void btStandard() throws IOException {
-        this.switchScene(Modality.STANDARD);
+        this.switchScene(Modality.STANDARD, this.btStandard.getText());
     }
 
     @Override
     public final void bt1vs1() throws IOException {
-        this.switchScene(Modality.ONE_VS_ONE);
+        this.switchScene(Modality.ONE_VS_ONE, this.bt1vs1.getText());
     }
 
     @Override
     public final void btBtt() throws IOException {
-        this.switchScene(Modality.BTT);
+        this.switchScene(Modality.BTT, this.btBtt.getText());
     }
 
 }

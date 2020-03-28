@@ -30,7 +30,7 @@
             </Text>
          </top>
          <center>
-            <ScrollPane id="gridPane" BorderPane.alignment="CENTER">
+            <ScrollPane id="gridPane" fx:id="scrollPane" fitToWidth="true" BorderPane.alignment="CENTER">
                <content>
                   <VBox fx:id="vBox" alignment="CENTER" fillWidth="false" spacing="10.0" />
                </content>
