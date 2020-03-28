@@ -66,7 +66,8 @@ public final class HomeController implements HomeInterface {
     @FXML
     @Override
     public void btStatistics() throws IOException {
-        // TODO
+        final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/mainStatistics.fxml"));
+        this.switchScene(pane);
     }
 
     @FXML
