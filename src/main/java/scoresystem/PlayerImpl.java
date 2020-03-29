@@ -18,7 +18,8 @@ public class PlayerImpl implements Player {
     private Optional<GameStatus> result = Optional.empty();
     private final Optional<String> adversary;
 
-    protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty, final Optional<String> adversaryName) {
+    protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty,
+            final Optional<String> adversaryName) {
         this.name = name;
         this.gameMode = gameMode;
         this.difficuly = difficulty;
@@ -71,14 +72,15 @@ public class PlayerImpl implements Player {
     public final Optional<String> getAdversary() {
         return this.adversary;
     }
- 
+
     /**
      * The method checks if an expression is correct.<br>
      * If the expression is true it will throw an <code>IllegalStateExeption</code>.
+     * 
      * @param expression
-     * The <code>boolean</code> expression to check.
+     *                         The <code>boolean</code> expression to check.
      * @param errorMessage
-     * The message to show if the exception gets thrown.
+     *                         The message to show if the exception gets thrown.
      */
     private void check(final boolean expression, final String errorMessage) {
         if (expression) {
