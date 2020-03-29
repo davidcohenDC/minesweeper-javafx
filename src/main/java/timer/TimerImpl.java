@@ -21,7 +21,7 @@ public class TimerImpl extends Thread implements Timer {
     }
 
     /**
-     * Increases the timer value in the chosen verse. 
+     * Increases the timer value in the chosen verse.
      */
     @Override
     public final void run() {

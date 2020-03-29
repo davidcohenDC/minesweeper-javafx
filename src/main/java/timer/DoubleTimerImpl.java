@@ -16,8 +16,8 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
     }
 
     /**
-     * Sets up the DoubleTimer making the player one start first
-     * and putting player 2 on hold.
+     * Sets up the DoubleTimer making the player one start first and putting player
+     * 2 on hold.
      */
     @Override
     public final void run() {
@@ -54,10 +54,9 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
     }
 
     /**
-     * @return
-     * Returns which timer is running.
-     * <p>
-     * if none of them are throws an <code>illegalStateException</code>.
+     * @return Returns which timer is running.
+     *         <p>
+     *         if none of them are throws an <code>illegalStateException</code>.
      */
     private Timer timerInAction() {
         if (!this.player1Timer.isPaused()) {

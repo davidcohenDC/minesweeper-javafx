@@ -8,8 +8,7 @@ package timer;
 public interface Timer extends Runnable {
 
     /**
-     * @return
-     * Returns the Timer's current value.
+     * @return Returns the Timer's current value.
      */
     int getValue();
 
@@ -19,16 +18,15 @@ public interface Timer extends Runnable {
     void pause();
 
     /**
-     * Starts back the Timer if it was paused.
-     * <br>
+     * Starts back the Timer if it was paused. <br>
      * Otherwise does nothing.
      */
     void play();
 
     /**
      * Checks if the Timer is on hold.
-     * @return
-     * Returns a boolean which is true if the Timer is currently paused. 
+     * 
+     * @return Returns a boolean which is true if the Timer is currently paused.
      */
     boolean isPaused();
 
