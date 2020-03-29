@@ -11,6 +11,9 @@ import java.util.Optional;
 import controlutility.Difficulty;
 import controlutility.Modality;
 import gameLogics.GameStatus;
+/**
+ * A Test to see if {@link Player} functionalities are working.
+ */
 class TestPlayer {
 
     private final PlayerFactory f = new PlayerFactoryImpl();

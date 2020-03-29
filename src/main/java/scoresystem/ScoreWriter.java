@@ -6,18 +6,18 @@ import controlutility.Difficulty;
 import controlutility.Modality;
 
 /**
- * A {@link Writer} designated to handle Players's scores.
+ * A {@link Writer} designated to handle Players' scores.
  */
 public interface ScoreWriter extends Writer {
  
     /**
      * Returns the unordered score board of a specified game mode in a specified difficulty.
      * @param gameMode
-     * the game mode of the desired score board
+     * The {@link Modality} of the desired score board.
      * @param difficulty
-     * the difficulty of the desired score board
+     * The {@link Difficulty} of the desired score board.
      * @return
-     * returns a Map<String, Integer> where players' names are the keys associated with their best score
+     * Returns a Map<String, Integer> where players' names are the keys associated with their best score.
      */
     Map<String, Integer> getScoreBoard(Modality gameMode, Difficulty difficulty);
 }

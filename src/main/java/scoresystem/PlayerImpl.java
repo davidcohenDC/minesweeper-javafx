@@ -72,6 +72,14 @@ public class PlayerImpl implements Player {
         return this.adversary;
     }
  
+    /**
+     * The method checks if an expression is correct.<br>
+     * If the expression is true it will throw an <code>IllegalStateExeption</code>.
+     * @param expression
+     * The <code>boolean</code> expression to check.
+     * @param errorMessage
+     * The message to show if the exception gets thrown.
+     */
     private void check(final boolean expression, final String errorMessage) {
         if (expression) {
             throw new IllegalStateException(errorMessage);

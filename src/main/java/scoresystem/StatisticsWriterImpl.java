@@ -34,6 +34,9 @@ public class StatisticsWriterImpl implements StatistcsWriter {
     private Path path;
     private Player player;
 
+    /**
+     * Sets up the necessary tools to write statistics.
+     */
     public StatisticsWriterImpl() {
         this.statistics = new HashMap<>();
         this.lines = new ArrayList<>();
@@ -118,6 +121,17 @@ public class StatisticsWriterImpl implements StatistcsWriter {
         return getTotalOfColumns(gameMode, LOSSES_COLUMN);
     }
 
+    /**
+     * Gets the value from a column of a statistics file.
+     * @param playerName
+     * The name of the Player from which to take the value.
+     * @param gameMode
+     * The {@link Modality} in which to get the statistics file.
+     * @param column
+     * The column from which to get a value.
+     * @return
+     * The value of the chosen column. 
+     */
     private int getColumn(final String playerName, final Modality gameMode, final int column) {
         this.path = Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION);
         if (!mapFileLines(this.path).containsKey(playerName)) {
@@ -127,6 +141,15 @@ public class StatisticsWriterImpl implements StatistcsWriter {
                                                                                                       .get(column);
     }
 
+    /**
+     * Gets a total of the values from a column of a statistics file.
+     * @param gameMode
+     * The {@link Modality} in which to get the statistics file.
+     * @param column
+     * The column from which to get a value.
+     * @return
+     * The total of all the values of the chosen column. 
+     */
     private int getTotalOfColumns(final Modality gameMode, final int column) {
         int field = 0;
         this.path = Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION);
@@ -139,6 +162,11 @@ public class StatisticsWriterImpl implements StatistcsWriter {
         return field;
     }
 
+    /**
+     * Increases the value of a column by 1.
+     * @param column
+     * The column holding the value to update.
+     */
     private void updateField(final int column) {
         final List<Integer> updatedField = new ArrayList<>();
         updatedField.addAll(this.statistics.get(this.player.getName()));
@@ -146,6 +174,15 @@ public class StatisticsWriterImpl implements StatistcsWriter {
         this.statistics.replace(this.player.getName(), updatedField);
     }
 
+    /**
+     * Maps a file from the wanted format.
+     * Format: <i>player</i> : <i>value</i> : <i>value</i> : ...
+     * @param path
+     * The path of the statistics file to map.
+     * @return
+     * Returns a Map<String, List<Integer>> where the key is the Player's name
+     * and the value are list of his statistics.
+     */
     private Map<String, List<Integer>> mapFileLines(final Path path) {
         final Map<String, List<Integer>> map = new HashMap<>();
         for (final String line: convertFileToList(path)) {

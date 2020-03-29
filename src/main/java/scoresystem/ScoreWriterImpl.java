@@ -127,9 +127,9 @@ public class ScoreWriterImpl implements ScoreWriter {
     /**
      * Converts a file in a list of its lines.
      * @param path
-     * path of the file to convert
+     * Path of the file to convert.
      * @return
-     * return a List of strings
+     * Returns a List of Strings.
      */
     private List<String> convertFileToList(final Path path) {
         final List<String> lines = new ArrayList<>();
@@ -146,6 +146,10 @@ public class ScoreWriterImpl implements ScoreWriter {
         return lines;
     }
 
+    /**
+     * Creates the lines to put in the score file in the format of multiplayer modalities.<br>
+     * Format: <i>winner</i> - <i>point of the winner</i> - <i>loser</i>
+     */
     private void writeScoreForMultiplayer() {
 
         //converting the score board entries to strings
@@ -154,6 +158,10 @@ public class ScoreWriterImpl implements ScoreWriter {
         }
     }
 
+    /**
+     * Creates the lines to put in the score file in the format of singleplayer modalities.<br>
+     * Format: <i>player</i> - <i>score</i>
+     */
     private void writeScoreForSingleplayer() {
 
         //converting the score board entries to strings
@@ -163,6 +171,12 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     }
 
+    /**
+     * Controls if a score is suitable for writing on file.
+     * @return
+     * Returns true if the score that is trying to be written should be written, 
+     * returns false if it should be discarded.
+     */
     private boolean scoreIsWritable() {
         try {
             check(Optional.of(this.player.getResult()).isEmpty(), "Result is empty");
@@ -176,10 +190,12 @@ public class ScoreWriterImpl implements ScoreWriter {
     }
 
     /**
-     * The method checks if an expression is correct.
-     * If the expression is true it will throw an IllegalStateExeption.
+     * The method checks if an expression is correct.<br>
+     * If the expression is true it will throw an <code>IllegalStateExeption</code>.
      * @param expression
-     * The expression too check
+     * The <code>boolean</code> expression to check.
+     * @param errorMessage
+     * The message to show if the exception gets thrown.
      */
     private void check(final boolean expression, final String errorMessage) {
         if (expression) {

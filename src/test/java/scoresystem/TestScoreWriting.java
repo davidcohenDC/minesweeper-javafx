@@ -19,9 +19,9 @@ import controlutility.Difficulty;
 import controlutility.Modality;
 
 /**
- * Class to test score writing functionalities. 
- *
- * BEWARE! RUNNING THIS CLASS WILL ALTER ACTUAL SCOREFILES
+ * Class to test {@link ScoreWriter} functionalities. 
+ * <p>
+ * <strong>BEWARE! RUNNING THIS CLASS WILL ALTER ACTUAL SCORE FILES.</strong>
  */
 class TestScoreWriting {
 

@@ -15,9 +15,9 @@ import controlutility.Difficulty;
 import controlutility.Modality;
 
 /**
- * Class to test statistics writing functionalities. 
- *
- * BEWARE! RUNNING THIS CLASS WILL ALTER ACTUAL STATISTICS FILES
+ * Class to test {@link StatistcsWriter} functionalities. 
+ * <p>
+ * <strong>BEWARE! RUNNING THIS CLASS WILL ALTER ACTUAL STATISTICS FILES.</strong>
  */
 class TestStatisticsWriter {
     private static final String FILE_EXTENCION = ".txt";
