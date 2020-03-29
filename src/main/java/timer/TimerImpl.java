@@ -1,7 +1,7 @@
 package timer;
 
 /**
- * Implementation of Timer.
+ * The implementation of {@link Timer}.
  */
 public class TimerImpl extends Thread implements Timer {
 
@@ -19,8 +19,9 @@ public class TimerImpl extends Thread implements Timer {
         this.paused = true;
         this.stop = false;
     }
+
     /**
-     * Increases the timer value by verse. 
+     * Increases the timer value in the chosen verse. 
      */
     @Override
     public final void run() {

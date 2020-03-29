@@ -2,12 +2,14 @@ package timer;
 
 /**
  * A Timer.
+ * <p>
+ * This class describes a constant value increment in a certain {@link Verse}.
  */
 public interface Timer extends Runnable {
 
     /**
      * @return
-     * returns the timers current value
+     * Returns the Timer's current value.
      */
     int getValue();
 
@@ -17,16 +19,16 @@ public interface Timer extends Runnable {
     void pause();
 
     /**
-     * Starts back the timer if it was paused.
-     * 
+     * Starts back the Timer if it was paused.
+     * <br>
      * Otherwise does nothing.
      */
     void play();
 
     /**
-     * Checks if the timer is on hold.
+     * Checks if the Timer is on hold.
      * @return
-     * returns a boolean which is true if the timer is currently paused 
+     * Returns a boolean which is true if the Timer is currently paused. 
      */
     boolean isPaused();
 

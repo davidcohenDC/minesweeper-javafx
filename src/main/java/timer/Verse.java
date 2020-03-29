@@ -28,7 +28,7 @@ public enum Verse {
 
     /**
      * @return
-     * returns the step's value
+     * Returns the step's value.
      */
     public int getVerseIncrementValue() {
         return verseIncrementValue;

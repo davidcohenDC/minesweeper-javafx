@@ -1,7 +1,7 @@
 package timer;
 
 /**
- * Implementation of TimerFactory.
+ * The implementation of @{link TimerFactory}.
  */
 public class TimerFactoryImpl implements TimerFactory {
 

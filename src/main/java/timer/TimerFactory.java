@@ -1,13 +1,13 @@
 package timer;
 /**
- * Factory to create a timer for each game mode.
+ * A Factory to create a {@link Timer} for each game mode.
  */
 public interface TimerFactory {
 
     /**
      * Creates a Timer for the "Standard" mode of the game. 
      * @return
-     * Returns a Timer going from 0 up to 999
+     * Returns a {@link Timer} going from 0 up to 999.
      */
     Timer createTimerForStandardMode();
 
@@ -16,14 +16,14 @@ public interface TimerFactory {
      * @param amountOfTime
      * The amount of time the player has to finish the game in seconds
      * @return
-     * Returns a Timer going from the value of amountOfTime down to 0
+     * Returns a {@link Timer} going from the value of amountOfTime down to 0.
      */
     Timer createTimerForBeatTheTimerMode(int amountOfTime);
 
     /**
      * Creates two Timers for the "1 versus 1" mode of the game.
      * @return
-     * Returns a DoubleTimer, a class to manage two Timers
+     * Returns a {@link DoubleTimer}, the class to manage the two Timers.
      */
     DoubleTimer createTimersFor1vs1Mode();
 }
