@@ -1,9 +1,13 @@
 package timer;
 
+/**
+ * A Timer.
+ */
 public interface Timer extends Runnable {
+
     /**
      * @return
-     * returns the timers value
+     * returns the timers current value
      */
     int getValue();
 
@@ -14,6 +18,8 @@ public interface Timer extends Runnable {
 
     /**
      * Starts back the timer if it was paused.
+     * 
+     * Otherwise does nothing.
      */
     void play();
 

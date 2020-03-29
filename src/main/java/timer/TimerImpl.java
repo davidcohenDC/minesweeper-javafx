@@ -1,5 +1,8 @@
 package timer;
 
+/**
+ * Implementation of Timer.
+ */
 public class TimerImpl extends Thread implements Timer {
 
     private static final int SLEEP_TIME = 1_000;

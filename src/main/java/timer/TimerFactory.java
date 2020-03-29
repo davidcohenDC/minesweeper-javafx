@@ -1,6 +1,6 @@
 package timer;
 /**
- * Factory to create the timer for each game mode.
+ * Factory to create a timer for each game mode.
  */
 public interface TimerFactory {
 
@@ -21,7 +21,7 @@ public interface TimerFactory {
     Timer createTimerForBeatTheTimerMode(int amountOfTime);
 
     /**
-     * Creates two Timers for the "1 vs 1" mode of the game.
+     * Creates two Timers for the "1 versus 1" mode of the game.
      * @return
      * Returns a DoubleTimer, a class to manage two Timers
      */

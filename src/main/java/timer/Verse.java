@@ -1,25 +1,34 @@
 package timer;
 
+/**
+ * The direction of an increment.
+ */
 public enum Verse {
+
     /**
-     * Increases the Timer value by 1 step each time.
+     * Increases a value by 1 step each time.
      */
     UP(1),
 
     /**
-     * Decreases the Timer value by 1 step each time.
+     * Decreases a value by 1 step each time.
      */
     DOWN(-1);
 
     private final int verseIncrementValue;
 
+    /**
+     * Creates a new Verse.
+     * @param incrementValue
+     * the step which will increment a value
+     */
     Verse(final int incrementValue) {
         verseIncrementValue = incrementValue;
     }
+
     /**
-     * 
      * @return
-     * returns the increment or decrement value
+     * returns the step's value
      */
     public int getVerseIncrementValue() {
         return verseIncrementValue;
