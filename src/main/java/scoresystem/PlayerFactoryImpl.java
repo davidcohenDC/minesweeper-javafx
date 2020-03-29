@@ -5,6 +5,9 @@ import java.util.Optional;
 import controlutility.Difficulty;
 import controlutility.Modality;
 
+/**
+ * The implementation of {@link PlayerFactory}.
+ */
 public class PlayerFactoryImpl implements PlayerFactory {
 
     @Override

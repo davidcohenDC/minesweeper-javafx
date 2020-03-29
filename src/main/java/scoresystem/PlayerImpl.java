@@ -6,6 +6,9 @@ import controlutility.Difficulty;
 import controlutility.Modality;
 import gameLogics.GameStatus;
 
+/**
+ * The implementation of {@link Player}.
+ */
 public class PlayerImpl implements Player {
 
     private final String name;

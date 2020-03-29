@@ -5,6 +5,9 @@ import java.util.Map;
 import controlutility.Difficulty;
 import controlutility.Modality;
 
+/**
+ * A {@link Writer} designated to handle Players's scores.
+ */
 public interface ScoreWriter extends Writer {
  
     /**

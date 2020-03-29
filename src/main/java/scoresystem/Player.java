@@ -8,6 +8,8 @@ import gameLogics.GameStatus;
 
 /**
  * A Player.
+ * 
+ * This class describes all the attributes that should be known about a Player.
  */
 public interface Player {
 

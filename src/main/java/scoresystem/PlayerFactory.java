@@ -2,6 +2,9 @@ package scoresystem;
 
 import controlutility.Difficulty;
 
+/**
+ * A Factory to create a player for each game mode.
+ */
 public interface PlayerFactory {
 
     /**

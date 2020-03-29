@@ -13,6 +13,9 @@ import java.util.Optional;
 import controlutility.Difficulty;
 import controlutility.Modality;
 
+/**
+ * The implementation of {@link StatisticsWriter}.
+ */
 public class StatisticsWriterImpl implements StatistcsWriter {
 
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");

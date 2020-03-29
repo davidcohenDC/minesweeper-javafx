@@ -2,6 +2,9 @@ package scoresystem;
 
 import controlutility.Modality;
 
+/**
+ * A {@link Writer} designated to handle Players's statistics.
+ */
 public interface StatistcsWriter extends Writer {
 
     /**

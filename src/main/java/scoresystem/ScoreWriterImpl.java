@@ -14,6 +14,9 @@ import controlutility.Difficulty;
 import controlutility.Modality;
 import gameLogics.GameStatus;
 
+/**
+ * The implementation of {@link ScoreWriter}.
+ */
 public class ScoreWriterImpl implements ScoreWriter {
 
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
