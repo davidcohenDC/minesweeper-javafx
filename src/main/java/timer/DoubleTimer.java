@@ -1,5 +1,9 @@
 package timer;
-
+/**
+ * A controller of two {@link Timer} that makes sure they run one at a time.
+ * <p>
+ * This interface extends {@link Runnable}.
+ */
 public interface DoubleTimer extends Runnable {
 
     /**
@@ -9,22 +13,22 @@ public interface DoubleTimer extends Runnable {
 
     /**
      * @return
-     * Returns the timer assigned to player 1.
+     * Returns the {@link Timer} assigned to player 1.
      */
     Timer getPlayer1Timer();
 
     /**
      * @return
-     * Returns the timer assigned to player 2.
+     * Returns the {@link Timer} assigned to player 2.
      */
     Timer getPlayer2Timer();
 
     /**
-     * Starts the timers.
-     * 
-     * player1 will begin
-     * 
-     * player2 will be on hold waiting for his turn
+     * Starts the Timers.
+     * <p>
+     * player1 will begin.
+     * <br>
+     * player2 will be on hold waiting for his turn.
      */
     void startTimers();
 }

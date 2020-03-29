@@ -1,5 +1,10 @@
 package timer;
 
+/**
+ * The implementation of {@link DoubleTimer}.
+ * <p>
+ * This class extends {@link Thread}.
+ */
 public class DoubleTimerImpl extends Thread implements DoubleTimer {
 
     private final Timer player1Timer;
@@ -43,11 +48,16 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
         return this.player2Timer;
     }
 
+    @Override
+    public final void startTimers() {
+        start();
+    }
+
     /**
      * @return
      * Returns which timer is running.
-     * 
-     * if none of them are throws an illegalStateException
+     * <p>
+     * if none of them are throws an <code>illegalStateException</code>.
      */
     private Timer timerInAction() {
         if (!this.player1Timer.isPaused()) {
@@ -56,10 +66,5 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
             return player2Timer;
         }
         throw new IllegalStateException("Both timers are not running");
-    }
-
-    @Override
-    public final void startTimers() {
-        start();
     }
 }

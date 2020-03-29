@@ -1,5 +1,8 @@
 package timer;
 
+/**
+ * The implementation of {@link Timer}.
+ */
 public class TimerImpl extends Thread implements Timer {
 
     private static final int SLEEP_TIME = 1_000;
@@ -16,8 +19,9 @@ public class TimerImpl extends Thread implements Timer {
         this.paused = true;
         this.stop = false;
     }
+
     /**
-     * Increases the timer value by verse. 
+     * Increases the timer value in the chosen verse. 
      */
     @Override
     public final void run() {
