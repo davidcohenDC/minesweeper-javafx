@@ -1,6 +1,10 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import controlutility.Difficulty;
 import controlutility.Modality;
@@ -23,6 +27,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import scoresystem.ScoreWriter;
+import scoresystem.ScoreWriterImpl;
+import scoresystem.StatistcsWriter;
+import scoresystem.StatisticsWriterImpl;
 
 /**
  * The Controller related to the statistics.fxml GUI.
@@ -62,25 +70,27 @@ public class StatisticsController implements StatisticsControllerInterface {
     }
 
     private void addClassify() {
+        final ScoreWriter scoreWriter = new ScoreWriterImpl();
         for (final Difficulty difficulty : Difficulty.values()) {
             if (difficulty != Difficulty.PERSONALIZED) {
+                final Map<String, Integer> top10 = scoreWriter.getScoreBoard(modality, difficulty)
+                        .entrySet()
+                        .stream()
+                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                        .limit(10)
+                        .sorted(Map.Entry.<String, Integer>comparingByValue())
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+                System.out.println(top10);
                 final CategoryAxis yAxis = new CategoryAxis();
                 final NumberAxis xAxis = new NumberAxis();
                 final BarChart<Number, String> chart = new BarChart<>(xAxis, yAxis);
                 chart.setTitle("Top 10-" + difficulty);
                 xAxis.setLabel("POINTS");
                 yAxis.setLabel("PLAYERS");
-                //for players (messi in ordine decr.)
-                /*
-                 * final XYChart.Series<String, Number> p1 = new XYChart.Series<>();
-                p1.setName("Palyer1"); -> player name
-                p1.getData().add(new XYChart.Data<>("player1", //PLAYER POINT));
-                easyChart.getData().add(p1);
-                */
-                for (int i = 0;i<10; i++) {
-                    final XYChart.Series<Number,String> p = new XYChart.Series<>();
-                    p.setName("Palyerrr"+ String.valueOf(i));
-                    p.getData().add(new XYChart.Data<>(i*100,p.getName()));
+                for (final Entry<String, Integer> entry : top10.entrySet()) {
+                    final XYChart.Series<Number, String> p = new XYChart.Series<>();
+                    p.setName(entry.getKey());
+                    p.getData().add(new XYChart.Data<>(entry.getValue(), p.getName()));
                     chart.getData().add(p);
                 }
                 chart.setLegendVisible(false);
@@ -91,12 +101,12 @@ public class StatisticsController implements StatisticsControllerInterface {
     }
 
     private void addGeneralChart() {
+        final StatistcsWriter statisticWriter = new StatisticsWriterImpl();
         final ObservableList<PieChart.Data> generalPieChartData =
                 FXCollections.observableArrayList(
-                new PieChart.Data("Wins", 120), //...TOTAL WIN
-                new PieChart.Data("Losses", 100)); //..TOTAL DEFEAT
+                new PieChart.Data("Wins", statisticWriter.getAllWins(modality)),
+                new PieChart.Data("Losses", statisticWriter.getAllLosses(modality)));
         final PieChart generalChart = new PieChart(generalPieChartData);
-        //generalChart.setData(generalPieChartData);
         generalChart.setTitle("General");
         generalChart.setStyle("-fx-font-size: 15");
         generalChart.setLegendSide(Side.LEFT);
