@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.fail;
-
 import java.util.Optional;
 
 import controlutility.Difficulty;
@@ -14,7 +13,8 @@ import controlutility.Modality;
 import gameLogics.GameStatus;
 class TestPlayer {
 
-    private final Player p = new PlayerImpl("luigi", Modality.STANDARD, Difficulty.MEDIUM);
+    private final PlayerFactory f = new PlayerFactoryImpl();
+    private final Player p = f.createPlayerForStandardMode("luigi", Difficulty.MEDIUM);
 
     @Test
     public void playerTest() {
@@ -79,7 +79,7 @@ class TestPlayer {
         }
 
         //Personalized difficulty players' scores should not be tracked 
-        final Player p2 = new PlayerImpl("rossi", Modality.STANDARD, Difficulty.PERSONALIZED);
+        final Player p2 = f.createPlayerForStandardMode("rossi", Difficulty.PERSONALIZED);
         p2.won(8);
         try {
             assertEquals(Optional.empty(), Optional.of(p.getScore()));
