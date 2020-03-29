@@ -18,4 +18,13 @@ public interface DoubleTimer extends Runnable {
      * Returns the timer assigned to player 2.
      */
     Timer getPlayer2Timer();
+
+    /**
+     * Starts the timers.
+     * 
+     * player1 will begin
+     * 
+     * player2 will be on hold waiting for his turn
+     */
+    void startTimers();
 }

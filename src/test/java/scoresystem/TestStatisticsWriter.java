@@ -26,6 +26,7 @@ class TestStatisticsWriter {
 
     private static final String PLAYER_NAME = "loser";
 
+    private final PlayerFactory f = new PlayerFactoryImpl();
     private final ScoreWriter sw = new ScoreWriterImpl();
     private final Path path = Path.of(ROOT + Modality.STANDARD.getDirectoryName() + FILE_SEPARATOR + "Statistics" + FILE_EXTENCION);
 
@@ -33,7 +34,7 @@ class TestStatisticsWriter {
     public void singlePlayerWritingTest() {
         Player p;
         //if a player looses it should be put in the statistics file
-        p = new PlayerImpl(PLAYER_NAME, Modality.STANDARD, Difficulty.EASY);
+        p =  f.createPlayerForStandardMode(PLAYER_NAME, Difficulty.EASY);
 
         try {
             Files.deleteIfExists(path);
@@ -58,16 +59,16 @@ class TestStatisticsWriter {
 
         //player gets created multiple times to simulate the same player playing multiple times
         for (int i = 0; i < 2; i++) {
-            p = new PlayerImpl(PLAYER_NAME, Modality.STANDARD, Difficulty.EASY);
+            p =  f.createPlayerForStandardMode(PLAYER_NAME, Difficulty.EASY);
             p.lost(); //he loses 3 times
             sw.write(p);
         }
         for (int i = 0; i < 2; i++) {
-            p = new PlayerImpl(PLAYER_NAME, Modality.STANDARD, Difficulty.EASY);
+            p =  f.createPlayerForStandardMode(PLAYER_NAME, Difficulty.EASY);
             p.won(100); //wins 2 times
             sw.write(p);
         }
-            p = new PlayerImpl(PLAYER_NAME, Modality.STANDARD, Difficulty.EASY);
+        p =  f.createPlayerForStandardMode(PLAYER_NAME, Difficulty.EASY);
             p.lost(); //then loses again
             sw.write(p);
 

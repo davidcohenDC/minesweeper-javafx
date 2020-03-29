@@ -2,8 +2,8 @@ package timer;
 
 public class DoubleTimerImpl extends Thread implements DoubleTimer {
 
-    private final TimerImpl player1Timer;
-    private final TimerImpl player2Timer;
+    private final Timer player1Timer;
+    private final Timer player2Timer;
 
     public DoubleTimerImpl() {
         this.player1Timer = new TimerImpl(0, Verse.UP);
@@ -16,8 +16,8 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
      */
     @Override
     public final void run() {
-        this.player1Timer.start();
-        this.player2Timer.start();
+        this.player1Timer.startTimer();
+        this.player2Timer.startTimer();
         this.player2Timer.pause();
     }
 
@@ -56,5 +56,10 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
             return player2Timer;
         }
         throw new IllegalStateException("Both timers are not running");
+    }
+
+    @Override
+    public final void startTimers() {
+        start();
     }
 }

@@ -13,11 +13,13 @@ public class PlayerImpl implements Player {
     private final Difficulty difficuly;
     private Optional<Integer> score = Optional.empty();
     private Optional<GameStatus> result = Optional.empty();
+    private final Optional<String> adversary;
 
-    public PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty) {
+    protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty, final Optional<String> adversaryName) {
         this.name = name;
         this.gameMode = gameMode;
         this.difficuly = difficulty;
+        this.adversary = adversaryName;
     }
 
     @Override
@@ -62,10 +64,14 @@ public class PlayerImpl implements Player {
         return this.result.get();
     }
 
+    @Override
+    public final Optional<String> getAdversary() {
+        return this.adversary;
+    }
+ 
     private void check(final boolean expression, final String errorMessage) {
         if (expression) {
             throw new IllegalStateException(errorMessage);
         }
     }
-
 }
