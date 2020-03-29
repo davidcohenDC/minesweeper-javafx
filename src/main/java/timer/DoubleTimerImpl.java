@@ -48,6 +48,11 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
         return this.player2Timer;
     }
 
+    @Override
+    public final void startTimers() {
+        start();
+    }
+
     /**
      * @return
      * Returns which timer is running.
@@ -61,10 +66,5 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
             return player2Timer;
         }
         throw new IllegalStateException("Both timers are not running");
-    }
-
-    @Override
-    public final void startTimers() {
-        start();
     }
 }

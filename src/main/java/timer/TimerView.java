@@ -1,5 +1,8 @@
 package timer;
 
+/**
+ * A Display constantly showing a {@link Timer}'s value.
+ */
 public interface TimerView {
 
     /**

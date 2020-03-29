@@ -3,6 +3,9 @@ package timer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+/**
+ * The implementation of {@link TimerViewFactory}.
+ */
 public class TimerViewFactoryImpl implements TimerViewFactory {
 
     @Override

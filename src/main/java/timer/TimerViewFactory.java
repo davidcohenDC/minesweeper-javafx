@@ -13,7 +13,7 @@ public interface TimerViewFactory {
      * @param timer
      * The Timer to visualize.
      * @return
-     * Returns a TimerView to add to the GUI.
+     * Returns a {@link TimerView} to add to the GUI.
      */
     TimerView defaultTimerDisplay(Timer timer);
 
@@ -26,7 +26,7 @@ public interface TimerViewFactory {
      * @param color
      * The Color of the number displayed.
      * @return
-     * Returns a TimerView to add to the GUI.
+     * Returns a {@link TimerView} to add to the GUI.
      */
     TimerView personalizedTimerDisplay(Timer timer, Font font, Color color);
 }
