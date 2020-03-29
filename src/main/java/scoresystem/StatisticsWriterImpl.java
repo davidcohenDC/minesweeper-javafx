@@ -87,11 +87,11 @@ public class StatisticsWriterImpl implements StatistcsWriter {
             // converts data map back to strings
             this.lines.clear();
             for (final String playerName : this.statistics.keySet()) {
-                String values = new String();
+                String values = playerName;
                 for (final Integer value : this.statistics.get(playerName)) {
                     values = values.concat(DATA_SEPARATOR + value);
                 }
-                this.lines.add(playerName + values);
+                this.lines.add(values);
             }
 
             // actual file writing
