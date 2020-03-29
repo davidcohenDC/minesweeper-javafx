@@ -18,6 +18,19 @@ public class PlayerImpl implements Player {
     private Optional<GameStatus> result = Optional.empty();
     private final Optional<String> adversary;
 
+    /**
+     * Creates the Player.
+     * 
+     * @param name
+     *                          The name of the Player.
+     * @param gameMode
+     *                          The {@link Modality} he is playing.
+     * @param difficulty
+     *                          The {@link Difficulty} he chose.
+     * @param adversaryName
+     *                          The adversary he is playing against. If he is
+     *                          playing alone the adversary field will be empty.
+     */
     protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty,
             final Optional<String> adversaryName) {
         this.name = name;

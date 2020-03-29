@@ -10,6 +10,9 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
     private final Timer player1Timer;
     private final Timer player2Timer;
 
+    /**
+     * Creates the two standard Timers to handle.
+     */
     public DoubleTimerImpl() {
         this.player1Timer = new TimerImpl(0, Verse.UP);
         this.player2Timer = new TimerImpl(0, Verse.UP);
