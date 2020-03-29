@@ -76,11 +76,10 @@ public class StatisticsController implements StatisticsControllerInterface {
                 final Map<String, Integer> top10 = scoreWriter.getScoreBoard(modality, difficulty)
                         .entrySet()
                         .stream()
-                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-                        .limit(10)
                         .sorted(Map.Entry.<String, Integer>comparingByValue())
+                        .limit(10)
+                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-                System.out.println(top10);
                 final CategoryAxis yAxis = new CategoryAxis();
                 final NumberAxis xAxis = new NumberAxis();
                 final BarChart<Number, String> chart = new BarChart<>(xAxis, yAxis);
@@ -90,7 +89,7 @@ public class StatisticsController implements StatisticsControllerInterface {
                 for (final Entry<String, Integer> entry : top10.entrySet()) {
                     final XYChart.Series<Number, String> p = new XYChart.Series<>();
                     p.setName(entry.getKey());
-                    p.getData().add(new XYChart.Data<>(entry.getValue(), p.getName()));
+                    p.getData().add(new XYChart.Data<>(entry.getValue(), p.getName() + " (" + entry.getValue() + ")"));
                     chart.getData().add(p);
                 }
                 chart.setLegendVisible(false);
