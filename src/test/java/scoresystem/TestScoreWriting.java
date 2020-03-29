@@ -145,4 +145,69 @@ class TestScoreWriting {
             }
         return actualScoreBoard;
     }
+
+    @Test
+    public void multiplayerScoreWritingTest() {
+        path = Path.of(ROOT + Modality.ONE_VS_ONE.getDirectoryName() + FILE_SEPARATOR + Difficulty.HARD.getName() + FILE_EXTENCION);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            fail("File should have been deketed for next portion of the test");
+        }
+
+        //2 players play against each other
+        Player p1 = f.createPlayerFor1vs1Mode("winner", Difficulty.HARD, "loser");
+        Player p2 = f.createPlayerFor1vs1Mode("loserAdversary", Difficulty.HARD, p1.getName());
+
+        //game ends
+        p1.won(100);
+        p2.lost();
+
+        //scores get written
+        sw.write(p1);
+        sw.write(p2);
+
+        //file should have been written since p1 won
+        assertTrue(Files.exists(path));
+
+        final List<String> lines = new ArrayList<>();
+        try {
+            for (final Object line : Files.lines(path).toArray()) {
+                   lines.add(String.valueOf(line));
+            }
+        } catch (IOException e) {
+                System.err.println("The lines from the file were not transfered correctly.");
+                System.err.println(lines);
+        }
+
+        //p1 won so only one line should be present in the file
+        assertEquals(1, lines.size());
+        assertEquals(100, sw.getScoreBoard(p1.getModality(), p1.getDifficuly()).get(p1.getName()));
+
+        //same 2 players play again
+        p1 = f.createPlayerFor1vs1Mode("winner", Difficulty.HARD, "loser");
+        p2 = f.createPlayerFor1vs1Mode("loserAdversary", Difficulty.HARD, p1.getName());
+
+        //game ends better than last time
+        p1.won(10);
+        p2.lost();
+
+        //scores get written
+        sw.write(p1);
+        sw.write(p2);
+
+        lines.clear();
+        try {
+            for (final Object line : Files.lines(path).toArray()) {
+                   lines.add(String.valueOf(line));
+            }
+        } catch (IOException e) {
+                System.err.println("The lines from the file were not transfered correctly.");
+                System.err.println(lines);
+        }
+
+        //p1 won so only one line should be present in the file
+        assertEquals(1, lines.size());
+        assertEquals(10, sw.getScoreBoard(p1.getModality(), p1.getDifficuly()).get(p1.getName()));
+    }
 }
