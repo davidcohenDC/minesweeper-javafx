@@ -1,5 +1,7 @@
 package scoresystem;
 
+import java.util.Optional;
+
 import controlutility.Difficulty;
 import controlutility.Modality;
 import gameLogics.GameStatus;
@@ -50,5 +52,13 @@ public interface Player {
      * Returns the player's result.
      */
     GameStatus getResult();
+
+    /**
+     * @return
+     * Returns the name of the Players adversary
+     * 
+     * if a Player did not have an adversary it will return an empty Optional
+     */
+    Optional<String> getAdversary();
 
 }
