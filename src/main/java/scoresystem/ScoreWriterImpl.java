@@ -144,8 +144,10 @@ public class ScoreWriterImpl implements ScoreWriter {
                 }
             }
         } catch (IOException e) {
-            System.err.println("The lines from the file were not transfered correctly.");
-            System.err.println(lines);
+            if (Files.exists(path)) {
+                System.err.println("The lines from the file were not transfered correctly.");
+                System.err.println(lines);
+            }
         }
         return lines;
     }
