@@ -56,6 +56,12 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
         start();
     }
 
+    @Override
+    public final void stopTimers() {
+        player1Timer.stopTimer();
+        player2Timer.stopTimer();
+    }
+
     /**
      * @return Returns which timer is running.
      *         <p>
@@ -69,4 +75,6 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
         }
         throw new IllegalStateException("Both timers are not running");
     }
+
+
 }

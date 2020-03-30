@@ -29,4 +29,9 @@ public interface DoubleTimer extends Runnable {
      * player2 will be on hold waiting for his turn.
      */
     void startTimers();
+
+    /**
+     * Stops both the Timers.
+     */
+    void stopTimers();
 }

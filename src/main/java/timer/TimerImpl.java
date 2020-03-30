@@ -59,7 +59,9 @@ public class TimerImpl extends Thread implements Timer {
 
     @Override
     public final synchronized void play() {
-        this.paused = false;
+        if (!this.stop) {
+            this.paused = false;
+        }
     }
 
     @Override
