@@ -3,11 +3,11 @@ Il campo di gioco consiste in un campo rettangolare (o quadrato) a sua volta sud
 
 MODALITA' DI GIOCO 1 VS 1:
 /*TODO*/
-La modalità di gioco la stessa per quella standard, ma lo scermo sarà diviso in due e a turno i giocatori faranno la propria mossa
+La modalità di gioco la stessa per quella standard, ma lo schermo sarà diviso in due e a turno i giocatori faranno la propria mossa
 
 MODALITA' DI GIOCO BEAT THE TIMER:
 /*TODO*/
-Cerca di battere il un timer
+Cerca di battere il timer
 
 DIFFICOLTA':
 esistono 4 tipi di gioco:

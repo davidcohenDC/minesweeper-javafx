@@ -14,12 +14,13 @@ public class TimerViewImpl extends Label implements TimerView {
 
     /**
      * Sets up the label.
+     * 
      * @param timer
-     * The Timer to display.
+     *                  The Timer to display.
      * @param font
-     * The Font of the displayed numbers.
+     *                  The Font of the displayed numbers.
      * @param color
-     * The Color of the displayed numbers.
+     *                  The Color of the displayed numbers.
      */
     public TimerViewImpl(final Timer timer, final Font font, final Color color) {
         super();

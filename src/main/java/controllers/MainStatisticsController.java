@@ -7,11 +7,9 @@ import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -19,7 +17,6 @@ import javafx.stage.Stage;
  */
 public class MainStatisticsController extends BackHomeController implements MainStatisticsControllerInterface {
     private RWSettings rwSett;
-
 
     @FXML
     private AnchorPane rootPane;
@@ -39,18 +36,14 @@ public class MainStatisticsController extends BackHomeController implements Main
      * @throws IOException */
     private void switchScene(final Modality modality, final String buttonText) throws IOException {
         final FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/statistics.fxml"));
-        final StatisticsControllerInterface statController = new StatisticsController(modality, buttonText);
-        loader.setController(statController);
-        //final Parent pane = loader.load();
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
-        final Scene scene = new Scene(loader.load(), stage.getScene().getWidth(), stage.getScene().getHeight());
+        final double oldH = stage.getScene().getHeight();
+        final double oldW = stage.getScene().getWidth();
+        final StatisticsControllerInterface statController = new StatisticsController(modality, buttonText, oldW, oldH);
+        loader.setController(statController);
+        final Scene scene = new Scene(loader.load());
         scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
         stage.setScene(scene);
-        // centro lo stage nello schermo
-        final Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
-        stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
-
     }
 
     @Override

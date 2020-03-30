@@ -21,7 +21,8 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private static final String FILE_EXTENCION = ".txt";
-    private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR + "score_files" + FILE_SEPARATOR;
+    private static final String ROOT = System.getProperty("user.home") + FILE_SEPARATOR + ".minesweeper" + FILE_SEPARATOR
+            + "score_files" + FILE_SEPARATOR;
 
     private static final String SCORE_SEPARATOR = "-";
     private static final int POINTS_COLUMN = 1;
@@ -30,8 +31,8 @@ public class ScoreWriterImpl implements ScoreWriter {
     private final StatistcsWriter statisticsWriter;
 
     private final List<String> lines;
-    private final Map<String, Integer> scoreboard; 
-    private final Map<String, String> adversaries; 
+    private final Map<String, Integer> scoreboard;
+    private final Map<String, String> adversaries;
 
     private Player player;
     private Optional<Integer> previousHighScore = Optional.empty();
@@ -51,34 +52,37 @@ public class ScoreWriterImpl implements ScoreWriter {
 
         this.player = player;
         // "ROOT/MODE/Difficulty.txt"
-        final Path path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR + this.player.getDifficuly().getName() + FILE_EXTENCION);
+        final Path path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR
+                + this.player.getDifficuly().getName() + FILE_EXTENCION);
 
         if (!player.getDifficuly().equals(Difficulty.PERSONALIZED)) {
 
             if (Files.notExists(path)) {
-                 try {
-                     Files.createFile(path);
-                 } catch (IOException e) {
-                     System.err.println("Could not create new file.");
-                 }
+                try {
+                    Files.createFile(path);
+                } catch (IOException e) {
+                    System.err.println("Could not create new file.");
+                }
             }
             this.lines.addAll(convertFileToList(path));
 
-            //updates a player statistics using a different writer
+            // updates a player statistics using a different writer
             this.statisticsWriter.write(this.player);
         }
 
         if (scoreIsWritable()) {
 
-            //mapping of the file lines
+            // mapping of the file lines
             this.scoreboard.putAll(getScoreBoard(this.player.getModality(), this.player.getDifficuly()));
 
-            //if player already played with this settings this if fetches its old high score
+            // if player already played with this settings this if fetches its old high
+            // score
             if (this.scoreboard.containsKey(this.player.getName())) {
                 this.previousHighScore = Optional.of(this.scoreboard.get(player.getName()));
             }
 
-            //if the player already played it replaces its previous score otherwise put a new entry in the score board map
+            // if the player already played it replaces its previous score otherwise put a
+            // new entry in the score board map
             if (!this.scoreboard.containsKey(this.player.getName())) {
                 this.scoreboard.put(this.player.getName(), this.player.getScore());
             } else {
@@ -92,15 +96,16 @@ public class ScoreWriterImpl implements ScoreWriter {
                 writeScoreForSingleplayer();
             }
 
-            //sorts the list of lines
+            // sorts the list of lines
             this.lines.sort(new Comparator<String>() {
                 @Override
                 public int compare(final String playerA, final String playerB) {
-                    return Integer.parseInt(playerA.split(SCORE_SEPARATOR)[POINTS_COLUMN]) - Integer.parseInt(playerB.split(SCORE_SEPARATOR)[POINTS_COLUMN]);
+                    return Integer.parseInt(playerA.split(SCORE_SEPARATOR)[POINTS_COLUMN])
+                            - Integer.parseInt(playerB.split(SCORE_SEPARATOR)[POINTS_COLUMN]);
                 }
             });
 
-            //actually writes the file
+            // actually writes the file
             try {
                 Files.write(path, this.lines);
             } catch (IOException e) {
@@ -109,12 +114,11 @@ public class ScoreWriterImpl implements ScoreWriter {
         }
     }
 
-
-
     @Override
     public final Map<String, Integer> getScoreBoard(final Modality gameMode, final Difficulty difficulty) {
         final Map<String, Integer> scoreboard = new HashMap<>();
-        for (final String line: convertFileToList(Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION))) {
+        for (final String line : convertFileToList(
+                Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION))) {
             final List<String> entry = List.of(line.split(SCORE_SEPARATOR));
             scoreboard.put(entry.get(0), Integer.valueOf(entry.get(POINTS_COLUMN)));
             if (gameMode.equals(Modality.ONE_VS_ONE)) {
@@ -126,46 +130,51 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     /**
      * Converts a file in a list of its lines.
+     * 
      * @param path
-     * Path of the file to convert.
-     * @return
-     * Returns a List of Strings.
+     *                 Path of the file to convert.
+     * @return Returns a List of Strings.
      */
     private List<String> convertFileToList(final Path path) {
         final List<String> lines = new ArrayList<>();
         try {
             for (final Object line : Files.lines(path).toArray()) {
-                if (String.valueOf(line).contains(SCORE_SEPARATOR)) { //this control should keep wrong format of lines out
-                   lines.add(String.valueOf(line));
+                if (String.valueOf(line).contains(SCORE_SEPARATOR)) { // this control should keep wrong format of lines out
+                    lines.add(String.valueOf(line));
                 }
             }
         } catch (IOException e) {
+            if (Files.exists(path)) {
                 System.err.println("The lines from the file were not transfered correctly.");
                 System.err.println(lines);
+            }
         }
         return lines;
     }
 
     /**
-     * Creates the lines to put in the score file in the format of multiplayer modalities.<br>
+     * Creates the lines to put in the score file in the format of multiplayer
+     * modalities.<br>
      * Format: <i>winner</i> - <i>point of the winner</i> - <i>loser</i>
      */
     private void writeScoreForMultiplayer() {
 
-        //converting the score board entries to strings
-        for (final String playerName: this.scoreboard.keySet()) {
-            this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName) + SCORE_SEPARATOR + this.player.getAdversary().get());
+        // converting the score board entries to strings
+        for (final String playerName : this.scoreboard.keySet()) {
+            this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName) + SCORE_SEPARATOR
+                    + this.player.getAdversary().get());
         }
     }
 
     /**
-     * Creates the lines to put in the score file in the format of singleplayer modalities.<br>
+     * Creates the lines to put in the score file in the format of singleplayer
+     * modalities.<br>
      * Format: <i>player</i> - <i>score</i>
      */
     private void writeScoreForSingleplayer() {
 
-        //converting the score board entries to strings
-        for (final String playerName: this.scoreboard.keySet()) {
+        // converting the score board entries to strings
+        for (final String playerName : this.scoreboard.keySet()) {
             this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName));
         }
 
@@ -173,16 +182,18 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     /**
      * Controls if a score is suitable for writing on file.
-     * @return
-     * Returns true if the score that is trying to be written should be written, 
-     * returns false if it should be discarded.
+     * 
+     * @return Returns true if the score that is trying to be written should be
+     *         written, returns false if it should be discarded.
      */
     private boolean scoreIsWritable() {
         try {
             check(Optional.of(this.player.getResult()).isEmpty(), "Result is empty");
             check(this.player.getResult().equals(GameStatus.LOSE), "Player has lost");
-            check(this.player.getDifficuly().equals(Difficulty.PERSONALIZED), "Scores for personalized difficulty must not be written");
-            check(this.previousHighScore.isPresent() && this.player.getScore() > this.previousHighScore.get(), "Previous score was better");
+            check(this.player.getDifficuly().equals(Difficulty.PERSONALIZED),
+                    "Scores for personalized difficulty must not be written");
+            check(this.previousHighScore.isPresent() && this.player.getScore() > this.previousHighScore.get(),
+                    "Previous score was better");
         } catch (IllegalStateException e) {
             return false;
         }
@@ -192,14 +203,15 @@ public class ScoreWriterImpl implements ScoreWriter {
     /**
      * The method checks if an expression is correct.<br>
      * If the expression is true it will throw an <code>IllegalStateExeption</code>.
+     * 
      * @param expression
-     * The <code>boolean</code> expression to check.
+     *                         The <code>boolean</code> expression to check.
      * @param errorMessage
-     * The message to show if the exception gets thrown.
+     *                         The message to show if the exception gets thrown.
      */
     private void check(final boolean expression, final String errorMessage) {
         if (expression) {
-           throw new IllegalStateException(errorMessage); 
+            throw new IllegalStateException(errorMessage);
         }
     }
 }

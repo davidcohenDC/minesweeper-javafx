@@ -13,6 +13,14 @@ public class TimerImpl extends Thread implements Timer {
     private boolean paused;
     private boolean stop;
 
+    /**
+     * Sets up a Timer as paused.
+     * 
+     * @param startingTime
+     *                         The initial value of the Timer.
+     * @param verse
+     *                         The {@link Verse} in which the timer is going.
+     */
     protected TimerImpl(final int startingTime, final Verse verse) {
         this.verse = verse;
         this.value = startingTime;
@@ -21,7 +29,7 @@ public class TimerImpl extends Thread implements Timer {
     }
 
     /**
-     * Increases the timer value in the chosen verse. 
+     * Increases the timer value in the chosen verse.
      */
     @Override
     public final void run() {

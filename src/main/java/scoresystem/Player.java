@@ -15,8 +15,9 @@ public interface Player {
 
     /**
      * The Player has won the game.
+     * 
      * @param score
-     * The score with which the player has won 
+     *                  The score with which the player has won
      */
     void won(int score);
 
@@ -26,40 +27,35 @@ public interface Player {
     void lost();
 
     /**
-     * @return
-     * Returns the player's score
+     * @return Returns the player's score
      */
     int getScore();
 
     /**
-     * @return
-     * Returns the player's modality.
+     * @return Returns the player's modality.
      */
     Modality getModality();
 
     /**
-     * @return
-     * Returns the player's difficulty.
+     * @return Returns the player's difficulty.
      */
     Difficulty getDifficuly();
 
     /**
-     * @return
-     * Returns the player's name.
+     * @return Returns the player's name.
      */
     String getName();
 
     /**
-     * @return
-     * Returns the player's result.
+     * @return Returns the player's result.
      */
     GameStatus getResult();
 
     /**
-     * @return
-     * Returns the name of the Players adversary
+     * @return Returns the name of the Players adversary
      * 
-     * if a Player did not have an adversary it will return an empty Optional
+     *         if a Player did not have an adversary it will return an empty
+     *         Optional
      */
     Optional<String> getAdversary();
 

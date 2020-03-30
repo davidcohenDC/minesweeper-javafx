@@ -19,16 +19,16 @@ public enum Verse {
 
     /**
      * Creates a new Verse.
+     * 
      * @param incrementValue
-     * the step which will increment a value
+     *                           the step which will increment a value
      */
     Verse(final int incrementValue) {
         verseIncrementValue = incrementValue;
     }
 
     /**
-     * @return
-     * Returns the step's value.
+     * @return Returns the step's value.
      */
     public int getVerseIncrementValue() {
         return verseIncrementValue;

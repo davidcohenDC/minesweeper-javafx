@@ -10,14 +10,17 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
     private final Timer player1Timer;
     private final Timer player2Timer;
 
+    /**
+     * Creates the two standard Timers to handle.
+     */
     public DoubleTimerImpl() {
         this.player1Timer = new TimerImpl(0, Verse.UP);
         this.player2Timer = new TimerImpl(0, Verse.UP);
     }
 
     /**
-     * Sets up the DoubleTimer making the player one start first
-     * and putting player 2 on hold.
+     * Sets up the DoubleTimer making the player one start first and putting player
+     * 2 on hold.
      */
     @Override
     public final void run() {
@@ -54,10 +57,9 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
     }
 
     /**
-     * @return
-     * Returns which timer is running.
-     * <p>
-     * if none of them are throws an <code>illegalStateException</code>.
+     * @return Returns which timer is running.
+     *         <p>
+     *         if none of them are throws an <code>illegalStateException</code>.
      */
     private Timer timerInAction() {
         if (!this.player1Timer.isPaused()) {
