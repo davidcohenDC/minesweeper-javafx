@@ -2,6 +2,9 @@ package gameLogics;
 
 import org.junit.jupiter.api.Test;
 
+import gamelogics.BombGenerator;
+import gamelogics.BombGeneratorImpl;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BombGeneratorImplTest {

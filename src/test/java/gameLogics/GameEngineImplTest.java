@@ -1,6 +1,12 @@
 package gameLogics;
 
 import org.junit.jupiter.api.Test;
+
+import gamelogics.GameEngine;
+import gamelogics.GameEngineImpl;
+import gamelogics.GameStatus;
+import gamelogics.Pair;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameEngineImplTest {

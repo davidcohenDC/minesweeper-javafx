@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import controlutility.Difficulty;
 import controlutility.Modality;
-import gameLogics.GameStatus;
+import gamelogics.GameStatus;
 /**
  * A Test to see if {@link Player} functionalities are working.
  */

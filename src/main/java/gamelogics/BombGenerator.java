@@ -1,4 +1,4 @@
-package gameLogics;
+package gamelogics;
 
 public interface BombGenerator {
 

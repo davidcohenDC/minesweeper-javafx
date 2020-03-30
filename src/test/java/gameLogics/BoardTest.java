@@ -4,6 +4,13 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import gamelogics.Board;
+import gamelogics.BoardBuilder;
+import gamelogics.BoardBuilderImpl;
+import gamelogics.Box;
+import gamelogics.BoxImpl;
+import gamelogics.Pair;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
@@ -13,8 +20,8 @@ class BoardTest {
     @org.junit.jupiter.api.BeforeAll
     public static void initialize() {
         final BoardBuilder bb = new BoardBuilderImpl()
-            .setWidth(4)
-            .setHeight(4);
+            .withWidth(4)
+            .withHeight(4);
 
         for(int i=0; i<4; i++) {
             for(int j=0; j<4; j++) {

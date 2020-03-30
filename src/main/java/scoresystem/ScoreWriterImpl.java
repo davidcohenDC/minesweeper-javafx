@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import controlutility.Difficulty;
 import controlutility.Modality;
-import gameLogics.GameStatus;
+import gamelogics.GameStatus;
 
 /**
  * The implementation of {@link ScoreWriter}.

@@ -1,51 +1,62 @@
-package gameLogics;
+package gamelogics;
 
-public class BoxImpl implements Box{
+public class BoxImpl implements Box {
 
     private final Pair<Integer, Integer> coord;
-    private boolean flag = false;
-    private boolean withBomb = false;
-    private boolean clicked = false;
+    private final boolean withBomb;
+    private boolean flag;
+    private boolean clicked;
 
-    public BoxImpl(Pair<Integer, Integer> coord) {
+    public BoxImpl(final Pair<Integer, Integer> coord) {
         this.coord = coord;
+        this.withBomb = false;
+        this.flag = false;
+        this.clicked = false;
     }
 
-    public BoxImpl(Pair<Integer, Integer> coord, boolean withBomb) {
+    public BoxImpl(final Pair<Integer, Integer> coord, final boolean withBomb) {
         this.coord = coord;
         this.withBomb = withBomb;
+        this.flag = false;
+        this.clicked = false;
     }
 
-    public void setFlag() {
-        if(!this.isClicked()) {
+    @Override
+    public final void setFlag() {
+        if (!this.isClicked()) {
             this.flag = !this.isFlagged();
         }
     }
 
-    public void hit() {
-        if(!this.isFlagged()) {
+    @Override
+    public final void hit() {
+        if (!this.isFlagged()) {
             this.clicked = true;
         }
     }
 
-    public Pair<Integer, Integer> getPosition() {
+    @Override
+    public final Pair<Integer, Integer> getPosition() {
         return this.coord;
     }
 
-    public boolean containsBomb() {
+    @Override
+    public final boolean containsBomb() {
         return this.withBomb;
     }
 
-    public boolean isClicked() {
+    @Override
+    public final boolean isClicked() {
         return this.clicked;
     }
 
-    public boolean isFlagged() {
+    @Override
+    public final boolean isFlagged() {
         return this.flag;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
             }
@@ -65,11 +76,13 @@ public class BoxImpl implements Box{
             }
             if (this.coord.getY() == null) {
                 return other.getPosition().getY() == null;
-            } else return this.coord.getY().equals(other.getPosition().getY());
+            } else {
+                return this.coord.getY().equals(other.getPosition().getY());
+            }
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.coord.getX() == null) ? 0 : this.coord.getX().hashCode());

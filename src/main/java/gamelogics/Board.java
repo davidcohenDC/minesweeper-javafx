@@ -1,9 +1,9 @@
-package gameLogics;
+package gamelogics;
 
 import java.util.Set;
 
 /**
- * Interface for Board managing
+ * Interface for Board managing.
  */
 public interface Board extends Iterable<Box> {
 

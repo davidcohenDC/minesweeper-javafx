@@ -1,4 +1,4 @@
-package gameLogics;
+package gamelogics;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,27 +9,32 @@ public class BoardBuilderImpl implements BoardBuilder {
     private int height;
     private final Set<Box> boxSet = new HashSet<>();
 
-    public BoardBuilder setWidth(int w) {
+    @Override
+    public final BoardBuilder withWidth(final int w) {
         this.width = w;
         return this;
     }
 
-    public BoardBuilder setHeight(int h) {
+    @Override
+    public final BoardBuilder withHeight(final int h) {
         this.height = h;
         return this;
     }
 
-    public BoardBuilder addBox(Box box) {
+    @Override
+    public final BoardBuilder addBox(final Box box) {
         this.boxSet.add(box);
         return this;
     }
 
-    public BoardBuilder addBoxSet(Set<Box> boxSet) {
+    @Override
+    public final BoardBuilder addBoxSet(final Set<Box> boxSet) {
         this.boxSet.addAll(boxSet);
         return this;
     }
 
-    public Board build() {
+    @Override
+    public final Board build() {
         return new BoardImpl(this.boxSet);
     }
 }
