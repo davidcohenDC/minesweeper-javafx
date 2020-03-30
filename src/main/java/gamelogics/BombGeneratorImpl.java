@@ -9,7 +9,8 @@ public class BombGeneratorImpl implements BombGenerator {
     private int head = -1;
     private final List<Boolean> bombList = new LinkedList<>();
 
-    public BombGeneratorImpl(final int size, final int bombs) {
+    public BombGeneratorImpl(final int width, final int height, final int bombs) {
+        final int size = width * height;
         for (int i = 0; i < bombs; i++) {
             bombList.add(true);
         }

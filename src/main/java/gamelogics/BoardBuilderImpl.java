@@ -35,6 +35,6 @@ public class BoardBuilderImpl implements BoardBuilder {
 
     @Override
     public final Board build() {
-        return new BoardImpl(this.boxSet);
+        return new BoardImpl(this.width, this.height, this.boxSet);
     }
 }

@@ -8,10 +8,24 @@ import java.util.Set;
 public class BoardImpl implements Board {
 
     private static final int NEAR_DISTANCE = 1;
+    private final int width;
+    private final int height;
     private final Set<Box> boxSet;
 
-    public BoardImpl(final Set<Box> boxSet) {
+    public BoardImpl(final int width, final int height, final Set<Box> boxSet) {
         this.boxSet = boxSet;
+        this.width = width;
+        this.height = height;
+    }
+
+    @Override
+    public final int getWidth() {
+        return this.width;
+    }
+
+    @Override
+    public final int getHeight() {
+        return this.height;
     }
 
     @Override
