@@ -93,7 +93,7 @@ public class StatisticsController implements StatisticsControllerInterface {
                     chart.getData().add(p);
                 }
                 chart.setLegendVisible(false);
-                chart.setStyle("-fx-font-size: 15");
+                chart.setStyle("-fx-font-size: 18");
                 this.vBox.getChildren().add(chart);
             }
         }
@@ -107,7 +107,7 @@ public class StatisticsController implements StatisticsControllerInterface {
                 new PieChart.Data("Losses", statisticWriter.getAllLosses(modality)));
         final PieChart generalChart = new PieChart(generalPieChartData);
         generalChart.setTitle("General");
-        generalChart.setStyle("-fx-font-size: 15");
+        generalChart.setStyle("-fx-font-size: 18");
         generalChart.setLegendSide(Side.LEFT);
         this.vBox.getChildren().add(generalChart);
     }
