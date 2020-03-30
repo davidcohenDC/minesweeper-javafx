@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 /**
  * A Class to test {@link Timer} functionalities are working.
  */
-class TimerTest {
+class TestTimer {
+
     /**
      * The maximum amount of seconds a Timer can run at a time.
      * <p>
