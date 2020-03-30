@@ -18,7 +18,7 @@ public interface Timer extends Runnable {
     void pause();
 
     /**
-     * Starts back the Timer if it was paused. <br>
+     * Starts back the Timer if it wasn't stopped. <br>
      * Otherwise does nothing.
      */
     void play();
