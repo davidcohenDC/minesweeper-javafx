@@ -17,6 +17,7 @@ public enum Verse {
 
     private final int verseValue;
     private final int limit;
+
     /**
      * Creates a new Verse.
      * 

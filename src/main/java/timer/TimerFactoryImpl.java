@@ -1,5 +1,8 @@
 package timer;
 
+/**
+ * The implementation for {@link TimerFactory}.
+ */
 public class TimerFactoryImpl implements TimerFactory {
 
     @Override

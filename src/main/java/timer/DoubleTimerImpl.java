@@ -1,10 +1,16 @@
 package timer;
 
+/**
+ * An implementation of {@link MultipleTimers} that handles two Standard Timers.
+ */
 public class DoubleTimerImpl implements MultipleTimers {
 
     private final Timer player1Timer;
     private final Timer player2Timer;
 
+    /**
+     * Sets up the Timers as Standard Timers.
+     */
     protected DoubleTimerImpl() {
         this.player1Timer = new TimerImpl(0, Verse.UP);
         this.player2Timer = new TimerImpl(0, Verse.UP);

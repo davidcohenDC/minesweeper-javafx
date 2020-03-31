@@ -1,5 +1,11 @@
 package timer;
 
+/**
+ * A Timer that can go upwards and downwards.
+ * <p>
+ * This Timer will count the time passed from its initial start excluding the
+ * time that passes when it is paused.
+ */
 public interface Timer {
 
     /**

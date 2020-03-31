@@ -1,29 +1,31 @@
 package timer;
+
 /**
- * Factory to create the timer for each game mode.
+ * Factory to create the {@link Timer} for each {@link Modality}.
  */
 public interface TimerFactory {
 
     /**
-     * Creates a Timer for the "Standard" mode of the game. 
-     * @return
-     * Returns a Timer going from 0 up to 999
+     * Creates a Timer for the "Standard" mode of the game.
+     * 
+     * @return Returns a Timer going from 0 up to 999.
      */
     Timer createTimerForStandardMode();
 
     /**
      * Creates a Timer for the "Beat the Timer" mode of the game.
+     * 
      * @param amountOfTime
-     * The amount of time the player has to finish the game in seconds
-     * @return
-     * Returns a Timer going from the value of amountOfTime down to 0
+     *                         The amount of time the player has to finish the game
+     *                         in seconds.
+     * @return Returns a Timer going from the value of amountOfTime down to 0.
      */
     Timer createTimerForBeatTheTimerMode(int amountOfTime);
 
     /**
      * Creates two Timers for the "1 vs 1" mode of the game.
-     * @return
-     * Returns a DoubleTimer, a class to manage two Timers
+     * 
+     * @return Returns a {@link MultipleTimers} implemented for handling two Timers.
      */
     MultipleTimers createTimersFor1vs1Mode();
 }
