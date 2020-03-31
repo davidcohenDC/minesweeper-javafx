@@ -20,6 +20,7 @@ public class TimerImpl implements Timer {
     public final long getValue() {
         if (!stop && this.initialTime != this.limit) {
             this.initialTime = this.initialTime + ((System.currentTimeMillis() - this.startTime) * this.verse.getVerseIncrementValue());
+            this.startTime = System.currentTimeMillis();
         }
         return this.initialTime;
  
