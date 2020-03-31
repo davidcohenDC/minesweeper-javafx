@@ -43,9 +43,9 @@ public class DoubleTimerImpl implements DoubleTimer {
         runningTimer().stop();
 
         if (oldRunningTimer.equals(player1Timer)) {
-            player1Timer.start();
-        } else {
             player2Timer.start();
+        } else {
+            player1Timer.start();
         }
     }
 
