@@ -1,43 +1,51 @@
 package timer;
 
 /**
- * The implementation of {@link DoubleTimer}.
- * <p>
- * This class extends {@link Thread}.
+ * An implementation of {@link DoubleTimer} that handles two Standard Timers.
  */
-public class DoubleTimerImpl extends Thread implements DoubleTimer {
+public class DoubleTimerImpl implements DoubleTimer {
 
     private final Timer player1Timer;
     private final Timer player2Timer;
 
     /**
-     * Creates the two standard Timers to handle.
+     * Sets up the Timers as Standard Timers.
      */
-    public DoubleTimerImpl() {
+    protected DoubleTimerImpl() {
         this.player1Timer = new TimerImpl(0, Verse.UP);
         this.player2Timer = new TimerImpl(0, Verse.UP);
     }
 
-    /**
-     * Sets up the DoubleTimer making the player one start first and putting player
-     * 2 on hold.
-     */
     @Override
-    public final void run() {
-        this.player1Timer.startTimer();
-        this.player2Timer.startTimer();
-        this.player2Timer.pause();
+    public final long getValue() {
+        return runningTimer().getValue();
+    }
+
+    @Override
+    public final void start() {
+        this.player1Timer.start();
+    }
+
+    @Override
+    public final void stop() {
+        this.player1Timer.stop();
+        this.player2Timer.stop();
+    }
+
+    @Override
+    public final boolean isRunning() {
+        return this.player1Timer.isRunning() || this.player2Timer.isRunning();
     }
 
     @Override
     public final void switchTurn() {
-        final Timer temporaryTimerHolder = timerInAction();
-        timerInAction().pause();
+        final Timer oldRunningTimer = runningTimer();
+        runningTimer().stop();
 
-        if (temporaryTimerHolder.equals(this.player1Timer)) {
-            this.player2Timer.play();
-        } else if (temporaryTimerHolder.equals(this.player2Timer)) {
-            this.player1Timer.play();
+        if (oldRunningTimer.equals(player1Timer)) {
+            player2Timer.start();
+        } else {
+            player1Timer.start();
         }
     }
 
@@ -51,30 +59,14 @@ public class DoubleTimerImpl extends Thread implements DoubleTimer {
         return this.player2Timer;
     }
 
-    @Override
-    public final void startTimers() {
-        start();
-    }
-
-    @Override
-    public final void stopTimers() {
-        player1Timer.stopTimer();
-        player2Timer.stopTimer();
-    }
-
     /**
-     * @return Returns which timer is running.
-     *         <p>
-     *         if none of them are throws an <code>illegalStateException</code>.
+     * @return Returns the Timer running at the moment.
      */
-    private Timer timerInAction() {
-        if (!this.player1Timer.isPaused()) {
-            return player1Timer;
-        } else if (!this.player2Timer.isPaused()) {
-            return player2Timer;
+    private Timer runningTimer() {
+        if (this.player1Timer.isRunning()) {
+            return this.player1Timer;
+        } else {
+            return this.player2Timer;
         }
-        throw new IllegalStateException("Both timers are not running");
     }
-
-
 }

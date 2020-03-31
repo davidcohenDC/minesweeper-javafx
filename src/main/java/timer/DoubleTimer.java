@@ -1,37 +1,20 @@
 package timer;
 
 /**
- * A controller of two {@link Timer} that makes sure they run one at a time.
+ * A Class designed to run two Timers one at a time.
  * <p>
- * This interface extends {@link Runnable}.
+ * Extends {@link MultipleTimers}.
  */
-public interface DoubleTimer extends Runnable {
+public interface DoubleTimer extends MultipleTimers {
 
     /**
-     * Switches which timer is running and which timer is on hold.
-     */
-    void switchTurn();
-
-    /**
-     * @return Returns the {@link Timer} assigned to player 1.
+     * @return The {@link Timer} associated with Player one.
      */
     Timer getPlayer1Timer();
 
     /**
-     * @return Returns the {@link Timer} assigned to player 2.
+     * @return The {@link Timer} associated with Player two.
      */
     Timer getPlayer2Timer();
 
-    /**
-     * Starts the Timers.
-     * <p>
-     * player1 will begin. <br>
-     * player2 will be on hold waiting for his turn.
-     */
-    void startTimers();
-
-    /**
-     * Stops both the Timers.
-     */
-    void stopTimers();
 }

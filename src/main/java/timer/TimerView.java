@@ -1,17 +1,21 @@
 package timer;
 
 /**
- * A Display constantly showing a {@link Timer}'s value.
+ * A Class to show a {@link Timer} on a Label in real time.
+ * <p>
+ * TimerView should automatically set the designated Label's characteristics and
+ * refresh its values accordingly to the Time's values without interfering with
+ * the GUI's reactiveness.
  */
 public interface TimerView {
 
     /**
-     * Shows the timer's value in real time.
+     * Starts refreshing the Timer's value on screen.
      */
-    void showTimer();
+    void startDisplaying();
 
     /**
-     * Stops showing the Timer.
+     * Stops refreshing the Timer's value on screen.
      */
-    void stopShowing();
+    void stopDisplaying();
 }

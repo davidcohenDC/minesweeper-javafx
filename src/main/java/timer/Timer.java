@@ -1,42 +1,30 @@
 package timer;
 
 /**
- * A Timer.
+ * A Timer that can go upwards and downwards.
  * <p>
- * This class describes a constant value increment in a certain {@link Verse}.
+ * This Timer will count the time passed from its initial start excluding the
+ * time that passes when it is paused.
  */
-public interface Timer extends Runnable {
+public interface Timer {
 
     /**
-     * @return Returns the Timer's current value.
+     * @return Returns the <i>milliseconds</i> passed from the start of the Timer.
      */
-    int getValue();
-
-    /**
-     * Pauses the Timer.
-     */
-    void pause();
-
-    /**
-     * Starts back the Timer if it wasn't stopped. <br>
-     * Otherwise does nothing.
-     */
-    void play();
-
-    /**
-     * Checks if the Timer is on hold.
-     * 
-     * @return Returns a boolean which is true if the Timer is currently paused.
-     */
-    boolean isPaused();
-
-    /**
-     * Stops the Timer.
-     */
-    void stopTimer();
+    long getValue();
 
     /**
      * Starts the Timer.
      */
-    void startTimer();
+    void start();
+
+    /**
+     * Stops the Timer.
+     */
+    void stop();
+
+    /**
+     * @return Returns {@code True} is a Timer is not on hold.
+     */
+    boolean isRunning();
 }

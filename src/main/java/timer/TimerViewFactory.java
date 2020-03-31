@@ -1,32 +1,40 @@
 package timer;
 
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
- * A Factory to modify a timer visual representation easily.
+ * A Factory created to make customization easier for The Timers' GUI.
  */
 public interface TimerViewFactory {
 
     /**
-     * Creates a default configuration of a Timers GUI.
+     * Creates the Timer's GUI with <strong>default</strong> settings.
+     * 
      * @param timer
-     * The Timer to visualize.
-     * @return
-     * Returns a {@link TimerView} to add to the GUI.
+     *                  The {@link Timer} to display.
+     * @param label
+     *                  The {@link Label} to use.
+     * @return Returns a {@link TimerView}.
      */
-    TimerView defaultTimerDisplay(Timer timer);
+    TimerView createDefault(Timer timer, Label label);
 
     /**
-     * Creates a default configuration of a Timers GUI.
+     * Creates the Timer's GUI with <strong>default</strong> settings.
+     * 
      * @param timer
-     * The Timer to visualize.
-     * @param font 
-     * The Font of the numbers displayed.
-     * @param color
-     * The Color of the number displayed.
-     * @return
-     * Returns a {@link TimerView} to add to the GUI.
+     *                            The {@link Timer} to display.
+     * @param label
+     *                            The {@link Label} to use.
+     * @param numbersColor
+     *                            The desired color for the numbers displayed.
+     * @param backgroundColor
+     *                            The desired color for the display's background.
+     * @param font
+     *                            The desired font for the numbers displayed.
+     * @return Returns a {@link TimerView}.
      */
-    TimerView personalizedTimerDisplay(Timer timer, Font font, Color color);
+    TimerView createPersonalized(Timer timer, Label label, Color numbersColor, Color backgroundColor, Font font);
+
 }

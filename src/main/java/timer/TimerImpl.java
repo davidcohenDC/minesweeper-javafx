@@ -3,80 +3,77 @@ package timer;
 /**
  * The implementation of {@link Timer}.
  */
-public class TimerImpl extends Thread implements Timer {
-
-    private static final int SLEEP_TIME = 1_000;
+public class TimerImpl implements Timer {
 
     private final Verse verse;
+    private final int limit;
 
-    private int value;
-    private boolean paused;
+    private long initialTime;
+    private long startTime;
     private boolean stop;
 
     /**
-     * Sets up a Timer as paused.
+     * Sets up the Timer.
+     * <p>
+     * This will also set the Timer's limit accordingly to its {@link Verse}.
      * 
-     * @param startingTime
-     *                         The initial value of the Timer.
+     * @param initialTime
+     *                        The amount of time from which the Timer will start.
      * @param verse
-     *                         The {@link Verse} in which the timer is going.
+     *                        The {@link Verse} of the Timer.
      */
-    protected TimerImpl(final int startingTime, final Verse verse) {
+    protected TimerImpl(final long initialTime, final Verse verse) {
+        this.initialTime = initialTime;
         this.verse = verse;
-        this.value = startingTime;
-        this.paused = true;
-        this.stop = false;
-    }
-
-    /**
-     * Increases the timer value in the chosen verse.
-     */
-    @Override
-    public final void run() {
-        this.paused = false;
-
-        while (!stop) {
-            try {
-                Thread.sleep(SLEEP_TIME);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (!paused) {
-                this.value = this.value + this.verse.getVerseIncrementValue();
-            }
-        }
-    }
-
-    @Override
-    public final synchronized int getValue() {
-        return this.value;
-    }
-
-    @Override
-    public final synchronized void pause() {
-        this.paused = true;
-    }
-
-    @Override
-    public final synchronized void play() {
-        if (!this.stop) {
-            this.paused = false;
-        }
-    }
-
-    @Override
-    public final synchronized void stopTimer() {
-        pause();
+        this.limit = verse.getLimit() * 1_000;
         this.stop = true;
     }
 
     @Override
-    public final synchronized boolean isPaused() {
-        return this.paused;
+    public final long getValue() {
+
+        if (!stop) {
+            if (!reachedLimit()) {
+                this.initialTime = this.initialTime
+                        + ((System.currentTimeMillis() - this.startTime) * this.verse.getVerseIncrementValue());
+                this.startTime = System.currentTimeMillis();
+            } else {
+                this.initialTime = this.limit;
+            }
+        }
+        return this.initialTime;
+
     }
 
     @Override
-    public final synchronized void startTimer() {
-        start();
+    public final void start() {
+        this.stop = false;
+        this.startTime = System.currentTimeMillis();
     }
+
+    @Override
+    public final void stop() {
+        this.stop = true;
+    }
+
+    @Override
+    public final boolean isRunning() {
+        return !this.stop;
+    }
+
+    /**
+     * @return Returns {@value True} if the Timer reached its limit.
+     */
+    private boolean reachedLimit() {
+
+        switch (this.verse) {
+        case UP:
+            return this.initialTime < this.limit;
+        case DOWN:
+            return this.initialTime > this.limit - 1;
+        default:
+            return true;
+        }
+    }
+
 }
