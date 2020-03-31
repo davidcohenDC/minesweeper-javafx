@@ -31,13 +31,15 @@ public class TimerImpl implements Timer {
 
     @Override
     public final long getValue() {
-        if (!reachedLimit()) {
-            if (!stop) {
-                this.initialTime = this.initialTime + ((System.currentTimeMillis() - this.startTime) * this.verse.getVerseIncrementValue());
+
+        if (!stop) {
+            if (!reachedLimit()) {
+                this.initialTime = this.initialTime
+                        + ((System.currentTimeMillis() - this.startTime) * this.verse.getVerseIncrementValue());
                 this.startTime = System.currentTimeMillis();
+            } else {
+                this.initialTime = this.limit;
             }
-        } else {
-            this.initialTime = this.limit;
         }
         return this.initialTime;
 
@@ -68,7 +70,7 @@ public class TimerImpl implements Timer {
         case UP:
             return this.initialTime < this.limit;
         case DOWN:
-            return this.initialTime > this.limit;
+            return this.initialTime > this.limit - 1;
         default:
             return true;
         }
