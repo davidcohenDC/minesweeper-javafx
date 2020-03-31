@@ -1,9 +1,9 @@
 package timer;
 
 /**
- * An implementation of {@link MultipleTimers} that handles two Standard Timers.
+ * An implementation of {@link DoubleTimer} that handles two Standard Timers.
  */
-public class DoubleTimerImpl implements MultipleTimers {
+public class DoubleTimerImpl implements DoubleTimer {
 
     private final Timer player1Timer;
     private final Timer player2Timer;
@@ -47,6 +47,16 @@ public class DoubleTimerImpl implements MultipleTimers {
         } else {
             player2Timer.start();
         }
+    }
+
+    @Override
+    public final Timer getPlayer1Timer() {
+        return this.player1Timer;
+    }
+
+    @Override
+    public final Timer getPlayer2Timer() {
+        return this.player2Timer;
     }
 
     /**

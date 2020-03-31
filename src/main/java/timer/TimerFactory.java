@@ -25,7 +25,7 @@ public interface TimerFactory {
     /**
      * Creates two Timers for the "1 vs 1" mode of the game.
      * 
-     * @return Returns a {@link MultipleTimers} implemented for handling two Timers.
+     * @return Returns a {@link DoubleTimer} to handle the two Timers.
      */
-    MultipleTimers createTimersFor1vs1Mode();
+    DoubleTimer createTimersFor1vs1Mode();
 }
