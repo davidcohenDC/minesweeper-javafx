@@ -60,8 +60,7 @@ public class StatisticsController implements StatisticsControllerInterface {
         this.oldWidth = oldW;
         this.oldHeight = oldH;
     }
-
-    /****/
+    @Override
     public void initialize() {
         this.title.setText("STATISTICS - " + this.buttonText);
         this.vBox.setAlignment(Pos.CENTER);
