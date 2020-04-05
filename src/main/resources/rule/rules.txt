@@ -1,25 +1,25 @@
-Guida Utente
+GUIDA UTENTE
 
-Per iniziare una nuova partita, selezionare “Play Game”, si aprirà una nuova pagina in cui selezionare la modalità di gioco (standard, 1 vs 1, beat the timer) e la difficoltà (easy, medium, hard, personalized). Una volta scelte le opzioni di gioco basterà cliccare sul pulsante “Play” situato in basso a destra. Sarà ora richiesto all’utente di inserire il suo nome, o selezionare tra quelli già memorizzati, altrimenti il suo punteggio andrà perso. Fatto ciò in una nuova pagina verrà generata un altra pagina, diversa in base alla modalità scelta.
-Lo scopo del gioco è riuscire è trovare tutte le mine in un campo minato senza farle esplodere nel minor tempo possibile .
-
-
-MODALITA' STANDARD:
-Verrà generata una griglia di bottoni sotto ai quali si nascondono le mine (variabili in base alla difficoltà scelta). Per aprire la casella e disattivarla basterà fare click con il tasto sinistro del mouse, mentre per inserire o rimuovere una bandiera bisognerà cliccare con il tasto destro del mouse.
-Se il quadrato cliccato non contiene una mina, possono accadere due eventi. Se nel riquadro  appare un numero, ciò indica la quantità di quadrati adiacenti (inclusi quelli in diagonale) che contengono mine, che possono essere da 1 a 8. Se non appare nessun numero significa che tutti gli 8 riquadri adiacenti non contengono una mina.
+Per iniziare una nuova partita, selezionare “Play Game”, si aprirà una nuova pagina in cui selezionare la modalità di gioco (standard, 1 vs 1, beat the timer) e la difficoltà (easy, medium, hard, personalized).
+Una volta scelte le opzioni di gioco basterà cliccare sul pulsante “Play” situato in basso a destra. 
+Sarà ora richiesto all’utente di inserire il suo nome, o selezionare tra quelli già memorizzati, altrimenti il suo punteggio andrà perso. 
+Fatto si aprirà una nuova pagina, diversa in base alla modalità scelta.
+Lo scopo del gioco è riuscire è trovare tutte le mine in un campo minato senza farle esplodere nel minor tempo possibile.
 
 
-MODALITA' 1 VS 1:
-Verranno generate 2 griglie di bottoni per i rispettivi player. La partita dei due giocatori si alternerà dopo ogni mossa. Per ogni campo, vale la regola generale di gioco: per aprire la casella e disattivarla basterà fare click con il tasto sinistro del mouse, mentre per inserire o rimuovere una bandiera bisognerà cliccare con il tasto destro del mouse.
-Se il quadrato cliccato non contiene una mina, possono accadere due eventi. Se nel riquadro  appare un numero, ciò indica la quantità di quadrati adiacenti (inclusi quelli in diagonale) che contengono mine, che possono essere da 1 a 8. Se non appare nessun numero significa che tutti gli 8 riquadri adiacenti non contengono una mina.
-Il giocatore che individuerà tutte le mine senza farle esplodere o che non ne fa esplodere nessuna vincerà.
+MODALITA' STANDARD
+Verrà generata una griglia nella quale si nascondono le mine (variabili in base alla difficoltà scelta). 
+Per scoprire il contenuto di una casella basterà cliccarla con il tasto sinistro del mouse, mentre per inserire o rimuovere una bandiera bisognerà usare il tasto destro.
+Se la casella cliccata non contiene una mina mostrerà il numero di mine ad essa adiacenti, se non ci sono mine in vicinanza non mostrerà nulla.
 
-MODALITA' BEAT THE TIMER:
-Verrà generata una griglia di bottoni sotto ai quali si nascondono le mine (variabili in base alla difficoltà scelta). Per aprire la casella e disattivarla basterà fare click con il tasto sinistro del mouse, mentre per inserire o rimuovere una bandiera bisognerà cliccare con il tasto destro del mouse.
-Se il quadrato cliccato non contiene una mina, possono accadere due eventi. Se nel riquadro  appare un numero, ciò indica la quantità di quadrati adiacenti (inclusi quelli in diagonale) che contengono mine, che possono essere da 1 a 8. Se non appare nessun numero significa che tutti gli 8 riquadri adiacenti non contengono una mina.
-A differenza della modalità standard, per vincere bisognerà riuscire ad individuare tutte le mine in un determinato lasso di tempo, indicato nel timer posto sopra al campo.
+MODALITA' 1 VS 1
+Due giocatori si sfidano, secondo le regole della modalità standard, cercando a turno di completare il gioco, il primo giocatore che riesce a vincere si aggiudica la vittoria.
 
-DIFFICOLTA':
+
+MODALITA' BEAT THE TIMER
+Il gioco si svolge secondo la modalità standard, ma a differenza di quest'ultima, per vincere bisognerà riuscire ad individuare tutte le mine in un determinato lasso di tempo, indicato nel timer posto sopra al campo.
+
+DIFFICOLTA'
 esistono 4 tipi di gioco:
 easy(facile): campo 9 × 9 con 10 mine
 medium(intermedio): campo 16 × 16 con 40 mine

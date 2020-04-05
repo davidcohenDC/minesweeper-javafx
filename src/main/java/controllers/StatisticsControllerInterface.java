@@ -5,7 +5,7 @@ import java.io.IOException;
 /**Interface for the Statistic Controller.*/
 public interface StatisticsControllerInterface {
 
-	/**
+    /**
      * initialize fields.
      */
     void initialize();
