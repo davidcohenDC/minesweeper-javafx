@@ -158,7 +158,6 @@ public class StatisticsWriterImpl implements StatistcsWriter {
         this.path = Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + FILE_NAME + FILE_EXTENCION);
         if (Files.exists(this.path)) {
             for (final String playerName : mapFileLines(this.path).keySet()) {
-                getColumn(playerName, gameMode, column);
                 field = field + getColumn(playerName, gameMode, column);
             }
         }
