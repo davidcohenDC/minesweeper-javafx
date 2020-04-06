@@ -2,6 +2,7 @@ package timer;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -48,7 +49,7 @@ public class TimerViewImpl implements TimerView {
         this.label.setBackground(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
         this.label.setTextFill(numbersColor);
         this.label.setFont(font);
-        this.displayRefresher = new Timeline(new KeyFrame(javafx.util.Duration.millis(UPDATE_RATE), updateView()));
+        this.displayRefresher = new Timeline(new KeyFrame(Duration.millis(UPDATE_RATE), updateView()));
 
     }
 
