@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 
 /**
  * The Controller related to the playGame.fxml GUI.
@@ -285,9 +286,9 @@ public final class PlayGameController extends BackHomeController implements Play
                 System.out.println("mines: " + this.mines);
                 System.out.println("width: " + this.width);
                 System.out.println("height: " + this.height);
-                try {
-                    new GraphicsImpl(this.modality.get(),this.mines,this.width,this.height);
-                    //mari chiude il suo stage oppure mi insegna come mettere il suo
+                try{
+                    final Stage stage = (Stage) this.rbtStd.getScene().getWindow();
+                    new GraphicsImpl(this.modality.get(),this.mines,this.width,this.height,stage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
