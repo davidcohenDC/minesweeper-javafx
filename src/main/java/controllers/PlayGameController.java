@@ -10,11 +10,13 @@ import controlutility.Modality;
 import controlutility.AlertStyle;
 import controlutility.AlertStyleImpl;
 import controlutility.Difficulty;
+import gamegraphics.GraphicsImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 
 /**
  * The Controller related to the playGame.fxml GUI.
@@ -284,7 +286,12 @@ public final class PlayGameController extends BackHomeController implements Play
                 System.out.println("mines: " + this.mines);
                 System.out.println("width: " + this.width);
                 System.out.println("height: " + this.height);
-                // TODO chiama metodo per gioco
+                try{
+                    final Stage stage = (Stage) this.rbtStd.getScene().getWindow();
+                    new GraphicsImpl(this.modality.get(),this.mines,this.width,this.height,stage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
