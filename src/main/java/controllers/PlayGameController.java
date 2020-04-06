@@ -10,6 +10,7 @@ import controlutility.Modality;
 import controlutility.AlertStyle;
 import controlutility.AlertStyleImpl;
 import controlutility.Difficulty;
+import gamegraphics.GraphicsImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
@@ -284,7 +285,12 @@ public final class PlayGameController extends BackHomeController implements Play
                 System.out.println("mines: " + this.mines);
                 System.out.println("width: " + this.width);
                 System.out.println("height: " + this.height);
-                // TODO chiama metodo per gioco
+                try {
+                    new GraphicsImpl(this.modality.get(),this.mines,this.width,this.height);
+                    //mari chiude il suo stage oppure mi insegna come mettere il suo
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
