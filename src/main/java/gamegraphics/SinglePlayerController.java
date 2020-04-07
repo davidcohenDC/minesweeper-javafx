@@ -29,7 +29,6 @@ import java.util.stream.IntStream;
 public class SinglePlayerController implements ModalityController {
     private GameEngine engine;
     private final TimerFactory timerFactory = new TimerFactoryImpl();
-    private final TimerViewFactory timerViewFactory = new TimerViewFactoryImpl();
     private final GridPane grid = new GridPane();
     private AlertStyle alStyle;
     private Clip clip;
@@ -38,6 +37,7 @@ public class SinglePlayerController implements ModalityController {
     private int countflags = 0;
     private int height;
     private int width;
+    private final Timer timer;
 
     @FXML
     private Label lbFlags;
@@ -52,10 +52,11 @@ public class SinglePlayerController implements ModalityController {
     @FXML
     private BorderPane mainBorderPane;
 
-    public SinglePlayerController(final int height, final int width, final int mines) {
+    public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) {
         this.height = height;
         this.width = width;
         this.mines = mines;
+        this.timer = timer;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class SinglePlayerController implements ModalityController {
     }
 
     public void createTimer() {
-        final Timer timer = timerFactory.createTimerForStandardMode();
+        //final Timer timer = timerFactory.createTimerForStandardMode();
         final TimerView timerView = new TimerViewImpl(timer, lbTimer);
         timerView.startDisplaying();
         timer.start();
