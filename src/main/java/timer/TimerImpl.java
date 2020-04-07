@@ -65,15 +65,7 @@ public class TimerImpl implements Timer {
      * @return Returns {@value True} if the Timer did not reach its limit.
      */
     private boolean limitNotReached() {
-
-        switch (this.verse) {
-        case UP:
-            return this.initialTime < this.limit;
-        case DOWN:
-            return this.initialTime > this.limit - 1;
-        default:
-            return true;
-        }
+        return (this.initialTime - this.limit) * this.verse.getVerseIncrementValue() < 1;
     }
 
 }
