@@ -10,8 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-/**is a button of the board.*/
+//Tile of the GriPane
 public class Tile extends Button {
+    //Upload the seletected image of Mines and Flags in the image folder
     private static final String SEPARATOR = System.getProperty("file.separator");
     private final String urlImgMine = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
             + "mines" + SEPARATOR;
@@ -28,16 +29,16 @@ public class Tile extends Button {
     private final int y; //col
     private int value;
 
-
     /**
      * @param x of tile
      * @param y of tile
      * @throws IOException */
+
     public Tile(final int x, final int y) throws IOException {
         final RWSettings rwSett = new RWSettingsImpl();
         this.x = x;
         this.y = y;
-        this.setText(" ");
+        this.setText("");
         this.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
         final Image flag = new Image(new FileInputStream(this.urlImgFlag + rwSett.getFlags()), IMAGE_SIZE, IMAGE_SIZE, true, true);
         this.imgFlag = new ImageView(flag);
@@ -45,6 +46,7 @@ public class Tile extends Button {
         this.imgMine = new ImageView(mine);
         this.setStyle("-fx-padding:0");
     }
+
     /**
      * @return x of tile*/
     public int getX() {

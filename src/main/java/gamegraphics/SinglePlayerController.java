@@ -88,6 +88,18 @@ public class SinglePlayerController implements ModalityController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Tile finalTile = tile;
+        tile.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                finalTile.getValue();
+            } else if (e.getButton() == MouseButton.SECONDARY){
+                if(!finalTile.isFlagged())
+                finalTile.flag();
+                else {
+                    finalTile.flag();
+                }
+            }
+        });
         return tile;
     }
 }
