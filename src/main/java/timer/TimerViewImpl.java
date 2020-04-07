@@ -5,13 +5,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 /**
  * The implementation of {@link TimerView}.
@@ -35,20 +29,10 @@ public class TimerViewImpl implements TimerView {
      *                            The {@link Timer} to display.
      * @param label
      *                            The {@link Label} that displays the Timer.
-     * @param numbersColor
-     *                            The color of the numbers displayed.
-     * @param backgroundColor
-     *                            The color of the Label.
-     * @param font
-     *                            The font of the numbers displayed.
      */
-    protected TimerViewImpl(final Timer timer, final Label label, final Color numbersColor, final Color backgroundColor,
-            final Font font) {
+    public TimerViewImpl(final Timer timer, final Label label) {
         this.timer = timer;
         this.label = label;
-        this.label.setBackground(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.label.setTextFill(numbersColor);
-        this.label.setFont(font);
         this.displayRefresher = new Timeline(new KeyFrame(Duration.millis(UPDATE_RATE), updateView()));
 
     }
