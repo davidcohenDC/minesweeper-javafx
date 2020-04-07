@@ -54,7 +54,7 @@ public final class GraphicsImpl implements Graphics {
                 //final TimerView timerView = new TimerViewImpl(timer , lbTimer);
                 //final TimerView timerView = timerViewFactory.createDefault(timer, this.lbTimer);
                 loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/SinglePlayer.fxml"));
-                this.modalityController = new SinglePlayerController(this.height, this.width, this.mines);
+                this.modalityController = new SinglePlayerController(this.height, this.width, this.mines,this.timerFactory.createTimerForStandardMode());
                 loader.setController(modalityController);
                 parentPane = loader.load();
                 Button Button = new Button("ciao");
