@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+/**
+ * The implementation of {@link Board}.
+ */
 public class BoardImpl implements Board {
 
     private static final int NEAR_DISTANCE = 1;
@@ -62,8 +65,7 @@ public class BoardImpl implements Board {
     }
 
     private boolean isNear(final Pair<Integer, Integer> pos1, final Pair<Integer, Integer> pos2) {
-        return !pos1.equals(pos2)
-                && Math.abs(pos1.getX() - pos2.getX()) <= NEAR_DISTANCE 
+        return !pos1.equals(pos2) && Math.abs(pos1.getX() - pos2.getX()) <= NEAR_DISTANCE
                 && Math.abs(pos1.getY() - pos2.getY()) <= NEAR_DISTANCE;
     }
 }

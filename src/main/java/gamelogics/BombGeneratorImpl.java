@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The implementation of {@link BombGenerator}.
+ */
 public class BombGeneratorImpl implements BombGenerator {
 
     private int head = -1;

@@ -3,29 +3,33 @@ package gamelogics;
 import java.util.Map;
 
 /**
- * Interface for game managing.
- * */
+ * Interface for manage the entire game.
+ */
 public interface GameEngine {
 
     /**
-     * set as hit the box in position coord.
-     * @param coord represent the coord of the box
+     * Set as hit the {@link Box} in that coordinates.
+     * 
+     * @param coord
+     *                  The coordinates of the {@link Box}
      */
     void hit(Pair<Integer, Integer> coord);
 
     /**
-     * set as flagged the box in position coord.
-     * @param coord represent the coord of the box
+     * Set as flagged the {@link Box} in that coordinates.
+     * 
+     * @param coord
+     *                  The coordinates of the {@link Box}
      */
     void setFlag(Pair<Integer, Integer> coord);
 
     /**
-     * @return the status of the game
+     * @return The status of the game
      */
     GameStatus getGameStatus();
 
     /**
-     * @return a data structure that describe the board status
+     * @return A data structure that describe the {@link Board} status
      */
     Map<Pair<Integer, Integer>, Integer> getBoardStatus();
 }

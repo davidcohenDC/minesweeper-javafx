@@ -9,32 +9,34 @@ public interface Board extends Iterable<Box> {
 
     /**
      * Obtain board width.
-     * @return
-     * width
+     * 
+     * @return Returns the {@link Board}'s width
      */
     int getWidth();
 
     /**
      * Obtain board height.
-     * @return
-     * board height
+     * 
+     * @return Returns the {@link Board}'s height
      */
     int getHeight();
 
     /**
-     * @param coord represent the coord of the box
-     * @return the box in position coord
+     * @param coord
+     *                  The coordinates of the box
+     * @return Returns the {@link Box} in that coordinates
      */
     Box getBox(Pair<Integer, Integer> coord);
 
     /**
-     * @param selectedBox represent the box
-     * @return a list of boxes near the passed box
+     * @param selectedBox
+     *                        The {@link Box} to get the nears
+     * @return Returns a list of boxes near the passed {@link Box}
      */
     Set<Box> getNearBox(Box selectedBox);
 
     /**
-     * @return the number of box in board
+     * @return Returns the number of {@link Box} in {@link Board}
      */
     int size();
 }

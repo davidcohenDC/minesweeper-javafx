@@ -4,16 +4,19 @@ package gamelogics;
  * The possible status of the game.
  */
 public enum GameStatus {
+
     /**
-     * the game is being played.
+     * The game is being played.
      */
     NORMAL,
+
     /**
-     * the player win the game.
+     * The player win the game.
      */
     WIN,
+
     /**
-     * the player lose the game.
+     * The player lose the game.
      */
     LOSE
 }
