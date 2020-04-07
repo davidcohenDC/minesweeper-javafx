@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gamegraphics.SinglePlayerController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
     <children>
         <BorderPane id="borderPane" fx:id="mainBorderPane" layoutX="178.0" layoutY="117.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <bottom>
@@ -42,7 +42,7 @@
                         </Label>
                     </right>
                     <center>
-                        <Label fx:id="lbTimer" alignment="CENTER" disable="true" text="Timer" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Label fx:id="lbTimer" alignment="CENTER" disable="false"  text="CENTER" BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="27.0" />
                             </font>
