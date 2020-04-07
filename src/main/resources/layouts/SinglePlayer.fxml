@@ -35,7 +35,7 @@
                         </Label>
                     </left>
                     <right>
-                        <Label fx:id="lbTiles" alignment="CENTER" disable="true" style="-fx-background-color: lightgray;" text="Tiles" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Label fx:id="lbMines" alignment="CENTER" disable="true" style="-fx-background-color: lightgray;" text="Tiles" textAlignment="CENTER" BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="28.0" />
                             </font>

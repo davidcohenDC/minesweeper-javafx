@@ -32,14 +32,17 @@ public class SinglePlayerController implements ModalityController {
     private final TimerViewFactory timerViewFactory = new TimerViewFactoryImpl();
     private final GridPane grid = new GridPane();
     private AlertStyle alStyle;
-    private int mineCount;
-    private int tileCount;
-    private int effectiveMine;
     private Clip clip;
     private Board board;
+    private int mines;
+    private int countflags = 0;
+    private int height;
+    private int width;
 
     @FXML
     private Label lbFlags;
+    @FXML
+    private Label lbMines;
     @FXML
     private Label lbTimer = new Label();
     @FXML
@@ -49,25 +52,25 @@ public class SinglePlayerController implements ModalityController {
     @FXML
     private BorderPane mainBorderPane;
 
-    private int height;
-    private int width;
-
     public SinglePlayerController(final int height, final int width, final int mines) {
         this.height = height;
         this.width = width;
+        this.mines = mines;
     }
 
     @Override
     public void initialize() throws IOException {
+        setLabel();
         createTimer();
         makeTiles();
 
     }
 
-    @Override
-    public void startGame() {
-
+    private void setLabel() {
+        lbFlags.setText("FLags:" + 0);
+        lbMines.setText("Mines:" + mines);
     }
+
     public void createTimer() {
         final Timer timer = timerFactory.createTimerForStandardMode();
         final TimerView timerView = new TimerViewImpl(timer, lbTimer);
@@ -81,6 +84,7 @@ public class SinglePlayerController implements ModalityController {
         grid.setAlignment(Pos.CENTER);
         this.mainBorderPane.setCenter(grid);
     }
+
     protected Tile createTile(final int x, final int y) {
         Tile tile  = null;
         try {
@@ -92,11 +96,20 @@ public class SinglePlayerController implements ModalityController {
         tile.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 finalTile.getValue();
-            } else if (e.getButton() == MouseButton.SECONDARY){
-                if(!finalTile.isFlagged())
-                finalTile.flag();
-                else {
+                finalTile.disable();
+                if(finalTile.isFlagged()) {
                     finalTile.flag();
+                }
+            } else if (e.getButton() == MouseButton.SECONDARY){
+                if(!finalTile.isFlagged()) {
+                    countflags++;
+                    finalTile.flag();
+                    lbFlags.setText("FLags:" + countflags);
+                }
+                else {
+                    countflags--;
+                    finalTile.flag();
+                    lbFlags.setText("FLags:" + countflags);
                 }
             }
         });

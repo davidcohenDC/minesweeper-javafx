@@ -288,7 +288,7 @@ public final class PlayGameController extends BackHomeController implements Play
                 System.out.println("height: " + this.height);
                 try{
                     final Stage stage = (Stage) this.rbtStd.getScene().getWindow();
-                    new GraphicsImpl(this.modality.get(),this.mines,this.width,this.height,stage);
+                    new GraphicsImpl(this.modality.get(),this.difficulty.get(),this.mines,this.width,this.height,stage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -29,10 +29,6 @@ public class Tile extends Button {
     private final int y; //col
     private int value;
 
-    /**
-     * @param x of tile
-     * @param y of tile
-     * @throws IOException */
 
     public Tile(final int x, final int y) throws IOException {
         final RWSettings rwSett = new RWSettingsImpl();
@@ -47,28 +43,23 @@ public class Tile extends Button {
         this.setStyle("-fx-padding:0");
     }
 
-    /**
-     * @return x of tile*/
+
     public int getX() {
         return x;
     }
-    /**
-     * @return y of tile*/
+
     public int getY() {
         return y;
     }
-    /**
-     * @return the value of tile*/
+
     public int getValue() {
         return value;
     }
-    /**
-     * @param n value to set*/
+
     public final void setValue(final int n) {
         value = n;
     }
-    /**
-     * remove / set the flag.*/
+
     public final void flag() {
         flagged = !flagged;
         if (flagged) {
@@ -77,25 +68,20 @@ public class Tile extends Button {
             this.setGraphic(null);
         }
     }
-    /**
-     * @return if is flagged*/
+
     public boolean isFlagged() {
         return flagged;
     }
 
-    /**set mine.*/
     public final void setMine() {
         mine = true;
         value = MINE_VALUE;
     }
-    /**
-     * verify if is a mine.
-     * @return mine*/
+
     public final boolean isMine() {
         return mine;
     }
-    /**
-     * disable the tile.*/
+
     public final void disable() {
         this.setDisable(true);
         if (mine) {

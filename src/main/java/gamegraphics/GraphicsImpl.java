@@ -62,7 +62,6 @@ public final class GraphicsImpl implements Graphics {
                 singlePlayerScene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
                 stage.setScene(singlePlayerScene);
                 stage.show();
-                modalityController.startGame();
                 LoadElements();
                 Button button = new Button(String.valueOf("ciao"));
                 break;
@@ -70,12 +69,10 @@ public final class GraphicsImpl implements Graphics {
             case ONE_VS_ONE:
                 break;
 
-
             case BTT:
                 break;
 
         }
-
 
     }
 
@@ -83,7 +80,6 @@ public final class GraphicsImpl implements Graphics {
     public void LoadElements() throws IOException {
         startSong();
     }
-
 
     private void startSong() {
         try {
