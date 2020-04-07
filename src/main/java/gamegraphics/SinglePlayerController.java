@@ -4,6 +4,8 @@ import controlutility.AlertStyle;
 import controlutility.Modality;
 import gamelogics.Board;
 import gamelogics.GameEngine;
+import gamelogics.GameEngineImpl;
+import gamelogics.Pair;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -20,6 +22,8 @@ import timer.Timer;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 /**
@@ -30,6 +34,7 @@ public class SinglePlayerController implements ModalityController {
     private GameEngine engine;
     private final TimerFactory timerFactory = new TimerFactoryImpl();
     private final GridPane grid = new GridPane();
+    private final Map<Pair<Integer,Integer>,Tile> tilesMap;
     private AlertStyle alStyle;
     private Clip clip;
     private Board board;
@@ -52,11 +57,16 @@ public class SinglePlayerController implements ModalityController {
     @FXML
     private BorderPane mainBorderPane;
 
+
+
     public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) {
         this.height = height;
         this.width = width;
         this.mines = mines;
         this.timer = timer;
+
+        this.tilesMap = new HashMap<>();
+        this.engine = new GameEngineImpl(this.width,this.height,this.mines);
     }
 
     @Override
@@ -68,7 +78,7 @@ public class SinglePlayerController implements ModalityController {
     }
 
     private void setLabel() {
-        lbFlags.setText("FLags:" + 0);
+        lbFlags.setText("Flags:" + 0);
         lbMines.setText("Mines:" + mines);
     }
 
@@ -87,33 +97,49 @@ public class SinglePlayerController implements ModalityController {
     }
 
     protected Tile createTile(final int x, final int y) {
-        Tile tile  = null;
+        final Tile tile;
         try {
             tile = new Tile(x,y);
+            this.tilesMap.put(new Pair<>(x, y),tile);
+            tile.setOnMouseClicked(e -> {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    if(!tile.isFlagged()) {
+                        tile.disable();
+                        tile.getValue();
+                        this.engine.hit(new Pair<>(x,y));
+                        refreshBoard();
+                    }
+                } else if (e.getButton() == MouseButton.SECONDARY){
+                    this.engine.setFlag(new Pair<>(x,y));
+
+                    if(!tile.isFlagged()) {
+                        this.countflags++;
+                        tile.flag();
+                        this.lbFlags.setText("FLags:" + this.countflags);
+                    }
+                    else {
+                        this.countflags--;
+                        tile.flag();
+                        this.lbFlags.setText("FLags:" + this.countflags);
+                    }
+                }
+
+            });
+            return tile;
         } catch (IOException e) {
             e.printStackTrace();
+            throw new IllegalStateException("Could not create tile correctly");
         }
-        Tile finalTile = tile;
-        tile.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.PRIMARY) {
-                finalTile.getValue();
-                finalTile.disable();
-                if(finalTile.isFlagged()) {
-                    finalTile.flag();
-                }
-            } else if (e.getButton() == MouseButton.SECONDARY){
-                if(!finalTile.isFlagged()) {
-                    countflags++;
-                    finalTile.flag();
-                    lbFlags.setText("FLags:" + countflags);
-                }
-                else {
-                    countflags--;
-                    finalTile.flag();
-                    lbFlags.setText("FLags:" + countflags);
-                }
+
+    }
+
+    private void refreshBoard() {
+        for(Pair<Integer,Integer> tile: this.engine.getBoardStatus().keySet()){
+            if(this.engine.getBoardStatus().get(tile) != -1) {
+                final Tile tmpTile = this.tilesMap.get(tile);
+                //tmpTile.disable();
+                tmpTile.setValue(this.engine.getBoardStatus().get(tile));
             }
-        });
-        return tile;
+        }
     }
 }
