@@ -24,20 +24,18 @@ class TestTimer {
         while (t.getValue() == 0) {
             assertTrue(t.isRunning());
         }
-
         t.stop();
         assertFalse(t.isRunning());
-
+        assertEquals(1, t.getValue());
         assertTrue(t.getValue() > 0);
     }
 
     @Test
     public void beatTheTimerTest() {
 
-        final int startingAmmount = 100;
+        final int startingAmmount = 10;
         final Timer t = f.createTimerForBeatTheTimerMode(startingAmmount);
         assertFalse(t.isRunning());
-        assertEquals(startingAmmount, t.getValue());
         assertEquals(startingAmmount, t.getValue());
 
         t.start();
@@ -53,8 +51,8 @@ class TestTimer {
             assertTrue(t.getValue() <= startingAmmount);
         }
 
-        //timer should not go beyond its limit
-        for (int i = 0; i < 100; i++) {
+        // timer should not go beyond its limit
+        for (int i = 0; i < 10; i++) {
             assertTrue(t.isRunning());
             assertEquals(0, t.getValue());
         }
@@ -70,7 +68,7 @@ class TestTimer {
         dt.start();
         assertTrue(dt.isRunning());
 
-        while (dt.getValue() < 100) {
+        while (dt.getValue() < 10) {
 
             while (dt.getValue() == 0) {
                 assertTrue(dt.isRunning());
