@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,13 +96,8 @@ public class ScoreWriterImpl implements ScoreWriter {
             }
 
             // sorts the list of lines
-            this.lines.sort(new Comparator<String>() {
-                @Override
-                public int compare(final String playerA, final String playerB) {
-                    return Integer.parseInt(playerA.split(SCORE_SEPARATOR)[POINTS_COLUMN])
-                            - Integer.parseInt(playerB.split(SCORE_SEPARATOR)[POINTS_COLUMN]);
-                }
-            });
+            this.lines.sort((playerA, playerB) -> Integer.parseInt(playerA.split(SCORE_SEPARATOR)[POINTS_COLUMN])
+                    - Integer.parseInt(playerB.split(SCORE_SEPARATOR)[POINTS_COLUMN]));
 
             // actually writes the file
             try {

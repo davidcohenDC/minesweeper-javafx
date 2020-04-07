@@ -33,7 +33,7 @@ public class TimerImpl implements Timer {
     public final long getValue() {
 
         if (!stop) {
-            if (!reachedLimit()) {
+            if (limitNotReached()) {
                 this.initialTime = this.initialTime
                         + ((System.currentTimeMillis() - this.startTime) * this.verse.getVerseIncrementValue());
                 this.startTime = System.currentTimeMillis();
@@ -62,18 +62,10 @@ public class TimerImpl implements Timer {
     }
 
     /**
-     * @return Returns {@value True} if the Timer reached its limit.
+     * @return Returns {@value True} if the Timer did not reach its limit.
      */
-    private boolean reachedLimit() {
-
-        switch (this.verse) {
-        case UP:
-            return this.initialTime < this.limit;
-        case DOWN:
-            return this.initialTime > this.limit - 1;
-        default:
-            return true;
-        }
+    private boolean limitNotReached() {
+        return (this.initialTime - this.limit) * this.verse.getVerseIncrementValue() < 1;
     }
 
 }
