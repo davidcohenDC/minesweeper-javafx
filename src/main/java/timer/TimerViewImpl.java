@@ -2,10 +2,10 @@ package timer;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.util.Duration;
 
 /**
  * The implementation of {@link TimerView}.
@@ -26,9 +26,9 @@ public class TimerViewImpl implements TimerView {
      * Sets up the {@link Label} as chosen.
      * 
      * @param timer
-     *                            The {@link Timer} to display.
+     *                  The {@link Timer} to display.
      * @param label
-     *                            The {@link Label} that displays the Timer.
+     *                  The {@link Label} that displays the Timer.
      */
     public TimerViewImpl(final Timer timer, final Label label) {
         this.timer = timer;
