@@ -53,7 +53,7 @@ class TestPlayer {
 
         //player loses
         p.lost();
-        assertEquals(GameStatus.LOSE, p.getResult());
+        assertEquals(GameStatus.LOST, p.getResult());
 
         //player lost so no score needs to be accessed
         try {
@@ -70,7 +70,7 @@ class TestPlayer {
             fail("CANNOT WIN AFTER LOSING");
         } catch (IllegalStateException e) {
             System.out.println(e);
-            assertNotEquals(GameStatus.WIN, p.getResult());
+            assertNotEquals(GameStatus.WON, p.getResult());
             assertEquals(IllegalStateException.class, e.getClass());
         }
 
@@ -100,7 +100,7 @@ class TestPlayer {
 
         //player wins the game in 8 seconds
         p.won(8);
-        assertEquals(GameStatus.WIN, p.getResult());
+        assertEquals(GameStatus.WON, p.getResult());
         assertEquals(8, p.getScore());
 
         //player shouldn't be able to change its status after winning or losing

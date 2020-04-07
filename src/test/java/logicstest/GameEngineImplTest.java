@@ -13,7 +13,7 @@ class GameEngineImplTest {
     public void testGetGameStatus() {
         //test without bombs for checking the win
         final GameEngine withOutBomb = new GameEngineImpl(4, 4, 0);
-        assertEquals(withOutBomb.getGameStatus(), GameStatus.NORMAL);
+        assertEquals(withOutBomb.getGameStatus(), GameStatus.PLAYING);
         //test win
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -21,11 +21,11 @@ class GameEngineImplTest {
             }
         }
         //after all box are clicked I win
-        assertEquals(withOutBomb.getGameStatus(), GameStatus.WIN);
+        assertEquals(withOutBomb.getGameStatus(), GameStatus.WON);
 
         //test without bombs and with flags
         final GameEngine withFlag = new GameEngineImpl(4, 4, 0);
-        assertEquals(withFlag.getGameStatus(), GameStatus.NORMAL);
+        assertEquals(withFlag.getGameStatus(), GameStatus.PLAYING);
         //test win
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -33,11 +33,11 @@ class GameEngineImplTest {
             }
         }
         //after all box are flagged I win
-        assertEquals(withFlag.getGameStatus(), GameStatus.WIN);
+        assertEquals(withFlag.getGameStatus(), GameStatus.WON);
 
         //test loss
         final GameEngine withBomb = new GameEngineImpl(4, 4, 1);
-        assertEquals(withBomb.getGameStatus(), GameStatus.NORMAL);
+        assertEquals(withBomb.getGameStatus(), GameStatus.PLAYING);
         //test win
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -45,6 +45,6 @@ class GameEngineImplTest {
             }
         }
         //after all box are clicked I had clicked also the bomb...so I lost
-        assertEquals(withBomb.getGameStatus(), GameStatus.LOSE);
+        assertEquals(withBomb.getGameStatus(), GameStatus.LOST);
     }
 }

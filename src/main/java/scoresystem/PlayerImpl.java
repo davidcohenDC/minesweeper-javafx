@@ -42,7 +42,7 @@ public class PlayerImpl implements Player {
     @Override
     public final void won(final int score) {
         check(!this.result.isEmpty(), "Player's result cannot be modified after its initial registration");
-        this.result = Optional.of(GameStatus.WIN);
+        this.result = Optional.of(GameStatus.WON);
         if (!this.difficuly.equals(Difficulty.PERSONALIZED)) {
             this.score = Optional.of(score);
         }
@@ -51,7 +51,7 @@ public class PlayerImpl implements Player {
     @Override
     public final void lost() {
         check(!this.result.isEmpty(), "Player's result cannot be modified after its initial registration");
-        this.result = Optional.of(GameStatus.LOSE);
+        this.result = Optional.of(GameStatus.LOST);
     }
 
     @Override

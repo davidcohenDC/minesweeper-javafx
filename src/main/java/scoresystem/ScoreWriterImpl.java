@@ -183,7 +183,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     private boolean scoreIsWritable() {
         try {
             check(Optional.of(this.player.getResult()).isEmpty(), "Result is empty");
-            check(this.player.getResult().equals(GameStatus.LOSE), "Player has lost");
+            check(this.player.getResult().equals(GameStatus.LOST), "Player has lost");
             check(this.player.getDifficuly().equals(Difficulty.PERSONALIZED),
                     "Scores for personalized difficulty must not be written");
             check(this.previousHighScore.isPresent() && this.player.getScore() > this.previousHighScore.get(),

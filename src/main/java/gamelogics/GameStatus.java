@@ -8,15 +8,15 @@ public enum GameStatus {
     /**
      * The game is being played.
      */
-    NORMAL,
+    PLAYING,
 
     /**
      * The player win the game.
      */
-    WIN,
+    WON,
 
     /**
      * The player lose the game.
      */
-    LOSE
+    LOST
 }

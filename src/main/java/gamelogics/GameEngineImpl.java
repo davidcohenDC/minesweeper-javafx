@@ -42,13 +42,13 @@ public class GameEngineImpl implements GameEngine {
         int goodBoxCount = 0;
         for (final Box box : this.board) {
             if (box.isClicked() && box.containsBomb()) {
-                return GameStatus.LOSE;
+                return GameStatus.LOST;
             }
             if (box.isClicked() || box.isFlagged()) {
                 goodBoxCount++;
             }
         }
-        return goodBoxCount == this.board.size() ? GameStatus.WIN : GameStatus.NORMAL;
+        return goodBoxCount == this.board.size() ? GameStatus.WON : GameStatus.PLAYING;
     }
 
     @Override

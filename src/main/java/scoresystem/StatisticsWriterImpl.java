@@ -72,10 +72,10 @@ public class StatisticsWriterImpl implements StatistcsWriter {
             if (Optional.of(player.getResult()).isPresent()) {
                 // Depending on players result it increases the field accordingly
                 switch (player.getResult()) {
-                case WIN:
+                case WON:
                     updateField(WINS_COLUMN);
                     break;
-                case LOSE:
+                case LOST:
                     updateField(LOSSES_COLUMN);
                     break;
                 default:// if the player has a result differing from the ones above it will throw
