@@ -3,14 +3,16 @@ package gamelogics;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The implementation of {@link GameEngine}.
+ */
 public class GameEngineImpl implements GameEngine {
 
     private final Board board;
 
     public GameEngineImpl(final int width, final int height, final int bombs) {
         final BoardBuilder boardBuilder = new BoardBuilderImpl();
-        boardBuilder.withWidth(width)
-                    .withHeight(height);
+        boardBuilder.withWidth(width).withHeight(height);
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {

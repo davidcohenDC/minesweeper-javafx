@@ -3,6 +3,9 @@ package gamelogics;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The implementation of {@link BoardBuilder}.
+ */
 public class BoardBuilderImpl implements BoardBuilder {
 
     private int width;

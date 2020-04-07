@@ -1,5 +1,8 @@
 package gamelogics;
 
+/**
+ * The implementation of {@link Box}.
+ */
 public class BoxImpl implements Box {
 
     private final Pair<Integer, Integer> coord;
@@ -57,28 +60,28 @@ public class BoxImpl implements Box {
 
     @Override
     public final boolean equals(final Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Box other = (Box) obj;
+        if (this.coord.getX() == null) {
+            if (other.getPosition().getX() != null) {
                 return false;
             }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final Box other = (Box) obj;
-            if (this.coord.getX() == null) {
-                if (other.getPosition().getX() != null) {
-                    return false;
-                }
-            } else if (!this.coord.getX().equals(other.getPosition().getX())) {
-                return false;
-            }
-            if (this.coord.getY() == null) {
-                return other.getPosition().getY() == null;
-            } else {
-                return this.coord.getY().equals(other.getPosition().getY());
-            }
+        } else if (!this.coord.getX().equals(other.getPosition().getX())) {
+            return false;
+        }
+        if (this.coord.getY() == null) {
+            return other.getPosition().getY() == null;
+        } else {
+            return this.coord.getY().equals(other.getPosition().getY());
+        }
     }
 
     @Override

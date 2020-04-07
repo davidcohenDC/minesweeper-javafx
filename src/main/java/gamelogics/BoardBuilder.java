@@ -4,49 +4,49 @@ import java.util.Set;
 
 /**
  * Interface for building Board.
- * */
+ */
 public interface BoardBuilder {
 
     /**
-     * set the board width.
+     * Set the {@link Board} width.
+     * 
      * @param w
-     * width of the board
-     * @return
-     * BoardBuilder
+     *              The width of the {@link Board}.
+     * @return {@link BoardBuilder}
      */
     BoardBuilder withWidth(int w);
 
     /**
-     * set the board height.
-     * @param h 
-     * height of the board
-     * @return 
-     * BoardBuilder
+     * Set the {@link Board} height.
+     * 
+     * @param h
+     *              height of the {@link Board}
+     * @return {@link BoardBuilder}
      */
     BoardBuilder withHeight(int h);
 
     /**
-     * add a box to board.
+     * Add a {@link Box} to {@link Board}.
+     * 
      * @param box
-     * box to add
-     * @return 
-     * BoardBuilder
+     *                {@link Box} to add in {@link Board}
+     * @return {@link BoardBuilder}
      */
     BoardBuilder addBox(Box box);
 
     /**
-     * add a box of list to board.
+     * Add a {@link Box} of list to {@link Board}.
+     * 
      * @param boxSet
-     * Set of box
-     * @return
-     * BoardBuilder
+     *                   Set of {@link Box} to add in {@link Board}
+     * @return {@link BoardBuilder}
      */
     BoardBuilder addBoxSet(Set<Box> boxSet);
 
     /**
-     * build the board.
-     * @return 
-     * Board
+     * Build the {@link Board}.
+     * 
+     * @return A builded {@link Board}
      */
     Board build();
 }

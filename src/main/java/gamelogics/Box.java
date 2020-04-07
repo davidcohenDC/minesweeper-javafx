@@ -2,40 +2,44 @@ package gamelogics;
 
 /**
  * Interface for box managing.
- * */
+ */
 public interface Box {
 
     /**
-     * set/unset the flag on the box.
-     * */
+     * Set or unset the flag on the {@link Box}.
+     */
     void setFlag();
 
     /**
-     * set the box as clicked.
+     * Set the {@link Box} as clicked.
      */
     void hit();
 
     /**
-     * get the position X Y of the box in board.
-     * @return the position of the box
+     * Get the position X Y of the {@link Box} in {@link Board}.
+     * 
+     * @return The position of the {@link Box}
      */
     Pair<Integer, Integer> getPosition();
 
     /**
-     * check if the box contains a bomb.
-     * @return true if the box contains a bomb
-     * */
+     * Check if the {@link Box} contains a bomb.
+     * 
+     * @return True if the {@link Box} contains a bomb
+     */
     boolean containsBomb();
 
     /**
-     * check if the box is clicked.
-     * @return true if the box is clicked
-     * */
+     * Check if the {@link Box} is clicked.
+     * 
+     * @return True if the {@link Box} is clicked
+     */
     boolean isClicked();
 
     /**
-     * check if the box is flagged.
-     * @return true if the box is flagged
+     * Check if the {@link Box} is flagged.
+     * 
+     * @return True if the {@link Box} is flagged
      */
     boolean isFlagged();
 }
