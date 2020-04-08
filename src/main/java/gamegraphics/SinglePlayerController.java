@@ -4,8 +4,7 @@ import controllers.BackHomeController;
 import controlutility.AlertStyle;
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
-import gamelogics.GameEngine;
-import gamelogics.GameEngineImpl;
+import gamelogics.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -30,6 +29,8 @@ import timer.Timer;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 /**
@@ -45,12 +46,12 @@ public class SinglePlayerController implements ModalityController {
     private AlertStyle alStyle;
     private Clip clip;
     private Boolean firstClick = false;
-    //private GameEngine engine;
+    private GameEngine engine;
     private final TimerFactory timerFactory = new TimerFactoryImpl();
     private final Timer timer;
     private RWSettings rwSett;
 
-    //private final Map<Pair<Integer,Integer>,Tile> tilesMap;
+    private final Map<Pair<Integer,Integer>,Tile> tilesMap;
 
 
 
@@ -61,7 +62,9 @@ public class SinglePlayerController implements ModalityController {
     @FXML
     private Label lbTimer = new Label();
     @FXML
-    private Button btnStartGame;
+    private Button btnRestart;
+    @FXML
+    private Button btnBackHome;
     @FXML
     private AnchorPane rootPane;
 
@@ -76,6 +79,8 @@ public class SinglePlayerController implements ModalityController {
         this.mines = mines;
         this.timer = timer;
         grid.setStyle(" -fx-grid-lines-visible: true; -fx-grid-border-style: solid inside;");
+        this.engine = new GameEngineImpl(width,height,mines);
+        this.tilesMap = new HashMap<>();
 
 
     }
@@ -86,7 +91,14 @@ public class SinglePlayerController implements ModalityController {
         setLabel();
         //setupTimer();
         buildTiles();
-
+        btnBackHome.setOnMouseClicked(t -> {
+            try {
+                backHome();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        btnRestart.setOnAction(t -> restart());
     }
 
     private void setLabel() {
@@ -112,12 +124,12 @@ public class SinglePlayerController implements ModalityController {
 
         try {
             tile = new Tile(x,y);
-            //this.tilesMap.put(new Pair<>(x, y),tile);
+            this.tilesMap.put(new Pair<>(x, y),tile);
             tile.setOnMouseClicked(e -> {
                 if (e.getButton() == MouseButton.PRIMARY) {
-                    leftClickHandler(tile);
+                    leftClickHandler(tile,x,y);
                 } else if (e.getButton() == MouseButton.SECONDARY){
-                    rightClickHandler(tile);
+                    rightClickHandler(tile,x,y);
                 }
             });
             return tile;
@@ -128,20 +140,31 @@ public class SinglePlayerController implements ModalityController {
 
     }
 
-    private void leftClickHandler(final Tile tile) {
+    private void leftClickHandler(final Tile tile,final int x, final int y) {
+
         if(!this.firstClick) {
             this.firstClick = true;
             setupTimer();
         }
         if(!tile.isFlagged()) {
-            tileEffect(tile);
-            tile.disable();
-            //tile.getValue();
+            this.engine.hit(new Pair<>(x,y));
+            refreshBoard();
+
+        }
+        if(this.engine.getGameStatus().equals(GameStatus.LOST)) {
+            //lost();
+            System.out.println("Lost");
+            //ShowBombs();
+        } else if(this.engine.getGameStatus().equals(GameStatus.WON)) {
+            //Won();
+            System.out.println("Lost");
+
         }
     }
 
-    protected void rightClickHandler(final Tile tile) {
-            //this.engine.setFlag(new Pair<>(x,y));
+    protected void rightClickHandler(final Tile tile, final int x, final int y) {
+
+        this.engine.setFlag(new Pair<>(x,y));
 
         if(!tile.isFlagged()) {
                 this.ccflags++;
@@ -172,18 +195,35 @@ public class SinglePlayerController implements ModalityController {
 
     }
 
+    private void closeGame() {
+        clip.stop();
+        clip.close();
+        timer.stop();
+    }
+
+    public void backHome() throws IOException {
+        final RWSettings rwSett = new RWSettingsImpl();
+        final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/home.fxml"));
+        final Stage stage = (Stage) this.rootPane.getScene().getWindow();
+        final Scene scene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
+        scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
+        stage.setScene(scene);
+    }
+
+    public void restart() {
+        closeGame();
+        //buildTiles();
+    }
 
 
-
-
-
-/*    private void refreshBoard() {
-        for(Pair<Integer,Integer> tile: this.engine.getGameStatus().keySet()){
-            if(this.engine.getGameStatus().get(tile) != -1) {
-                final Tile tmpTile = this.tilesMap.get(tile);
-                //tmpTile.disable();
-                tmpTile.setValue(this.engine.ga().get(tile));
+   private void refreshBoard() {
+        for(final Box box : this.engine.getBoard()) {
+            if(box.isClicked()) {
+                final Tile tmpTile = this.tilesMap.get(box.getPosition());
+                tmpTile.setValue(box.getBombNear());
+                //tileEffect(tmpTile);
+                tmpTile.disable();
             }
         }
-    }*/
+    }
 }
