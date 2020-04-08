@@ -1,8 +1,5 @@
 package gamelogics;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * The implementation of {@link GameEngine}.
  */
@@ -52,11 +49,7 @@ public class GameEngineImpl implements GameEngine {
     }
 
     @Override
-    public final Map<Pair<Integer, Integer>, Integer> getBoardStatus() {
-        final Map<Pair<Integer, Integer>, Integer> map = new HashMap<>();
-        for (final Box box : this.board) {
-            map.put(box.getPosition(), this.board.getNearBox(box).size());
-        }
-        return map;
+    public final Board getBoard() {
+        return this.board;
     }
 }
