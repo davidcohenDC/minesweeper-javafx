@@ -103,4 +103,17 @@ public class BoxImpl implements Box {
         result = prime * result + ((this.coord.getY() == null) ? 0 : this.coord.getY().hashCode());
         return result;
     }
+
+    @Override
+    public final String toString() {
+        if (this.isClicked()) {
+            return String.valueOf(this.bombNear);
+        } else if (this.isFlagged()) {
+            return "F";
+        } else if (this.containsBomb()) {
+            return "B";
+        } else {
+            return "N";
+        }
+    }
 }
