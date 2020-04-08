@@ -12,9 +12,9 @@ public class GameEngineImpl implements GameEngine {
         final BoardBuilder boardBuilder = new BoardBuilderImpl();
         boardBuilder.withWidth(width).withHeight(height);
 
+        final BombGenerator bombSystem = new BombGeneratorImpl(width, height, bombs);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                final BombGenerator bombSystem = new BombGeneratorImpl(width, height, bombs);
                 final Box box = new BoxImpl(new Pair<>(i, j), bombSystem.next());
                 boardBuilder.addBox(box);
             }
