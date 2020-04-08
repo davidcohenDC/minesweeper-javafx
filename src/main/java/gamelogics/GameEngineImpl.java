@@ -28,7 +28,10 @@ public class GameEngineImpl implements GameEngine {
             if (board.getBox(coord).containsBomb()) {
                 this.lost = true;
             } else {
-                this.expand(coord);
+                this.board.getBox(coord).hit();
+                if (this.board.getBox(coord).getBombNear() == 0) {
+                    this.expand(coord);
+                }
             }
         }
     }
