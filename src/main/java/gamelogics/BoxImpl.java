@@ -9,6 +9,7 @@ public class BoxImpl implements Box {
     private final boolean withBomb;
     private boolean flag;
     private boolean clicked;
+    private int bombNear = 0;
 
     public BoxImpl(final Pair<Integer, Integer> coord) {
         this.coord = coord;
@@ -59,6 +60,16 @@ public class BoxImpl implements Box {
     }
 
     @Override
+    public final void setBombNear(final int bombNear) {
+        this.bombNear = bombNear;
+    }
+
+    @Override
+    public final int getBombNear() {
+        return this.bombNear;
+    }
+
+    @Override
     public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
@@ -91,5 +102,18 @@ public class BoxImpl implements Box {
         result = prime * result + ((this.coord.getX() == null) ? 0 : this.coord.getX().hashCode());
         result = prime * result + ((this.coord.getY() == null) ? 0 : this.coord.getY().hashCode());
         return result;
+    }
+
+    @Override
+    public final String toString() {
+        if (this.isClicked()) {
+            return String.valueOf(this.bombNear);
+        } else if (this.isFlagged()) {
+            return "F";
+        } else if (this.containsBomb()) {
+            return "B";
+        } else {
+            return "N";
+        }
     }
 }

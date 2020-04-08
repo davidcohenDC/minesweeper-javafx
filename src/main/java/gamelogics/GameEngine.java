@@ -1,7 +1,5 @@
 package gamelogics;
 
-import java.util.Map;
-
 /**
  * Interface for manage the entire game.
  */
@@ -31,5 +29,5 @@ public interface GameEngine {
     /**
      * @return A data structure that describe the {@link Board} status
      */
-    Map<Pair<Integer, Integer>, Integer> getBoardStatus();
+    Board getBoard();
 }

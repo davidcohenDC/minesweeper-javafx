@@ -42,4 +42,16 @@ public interface Box {
      * @return True if the {@link Box} is flagged
      */
     boolean isFlagged();
+
+    /**
+     * Set the number of near bombs.
+     * @param bombNear
+     */
+    void setBombNear(int bombNear);
+
+    /**
+     * Get the number of near bombs.
+     * @return the number of near bombs
+     */
+    int getBombNear();
 }

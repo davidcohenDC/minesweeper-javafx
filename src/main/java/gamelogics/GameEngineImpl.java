@@ -1,22 +1,20 @@
 package gamelogics;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * The implementation of {@link GameEngine}.
  */
 public class GameEngineImpl implements GameEngine {
 
     private final Board board;
+    private boolean lost = false;
 
     public GameEngineImpl(final int width, final int height, final int bombs) {
         final BoardBuilder boardBuilder = new BoardBuilderImpl();
         boardBuilder.withWidth(width).withHeight(height);
 
+        final BombGenerator bombSystem = new BombGeneratorImpl(width, height, bombs);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                final BombGenerator bombSystem = new BombGeneratorImpl(width, height, bombs);
                 final Box box = new BoxImpl(new Pair<>(i, j), bombSystem.next());
                 boardBuilder.addBox(box);
             }
@@ -26,9 +24,12 @@ public class GameEngineImpl implements GameEngine {
 
     @Override
     public final void hit(final Pair<Integer, Integer> coord) {
-        final Box box = board.getBox(coord);
-        if (!box.isClicked()) {
-            box.hit();
+        if (!board.getBox(coord).isClicked() && !board.getBox(coord).isFlagged()) {
+            if (board.getBox(coord).containsBomb()) {
+                this.lost = true;
+            } else {
+                this.expand(coord);
+            }
         }
     }
 
@@ -41,7 +42,7 @@ public class GameEngineImpl implements GameEngine {
     public final GameStatus getGameStatus() {
         int goodBoxCount = 0;
         for (final Box box : this.board) {
-            if (box.isClicked() && box.containsBomb()) {
+            if (this.lost) {
                 return GameStatus.LOST;
             }
             if (box.isClicked() || box.isFlagged()) {
@@ -52,11 +53,16 @@ public class GameEngineImpl implements GameEngine {
     }
 
     @Override
-    public final Map<Pair<Integer, Integer>, Integer> getBoardStatus() {
-        final Map<Pair<Integer, Integer>, Integer> map = new HashMap<>();
-        for (final Box box : this.board) {
-            map.put(box.getPosition(), this.board.getNearBox(box).size());
+    public final Board getBoard() {
+        return this.board;
+    }
+
+    private void expand(final Pair<Integer, Integer> coord) {
+        for (final Box box : this.board.getNearBox(this.board.getBox(coord))) {
+            if (!box.isClicked() && !box.isFlagged() && !box.containsBomb()) {
+                box.hit();
+                this.expand(box.getPosition());
+            }
         }
-        return map;
     }
 }

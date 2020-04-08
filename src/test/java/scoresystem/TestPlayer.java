@@ -1,16 +1,17 @@
 package scoresystem;
 
-
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
 
 import controlutility.Difficulty;
 import controlutility.Modality;
 import gamelogics.GameStatus;
+
 /**
  * A Test to see if {@link Player} functionalities are working.
  */
@@ -24,10 +25,10 @@ class TestPlayer {
         System.out.println("playerTest");
 
         assertEquals("luigi", p.getName());
-        assertEquals(Difficulty.MEDIUM, p.getDifficuly()); 
+        assertEquals(Difficulty.MEDIUM, p.getDifficuly());
         assertEquals(Modality.STANDARD, p.getModality());
 
-        //player has not won or lost yet so the result must not be available
+        // player has not won or lost yet so the result must not be available
         try {
             assertEquals(Optional.empty(), Optional.of(p.getResult()));
             fail("TRYING TO ACCESS WHEN FORBIDDEN");
@@ -36,7 +37,7 @@ class TestPlayer {
             assertEquals(IllegalStateException.class, e.getClass());
         }
 
-        //player has not won or lost yet so the score is not been achived yet
+        // player has not won or lost yet so the score is not been achived yet
         try {
             assertEquals(Optional.empty(), Optional.of(p.getScore()));
             fail("NO SCORE TO BE ACCESSED");
@@ -51,11 +52,11 @@ class TestPlayer {
     public void lostTest() {
         System.out.println("lostTest");
 
-        //player loses
+        // player loses
         p.lost();
         assertEquals(GameStatus.LOST, p.getResult());
 
-        //player lost so no score needs to be accessed
+        // player lost so no score needs to be accessed
         try {
             assertEquals(Optional.empty(), Optional.of(p.getScore()));
             fail("NO SCORE TO BE ACCESSED");
@@ -64,7 +65,7 @@ class TestPlayer {
             assertEquals(IllegalStateException.class, e.getClass());
         }
 
-        //player shouldn't be able to change its status after winning or losing
+        // player shouldn't be able to change its status after winning or losing
         try {
             p.won(3);
             fail("CANNOT WIN AFTER LOSING");
@@ -81,7 +82,7 @@ class TestPlayer {
             System.out.println(e);
         }
 
-        //Personalized difficulty players' scores should not be tracked 
+        // Personalized difficulty players' scores should not be tracked
         final Player p2 = f.createPlayerForStandardMode("rossi", Difficulty.PERSONALIZED);
         p2.won(8);
         try {
@@ -97,13 +98,12 @@ class TestPlayer {
     public void wonTest() {
         System.out.println("wonTest");
 
-
-        //player wins the game in 8 seconds
+        // player wins the game in 8 seconds
         p.won(8);
         assertEquals(GameStatus.WON, p.getResult());
         assertEquals(8, p.getScore());
 
-        //player shouldn't be able to change its status after winning or losing
+        // player shouldn't be able to change its status after winning or losing
         try {
             p.lost();
             fail("CANNOT LOSE AFTER WINNING");
@@ -113,7 +113,7 @@ class TestPlayer {
             assertEquals(IllegalStateException.class, e.getClass());
         }
 
-        //player shouldn't be able to change its status after winning or losing
+        // player shouldn't be able to change its status after winning or losing
         try {
             p.won(3);
             fail("CANNOT WIN TWICE");

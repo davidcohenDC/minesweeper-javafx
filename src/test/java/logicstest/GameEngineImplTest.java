@@ -42,6 +42,8 @@ class GameEngineImplTest {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 withBomb.hit(new Pair<>(i, j));
+                System.out.println(withBomb.getBoard());
+                System.out.println("----------");
             }
         }
         //after all box are clicked I had clicked also the bomb...so I lost
