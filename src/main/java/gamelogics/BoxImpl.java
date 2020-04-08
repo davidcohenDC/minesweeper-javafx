@@ -9,6 +9,7 @@ public class BoxImpl implements Box {
     private final boolean withBomb;
     private boolean flag;
     private boolean clicked;
+    private int bombNear = 0;
 
     public BoxImpl(final Pair<Integer, Integer> coord) {
         this.coord = coord;
@@ -56,6 +57,16 @@ public class BoxImpl implements Box {
     @Override
     public final boolean isFlagged() {
         return this.flag;
+    }
+
+    @Override
+    public final void setBombNear(final int bombNear) {
+        this.bombNear = bombNear;
+    }
+
+    @Override
+    public final int getBombNear() {
+        return this.bombNear;
     }
 
     @Override
