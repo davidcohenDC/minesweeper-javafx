@@ -17,7 +17,7 @@ public interface TimerFactory {
      * 
      * @param amountOfTime
      *                         The amount of time the player has to finish the game
-     *                         in seconds.
+     *                         in <i>seconds</i>.
      * @return Returns a Timer going from the value of amountOfTime down to 0.
      */
     Timer createTimerForBeatTheTimerMode(int amountOfTime);
