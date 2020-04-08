@@ -19,3 +19,20 @@
 #txt {
 		 -fx-fill:  linear-gradient(black , black);
 		}
+
+
+#tile {
+		-fx-background-color: linear-gradient(#00b33c, #66ff33 );
+		}
+#tile:hover {
+        -fx-background-color: linear-gradient(#00b33c, #047a2b );
+        }
+#tile:pressed {
+               -fx-scale-y: 0.9;
+               -fx-scale-x: 0.9;
+        }
+.button:focused {
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+
+}

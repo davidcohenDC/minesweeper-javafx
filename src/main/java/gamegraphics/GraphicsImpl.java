@@ -29,6 +29,7 @@ public final class GraphicsImpl implements Graphics {
     //create parent style c
     private AlertStyle alStyle;
     private RWSettings rwSett;
+    private Stage stage;
 
     //create the timer
     private final TimerFactory timerFactory = new TimerFactoryImpl();
@@ -38,38 +39,43 @@ public final class GraphicsImpl implements Graphics {
     private static final String SEPARATOR = System.getProperty("file.separator");
     private final String urlSound = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "sound" + SEPARATOR;
 
+
     public GraphicsImpl(final Modality modality, final Difficulty difficulty, final int mines, final int height, final int width, final Stage stage) throws IOException {
         this.height = height;
         this.width = width;
         this.mines = mines;
         this.rwSett = new RWSettingsImpl();
+        this.stage = stage;
 
         //create pane and loader
+
         final Parent parentPane;
         final FXMLLoader loader;
         //modality check for panel
         switch (modality) {
             case STANDARD:
-                //final Timer timer = timerFactory.createTimerForStandardMode();
-                //final TimerView timerView = new TimerViewImpl(timer , lbTimer);
-                //final TimerView timerView = timerViewFactory.createDefault(timer, this.lbTimer);
                 loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/SinglePlayer.fxml"));
                 this.modalityController = new SinglePlayerController(this.height, this.width, this.mines,this.timerFactory.createTimerForStandardMode());
                 loader.setController(modalityController);
                 parentPane = loader.load();
-                Button Button = new Button("ciao");
                 final Scene singlePlayerScene = new Scene(parentPane, stage.getScene().getWidth(), stage.getScene().getHeight());
                 singlePlayerScene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
                 stage.setScene(singlePlayerScene);
                 stage.show();
-                LoadElements();
-                Button button = new Button(String.valueOf("ciao"));
                 break;
 
             case ONE_VS_ONE:
                 break;
 
             case BTT:
+                loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/SinglePlayer.fxml"));
+                this.modalityController = new SinglePlayerController(this.height, this.width, this.mines,this.timerFactory.createTimerForBeatTheTimerMode(100));
+                loader.setController(modalityController);
+                parentPane = loader.load();
+                final Scene beatTheTimeScene = new Scene(parentPane, stage.getScene().getWidth(), stage.getScene().getHeight());
+                beatTheTimeScene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
+                stage.setScene(beatTheTimeScene);
+                stage.show();
                 break;
 
         }
@@ -77,9 +83,10 @@ public final class GraphicsImpl implements Graphics {
     }
 
     @Override
-    public void LoadElements() throws IOException {
+    public void loadElements() throws IOException {
         startSong();
     }
+
 
     private void startSong() {
         try {

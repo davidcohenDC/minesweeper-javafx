@@ -70,6 +70,10 @@ public class RWSettingsImpl implements RWSettings {
         return this.lines.get(3);
     }
 
+    public final String getClick() {
+        return this.lines.get(4);
+    }
+
     private void save() {
         try (PrintStream ps = new PrintStream(fileName)) {
             for (final String s : lines) {

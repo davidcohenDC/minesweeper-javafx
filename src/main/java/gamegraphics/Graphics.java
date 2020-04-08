@@ -7,6 +7,6 @@ import java.io.IOException;
 public interface Graphics {
 
 
-    void LoadElements() throws IOException;
+    void loadElements() throws IOException;
 
 }

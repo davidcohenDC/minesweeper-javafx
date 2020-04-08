@@ -6,9 +6,17 @@ import java.io.IOException;
 
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
+import javafx.animation.*;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 //Tile of the GriPane
 public class Tile extends Button {
@@ -18,7 +26,7 @@ public class Tile extends Button {
             + "mines" + SEPARATOR;
     private final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
             + "flags" + SEPARATOR;
-    private static final int BUTTON_SIZE = 35;
+    private static final int BUTTON_SIZE = 40;
     private static final int IMAGE_SIZE = 26;
     private static final int MINE_VALUE = 9;
     private final ImageView imgFlag;
@@ -30,18 +38,23 @@ public class Tile extends Button {
     private int value;
 
 
+
     public Tile(final int x, final int y) throws IOException {
         final RWSettings rwSett = new RWSettingsImpl();
         this.x = x;
         this.y = y;
         this.setText("");
+        this.setId("tile");
         this.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
         final Image flag = new Image(new FileInputStream(this.urlImgFlag + rwSett.getFlags()), IMAGE_SIZE, IMAGE_SIZE, true, true);
         this.imgFlag = new ImageView(flag);
         final Image mine = new Image(new FileInputStream(this.urlImgMine + rwSett.getMines()), IMAGE_SIZE, IMAGE_SIZE, true, true);
         this.imgMine = new ImageView(mine);
         this.setStyle("-fx-padding:0");
+        //setStyle("-fx-border: 1px solid; -fx-border-color: black;");
+
     }
+
 
 
     public int getX() {
@@ -60,6 +73,8 @@ public class Tile extends Button {
         value = n;
     }
 
+
+
     public final void flag() {
         flagged = !flagged;
         if (flagged) {
@@ -67,6 +82,7 @@ public class Tile extends Button {
         } else {
             this.setGraphic(null);
         }
+
     }
 
     public boolean isFlagged() {
