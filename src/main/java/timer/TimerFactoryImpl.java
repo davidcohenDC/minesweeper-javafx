@@ -12,7 +12,7 @@ public class TimerFactoryImpl implements TimerFactory {
 
     @Override
     public final Timer createTimerForBeatTheTimerMode(final int amountOfTime) {
-        return new TimerImpl(amountOfTime, Verse.DOWN);
+        return new TimerImpl(amountOfTime * 1_000, Verse.DOWN);
     }
 
     @Override
