@@ -67,6 +67,21 @@ public class BoardImpl implements Board {
         return boxSet.iterator();
     }
 
+    @Override
+    public final String toString() {
+        String boxString = "";
+        for (int i = 0; i < this.getWidth(); i++) {
+            for (int j = 0; j < this.getHeight(); j++) {
+                boxString = boxString + this.getBox(new Pair<>(i, j)).toString() + " ";
+            }
+            boxString = boxString + "\n";
+        }
+
+        return "width=" + width
+                + ", height=" + height
+                + ", board=\n" + boxString;
+    }
+
     /**
      * Control if 2 coordinates are near without consider the diagonal.
      * @param pos1 first position to compare
