@@ -46,7 +46,6 @@ public class BoardImpl implements Board {
     @Override
     public final Set<Box> getNearBox(final Box selectedBox) {
         final Set<Box> set = new HashSet<>();
-        set.add(selectedBox);
         final Pair<Integer, Integer> selectedBoxPos = selectedBox.getPosition();
         for (final Box box : this.boxSet) {
             if (this.isNear(selectedBoxPos, box.getPosition())) {
