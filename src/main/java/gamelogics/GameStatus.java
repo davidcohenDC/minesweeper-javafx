@@ -11,12 +11,12 @@ public enum GameStatus {
     PLAYING,
 
     /**
-     * The player win the game.
+     * The player won the game.
      */
     WON,
 
     /**
-     * The player lose the game.
+     * The player lost the game.
      */
     LOST
 }
