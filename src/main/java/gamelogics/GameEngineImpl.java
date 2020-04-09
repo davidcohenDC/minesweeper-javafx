@@ -27,10 +27,10 @@ public class GameEngineImpl implements GameEngine {
     @Override
     public final void hit(final Pair<Integer, Integer> coord) {
         if (!board.getBox(coord).isClicked() && !board.getBox(coord).isFlagged()) {
+            this.board.getBox(coord).hit();
             if (board.getBox(coord).containsBomb()) {
                 this.lost = true;
             } else {
-                this.board.getBox(coord).hit();
                 if (this.board.getBox(coord).getBombNear() == 0) {
                     this.expand(coord);
                 }
