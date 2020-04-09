@@ -6,9 +6,11 @@ package gamelogics;
 public class GameEngineImpl implements GameEngine {
 
     private final Board board;
-    private boolean lost = false;
+    private boolean lost;
 
     public GameEngineImpl(final int width, final int height, final int bombs) {
+        this.lost = false;
+
         final BoardBuilder boardBuilder = new BoardBuilderImpl();
         boardBuilder.withWidth(width).withHeight(height);
 
