@@ -69,4 +69,9 @@ public class TimerImpl implements Timer {
         return (this.initialTime - this.limit) * this.verse.getVerseIncrementValue() < 1;
     }
 
+    @Override
+    public final int getLimit() {
+        return this.limit;
+    }
+
 }
