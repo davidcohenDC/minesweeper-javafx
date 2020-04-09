@@ -49,6 +49,8 @@ public class TimerViewImpl implements TimerView {
     }
 
     /**
+     * This method will update the label's text each second with the current timer's value.<br>
+     * The label will stop refreshing its value when it reaches the limit.
      * @return Returns a {@link EventHandler} with the instructions to refresh the
      *         numbers displayed.
      */
@@ -56,7 +58,11 @@ public class TimerViewImpl implements TimerView {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                label.setText(String.valueOf(timer.getValue() / UPDATE_RATE));
+                final long currentTime = timer.getValue() / UPDATE_RATE;
+                label.setText(String.valueOf(currentTime));
+                if (currentTime == timer.getLimit()) {
+                   stopDisplaying();
+                }
             }
         };
     }
