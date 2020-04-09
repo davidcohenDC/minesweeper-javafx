@@ -11,7 +11,6 @@ import java.util.Set;
 public class BoardImpl implements Board {
 
     private static final int NEAR_DISTANCE = 1;
-    private static final int DIAGONAL_DISTANCE = 1;
 
     private final int width;
     private final int height;
@@ -68,17 +67,17 @@ public class BoardImpl implements Board {
 
     @Override
     public final String toString() {
-        String boxString = "";
+        final StringBuffer boxString = new StringBuffer("\n\t");
         for (int i = 0; i < this.getWidth(); i++) {
             for (int j = 0; j < this.getHeight(); j++) {
-                boxString = boxString + this.getBox(new Pair<>(i, j)).toString() + " ";
+                boxString.append(this.getBox(new Pair<>(i, j)).toString() + " ");
             }
-            boxString = boxString + "\n";
+            boxString.append("\n\t");
         }
 
         return "width=" + width
                 + ", height=" + height
-                + ", board=\n" + boxString;
+                + ", board=" + boxString;
     }
 
     /**
@@ -88,10 +87,7 @@ public class BoardImpl implements Board {
      * @return true if 2 coordinates are near, false otherwise
      */
     private boolean isNear(final Pair<Integer, Integer> pos1, final Pair<Integer, Integer> pos2) {
-        return !pos1.equals(pos2) && Math.abs(pos1.getX() - pos2.getX()) == NEAR_DISTANCE - DIAGONAL_DISTANCE
-                && Math.abs(pos1.getY() - pos2.getY()) <= NEAR_DISTANCE
-                ||
-                !pos1.equals(pos2) && Math.abs(pos1.getX() - pos2.getX()) == NEAR_DISTANCE
-                        && Math.abs(pos1.getY() - pos2.getY()) <= NEAR_DISTANCE - DIAGONAL_DISTANCE;
+        return !pos1.equals(pos2) && Math.abs(pos1.getX() - pos2.getX()) <= NEAR_DISTANCE
+                && Math.abs(pos1.getY() - pos2.getY()) <= NEAR_DISTANCE;
     }
 }

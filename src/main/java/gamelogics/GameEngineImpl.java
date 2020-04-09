@@ -63,12 +63,12 @@ public class GameEngineImpl implements GameEngine {
     private void expand(final Pair<Integer, Integer> coord) {
         this.board.getBox(coord).hit();
 
-        if(this.board.getBox(coord).getBombNear() == 0) {
-        for (final Box box : this.board.getNearBox(this.board.getBox(coord))) {
-            if (!box.isClicked() && !box.isFlagged() && !box.containsBomb()) {
-                box.hit();
-                this.expand(box.getPosition());
-            }
+        if (this.board.getBox(coord).getBombNear() == 0) {
+            for (final Box box : this.board.getNearBox(this.board.getBox(coord))) {
+                if (!box.isClicked() && !box.isFlagged() && !box.containsBomb()) {
+                    box.hit();
+                    this.expand(box.getPosition());
+                }
             }
         }
     }
