@@ -2,6 +2,7 @@ package gamegraphics;
 
 import controllers.BackHomeController;
 import controlutility.AlertStyle;
+import controlutility.AlertStyleImpl;
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
 import gamelogics.*;
@@ -24,6 +25,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import scoresystem.Player;
+import scoresystem.ScoreWriter;
+import scoresystem.ScoreWriterImpl;
 import timer.*;
 import timer.Timer;
 
@@ -31,6 +35,7 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 /**
@@ -38,20 +43,26 @@ import java.util.stream.IntStream;
  *
  */
 public class SinglePlayerController implements ModalityController {
+    //
     private int mines;
     private int ccflags = 0;
     private int height;
     private int width;
+    private Boolean firstClick = false;
     private final GridPane grid = new GridPane();
     private AlertStyle alStyle;
     private Clip clip;
-    private Boolean firstClick = false;
+    private RWSettings rwSett;
     private GameEngine engine;
+    private final Map<Pair<Integer,Integer>,Tile> tilesMap;
     private final TimerFactory timerFactory = new TimerFactoryImpl();
     private final Timer timer;
-    private RWSettings rwSett;
 
-    private final Map<Pair<Integer,Integer>,Tile> tilesMap;
+
+    //private AlertStyle alStyle;
+    //prelevare con alert una stringa
+
+
 
 
 
@@ -72,12 +83,15 @@ public class SinglePlayerController implements ModalityController {
     private BorderPane mainBorderPane;
 
 
+    private Optional<Player> player;
+
 
     public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) {
         this.height = height;
         this.width = width;
         this.mines = mines;
         this.timer = timer;
+
         grid.setStyle(" -fx-grid-lines-visible: true; -fx-grid-border-style: solid inside;");
         this.engine = new GameEngineImpl(width,height,mines);
         this.tilesMap = new HashMap<>();
@@ -87,6 +101,7 @@ public class SinglePlayerController implements ModalityController {
 
     @Override
     public void initialize() throws IOException {
+        this.alStyle = new AlertStyleImpl();
         this.rwSett = new RWSettingsImpl();
         setLabel();
         //setupTimer();
@@ -99,11 +114,19 @@ public class SinglePlayerController implements ModalityController {
             }
         });
         btnRestart.setOnAction(t -> restart());
+
+    }
+
+    @Override
+    public void setPlayer(Optional<Player> player) {
+        this.player = player;
+
     }
 
     private void setLabel() {
         lbFlags.setText("Flags:" + 0);
         lbMines.setText("Mines:" + mines);
+        lbTimer.setText(String.valueOf(timer.getValue()));
     }
 
     public void setupTimer() {
@@ -151,15 +174,36 @@ public class SinglePlayerController implements ModalityController {
             refreshBoard();
 
         }
+        if(!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
+            endGame();
+        }
+
+    }
+
+    private void endGame() {
         if(this.engine.getGameStatus().equals(GameStatus.LOST)) {
-            //lost();
+            //lost(); ,alert
+            if(this.player.isPresent()) {
+                this.player.get().lost();
+                writePLayerScore();
+            }
             System.out.println("Lost");
             //ShowBombs();
         } else if(this.engine.getGameStatus().equals(GameStatus.WON)) {
             //Won();
-            System.out.println("Lost");
+            if(this.player.isPresent()) {
+                this.player.get().won((int) this.timer.getValue());
+                writePLayerScore();
+            }
+            System.out.println("Won");
 
         }
+
+    }
+
+    private void writePLayerScore() {
+        final ScoreWriter scoreWriter = new ScoreWriterImpl();
+        scoreWriter.write(this.player.get());
     }
 
     protected void rightClickHandler(final Tile tile, final int x, final int y) {
@@ -178,7 +222,7 @@ public class SinglePlayerController implements ModalityController {
             }
     }
 
-    protected void tileEffect(final Tile tile) {
+    private void tileEffect(final Tile tile) {
 
         FadeTransition fade = new FadeTransition();
         fade.setFromValue(1.0);
@@ -187,11 +231,12 @@ public class SinglePlayerController implements ModalityController {
         fade.setNode(tile);
 
         TranslateTransition transition = new TranslateTransition();
-        transition.setByY(300);
+        transition.setByY(100);
         transition.setDuration(Duration.millis(1000));
         transition.setNode(tile);
         transition.play();
         fade.play();
+
 
     }
 
@@ -203,7 +248,7 @@ public class SinglePlayerController implements ModalityController {
 
     public void backHome() throws IOException {
         final RWSettings rwSett = new RWSettingsImpl();
-        final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/home.fxml"));
+        final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/playGame.fxml"));
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
         final Scene scene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
         scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
@@ -211,8 +256,11 @@ public class SinglePlayerController implements ModalityController {
     }
 
     public void restart() {
-        closeGame();
-        //buildTiles();
+        timer.stop();
+        clip.stop();
+        //ricreare la scena
+
+        buildTiles();
     }
 
 

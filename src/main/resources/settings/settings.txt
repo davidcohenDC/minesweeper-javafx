@@ -2,4 +2,3 @@ bomba.png
 bianca.png
 prova2.wav
 orange.css
-click.wav
