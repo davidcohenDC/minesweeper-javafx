@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -9,7 +10,7 @@
             <bottom>
                 <BorderPane prefHeight="46.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                     <left>
-                        <Button id="button" fx:id="btnBackHome" mnemonicParsing="false" prefHeight="38.0" prefWidth="74.0" text="RESTART" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Button id="btnAction" fx:id="btnBackHome" mnemonicParsing="false" prefHeight="38.0" prefWidth="74.0" text="BACK" textAlignment="CENTER" BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
@@ -17,12 +18,22 @@
                         </Button>
                     </left>
                <right>
-                   <Button id="button" fx:id="btnRestart" mnemonicParsing="false" prefHeight="38.0" prefWidth="74.0" text="PLAY" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                   <Button id="btnAction" fx:id="btnRestart" mnemonicParsing="false" prefHeight="38.0" prefWidth="74.0" text="PLAY" textAlignment="CENTER" BorderPane.alignment="CENTER">
                        <font>
                            <Font name="System Bold" size="12.0" />
                        </font>
                    </Button>
                </right>
+            <center>
+                <Button id="btnsong" fx:id="btnSong" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" text="SONG" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                  <effect>
+                     <Glow />
+                  </effect>
+                </Button>
+            </center>
                 </BorderPane>
             </bottom>
             <top>
@@ -42,7 +53,7 @@
                         </Label>
                     </right>
                     <center>
-                        <Label fx:id="lbTimer" alignment="CENTER" text="000" BorderPane.alignment="CENTER">
+                        <Label fx:id="lbTimer" alignment="CENTER" prefHeight="39.0" prefWidth="58.0" text=" " BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="27.0" />
                             </font>
