@@ -6,9 +6,11 @@ package gamelogics;
 public class GameEngineImpl implements GameEngine {
 
     private final Board board;
-    private boolean lost = false;
+    private boolean lost;
 
     public GameEngineImpl(final int width, final int height, final int bombs) {
+        this.lost = false;
+
         final BoardBuilder boardBuilder = new BoardBuilderImpl();
         boardBuilder.withWidth(width).withHeight(height);
 
@@ -25,10 +27,10 @@ public class GameEngineImpl implements GameEngine {
     @Override
     public final void hit(final Pair<Integer, Integer> coord) {
         if (!board.getBox(coord).isClicked() && !board.getBox(coord).isFlagged()) {
+            this.board.getBox(coord).hit();
             if (board.getBox(coord).containsBomb()) {
                 this.lost = true;
             } else {
-                this.board.getBox(coord).hit();
                 if (this.board.getBox(coord).getBombNear() == 0) {
                     this.expand(coord);
                 }

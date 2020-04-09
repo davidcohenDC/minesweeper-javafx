@@ -32,7 +32,7 @@ public class TimerImpl implements Timer {
     @Override
     public final long getValue() {
 
-        if (!stop) {
+        if (isRunning()) {
             if (limitNotReached()) {
                 this.initialTime = this.initialTime
                         + ((System.currentTimeMillis() - this.startTime) * this.verse.getVerseIncrementValue());

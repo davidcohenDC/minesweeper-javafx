@@ -9,13 +9,14 @@ public class BoxImpl implements Box {
     private final boolean withBomb;
     private boolean flag;
     private boolean clicked;
-    private int bombNear = 0;
+    private int bombNear;
 
     public BoxImpl(final Pair<Integer, Integer> coord) {
         this.coord = coord;
         this.withBomb = false;
         this.flag = false;
         this.clicked = false;
+        this.bombNear = 0;
     }
 
     public BoxImpl(final Pair<Integer, Integer> coord, final boolean withBomb) {
