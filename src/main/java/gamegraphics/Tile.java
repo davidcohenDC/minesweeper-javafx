@@ -101,9 +101,15 @@ public class Tile extends Button {
     }
 
     public final void setMine() {
-        mine = true;
-        value = MINE_VALUE;
+
+        try {
+            openStreamBomb();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.setGraphic(this.imgMine);
     }
+
 
     public final boolean isMine() {
         return mine;
