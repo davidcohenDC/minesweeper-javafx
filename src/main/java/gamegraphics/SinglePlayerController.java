@@ -8,6 +8,7 @@ import controlutility.RWSettingsImpl;
 import gamelogics.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,10 +16,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -32,6 +36,8 @@ import timer.*;
 import timer.Timer;
 
 import javax.sound.sampled.*;
+import javax.swing.text.StyledEditorKit;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,28 +49,28 @@ import java.util.stream.IntStream;
  *
  */
 public class SinglePlayerController implements ModalityController {
-    //
+    private static final String SEPARATOR = System.getProperty("file.separator");
+    private final String urlSound = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "sound" + SEPARATOR;
+    private final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
+            + "obj" + SEPARATOR;
+    private RWSettings rwSett;
+    private AlertStyle alStyle;
     private int mines;
-    private int ccflags = 0;
+    private int ccflags;
     private int height;
     private int width;
     private Boolean firstClick = false;
     private final GridPane grid = new GridPane();
-    private AlertStyle alStyle;
+
     private Clip clip;
-    private RWSettings rwSett;
+
     private GameEngine engine;
     private final Map<Pair<Integer,Integer>,Tile> tilesMap;
     private final TimerFactory timerFactory = new TimerFactoryImpl();
     private final Timer timer;
 
 
-    //private AlertStyle alStyle;
-    //prelevare con alert una stringa
-
-
-
-
+    private Boolean playing = false;
 
     @FXML
     private Label lbFlags;
@@ -78,34 +84,39 @@ public class SinglePlayerController implements ModalityController {
     private Button btnBackHome;
     @FXML
     private AnchorPane rootPane;
-
     @FXML
     private BorderPane mainBorderPane;
-
+    @FXML
+    private Button btnSong;
 
     private Optional<Player> player;
 
 
-    public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) {
+    public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) throws IOException{
         this.height = height;
         this.width = width;
         this.mines = mines;
         this.timer = timer;
-
+        this.rwSett = new RWSettingsImpl();
+        this.alStyle = new AlertStyleImpl();
         grid.setStyle(" -fx-grid-lines-visible: true; -fx-grid-border-style: solid inside;");
         this.engine = new GameEngineImpl(width,height,mines);
         this.tilesMap = new HashMap<>();
-
-
+        this.ccflags = this.mines;
     }
 
     @Override
     public void initialize() throws IOException {
-        this.alStyle = new AlertStyleImpl();
-        this.rwSett = new RWSettingsImpl();
         setLabel();
-        //setupTimer();
+        startSong();
         buildTiles();
+        btnActions();
+
+
+    }
+
+    public void btnActions() {
+
         btnBackHome.setOnMouseClicked(t -> {
             try {
                 backHome();
@@ -113,26 +124,42 @@ public class SinglePlayerController implements ModalityController {
                 e.printStackTrace();
             }
         });
-        btnRestart.setOnAction(t -> restart());
 
-    }
+        btnRestart.setOnAction(t -> {
+            try {
+                restart();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
-    @Override
-    public void setPlayer(Optional<Player> player) {
-        this.player = player;
-
+        btnSong.setOnMouseClicked(t -> {
+            checkSong();
+        });
     }
 
     private void setLabel() {
-        lbFlags.setText("Flags:" + 0);
+        lbFlags.setText("Flags:" + this.ccflags);
         lbMines.setText("Mines:" + mines);
         lbTimer.setText(String.valueOf(timer.getValue()));
+        btnSong.setText("STOP MUSIC");
     }
 
-    public void setupTimer() {
-        final TimerView timerView = new TimerViewImpl(timer, lbTimer);
-        timerView.startDisplaying();
-        timer.start();
+    public void startSong() {
+        this.playing = true;
+        try {
+            this.clip = AudioSystem.getClip();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        final String path = urlSound + rwSett.getSong();
+        try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile())) {
+            clip.open(audioStream);
+            clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void buildTiles() {
@@ -142,7 +169,7 @@ public class SinglePlayerController implements ModalityController {
         this.mainBorderPane.setCenter(grid);
     }
 
-    protected Tile createTile(final int x, final int y) {
+    private Tile createTile(final int x, final int y) {
         final Tile tile;
 
         try {
@@ -167,37 +194,118 @@ public class SinglePlayerController implements ModalityController {
 
         if(!this.firstClick) {
             this.firstClick = true;
-            setupTimer();
+            startTimer();
         }
+
         if(!tile.isFlagged()) {
             this.engine.hit(new Pair<>(x,y));
             refreshBoard();
 
         }
+
         if(!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
             endGame();
         }
 
     }
 
+    private void rightClickHandler(final Tile tile, final int x, final int y) {
+
+        this.engine.setFlag(new Pair<>(x,y));
+
+        if(!tile.isFlagged()) {
+            this.ccflags--;
+            tile.flag();
+            this.lbFlags.setText("FLags:" + this.ccflags);
+        }
+        else {
+            this.ccflags++;
+            tile.flag();
+            this.lbFlags.setText("FLags:" + this.ccflags);
+        }
+    }
+
+    public void startTimer() {
+        final TimerView timerView = new TimerViewImpl(timer, lbTimer);
+        timerView.startDisplaying();
+        timer.start();
+    }
+
+    private void refreshBoard() {
+        for (final Box box : this.engine.getBoard()) {
+            final Tile tmpTile = this.tilesMap.get(box.getPosition());
+            if (box.isClicked()) {
+                if (box.containsBomb()) {
+                    tmpTile.setMine();
+                    System.out.println(box.containsBomb());
+                } else {
+                    tmpTile.setValue(box.getBombNear());
+                    //tileEffect(tmpTile);
+                    tmpTile.disable();
+                    System.out.println(box.getBombNear());
+                }
+            }
+            if (this.engine.getGameStatus().equals((GameStatus.LOST))) {
+                if (box.containsBomb()) {
+                    tmpTile.setMine();
+                }
+            }
+        }
+    }
+
+
     private void endGame() {
         if(this.engine.getGameStatus().equals(GameStatus.LOST)) {
-            //lost(); ,alert
+            finalAlert(GameStatus.LOST);
             if(this.player.isPresent()) {
-                this.player.get().lost();
-                writePLayerScore();
+                setPlayer(GameStatus.LOST);
             }
-            System.out.println("Lost");
-            //ShowBombs();
-        } else if(this.engine.getGameStatus().equals(GameStatus.WON)) {
-            //Won();
-            if(this.player.isPresent()) {
-                this.player.get().won((int) this.timer.getValue());
-                writePLayerScore();
+            closeElements();
+            try {
+                backHome();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            System.out.println("Won");
 
+
+        } else if(this.engine.getGameStatus().equals(GameStatus.WON)) {
+            finalAlert(GameStatus.WON);
+            if(this.player.isPresent()) {
+                setPlayer(GameStatus.WON);
+            }
+            closeElements();
+            try {
+                backHome();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
+    }
+
+    private void finalAlert(final GameStatus status) {
+        final Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        if(status.equals(GameStatus.LOST)) {
+            alert.setTitle("YOU LOST!");
+            alert.setContentText("GAME OVER");
+        } else {
+            alert.setTitle("YOU WON!");
+            alert.setContentText("GAME OVER");
+        }
+        alert.setHeaderText(null);
+        this.alStyle.setStyle(alert);
+        alert.showAndWait();
+    }
+
+    private void setPlayer(final GameStatus status) {
+
+            if(status.equals(GameStatus.LOST)) {
+                this.player.get().lost();
+            }
+            else {
+                this.player.get().won((int) this.timer.getValue());
+            }
+            writePLayerScore();
 
     }
 
@@ -206,20 +314,34 @@ public class SinglePlayerController implements ModalityController {
         scoreWriter.write(this.player.get());
     }
 
-    protected void rightClickHandler(final Tile tile, final int x, final int y) {
 
-        this.engine.setFlag(new Pair<>(x,y));
+    //BtnBAckHome
+    public void backHome() throws IOException {
+        closeElements();
+        final RWSettings rwSett = new RWSettingsImpl();
+        final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/playGame.fxml"));
+        final Stage stage = (Stage) this.rootPane.getScene().getWindow();
+        final Scene scene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
+        scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
+        stage.setScene(scene);
+    }
 
-        if(!tile.isFlagged()) {
-                this.ccflags++;
-                tile.flag();
-                this.lbFlags.setText("FLags:" + this.ccflags);
-            }
-            else {
-                this.ccflags--;
-                tile.flag();
-                this.lbFlags.setText("FLags:" + this.ccflags);
-            }
+    //BtnRestart
+    public void restart() throws IOException{
+    }
+
+    //BtnSong
+    private Boolean checkSong() {
+        if(playing) {
+            btnSong.setText("PLAY MUSIC");
+            clip.stop();
+        } else {
+            btnSong.setText("STOP MUSIC");
+            clip.start();
+        }
+        this.playing = !this.playing ;
+        return this.playing;
+
     }
 
     private void tileEffect(final Tile tile) {
@@ -240,40 +362,25 @@ public class SinglePlayerController implements ModalityController {
 
     }
 
-    private void closeGame() {
+    private void closeElements() {
+        closeTimer();
+        closeSong();
+    }
+
+    private void closeTimer() {
+        timer.stop();
+    }
+
+    public void closeSong() {
         clip.stop();
         clip.close();
-        timer.stop();
-    }
-
-    public void backHome() throws IOException {
-        final RWSettings rwSett = new RWSettingsImpl();
-        final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/playGame.fxml"));
-        final Stage stage = (Stage) this.rootPane.getScene().getWindow();
-        final Scene scene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
-        scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
-        stage.setScene(scene);
-    }
-
-    public void restart() {
-        timer.stop();
-        clip.stop();
-        //ricreare la scena
-
-        buildTiles();
     }
 
 
-   private void refreshBoard() {
-        for(final Box box : this.engine.getBoard()) {
-            if(box.isClicked()) {
-                final Tile tmpTile = this.tilesMap.get(box.getPosition());
-                tmpTile.setValue(box.getBombNear());
-                //tileEffect(tmpTile);
-                tmpTile.disable();
-            }
-        }
+
+    @Override
+    public void setPlayer(Optional<Player> player) {
+        this.player = player;
+
     }
-
-
 }
