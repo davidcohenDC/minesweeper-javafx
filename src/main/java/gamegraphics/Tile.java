@@ -49,25 +49,6 @@ public class Tile extends Button {
         this.setId("tile");
         this.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
         this.setStyle("-fx-padding:0");
-        //setStyle("-fx-border: 1px solid; -fx-border-color: black;")
-    }
-
-
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public final void setValue(final int n) {
-        value = n;
     }
 
     public void openStreamFlag() throws IOException{
@@ -80,8 +61,7 @@ public class Tile extends Button {
         imgMine = new ImageView(mine);
     }
 
-
-    public final void flag() {
+    public final void setflag() {
         flagged = !flagged;
         if (flagged) {
             try {
@@ -96,10 +76,6 @@ public class Tile extends Button {
 
     }
 
-    public boolean isFlagged() {
-        return flagged;
-    }
-
     public final void setMine() {
 
         try {
@@ -108,11 +84,6 @@ public class Tile extends Button {
             e.printStackTrace();
         }
         this.setGraphic(this.imgMine);
-    }
-
-
-    public final boolean isMine() {
-        return mine;
     }
 
     public final void disable() {
@@ -127,6 +98,26 @@ public class Tile extends Button {
         } else if (value > 0) {
             this.setText(String.valueOf(value));
         }
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public Boolean isFlagged() {
+        return flagged;
+    }
+
+    public final void setValue(final int n) {
+        value = n;
     }
 
 }

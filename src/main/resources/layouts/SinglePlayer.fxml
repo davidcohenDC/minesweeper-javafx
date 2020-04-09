@@ -53,7 +53,7 @@
                         </Label>
                     </right>
                     <center>
-                        <Label fx:id="lbTimer" alignment="CENTER" prefHeight="39.0" prefWidth="58.0" text=" " BorderPane.alignment="CENTER">
+                        <Label fx:id="lbTimer" alignment="CENTER" prefHeight="39.0" prefWidth="105.0" text=" " BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="27.0" />
                             </font>

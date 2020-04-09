@@ -54,23 +54,24 @@ public class SinglePlayerController implements ModalityController {
     private final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
             + "obj" + SEPARATOR;
     private RWSettings rwSett;
+
     private AlertStyle alStyle;
-    private int mines;
-    private int ccflags;
-    private int height;
-    private int width;
-    private Boolean firstClick = false;
+    private Clip clip;
     private final GridPane grid = new GridPane();
 
-    private Clip clip;
+    private int mines;
+    private int height;
+    private int width;
+
+    private int ccflags;
+    private Boolean firstClick = false;
+    private Boolean playing = false;
 
     private GameEngine engine;
     private final Map<Pair<Integer,Integer>,Tile> tilesMap;
     private final TimerFactory timerFactory = new TimerFactoryImpl();
     private final Timer timer;
-
-
-    private Boolean playing = false;
+    private Optional<Player> player;
 
     @FXML
     private Label lbFlags;
@@ -89,9 +90,6 @@ public class SinglePlayerController implements ModalityController {
     @FXML
     private Button btnSong;
 
-    private Optional<Player> player;
-
-
     public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) throws IOException{
         this.height = height;
         this.width = width;
@@ -106,13 +104,11 @@ public class SinglePlayerController implements ModalityController {
     }
 
     @Override
-    public void initialize() throws IOException {
+    public void initialize() {
         setLabel();
         startSong();
         buildTiles();
         btnActions();
-
-
     }
 
     public void btnActions() {
@@ -125,17 +121,15 @@ public class SinglePlayerController implements ModalityController {
             }
         });
 
-        btnRestart.setOnAction(t -> {
+/*        btnRestart.setOnAction(t -> {
             try {
                 restart();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
+        });*/
 
-        btnSong.setOnMouseClicked(t -> {
-            checkSong();
-        });
+        btnSong.setOnMouseClicked(t -> checkSong());
     }
 
     private void setLabel() {
@@ -215,12 +209,12 @@ public class SinglePlayerController implements ModalityController {
 
         if(!tile.isFlagged()) {
             this.ccflags--;
-            tile.flag();
+            tile.setflag();
             this.lbFlags.setText("FLags:" + this.ccflags);
         }
         else {
             this.ccflags++;
-            tile.flag();
+            tile.setflag();
             this.lbFlags.setText("FLags:" + this.ccflags);
         }
     }
@@ -240,7 +234,6 @@ public class SinglePlayerController implements ModalityController {
                     System.out.println(box.containsBomb());
                 } else {
                     tmpTile.setValue(box.getBombNear());
-                    //tileEffect(tmpTile);
                     tmpTile.disable();
                     System.out.println(box.getBombNear());
                 }
@@ -248,8 +241,15 @@ public class SinglePlayerController implements ModalityController {
             if (this.engine.getGameStatus().equals((GameStatus.LOST))) {
                 if (box.containsBomb()) {
                     tmpTile.setMine();
+
+                } else {
+                    tileEffect(tmpTile);
                 }
+
+
             }
+
+
         }
     }
 
@@ -257,9 +257,7 @@ public class SinglePlayerController implements ModalityController {
     private void endGame() {
         if(this.engine.getGameStatus().equals(GameStatus.LOST)) {
             finalAlert(GameStatus.LOST);
-            if(this.player.isPresent()) {
-                setPlayer(GameStatus.LOST);
-            }
+            setPlayer(GameStatus.LOST);
             closeElements();
             try {
                 backHome();
@@ -270,9 +268,7 @@ public class SinglePlayerController implements ModalityController {
 
         } else if(this.engine.getGameStatus().equals(GameStatus.WON)) {
             finalAlert(GameStatus.WON);
-            if(this.player.isPresent()) {
-                setPlayer(GameStatus.WON);
-            }
+            setPlayer(GameStatus.WON);
             closeElements();
             try {
                 backHome();
@@ -298,20 +294,19 @@ public class SinglePlayerController implements ModalityController {
     }
 
     private void setPlayer(final GameStatus status) {
-
-            if(status.equals(GameStatus.LOST)) {
-                this.player.get().lost();
+            if(this.player.isPresent()) {
+                if (status.equals(GameStatus.LOST)) {
+                    this.player.get().lost();
+                } else {
+                    this.player.get().won((int) this.timer.getValue());
+                }
+                writePLayerScore();
             }
-            else {
-                this.player.get().won((int) this.timer.getValue());
-            }
-            writePLayerScore();
-
     }
 
     private void writePLayerScore() {
         final ScoreWriter scoreWriter = new ScoreWriterImpl();
-        scoreWriter.write(this.player.get());
+        this.player.ifPresent(scoreWriter::write);
     }
 
 
@@ -327,11 +322,11 @@ public class SinglePlayerController implements ModalityController {
     }
 
     //BtnRestart
-    public void restart() throws IOException{
-    }
+/*    public void restart() throws IOException{
+    }*/
 
     //BtnSong
-    private Boolean checkSong() {
+    private void checkSong() {
         if(playing) {
             btnSong.setText("PLAY MUSIC");
             clip.stop();
@@ -340,8 +335,6 @@ public class SinglePlayerController implements ModalityController {
             clip.start();
         }
         this.playing = !this.playing ;
-        return this.playing;
-
     }
 
     private void tileEffect(final Tile tile) {
@@ -349,17 +342,25 @@ public class SinglePlayerController implements ModalityController {
         FadeTransition fade = new FadeTransition();
         fade.setFromValue(1.0);
         fade.setToValue(0.0);
-        fade.setDuration(Duration.millis(300));
+        fade.setDuration(Duration.millis(1000));
         fade.setNode(tile);
 
         TranslateTransition transition = new TranslateTransition();
-        transition.setByY(100);
-        transition.setDuration(Duration.millis(1000));
+        transition.setByY(200);
+        transition.setDuration(Duration.millis(3000));
         transition.setNode(tile);
         transition.play();
         fade.play();
 
 
+    }
+    private void tileFade(final Tile tile) {
+
+        FadeTransition fade = new FadeTransition();
+        fade.setFromValue(1.0);
+        fade.setToValue(0.0);
+        fade.setDuration(Duration.millis(500));
+        fade.setNode(tile);
     }
 
     private void closeElements() {
