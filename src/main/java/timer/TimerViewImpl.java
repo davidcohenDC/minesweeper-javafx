@@ -62,6 +62,9 @@ public class TimerViewImpl implements TimerView {
                 label.setText(String.valueOf(currentTime));
                 if (currentTime == timer.getLimit()) {
                    stopDisplaying();
+                   if (timer.getLimit() == Verse.DOWN.getLimit()) {
+                       //TODO end game procedure
+                   }
                 }
             }
         };
