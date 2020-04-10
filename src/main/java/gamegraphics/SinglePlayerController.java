@@ -184,7 +184,7 @@ public class SinglePlayerController implements ModalityController {
 
     }
 
-    private void leftClickHandler(final Tile tile,final int x, final int y) {
+    private void leftClickHandler(final Tile tile, final int x, final int y) {
 
         if(!this.firstClick) {
             this.firstClick = true;
@@ -225,7 +225,7 @@ public class SinglePlayerController implements ModalityController {
         timer.start();
     }
 
-    private void refreshBoard() {
+    protected void refreshBoard() {
         for (final Box box : this.engine.getBoard()) {
             final Tile tmpTile = this.tilesMap.get(box.getPosition());
             if (box.isClicked()) {
@@ -254,7 +254,7 @@ public class SinglePlayerController implements ModalityController {
     }
 
 
-    private void endGame() {
+    protected void endGame() {
         if(this.engine.getGameStatus().equals(GameStatus.LOST)) {
             finalAlert(GameStatus.LOST);
             setPlayer(GameStatus.LOST);
@@ -309,7 +309,6 @@ public class SinglePlayerController implements ModalityController {
         this.player.ifPresent(scoreWriter::write);
     }
 
-
     //BtnBAckHome
     public void backHome() throws IOException {
         closeElements();
@@ -322,8 +321,16 @@ public class SinglePlayerController implements ModalityController {
     }
 
     //BtnRestart
-/*    public void restart() throws IOException{
-    }*/
+    public void restart() throws IOException{
+        closeElements();
+        final RWSettings rwSett = new RWSettingsImpl();
+        final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/SinglePlayer.fxml"));
+        final Stage stage = (Stage) this.rootPane.getScene().getWindow();
+        final Scene scene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
+        scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
+        stage.setScene(scene);
+
+    }
 
     //BtnSong
     private void checkSong() {

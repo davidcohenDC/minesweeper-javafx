@@ -31,6 +31,7 @@ public final class GraphicsImpl implements Graphics {
     private final PlayerFactory playerFactory;
     private final Difficulty difficulty;
     private  ModalityController modalityController;
+    private Modality modality;
     protected TextInputDialog dialog = new TextInputDialog("");
     public RWSettings rwSett;
     protected final TimerFactory timerFactory = new TimerFactoryImpl();
@@ -43,6 +44,7 @@ public final class GraphicsImpl implements Graphics {
         this.difficulty = difficulty;
         this.playerFactory = new PlayerFactoryImpl();
         this.rwSett = new RWSettingsImpl();
+        this.modality = modality;
 
         this.dialog.setTitle("| SAVE YOUR SCORE |");
         this.dialog.setHeaderText("Input your nickname if you want to save your score :)");
@@ -67,7 +69,16 @@ public final class GraphicsImpl implements Graphics {
                 break;
 
             case ONE_VS_ONE:
-
+                loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/OneVsOne.fxml"));
+                this.modalityController = new MultiplayerController(height, width, mines,this.timerFactory.createTimersFor1vs1Mode());
+                setPlayer(playerName);
+                loader.setController(modalityController);
+                parentPane = loader.load();
+                final Scene oneVsOneScene = new Scene(parentPane, stage.getScene().getWidth(), stage.getScene().getHeight());
+                oneVsOneScene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
+                stage.setScene(oneVsOneScene);
+                stage.setFullScreen(true);
+                stage.show();
                 break;
 
             case BTT:
@@ -90,9 +101,6 @@ public final class GraphicsImpl implements Graphics {
         //startSong();
     }
 
-
-
-
     private void setPlayer(final Optional<String> playerName) {
         if(playerName.isPresent()) {
             final Player player = playerFactory.createPlayerForStandardMode(playerName.get(),difficulty);
@@ -100,6 +108,15 @@ public final class GraphicsImpl implements Graphics {
         } else {
             this.modalityController.setPlayer(Optional.empty());
         }
+    }
+
+    private void leftclickhandler() {
+
+    }
+
+
+    public Modality getModality() {
+        return this.modality;
     }
 
 
