@@ -1,27 +1,18 @@
 package gamegraphics;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 import controlutility.*;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import org.checkerframework.checker.nullness.Opt;
 import scoresystem.Player;
 import scoresystem.PlayerFactory;
 import scoresystem.PlayerFactoryImpl;
 import timer.*;
-import javax.sound.sampled.*;
 
 /**
  * The Controller related to the SinglePlayer.fxml GUI.
@@ -30,7 +21,7 @@ import javax.sound.sampled.*;
 public final class GraphicsImpl implements Graphics {
     private final PlayerFactory playerFactory;
     private final Difficulty difficulty;
-    private  ModalityController modalityController;
+    private GameController modalityController;
     private Modality modality;
     protected TextInputDialog dialog = new TextInputDialog("");
     public RWSettings rwSett;

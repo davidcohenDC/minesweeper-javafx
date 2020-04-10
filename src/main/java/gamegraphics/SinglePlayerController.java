@@ -1,6 +1,5 @@
 package gamegraphics;
 
-import controllers.BackHomeController;
 import controlutility.AlertStyle;
 import controlutility.AlertStyleImpl;
 import controlutility.RWSettings;
@@ -8,25 +7,18 @@ import controlutility.RWSettingsImpl;
 import gamelogics.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import scoresystem.Player;
@@ -36,7 +28,6 @@ import timer.*;
 import timer.Timer;
 
 import javax.sound.sampled.*;
-import javax.swing.text.StyledEditorKit;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -48,7 +39,7 @@ import java.util.stream.IntStream;
  * The Controller related to the playGame.fxml GUI.
  *
  */
-public class SinglePlayerController implements ModalityController {
+public class SinglePlayerController implements GameController {
     private static final String SEPARATOR = System.getProperty("file.separator");
     private final String urlSound = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "sound" + SEPARATOR;
     private final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR

@@ -5,7 +5,7 @@ import scoresystem.Player;
 import java.io.IOException;
 import java.util.Optional;
 
-public interface ModalityController{
+public interface GameController {
 
     void initialize() throws IOException;
 
