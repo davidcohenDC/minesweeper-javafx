@@ -19,9 +19,9 @@ public class OutOfTimeEvent extends EventObject {
      * This constructor will create the event like in {@link EventObject}.
      * 
      * @param source
-     *                   The source that creates the Event.
+     *                   The {@link TimerView} that creates the Event.
      */
-    public OutOfTimeEvent(final Object source) {
+    public OutOfTimeEvent(final TimerView source) {
         super(source);
     }
 
