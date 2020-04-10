@@ -1,6 +1,7 @@
-package gamegraphics;
+package graphics;
 
 import gamelogics.GameEngine;
+import graphicsutility.SongAgent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.SubScene;
@@ -14,11 +15,12 @@ import timer.Timer;
 import java.io.IOException;
 import java.util.Optional;
 
-public class MultiplayerController extends SinglePlayerController implements GameController {
+public class MultiplayerController  implements GameController {
     private static final int SIZE = 600;
     private final SinglePlayerController gameControllerP1;
     private final SinglePlayerController gameControllerP2;
     private Boolean whatPlayer = true;
+    private SongAgent music;
 
     @FXML
     private SplitPane splitPane;
@@ -32,12 +34,11 @@ public class MultiplayerController extends SinglePlayerController implements Gam
     private GameEngine engine;
 
     public MultiplayerController(int height, int width, int mines, Timer timer) throws IOException {
-        super(height, width, mines, timer);
         this.gameControllerP1 = new SinglePlayerController(height,width,mines,timer);
         this.gameControllerP2 = new SinglePlayerController(height,width,mines,timer);
     }
 
-    @Override
+
     public void initialize() {
         final FXMLLoader loader1 = new FXMLLoader(ClassLoader.getSystemResource("layouts/SinglePlayer.fxml"));
         final FXMLLoader loader2 = new FXMLLoader(ClassLoader.getSystemResource("layouts/SinglePlayer.fxml"));

@@ -1,4 +1,4 @@
-package gamegraphics;
+package graphics;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -26,10 +26,6 @@ public final class GraphicsImpl implements Graphics {
     protected TextInputDialog dialog = new TextInputDialog("");
     public RWSettings rwSett;
     protected final TimerFactory timerFactory = new TimerFactoryImpl();
-    //create the clip for the background song
-
-
-
 
     public GraphicsImpl(final Modality modality, final Difficulty difficulty, final int mines, final int height, final int width, final Stage stage) throws IOException {
         this.difficulty = difficulty;
@@ -82,14 +78,8 @@ public final class GraphicsImpl implements Graphics {
                 stage.setScene(beatTheTimeScene);
                 stage.show();
                 break;
-
         }
 
-    }
-
-    @Override
-    public void loadElements() {
-        //startSong();
     }
 
     private void setPlayer(final Optional<String> playerName) {
@@ -99,15 +89,6 @@ public final class GraphicsImpl implements Graphics {
         } else {
             this.modalityController.setPlayer(Optional.empty());
         }
-    }
-
-    private void leftclickhandler() {
-
-    }
-
-
-    public Modality getModality() {
-        return this.modality;
     }
 
 

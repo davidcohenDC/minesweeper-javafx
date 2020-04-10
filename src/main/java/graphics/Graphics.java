@@ -1,4 +1,4 @@
-package gamegraphics;
+package graphics;
 
 import java.io.IOException;
 
@@ -6,7 +6,5 @@ import java.io.IOException;
 
 public interface Graphics {
 
-
-    void loadElements() throws IOException;
 
 }

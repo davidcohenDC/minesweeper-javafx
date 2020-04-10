@@ -10,7 +10,7 @@ import controlutility.Modality;
 import controlutility.AlertStyle;
 import controlutility.AlertStyleImpl;
 import controlutility.Difficulty;
-import gamegraphics.GraphicsImpl;
+import graphics.GraphicsImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;

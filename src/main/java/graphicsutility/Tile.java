@@ -1,4 +1,4 @@
-package gamegraphics;
+package graphicsutility;
 
 
 import java.io.FileInputStream;
@@ -6,17 +6,9 @@ import java.io.IOException;
 
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
-import javafx.animation.*;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 //Tile of the GriPane
 public class Tile extends Button {
