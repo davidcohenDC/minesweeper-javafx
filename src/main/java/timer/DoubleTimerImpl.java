@@ -59,6 +59,11 @@ public class DoubleTimerImpl implements DoubleTimer {
         return this.player2Timer;
     }
 
+    @Override
+    public final int getLimit() {
+        return runningTimer().getLimit();
+    }
+
     /**
      * @return Returns the Timer running at the moment.
      */
