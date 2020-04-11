@@ -69,7 +69,7 @@ public class GraphicsImpl implements Graphics {
     }
 
     private void setPlayer(final Optional<String> playerName) {
-        if(playerName.isPresent()) {
+        if(!playerName.equals("")) {
             final Player player = playerFactory.createPlayerForStandardMode(playerName.get(),difficulty);
             this.modalityController.setPlayer(Optional.of(player));
         } else {
