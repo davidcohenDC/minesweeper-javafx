@@ -7,11 +7,13 @@ import controlutility.RWSettingsImpl;
 import gamelogics.*;
 import gamelogics.Box;
 import graphicsutility.*;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -25,24 +27,25 @@ import timer.Timer;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * The Controller related to the playGame.fxml GUI.
- *
  */
-public class SinglePlayerController implements GameController {
+public class SinglePlayerController extends AbstractGameController {
     private final GridPane grid = new GridPane();
     private int mines;
     private int height;
     private int width;
     private int ccflags;
+    private RWSettings rwSett;
     private Boolean firstClick = false;
+    private SongAgent music;
     private GameEngine engine;
-    private final Map<Pair<Integer,Integer>, Tile> tilesMap;
+    private final Map<Pair<Integer, Integer>, Tile> tilesMap;
     private final TimerFactory timerFactory = new TimerFactoryImpl();
     private final Timer timer;
     private Optional<Player> player;
-    private SongAgent music;
     private ButtonReaction btnAction;
     private TimerView timerView;
     private ScoreWriter scoreWriter;
@@ -66,7 +69,8 @@ public class SinglePlayerController implements GameController {
     @FXML
     private Button btnSong;
 
-    public SinglePlayerController(final int height, final int width, final int mines, final Timer timer){
+    public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) throws IOException {
+        super(height,width,mines,timer);
         this.height = height;
         this.width = width;
         this.mines = mines;
@@ -79,23 +83,18 @@ public class SinglePlayerController implements GameController {
     }
 
     @Override
-    public void setPlayer(Optional<Player> player) {
-        this.player = player;
-    }
+    public void initialize() throws IOException {
 
-    public void initialize() throws IOException{
         RWSettings rwSett = new RWSettingsImpl();
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(rwSett);
-        this.engine = new GameEngineImpl(width,height,mines);
+        this.engine = new GameEngineImpl(width, height, mines);
         this.scoreWriter = new ScoreWriterImpl();
         this.btnAction = new ButtonReactionimpl(this.rootPane);
         this.timerView = new TimerViewImpl(timer, lbTimer);
         this.effect = new NodeEffectImpl();
-
         this.ccflags = this.mines;
         this.mainBorderPane.setCenter(grid);
-
         lbFlags.setText("Flags:" + this.ccflags);
         lbMines.setText("Mines:" + mines);
         lbTimer.setText(String.valueOf(timer.getValue()));
@@ -106,10 +105,18 @@ public class SinglePlayerController implements GameController {
         setClickHandler();
     }
 
-    private void btnActions() {
+    @Override
+    public void setPlayer(Optional<Player> player) {
+        this.player = player;
+    }
+
+    @Override
+    public void btnActions() {
         btnBackHome.setOnAction(t -> {
             try {
                 btnAction.backHome();
+                music.close();
+                timer.stop();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -125,8 +132,8 @@ public class SinglePlayerController implements GameController {
         btnSong.setOnMouseClicked(t -> music.checkSong(btnSong));
     }
 
-    private void setClickHandler() {
-
+    @Override
+    public void setClickHandler() {
         for (final Box box : this.engine.getBoard()) {
             final Tile tmpTile = this.tilesMap.get(box.getPosition());
             tmpTile.setOnMouseClicked(e -> {
@@ -139,42 +146,8 @@ public class SinglePlayerController implements GameController {
         }
     }
 
-    private void leftClickHandler(final Tile tile, final int x, final int y) {
-
-        if(!this.firstClick) {
-            this.firstClick = true;
-            timerView.startDisplaying();
-            timer.start();
-        }
-
-        if(!tile.isFlagged()) {
-            this.engine.hit(new Pair<>(x,y));
-            refreshBoard();
-
-        }
-
-        if(!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
-            endGame();
-        }
-    }
-
-    private void rightClickHandler(final Tile tile, final int x, final int y) {
-
-        this.engine.setFlag(new Pair<>(x,y));
-
-        if(!tile.isFlagged()) {
-            this.ccflags--;
-            tile.setflag();
-            this.lbFlags.setText("FLags:" + this.ccflags);
-        }
-        else {
-            this.ccflags++;
-            tile.setflag();
-            this.lbFlags.setText("FLags:" + this.ccflags);
-        }
-    }
-
-    private void refreshBoard() {
+    @Override
+    public void refreshBoard() {
         for (final Box box : this.engine.getBoard()) {
             final Tile tmpTile = this.tilesMap.get(box.getPosition());
             if (box.isClicked()) {
@@ -185,19 +158,24 @@ public class SinglePlayerController implements GameController {
                     tmpTile.disable();
                 }
             }
-            if (this.engine.getGameStatus().equals((GameStatus.LOST))) {
-                if (box.containsBomb()) {
-                    tmpTile.setMine();
+            showLostBoard(box, tmpTile);
+        }
+    }
 
-                } else {
-                    effect.fallingTiles(tmpTile);
-                }
+    @Override
+    public void showLostBoard(Box box, Tile tmpTile) {
+        if (this.engine.getGameStatus().equals((GameStatus.LOST))) {
+            if (box.containsBomb()) {
+                tmpTile.setMine();
+            } else {
+                effect.fallingTiles(tmpTile);
             }
         }
     }
 
-    private void endGame() {
-        if(this.engine.getGameStatus().equals(GameStatus.LOST)) {
+    @Override
+    public void endGame(GameStatus gameStatus) {
+        if (gameStatus.equals(GameStatus.LOST)) {
             alert.lost();
             setPlayer(GameStatus.LOST);
             closeElements();
@@ -207,7 +185,7 @@ public class SinglePlayerController implements GameController {
                 e.printStackTrace();
             }
 
-        } else if(this.engine.getGameStatus().equals(GameStatus.WON)) {
+        } else if (gameStatus.equals(GameStatus.WON)) {
             alert.won();
             setPlayer(GameStatus.WON);
             closeElements();
@@ -217,27 +195,71 @@ public class SinglePlayerController implements GameController {
                 e.printStackTrace();
             }
         }
-
     }
 
-    private void setPlayer(final GameStatus status) {
-            if(this.player.isPresent()) {
-                if (status.equals(GameStatus.LOST)) {
-                    this.player.get().lost();
-                } else {
-                    this.player.get().won((int) this.timer.getValue());
-                }
-                this.player.ifPresent(scoreWriter::write);
+    @Override
+    public void setPlayer(GameStatus status) {
+        if (this.player.isPresent()) {
+            if (status.equals(GameStatus.LOST)) {
+                this.player.get().lost();
+            } else {
+                this.player.get().won((int) this.timer.getValue());
             }
+            this.player.ifPresent(scoreWriter::write);
+        }
+
     }
 
-    private void closeElements() {
+    @Override
+    public void closeElements() {
         timer.stop();
         music.stop();
+        music.close();
+
     }
 
+    @Override
+    public void leftClickHandler(final Tile tile, final int x, final int y) {
 
+        if (!this.firstClick) {
+            this.firstClick = true;
+            timerView.startDisplaying();
+            timer.start();
+        }
 
+        if (!tile.isFlagged()) {
+            this.engine.hit(new Pair<>(x, y));
+            refreshBoard();
 
+        }
+
+        if (!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
+            endGame(this.engine.getGameStatus());
+        }
+    }
+
+    @Override
+    public void rightClickHandler(final Tile tile, final int x, final int y) {
+
+        this.engine.setFlag(new Pair<>(x, y));
+
+        if (!tile.isFlagged()) {
+            this.ccflags--;
+            tile.setflag();
+            this.lbFlags.setText("FLags:" + this.ccflags);
+        } else {
+            this.ccflags++;
+            tile.setflag();
+            this.lbFlags.setText("FLags:" + this.ccflags);
+        }
+    }
+    /*protected void setClick(Consumer<MouseEvent> c){
+        for (final Box box : this.engine.getBoard()) {
+            final Tile tmpTile = this.tilesMap.get(box.getPosition());
+            tmpTile.setOnMouseClicked(e -> {
+                c.accept(e);
+            });
+        }
+    }*/
 
 }

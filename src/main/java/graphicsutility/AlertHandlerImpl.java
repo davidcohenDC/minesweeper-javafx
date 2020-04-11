@@ -4,10 +4,14 @@ import controlutility.AlertStyle;
 import controlutility.AlertStyleImpl;
 import gamelogics.GameStatus;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
+
+import java.util.Optional;
 
 public class AlertHandlerImpl implements AlertHandler{
     private AlertStyle alStyle;
     final Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
 
     public AlertHandlerImpl() {
     this.alStyle = new AlertStyleImpl();
@@ -30,5 +34,7 @@ public class AlertHandlerImpl implements AlertHandler{
         this.alStyle.setStyle(alert);
         alert.showAndWait();
     }
+
+
 
 }

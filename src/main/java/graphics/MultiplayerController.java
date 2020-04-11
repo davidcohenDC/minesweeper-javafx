@@ -1,11 +1,14 @@
 package graphics;
 
+import gamelogics.Box;
 import gamelogics.GameEngine;
 import graphicsutility.SongAgent;
+import graphicsutility.Tile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.SubScene;
 import javafx.scene.control.SplitPane;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -15,7 +18,7 @@ import timer.Timer;
 import java.io.IOException;
 import java.util.Optional;
 
-public class MultiplayerController  implements GameController {
+public class MultiplayerController  extends SinglePlayerController implements GameController {
     private static final int SIZE = 600;
     private final SinglePlayerController gameControllerP1;
     private final SinglePlayerController gameControllerP2;
@@ -34,11 +37,12 @@ public class MultiplayerController  implements GameController {
     private GameEngine engine;
 
     public MultiplayerController(int height, int width, int mines, Timer timer) throws IOException {
+        super(height,width,mines,timer);
         this.gameControllerP1 = new SinglePlayerController(height,width,mines,timer);
         this.gameControllerP2 = new SinglePlayerController(height,width,mines,timer);
     }
 
-
+    @Override
     public void initialize() {
         final FXMLLoader loader1 = new FXMLLoader(ClassLoader.getSystemResource("layouts/SinglePlayer.fxml"));
         final FXMLLoader loader2 = new FXMLLoader(ClassLoader.getSystemResource("layouts/SinglePlayer.fxml"));
@@ -59,11 +63,26 @@ public class MultiplayerController  implements GameController {
             e.printStackTrace();
         }
         this.bpPlayer2.setDisable(false);
+
+/*        this.gameControllerP1.setClick(e->{
+            if (e.getButton() == MouseButton.PRIMARY) {
+                leftClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
+            } else if (e.getButton() == MouseButton.SECONDARY) {
+                rightClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
+            }
+        });*/
     }
 
     @Override
     public void setPlayer(Optional<Player> player) {
 
-    }
+    } {
 
     }
+
+    @Override
+    public void leftClickHandler(final Tile tile, final int x, final int y) {
+        System.out.println("ciao");
+    }
+
+}

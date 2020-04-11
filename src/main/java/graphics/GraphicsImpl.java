@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.Optional;
 
 import controlutility.*;
+import graphicsutility.AcquireDialog;
+import graphicsutility.AcquireDialogImpl;
+import graphicsutility.AlertHandler;
+import graphicsutility.AlertHandlerImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,65 +22,47 @@ import timer.*;
  * The Controller related to the SinglePlayer.fxml GUI.
  */
 
-public final class GraphicsImpl implements Graphics {
+public class GraphicsImpl implements Graphics {
     private final PlayerFactory playerFactory;
     private final Difficulty difficulty;
     private GameController modalityController;
+    private int mines;
+    private int height;
+    private int width;
     private Modality modality;
-    protected TextInputDialog dialog = new TextInputDialog("");
+    private Optional<String> playerName;
     public RWSettings rwSett;
-    protected final TimerFactory timerFactory = new TimerFactoryImpl();
+    private final TimerFactory timerFactory = new TimerFactoryImpl();
+    private AcquireDialog getPlayer;
+    private Stage stage;
 
     public GraphicsImpl(final Modality modality, final Difficulty difficulty, final int mines, final int height, final int width, final Stage stage) throws IOException {
         this.difficulty = difficulty;
+        this.height = height;
+        this.width = width;
+        this.mines = mines;
         this.playerFactory = new PlayerFactoryImpl();
         this.rwSett = new RWSettingsImpl();
+        this.getPlayer = new AcquireDialogImpl();
         this.modality = modality;
 
-        this.dialog.setTitle("| SAVE YOUR SCORE |");
-        this.dialog.setHeaderText("Input your nickname if you want to save your score :)");
-        this.dialog.setContentText("Enter your nickname: ");
 
-        final Optional<String> playerName = dialog.showAndWait();
-        final Parent parentPane;
-        final FXMLLoader loader;
+        this.playerName = getPlayer.Acquire();
 
-        //modality check for panel
         switch (modality) {
             case STANDARD:
-                loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/SinglePlayer.fxml"));
-                this.modalityController = new SinglePlayerController(height, width, mines,this.timerFactory.createTimerForStandardMode());
-                setPlayer(playerName);
-                loader.setController(modalityController);
-                parentPane = loader.load();
-                final Scene singlePlayerScene = new Scene(parentPane, stage.getScene().getWidth(), stage.getScene().getHeight());
-                singlePlayerScene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
-                stage.setScene(singlePlayerScene);
-                stage.show();
+                final GameController stdController = new SinglePlayerController(height, width, mines,this.timerFactory.createTimerForStandardMode());
+                sceneStart(stage,"layouts/SinglePlayer.fxml",stdController);
                 break;
 
             case ONE_VS_ONE:
-                loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/OneVsOne.fxml"));
-                this.modalityController = new MultiplayerController(height, width, mines,this.timerFactory.createTimersFor1vs1Mode());
-                setPlayer(playerName);
-                loader.setController(modalityController);
-                parentPane = loader.load();
-                final Scene oneVsOneScene = new Scene(parentPane, stage.getScene().getWidth(), stage.getScene().getHeight());
-                oneVsOneScene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
-                stage.setScene(oneVsOneScene);
-                stage.setFullScreen(true);
-                stage.show();
+                final GameController ovoController = new MultiplayerController(height, width, mines,this.timerFactory.createTimerForStandardMode());
+                sceneStart(stage,"layouts/Multiplayer.fxml",ovoController);
                 break;
 
             case BTT:
-                loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/SinglePlayer.fxml"));
-                this.modalityController = new SinglePlayerController(height, width, mines,this.timerFactory.createTimerForBeatTheTimerMode(100));
-                loader.setController(modalityController);
-                parentPane = loader.load();
-                final Scene beatTheTimeScene = new Scene(parentPane, stage.getScene().getWidth(), stage.getScene().getHeight());
-                beatTheTimeScene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
-                stage.setScene(beatTheTimeScene);
-                stage.show();
+                final GameController bttController = new SinglePlayerController(height, width, mines,this.timerFactory.createTimerForBeatTheTimerMode(100));
+                sceneStart(stage,"layouts/SinglePlayer.fxml",bttController);
                 break;
         }
 
@@ -89,6 +75,44 @@ public final class GraphicsImpl implements Graphics {
         } else {
             this.modalityController.setPlayer(Optional.empty());
         }
+    }
+
+    private void sceneStart(final Stage stage, final String layout, final GameController modalityController) throws IOException{
+        final Parent parentPane;
+        final FXMLLoader loader;
+        loader = new FXMLLoader(ClassLoader.getSystemResource(layout));
+        this.modalityController = modalityController;
+        loader.setController(modalityController);
+        parentPane = loader.load();
+        final Scene beatTheTimeScene = new Scene(parentPane, stage.getScene().getWidth(), stage.getScene().getHeight());
+        beatTheTimeScene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
+        stage.setScene(beatTheTimeScene);
+        stage.show();
+    }
+
+    @Override
+    public Modality getModatily() {
+        return this.modality;
+    }
+
+    @Override
+    public Difficulty getdifficulty() {
+        return this.difficulty;
+    }
+
+    @Override
+    public Integer getWidth() {
+        return this.width;
+    }
+
+    @Override
+    public Integer getHeight() {
+        return this.height;
+    }
+
+    @Override
+    public Stage getStage() {
+        return this.stage;
     }
 
 

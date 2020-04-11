@@ -2,6 +2,9 @@ package graphicsutility;
 
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
+import graphics.Graphics;
+import graphics.GraphicsImpl;
+import graphics.SinglePlayerController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,7 +33,6 @@ public class ButtonReactionimpl implements ButtonReaction {
 
     @Override
     public void restartGame()  {
-
     }
 
 
