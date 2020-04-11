@@ -1,5 +1,7 @@
 package timer;
 
+import graphics.TimeEventsListener;
+
 /**
  * A Class to show a {@link Timer} on a Label in real time.
  * <p>
@@ -18,4 +20,10 @@ public interface TimerView {
      * Stops refreshing the Timer's value on screen.
      */
     void stopDisplaying();
+
+    /**
+     * Sets a listener to take action if a {@link OutOfTimeEvent} occurs. 
+     * @param listener the listener to add.
+     */
+    void setTimeEventListener(TimeEventsListener listener);
 }

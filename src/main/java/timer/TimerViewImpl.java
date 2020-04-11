@@ -1,5 +1,6 @@
 package timer;
 
+import graphics.TimeEventsListener;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -21,6 +22,8 @@ public class TimerViewImpl implements TimerView {
     private final Timer timer;
     private final Label label;
     private final Timeline displayRefresher;
+
+    private TimeEventsListener listener;
 
     /**
      * Sets up the {@link Label} as chosen.
@@ -48,7 +51,16 @@ public class TimerViewImpl implements TimerView {
         this.displayRefresher.stop();
     }
 
+    @Override
+    public final void setTimeEventListener(final TimeEventsListener listener) {
+        this.listener = listener;
+    }
+
     /**
+     * This method will update the label's text each second with the current timer's
+     * value.<br>
+     * The label will stop refreshing its value when it reaches the limit.
+     * 
      * @return Returns a {@link EventHandler} with the instructions to refresh the
      *         numbers displayed.
      */
@@ -56,9 +68,22 @@ public class TimerViewImpl implements TimerView {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                label.setText(String.valueOf(timer.getValue() / UPDATE_RATE));
+                final long currentTime = timer.getValue() / UPDATE_RATE;
+                label.setText(String.valueOf(currentTime));
+                if (currentTime == timer.getLimit()) {
+                    stopDisplaying();
+                    if (timer.getLimit() == Verse.DOWN.getLimit()) {
+                        outOfTime();
+                    }
+                }
             }
         };
     }
 
+    /**
+     * Creates a {@link OutOfTimeEvent}.
+     */
+    private void outOfTime() {
+        this.listener.timeEventOccured(new OutOfTimeEvent(this));
+    }
 }

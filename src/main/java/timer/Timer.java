@@ -27,4 +27,9 @@ public interface Timer {
      * @return Returns {@code True} is a Timer is not on hold.
      */
     boolean isRunning();
+
+    /**
+     * @return Returns the Timer's limit.
+     */
+    int getLimit();
 }

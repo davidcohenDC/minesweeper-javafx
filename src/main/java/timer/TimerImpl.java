@@ -38,6 +38,7 @@ public class TimerImpl implements Timer {
                         + ((System.currentTimeMillis() - this.startTime) * this.verse.getVerseIncrementValue());
                 this.startTime = System.currentTimeMillis();
             } else {
+                stop();
                 this.initialTime = this.limit;
             }
         }
@@ -66,6 +67,11 @@ public class TimerImpl implements Timer {
      */
     private boolean limitNotReached() {
         return (this.initialTime - this.limit) * this.verse.getVerseIncrementValue() < 1;
+    }
+
+    @Override
+    public final int getLimit() {
+        return this.limit;
     }
 
 }
