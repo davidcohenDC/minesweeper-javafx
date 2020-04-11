@@ -82,6 +82,7 @@ public class GraphicsImpl implements Graphics {
         final FXMLLoader loader;
         loader = new FXMLLoader(ClassLoader.getSystemResource(layout));
         this.modalityController = modalityController;
+        setPlayer(playerName);
         loader.setController(modalityController);
         parentPane = loader.load();
         final Scene beatTheTimeScene = new Scene(parentPane, stage.getScene().getWidth(), stage.getScene().getHeight());
