@@ -1,5 +1,6 @@
 package timer;
 
+import graphics.TimeEventsListener;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -21,6 +22,8 @@ public class TimerViewImpl implements TimerView {
     private final Timer timer;
     private final Label label;
     private final Timeline displayRefresher;
+
+    private TimeEventsListener listener;
 
     /**
      * Sets up the {@link Label} as chosen.
@@ -46,6 +49,11 @@ public class TimerViewImpl implements TimerView {
     @Override
     public final void stopDisplaying() {
         this.displayRefresher.stop();
+    }
+
+    @Override
+    public final void setTimeEventListener(final TimeEventsListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -76,6 +84,6 @@ public class TimerViewImpl implements TimerView {
      * Creates a {@link OutOfTimeEvent}.
      */
     private void outOfTime() {
-        new OutOfTimeEvent(this);
+        this.listener.timeEventOccured(new OutOfTimeEvent(this));
     }
 }
