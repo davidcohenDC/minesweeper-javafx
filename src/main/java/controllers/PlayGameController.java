@@ -283,12 +283,12 @@ public final class PlayGameController extends BackHomeController implements Play
         } else {
             if (this.checkRange()) {
                 System.out.println("modalità " + modality.get() + " difficoltà " + difficulty.get());
-                System.out.println("mines: " + this.mines);
-                System.out.println("width: " + this.width);
-                System.out.println("height: " + this.height);
+                ///System.out.println("mines: " + this.mines);
+                //System.out.println("width: " + this.width);
+                //System.out.println("height: " + this.height);
                 try{
                     final Stage stage = (Stage) this.rbtStd.getScene().getWindow();
-                    new GraphicsImpl(this.modality.get(),this.difficulty.get(),this.mines,this.width,this.height,stage);
+                    new GraphicsImpl(this.modality.get(),this.difficulty.get(),this.mines,this.height,this.width,stage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

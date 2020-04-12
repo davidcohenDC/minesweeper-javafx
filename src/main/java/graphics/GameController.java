@@ -13,7 +13,7 @@ public interface GameController {
 
     void leftClickHandler(final Tile tile, final int x, final int y);
 
-    void rightClickHandler(final Tile tile, final int x, final int y);
+    void rightClickHandler(final Tile tile, final int x, final int y,final GameEngine engine);
 
     void initialize() throws IOException;
 
@@ -29,6 +29,8 @@ public interface GameController {
 
     void setClickHandler(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap);
 
-    void setPlayer(Optional<Player> player);
+    void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer);
+
+
 
 }

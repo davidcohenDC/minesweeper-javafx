@@ -22,6 +22,11 @@
 		}
 
 
+.dialog-pane {
+    -fx-background-color: linear-gradient(lightgray, gray );
+    -fx-font-weight: bold;
+}
+
 
 #tile {
 		-fx-background-color: linear-gradient(#00ffff, #6680e6 );

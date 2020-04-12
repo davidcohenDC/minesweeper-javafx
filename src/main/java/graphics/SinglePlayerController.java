@@ -28,7 +28,8 @@ public class SinglePlayerController extends AbstractGameController {
     private final GameEngine engine;
     private final Timer timer;
     private Map<Pair<Integer, Integer>, Tile> tilesMap;
-    private Optional<Player> player;
+    private Optional<Player> firstplayer;
+    private Optional<Player> secondplayer;
     private TimerView timerView;
     private ScoreWriter scoreWriter;
     private AlertHandler alert;
@@ -38,11 +39,11 @@ public class SinglePlayerController extends AbstractGameController {
     private Boolean firstClick = false;
 
     @FXML
-    private Label lbTimer = new Label();
+    private Label lbTimerP1 = new Label();
     @FXML
-    private Label lbFlags;
+    private Label lbFlagP1;
     @FXML
-    private Label lbMines;
+    private Label lbNameP1;
     @FXML
     private Button btnRestart;
     @FXML
@@ -65,15 +66,19 @@ public class SinglePlayerController extends AbstractGameController {
 
     @Override
     public void initialize() throws IOException {
-        this.timerView = new TimerViewImpl(timer, lbTimer);
+        this.timerView = new TimerViewImpl(timer, lbTimerP1);
         this.scoreWriter = new ScoreWriterImpl();
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(new RWSettingsImpl());
         this.btnAction = new ButtonReactionimpl(this.rootPane);
 
-        lbFlags.setText("Flags:" + this.mines);
-        lbMines.setText("Mines:" + this.mines);
-        lbTimer.setText(String.valueOf(timer.getValue()));
+        lbFlagP1.setText("Flags:" + this.mines);
+        lbNameP1.setText("No One");
+        if(this.firstplayer.isPresent())
+            lbNameP1.setText(this.firstplayer.get().getName());
+        else
+            lbNameP1.setText("No One");
+        lbTimerP1.setText(String.valueOf(timer.getValue()));
         btnSong.setText("MUTE");
 
         GridPane grid = new GridPane();
@@ -135,19 +140,6 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     @Override
-    public void rightClickHandler(final Tile tile, final int x, final int y) {
-        this.engine.setFlag(new Pair<>(x, y));
-
-        if (!tile.isFlagged()) {
-            this.ccflagsP1--;
-        } else {
-            this.ccflagsP1++;
-        }
-        tile.setflag();
-        this.lbFlags.setText("F:" + this.ccflagsP1);
-    }
-
-    @Override
     public void endGame(GameStatus gameStatus) {
         if (gameStatus.equals(GameStatus.LOST)) {
             closeElements();
@@ -183,19 +175,19 @@ public class SinglePlayerController extends AbstractGameController {
 
     @Override
     public void writePlayer(GameStatus status) {
-        if (this.player.isPresent()) {
+        if (this.firstplayer.isPresent()) {
             if (status.equals(GameStatus.LOST)) {
-                this.player.get().lost();
+                this.firstplayer.get().lost();
             } else {
-                this.player.get().won((int) this.timer.getValue());
+                this.firstplayer.get().won((int) this.timer.getValue());
             }
-            scoreWriter.write(this.player.get());
+            scoreWriter.write(this.firstplayer.get());
         }
     }
-
     @Override
-    public void setPlayer(Optional<Player> player) {
-        this.player = player;
+    public void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer) {
+        this.firstplayer = firstplayer;
+        this.secondplayer = secondplayer;
     }
 
     void endTimer(GameStatus gameStatus) {

@@ -27,7 +27,6 @@ public class AcquireDialogImpl implements AcquireDialog{
         this.dialogSinglePlayer.setTitle("| PLAYER | ");
         this.dialogSinglePlayer.setHeaderText("Input your nickname to save your score");
         this.dialogSinglePlayer.setContentText("Player: ");
-
         return dialogSinglePlayer.showAndWait();
     }
 

@@ -21,10 +21,10 @@ public class AlertHandlerImpl implements AlertHandler{
 
     @Override
     public void won() {
-        alert.setTitle("GAME OVER");
-        alert.setContentText("YOU WON!");
+        alert.setTitle("| CONGRATULATIONS |");
+        alert.setContentText("YOU WON!!");
         alert.setHeaderText(null);
-        this.alStyle.setStyle(alert);
+        alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(green, darkgreen);" + "-fx-font-weight: bold;");
         alert.showAndWait();
 
     }
@@ -32,9 +32,9 @@ public class AlertHandlerImpl implements AlertHandler{
     @Override
     public void lost() {
         alert.setTitle("GAME OVER");
-        alert.setContentText("YOU LOST!");
+        alert.setContentText("YOU LOST!!");
         alert.setHeaderText(null);
-        this.alStyle.setStyle(alert);
+        alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(red, darkred);" + "-fx-font-weight: bold;");
         alert.showAndWait();
     }
 

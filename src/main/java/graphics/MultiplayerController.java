@@ -35,7 +35,8 @@ public class MultiplayerController extends AbstractGameController{
     private final Timer timerP2;
     private Map<Pair<Integer, Integer>, Tile> tilesMap1;
     private Map<Pair<Integer, Integer>, Tile> tilesMap2;
-    private Optional<Player> player;
+    private Optional<Player> firstplayer;
+    private Optional<Player> secondplayer;
     private TimerView timerViewP1;
     private TimerView timerViewP2;
     private ScoreWriter scoreWriter;
@@ -91,10 +92,16 @@ public class MultiplayerController extends AbstractGameController{
         this.btnAction = new ButtonReactionimpl(this.rootPane);
 
         lbFlagP1.setText("F:" + this.mines);
-        lbNameP1.setText(this.player.get().getName());
+        if(this.firstplayer.isPresent())
+            lbNameP1.setText(this.firstplayer.get().getName());
+        else
+            lbNameP1.setText("No One");
         lbTimerP1.setText(String.valueOf(timerP1.getValue()));
         lbFlagP2.setText("F:" + this.mines);
-        lbNameP2.setText(this.player.get().getAdversary().get());
+        if(this.firstplayer.isPresent())
+            lbNameP2.setText(this.firstplayer.get().getAdversary().get());
+        else
+            lbNameP2.setText("No One");
         lbTimerP2.setText(String.valueOf(timerP2.getValue()));
 
         GridPane grid1 = new GridPane();
@@ -184,29 +191,6 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     @Override
-    public void rightClickHandler(Tile tile, int x, int y) {
-        this.engineP1.setFlag(new Pair<>(x, y));
-
-        if (whoPlay) {
-            if (!tile.isFlagged()) {
-                this.ccflagsP1--;
-            } else {
-                this.ccflagsP1++;
-            }
-            tile.setflag();
-            this.lbFlagP1.setText("F:" + this.ccflagsP1);
-        } else {
-            if (!tile.isFlagged()) {
-                this.ccflagsP2--;
-            } else {
-                this.ccflagsP2++;
-            }
-            tile.setflag();
-            this.lbFlagP1.setText("F:" + this.ccflagsP2);
-        }
-    }
-
-    @Override
     public void endGame(GameStatus gameStatus) {
         if (gameStatus.equals(GameStatus.LOST)) {
             closeElements();
@@ -246,23 +230,33 @@ public class MultiplayerController extends AbstractGameController{
 
     @Override
     public void writePlayer(GameStatus status) {
-        if (this.player.isPresent()) {
+
+        if (this.firstplayer.isPresent()) {
             if (status.equals(GameStatus.LOST)) {
-                this.player.get().lost();
-            } else {
-                this.player.get().won((int) this.timerP1.getValue());
+                if (whoPlay) {
+                    this.firstplayer.get().lost();
+                } else {
+                    this.firstplayer.get().won((int) this.timerP1.getValue());
+                }
             }
-            if(this.whoPlay) {
-                this.scoreWriter.write(this.player.get());
-            }else {
-                this.scoreWriter.write(this.player.get());
-            }
+            this.scoreWriter.write(this.firstplayer.get());
         }
+            if (this.secondplayer.isPresent()) {
+                if (status.equals(GameStatus.LOST)) {
+                    if (whoPlay) {
+                        this.secondplayer.get().lost();
+                    } else {
+                        this.secondplayer.get().won((int) this.timerP1.getValue());
+                    }
+                }
+                this.scoreWriter.write(this.secondplayer.get());
+            }
     }
 
     @Override
-    public void setPlayer(Optional<Player> player) {
-        this.player = player;
+    public void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer) {
+        this.firstplayer = firstplayer;
+        this.secondplayer = secondplayer;
     }
 
     private void switchPane() {
@@ -285,4 +279,5 @@ public class MultiplayerController extends AbstractGameController{
         }
 
     }
+
 }

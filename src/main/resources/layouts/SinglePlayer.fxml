@@ -39,21 +39,21 @@
             <top>
                 <BorderPane prefHeight="47.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                     <left>
-                        <Label fx:id="lbFlags" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="118.0" style="-fx-background-color: lightgray;" text="F" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Label fx:id="lbFlagP1" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="118.0" style="-fx-background-color: lightgray;" text="F" textAlignment="CENTER" BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="28.0" />
                             </font>
                         </Label>
                     </left>
                     <right>
-                        <Label fx:id="lbMines" alignment="CENTER" disable="true" style="-fx-background-color: lightgray;" text="Mines" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Label fx:id="lbNameP1"  alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="136.0" style="-fx-background-color: lightgray;" text="Mines" textAlignment="CENTER" BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="28.0" />
                             </font>
                         </Label>
                     </right>
                     <center>
-                        <Label fx:id="lbTimer" alignment="CENTER" prefHeight="39.0" prefWidth="105.0" text=" " BorderPane.alignment="CENTER">
+                        <Label fx:id="lbTimerP1" disable="true" alignment="CENTER" prefHeight="39.0" prefWidth="105.0" text=" " BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="27.0" />
                             </font>
