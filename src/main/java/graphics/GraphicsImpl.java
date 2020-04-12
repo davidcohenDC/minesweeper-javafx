@@ -37,7 +37,6 @@ public class GraphicsImpl implements Graphics {
     public RWSettings rwSett;
     private final TimerFactory timerFactory = new TimerFactoryImpl();
     private AcquireDialog getPlayer;
-    private Stage stage;
 
     public GraphicsImpl(final Modality modality, final Difficulty difficulty, final int mines, final int height, final int width, final Stage stage) throws IOException {
         this.difficulty = difficulty;
@@ -65,7 +64,6 @@ public class GraphicsImpl implements Graphics {
                 sceneStart(stage,"layouts/SinglePlayer.fxml",bttController);
                 break;
         }
-
     }
 
     private void sceneStart(final Stage stage, final String layout, final GameController modalityController) throws IOException{
@@ -124,11 +122,6 @@ public class GraphicsImpl implements Graphics {
     @Override
     public Integer getHeight() {
         return this.height;
-    }
-
-    @Override
-    public Stage getStage() {
-        return this.stage;
     }
 
 

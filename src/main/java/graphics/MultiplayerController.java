@@ -22,52 +22,53 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The Controller related to the Multiplayer.fxml GUI.
+ */
 public class MultiplayerController extends AbstractGameController{
-    private SongAgent music;
-    private final Timer timerP1;
-    private final Timer timerP2;
-    private TimerView timerViewP1;
-    private TimerView timerViewP2;
-    private Optional<Player> player;
-    private int mines;
-    private int height;
-    private int width;
-    private ButtonReaction btnAction;
-    private Boolean checkPlayer = false;
-    private Map<Pair<Integer, Integer>, Tile> tilesMap1;
-    private Map<Pair<Integer, Integer>, Tile> tilesMap2;
+    private final int height;
+    private final int width;
+    private final int mines;
     private final GameEngine engineP1;
     private final GameEngine engineP2;
+    private final Timer timerP1;
+    private final Timer timerP2;
+    private Map<Pair<Integer, Integer>, Tile> tilesMap1;
+    private Map<Pair<Integer, Integer>, Tile> tilesMap2;
+    private Optional<Player> player;
+    private TimerView timerViewP1;
+    private TimerView timerViewP2;
+    private ScoreWriter scoreWriter;
+    private AlertHandler alert;
+    private SongAgent music;
+    private ButtonReaction btnAction;
     private Boolean firstClick = false;
-    private Boolean playP1;
-    private Boolean playP2;
+    private Boolean whoPlay = true;
     private int clickCount = 0;
     private int maxClick;
-    private AlertHandler alert;
-    private ScoreWriter scoreWriter;
 
     @FXML
-    private AnchorPane rootPane;
-    @FXML
-    private BorderPane firstPlayerPane;
-    @FXML
-    private BorderPane secondPlayerPane;
-    @FXML
-    private Label lbFlagP1;
+    private Label lbTimerP2 = new Label();
     @FXML
     private Label lbTimerP1 = new Label();
+    @FXML
+    private Label lbFlagP1;
     @FXML
     private Label lbNameP1;
     @FXML
     private Label lbFlagP2;
-    @FXML
-    private Label lbTimerP2 = new Label();
     @FXML
     private Label lbNameP2;
     @FXML
     private Button btnGiveUpP1;
     @FXML
     private Button btnGiveUpP2;
+    @FXML
+    private BorderPane firstPlayerPane;
+    @FXML
+    private BorderPane secondPlayerPane;
+    @FXML
+    private AnchorPane rootPane;
 
     public MultiplayerController(int height, int width, int mines, Timer timer) {
         super(height,width,mines,timer);
@@ -82,12 +83,19 @@ public class MultiplayerController extends AbstractGameController{
 
     @Override
     public void initialize() throws IOException{
-        this.music = new SongAgentImpl(new RWSettingsImpl());
-        this.btnAction = new ButtonReactionimpl(this.rootPane);
         this.timerViewP1 = new TimerViewImpl(timerP1,lbTimerP1);
         this.timerViewP2 = new TimerViewImpl(timerP2,lbTimerP2);
-        this.alert = new AlertHandlerImpl();
         this.scoreWriter = new ScoreWriterImpl();
+        this.alert = new AlertHandlerImpl();
+        this.music = new SongAgentImpl(new RWSettingsImpl());
+        this.btnAction = new ButtonReactionimpl(this.rootPane);
+
+        lbFlagP1.setText("F:" + this.mines);
+        lbNameP1.setText(this.player.get().getName());
+        lbTimerP1.setText(String.valueOf(timerP1.getValue()));
+        lbFlagP2.setText("F:" + this.mines);
+        lbNameP2.setText(this.player.get().getAdversary().get());
+        lbTimerP2.setText(String.valueOf(timerP2.getValue()));
 
         GridPane grid1 = new GridPane();
         final TileBuilder tb1 = new TileBuilderImpl();
@@ -106,30 +114,22 @@ public class MultiplayerController extends AbstractGameController{
         this.firstPlayerPane.setCenter(grid1);
         this.secondPlayerPane.setCenter(grid2);
 
-        this.ccflagsP1 = this.mines;
-        this.ccflagsP2 = this.mines;
-        lbFlagP1.setText("F:" + this.mines);
-        lbNameP1.setText(this.player.get().getName());
-        lbTimerP1.setText(String.valueOf(timerP1.getValue()));
-        lbFlagP2.setText("F:" + this.mines);
-        lbNameP2.setText(this.player.get().getAdversary().get());
-        lbTimerP2.setText(String.valueOf(timerP2.getValue()));
-        setbtnActions();
+        this.secondPlayerPane.setDisable(true);
+        this.maxClick = 2;
+        this.music.play();
+
+        setButtons();
         setClickHandler(this.engineP1,this.tilesMap1);
         setClickHandler(this.engineP2,this.tilesMap2);
-        this.secondPlayerPane.setDisable(true);
-        this.music.play();
-        this.playP1 = true;
-        this.playP2 = false;
-        this.maxClick = 2;
     }
 
     @Override
-    public void setbtnActions() {
+    public void setButtons() {
         btnGiveUpP1.setOnAction(t -> {
             try {
                 music.close();
                 timerP1.stop();
+                timerP2.stop();
                 btnAction.backHome();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -138,6 +138,7 @@ public class MultiplayerController extends AbstractGameController{
         btnGiveUpP2.setOnAction(t -> {
             try {
                 music.close();
+                timerP1.stop();
                 timerP2.stop();
                 btnAction.backHome();
             } catch (IOException e) {
@@ -148,6 +149,7 @@ public class MultiplayerController extends AbstractGameController{
 
     @Override
     public void leftClickHandler(final Tile tile, final int x, final int y) {
+        this.clickCount++;
         if (!this.firstClick) {
             this.firstClick = true;
             timerViewP1.startDisplaying();
@@ -155,23 +157,19 @@ public class MultiplayerController extends AbstractGameController{
             timerViewP2.startDisplaying();
         }
 
-        if(playP1) {
-            this.clickCount++;
+        if(whoPlay) {
             if (!tile.isFlagged()) {
                 this.engineP1.hit(new Pair<>(x,y));
                 refreshBoard(this.engineP1,this.tilesMap1);
-
             }
 
             if (!this.engineP1.getGameStatus().equals((GameStatus.PLAYING))) {
                 endGame(this.engineP1.getGameStatus());
             }
         } else {
-            this.clickCount++;
             if (!tile.isFlagged()) {
                 this.engineP2.hit(new Pair<>(x,y));
                 refreshBoard(this.engineP2,this.tilesMap2);
-
             }
 
             if (!this.engineP2.getGameStatus().equals((GameStatus.PLAYING))) {
@@ -183,34 +181,28 @@ public class MultiplayerController extends AbstractGameController{
             switchPane();
             this.clickCount = 0;
         }
-
-
     }
 
     @Override
     public void rightClickHandler(Tile tile, int x, int y) {
         this.engineP1.setFlag(new Pair<>(x, y));
 
-        if (playP1) {
+        if (whoPlay) {
             if (!tile.isFlagged()) {
                 this.ccflagsP1--;
-                tile.setflag();
-                this.lbFlagP1.setText("F:" + this.ccflagsP1);
             } else {
                 this.ccflagsP1++;
-                tile.setflag();
-                this.lbFlagP1.setText("F:" + this.ccflagsP1);
             }
+            tile.setflag();
+            this.lbFlagP1.setText("F:" + this.ccflagsP1);
         } else {
             if (!tile.isFlagged()) {
                 this.ccflagsP2--;
-                tile.setflag();
-                this.lbFlagP1.setText("F:" + this.ccflagsP2);
             } else {
                 this.ccflagsP2++;
-                tile.setflag();
-                this.lbFlagP1.setText("F:" + this.ccflagsP2);
             }
+            tile.setflag();
+            this.lbFlagP1.setText("F:" + this.ccflagsP2);
         }
     }
 
@@ -218,7 +210,11 @@ public class MultiplayerController extends AbstractGameController{
     public void endGame(GameStatus gameStatus) {
         if (gameStatus.equals(GameStatus.LOST)) {
             closeElements();
-            alert.lost();
+            if(this.whoPlay) {
+                alert.lost();//...
+            } else {
+                alert.lost();//...
+            }
             writePlayer(GameStatus.LOST);
             try {
                 btnAction.backHome();
@@ -226,7 +222,11 @@ public class MultiplayerController extends AbstractGameController{
                 e.printStackTrace();
             }
         } else if (gameStatus.equals(GameStatus.WON)) {
-            alert.won();
+            if(this.whoPlay) {
+                alert.won();//...
+            } else {
+                alert.won();//...
+            }
             writePlayer(GameStatus.WON);
             closeElements();
             try {
@@ -247,13 +247,12 @@ public class MultiplayerController extends AbstractGameController{
     @Override
     public void writePlayer(GameStatus status) {
         if (this.player.isPresent()) {
-
             if (status.equals(GameStatus.LOST)) {
                 this.player.get().lost();
             } else {
                 this.player.get().won((int) this.timerP1.getValue());
             }
-            if(this.playP1) {
+            if(this.whoPlay) {
                 this.scoreWriter.write(this.player.get());
             }else {
                 this.scoreWriter.write(this.player.get());
@@ -267,24 +266,22 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     private void switchPane() {
-        if(playP1) {
+        if(whoPlay) {
             this.firstPlayerPane.setDisable(true);
             this.secondPlayerPane.setDisable(false);
-            this.playP1 = false;
-            this.playP2 = true;
-            timerP1.stop();
+            this.whoPlay = false;
             timerViewP1.stopDisplaying();
             timerViewP2.startDisplaying();
+            timerP1.stop();
             timerP2.start();
         } else {
             this.firstPlayerPane.setDisable(false);
             this.secondPlayerPane.setDisable(true);
-            this.playP2 = false;
-            this.playP1 = true;
-            timerP1.stop();
-            timerViewP2.stopDisplaying();
+            this.whoPlay = true;
             timerViewP1.startDisplaying();
-            timerP2.start();
+            timerViewP2.stopDisplaying();
+            timerP2.stop();
+            timerP1.start();
         }
 
     }

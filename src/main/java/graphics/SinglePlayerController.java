@@ -1,6 +1,5 @@
 package graphics;
 
-import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
 import gamelogics.*;
 import graphicsutility.*;
@@ -20,65 +19,62 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * The Controller related to the playGame.fxml GUI.
+ * The Controller related to the SinglePlayer.fxml GUI.
  */
 public class SinglePlayerController extends AbstractGameController {
-    private int ccflags;
-    private Boolean firstClick = false;
-    private SongAgent music;
-    private GameEngine engine;
+    private final int height;
+    private final int width;
+    private final int mines;
+    private final GameEngine engine;
     private final Timer timer;
-    private int height;
-    private int width;
+    private Map<Pair<Integer, Integer>, Tile> tilesMap;
     private Optional<Player> player;
-    private ButtonReaction btnAction;
     private TimerView timerView;
     private ScoreWriter scoreWriter;
     private AlertHandler alert;
-    private int mines;
+    private SongAgent music;
+    private ButtonReaction btnAction;
     private Boolean timerOver = false;
-    private Map<Pair<Integer, Integer>, Tile> tilesMap;
+    private Boolean firstClick = false;
 
+    @FXML
+    private Label lbTimer = new Label();
     @FXML
     private Label lbFlags;
     @FXML
     private Label lbMines;
     @FXML
-    private Label lbTimer = new Label();
-    @FXML
     private Button btnRestart;
     @FXML
     private Button btnBackHome;
     @FXML
-    private AnchorPane rootPane;
+    private Button btnSong;
     @FXML
     private BorderPane mainBorderPane;
     @FXML
-    private Button btnSong;
+    private AnchorPane rootPane;
 
     public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) {
         super(height,width,mines,timer);
-        this.timer = timer;
-        this.mines = mines;
         this.height = height;
         this.width = width;
+        this.mines = mines;
+        this.timer = timer;
         this.engine = new GameEngineImpl(width,height,mines);
     }
 
     @Override
     public void initialize() throws IOException {
+        this.timerView = new TimerViewImpl(timer, lbTimer);
+        this.scoreWriter = new ScoreWriterImpl();
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(new RWSettingsImpl());
-        this.scoreWriter = new ScoreWriterImpl();
         this.btnAction = new ButtonReactionimpl(this.rootPane);
-        this.timerView = new TimerViewImpl(timer, lbTimer);
-        this.ccflags = this.mines;
 
         lbFlags.setText("Flags:" + this.mines);
         lbMines.setText("Mines:" + this.mines);
         lbTimer.setText(String.valueOf(timer.getValue()));
         btnSong.setText("MUTE");
-
 
         GridPane grid = new GridPane();
         final TileBuilder tb = new TileBuilderImpl();
@@ -89,18 +85,19 @@ public class SinglePlayerController extends AbstractGameController {
 
         this.mainBorderPane.setCenter(grid);
         this.music.play();
-        setbtnActions();
+
+        setButtons();
         setClickHandler(this.engine,this.tilesMap);
 
     }
 
     @Override
-    public void setbtnActions() {
+    public void setButtons() {
         btnBackHome.setOnAction(t -> {
             try {
-                btnAction.backHome();
                 music.close();
                 timer.stop();
+                btnAction.backHome();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -135,24 +132,19 @@ public class SinglePlayerController extends AbstractGameController {
         if (!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
             endGame(this.engine.getGameStatus());
         }
-
-
     }
 
     @Override
     public void rightClickHandler(final Tile tile, final int x, final int y) {
-
         this.engine.setFlag(new Pair<>(x, y));
 
         if (!tile.isFlagged()) {
-            this.ccflags--;
-            tile.setflag();
-            this.lbFlags.setText("FLags:" + this.ccflags);
+            this.ccflagsP1--;
         } else {
-            this.ccflags++;
-            tile.setflag();
-            this.lbFlags.setText("FLags:" + this.ccflags);
+            this.ccflagsP1++;
         }
+        tile.setflag();
+        this.lbFlags.setText("F:" + this.ccflagsP1);
     }
 
     @Override
@@ -199,7 +191,6 @@ public class SinglePlayerController extends AbstractGameController {
             }
             scoreWriter.write(this.player.get());
         }
-
     }
 
     @Override

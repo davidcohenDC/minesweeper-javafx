@@ -14,8 +14,6 @@ public interface Graphics {
 
     Integer getHeight();
 
-    Stage getStage();
-
     void setPlayer();
 
 

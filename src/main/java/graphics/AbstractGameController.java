@@ -5,7 +5,6 @@ import graphicsutility.*;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
-import scoresystem.Player;
 import timer.Timer;
 import java.io.IOException;
 import java.util.Map;
@@ -15,13 +14,14 @@ public abstract class AbstractGameController implements GameController{
     protected int ccflagsP1;
     protected int ccflagsP2;
     private NodeEffect effect;
-    private Player player;
 
     @FXML
     private BorderPane mainBorderPane;
 
     public AbstractGameController(final int height, final int width, final int mines, final Timer timer){
         this.effect = new NodeEffectImpl();
+        this.ccflagsP1 = mines;
+        this.ccflagsP2 = mines;
     }
 
     @Override
@@ -65,7 +65,7 @@ public abstract class AbstractGameController implements GameController{
     public abstract void initialize() throws IOException;
 
     @Override
-    public abstract void setbtnActions();
+    public abstract void setButtons();
 
     @Override
     public abstract void leftClickHandler(final Tile tile, final int x, final int y);
@@ -78,7 +78,6 @@ public abstract class AbstractGameController implements GameController{
 
     @Override
     public abstract void closeElements();
-
 
 
 

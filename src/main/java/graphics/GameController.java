@@ -17,7 +17,7 @@ public interface GameController {
 
     void initialize() throws IOException;
 
-    void setbtnActions();
+    void setButtons();
 
     void refreshBoard(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile> tilesMap);
 
