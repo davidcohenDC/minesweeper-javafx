@@ -22,8 +22,10 @@ public interface TimerView {
     void stopDisplaying();
 
     /**
-     * Sets a listener to take action if a {@link OutOfTimeEvent} occurs. 
-     * @param listener the listener to add.
+     * Sets a listener to take action if a {@link OutOfTimeEvent} occurs.
+     * 
+     * @param listener
+     *                     the listener to add.
      */
     void setTimeEventListener(TimeEventsListener listener);
 }
