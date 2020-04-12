@@ -84,6 +84,6 @@ public class TimerViewImpl implements TimerView {
      * Creates a {@link OutOfTimeEvent}.
      */
     private void outOfTime() {
-        this.listener.timeEventOccured(new OutOfTimeEvent(this));
+        this.listener.singlePlayerTimeEvent(new OutOfTimeEvent(this));
     }
 }

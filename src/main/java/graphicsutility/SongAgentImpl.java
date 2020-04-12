@@ -52,7 +52,7 @@ public class SongAgentImpl implements SongAgent {
     }
 
     @Override
-    public void stop() {
+    public void pause() {
         this.playing = false;
         clip.stop();
     }
@@ -62,7 +62,7 @@ public class SongAgentImpl implements SongAgent {
         if(isPlaying()) {
             //btnSong.setText("MUTED");
             btnSong.setText("MUTED");
-            stop();
+            pause();
         } else {
             //btnSong.setText("MUTE");
             btnSong.setText("MUTE");

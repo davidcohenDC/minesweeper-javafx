@@ -30,7 +30,10 @@ public class GraphicsImpl implements Graphics {
     private int height;
     private int width;
     private Modality modality;
-    private Optional<String> playerName;
+    private Optional<String> firstPlayerName;
+    private Optional<String> secondPlayerName;
+    private Optional<Player> firstplayer;
+    private Optional<Player> secondplayer;
     public RWSettings rwSett;
     private final TimerFactory timerFactory = new TimerFactoryImpl();
     private AcquireDialog getPlayer;
@@ -46,13 +49,10 @@ public class GraphicsImpl implements Graphics {
         this.getPlayer = new AcquireDialogImpl();
         this.modality = modality;
 
-
-        this.playerName = getPlayer.Acquire();
-
         switch (modality) {
             case STANDARD:
-                final GameController stdController = new SinglePlayerController(height, width, mines,this.timerFactory.createTimerForStandardMode());
-                sceneStart(stage,"layouts/SinglePlayer.fxml",stdController);
+                final GameController sdController = new SinglePlayerController(height, width, mines,this.timerFactory.createTimerForStandardMode());
+                sceneStart(stage,"layouts/SinglePlayer.fxml",sdController);
                 break;
 
             case ONE_VS_ONE:
@@ -61,20 +61,11 @@ public class GraphicsImpl implements Graphics {
                 break;
 
             case BTT:
-                final GameController bttController = new SinglePlayerController(height, width, mines,this.timerFactory.createTimerForBeatTheTimerMode(100));
+                final GameController bttController = new SinglePlayerController(height, width, mines,this.timerFactory.createTimerForBeatTheTimerMode(5));
                 sceneStart(stage,"layouts/SinglePlayer.fxml",bttController);
                 break;
         }
 
-    }
-
-    private void setPlayer(final Optional<String> playerName) {
-        if(!playerName.equals("")) {
-            final Player player = playerFactory.createPlayerForStandardMode(playerName.get(),difficulty);
-            this.modalityController.setPlayer(Optional.of(player));
-        } else {
-            this.modalityController.setPlayer(Optional.empty());
-        }
     }
 
     private void sceneStart(final Stage stage, final String layout, final GameController modalityController) throws IOException{
@@ -82,7 +73,7 @@ public class GraphicsImpl implements Graphics {
         final FXMLLoader loader;
         loader = new FXMLLoader(ClassLoader.getSystemResource(layout));
         this.modalityController = modalityController;
-        setPlayer(playerName);
+        setPlayer();
         loader.setController(modalityController);
         parentPane = loader.load();
         final Scene beatTheTimeScene = new Scene(parentPane, stage.getScene().getWidth(), stage.getScene().getHeight());
@@ -92,13 +83,37 @@ public class GraphicsImpl implements Graphics {
     }
 
     @Override
-    public Modality getModatily() {
-        return this.modality;
-    }
+    public void setPlayer() {
+        this.firstPlayerName = getPlayer.acquireFirst();
+        switch (modality) {
+            case STANDARD:
+                if(firstPlayerName.isPresent()) {
+                    final Player player = playerFactory.createPlayerForStandardMode(firstPlayerName.get(),difficulty);
+                    this.modalityController.setPlayer(Optional.of(player));
+                } else {
+                    this.modalityController.setPlayer(Optional.empty());
+                }
+                break;
 
-    @Override
-    public Difficulty getdifficulty() {
-        return this.difficulty;
+            case ONE_VS_ONE:
+                this.secondPlayerName = getPlayer.acquireSecond();
+                if(firstPlayerName.isPresent() && secondPlayerName.isPresent()) {
+                    final Player player = playerFactory.createPlayerFor1vs1Mode(firstPlayerName.get(),difficulty,secondPlayerName.get());
+                    this.modalityController.setPlayer(Optional.of(player));
+                } else {
+                    this.modalityController.setPlayer(Optional.empty());
+                }
+                break;
+
+            case BTT:
+                if(firstPlayerName.isPresent()) {
+                    final Player player = playerFactory.createPlayerForBeatTheTimerMode(firstPlayerName.get(),difficulty);
+                    this.modalityController.setPlayer(Optional.of(player));
+                } else {
+                    this.modalityController.setPlayer(Optional.empty());
+                }
+                break;
+        }
     }
 
     @Override

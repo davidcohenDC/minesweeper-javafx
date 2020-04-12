@@ -47,7 +47,6 @@ public class TileBuilderImpl implements TileBuilder {
         try {
             tile = new Tile(x,y);
             this.tilesMap.put(new Pair<>(x, y),tile);
-
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalStateException("Could not create tile correctly");

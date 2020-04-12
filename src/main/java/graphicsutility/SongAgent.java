@@ -7,7 +7,7 @@ public interface SongAgent {
 
      void play();
 
-     void stop();
+     void pause();
 
      Boolean shift();
 

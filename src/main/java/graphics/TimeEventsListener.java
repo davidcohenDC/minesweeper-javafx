@@ -12,5 +12,6 @@ public interface TimeEventsListener extends EventListener {
      * Begins a procedure to change the games'course.
      * @param event The event occurred.
      */
-    void timeEventOccured(OutOfTimeEvent event);
+    void singlePlayerTimeEvent(final OutOfTimeEvent event);
+
 }

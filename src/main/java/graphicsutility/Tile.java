@@ -18,7 +18,7 @@ public class Tile extends Button {
             + "mines" + SEPARATOR;
     private final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
             + "flags" + SEPARATOR;
-    private static final int BUTTON_SIZE = 40;
+    private static final int BUTTON_SIZE = 35;
     private static final int IMAGE_SIZE = 26;
     private static final int MINE_VALUE = 9;
 
@@ -110,6 +110,10 @@ public class Tile extends Button {
 
     public final void setValue(final int n) {
         value = n;
+    }
+
+    public final void style() {
+        this.setStyle("-fx-background-color:grey; -fx-text-fill: black; -fx-padding:0");
     }
 
 }

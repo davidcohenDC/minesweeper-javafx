@@ -4,6 +4,8 @@ import java.util.Optional;
 
 public interface AcquireDialog {
 
-    Optional<String> Acquire();
+    Optional<String> acquireFirst();
+
+    Optional<String> acquireSecond();
 
 }

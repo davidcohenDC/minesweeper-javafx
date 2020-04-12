@@ -3,7 +3,9 @@ package graphicsutility;
 import controlutility.AlertStyle;
 import controlutility.AlertStyleImpl;
 import gamelogics.GameStatus;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 
 import java.util.Optional;
@@ -19,21 +21,31 @@ public class AlertHandlerImpl implements AlertHandler{
 
     @Override
     public void won() {
-        alert.setTitle("YOU WON!");
-        alert.setContentText("GAME OVER");
+        alert.setTitle("GAME OVER");
+        alert.setContentText("YOU WON!");
+        alert.setHeaderText(null);
+        this.alStyle.setStyle(alert);
+        alert.showAndWait();
+
+    }
+
+    @Override
+    public void lost() {
+        alert.setTitle("GAME OVER");
+        alert.setContentText("YOU LOST!");
         alert.setHeaderText(null);
         this.alStyle.setStyle(alert);
         alert.showAndWait();
     }
 
-    @Override
-    public void lost() {
-        alert.setTitle("YOU LOST!");
-        alert.setContentText("GAME OVER");
+    public void lostWithTimer() {
+        alert.setTitle("GAME OVER");
+        alert.setContentText("YOU LOST!");
         alert.setHeaderText(null);
         this.alStyle.setStyle(alert);
-        alert.showAndWait();
+        Platform.runLater(alert::showAndWait);
     }
+
 
 
 

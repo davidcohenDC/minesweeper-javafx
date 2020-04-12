@@ -10,15 +10,14 @@ import java.io.IOException;
 
 public interface Graphics {
 
-    Modality getModatily();
-
-    Difficulty getdifficulty();
-
     Integer getWidth();
 
     Integer getHeight();
 
-    public Stage getStage();
+    Stage getStage();
+
+    void setPlayer();
+
 
 
 }

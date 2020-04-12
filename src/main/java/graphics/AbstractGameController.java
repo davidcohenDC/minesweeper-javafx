@@ -1,42 +1,71 @@
 package graphics;
 
-import controlutility.RWSettings;
-import controlutility.RWSettingsImpl;
 import gamelogics.*;
 import graphicsutility.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import scoresystem.Player;
-import scoresystem.ScoreWriter;
-import scoresystem.ScoreWriterImpl;
-import timer.*;
-
+import timer.Timer;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Consumer;
+
 
 public abstract class AbstractGameController implements GameController{
+    protected int ccflagsP1;
+    protected int ccflagsP2;
+    private NodeEffect effect;
+    private Player player;
 
-
-    @FXML
-    private AnchorPane rootPane;
     @FXML
     private BorderPane mainBorderPane;
 
-    @FXML
-    private Label lbTimer = new Label();
-
     public AbstractGameController(final int height, final int width, final int mines, final Timer timer){
-
+        this.effect = new NodeEffectImpl();
     }
 
+    @Override
+    public void setClickHandler(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap) {
+        for (final Box box : engine.getBoard()) {
+            final Tile tmpTile = tilesMap.get(box.getPosition());
+            tmpTile.setOnMouseClicked(e -> {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    leftClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
+                } else if (e.getButton() == MouseButton.SECONDARY) {
+                    rightClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
+                }
+            });
+        }
+    }
 
+    @Override
+    public void refreshBoard(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap) {
+        for (final Box box : engine.getBoard()) {
+            final Tile tmpTile = tilesMap.get(box.getPosition());
+            if (box.isClicked()) {
+                if (box.containsBomb()) {
+                    tmpTile.setMine();
+                } else {
+                    tmpTile.setValue(box.getBombNear());
+                    tmpTile.disable();
+                    tmpTile.style();
+                }
+            }
+            if (engine.getGameStatus().equals((GameStatus.LOST))) {
+                if (box.containsBomb()) {
+                    tmpTile.setMine();
+                } else {
+                    effect.fallingTiles(tmpTile);
+                }
+            }
+        }
+    }
+
+    @Override
+    public abstract void initialize() throws IOException;
+
+    @Override
+    public abstract void setbtnActions();
 
     @Override
     public abstract void leftClickHandler(final Tile tile, final int x, final int y);
@@ -45,22 +74,12 @@ public abstract class AbstractGameController implements GameController{
     public abstract void rightClickHandler(final Tile tile, final int x, final int y);
 
     @Override
-    public abstract void initialize() throws IOException;
-
-    @Override
-    public abstract void btnActions();
-
-    public abstract void setClickHandler();
-
-    public abstract void refreshBoard();
-
-    public abstract void showLostBoard(final Box box, final Tile tmpTile);
-
     public abstract void endGame(final GameStatus gameStatus);
 
-    public abstract void setPlayer(final GameStatus status);
-
+    @Override
     public abstract void closeElements();
+
+
 
 
 }

@@ -8,5 +8,7 @@ public interface AlertHandler {
 
     void lost();
 
+    void lostWithTimer();
+
 
 }
