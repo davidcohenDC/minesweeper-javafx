@@ -154,10 +154,8 @@ public class ScoreWriterImpl implements ScoreWriter {
     private void writeScoreForMultiplayer() {
 
         // converting the score board entries to strings
-        for (final String playerName : this.scoreboard.keySet()) {
-            this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName) + SCORE_SEPARATOR
-                    + this.player.getAdversary().get());
-        }
+        this.scoreboard.keySet().stream().forEach(playerName -> this.lines.add(playerName + SCORE_SEPARATOR
+                + this.scoreboard.get(playerName) + SCORE_SEPARATOR + this.player.getAdversary().get()));
     }
 
     /**
@@ -166,12 +164,9 @@ public class ScoreWriterImpl implements ScoreWriter {
      * Format: <i>player</i> - <i>score</i>
      */
     private void writeScoreForSingleplayer() {
-
         // converting the score board entries to strings
-        for (final String playerName : this.scoreboard.keySet()) {
-            this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName));
-        }
-
+        this.scoreboard.keySet().stream()
+                .forEach(playerName -> this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName)));
     }
 
     /**
