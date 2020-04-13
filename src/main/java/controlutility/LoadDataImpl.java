@@ -20,7 +20,8 @@ public class LoadDataImpl implements LoadData {
     private final List<String> imgFlags = new ArrayList<>(
             Arrays.asList("bianca.png", "rossa.png", "scacchi.png", "puntina_verde.png", "tovagliolo.png"));
     private final List<String> sound = new ArrayList<>(
-            Arrays.asList("prova1.wav", "prova2.wav"));
+            Arrays.asList("song01.wav", "song02.wav", "song03.wav", "song04.wav", "song05.wav", 
+                    "song06.wav", "song07.wav", "song08.wav", "song09.wav", "song10.wav"));
 
     /**
      * @throws IOException
