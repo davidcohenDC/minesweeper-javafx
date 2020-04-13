@@ -48,17 +48,17 @@ public class GraphicsImpl implements Graphics {
         TimerFactory timerFactory = new TimerFactoryImpl();
         switch (modality) {
             case STANDARD:
-                final GameController sdController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForStandardMode());
+                final GameController sdController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForStandardMode(),modality,difficulty);
                 sceneStart(stage,"layouts/SinglePlayer.fxml",sdController);
                 break;
 
             case ONE_VS_ONE:
-                final GameController ovoController = new MultiplayerController(height, width, mines, timerFactory.createTimerForStandardMode());
+                final GameController ovoController = new MultiplayerController(height, width, mines, timerFactory.createTimersFor1vs1Mode());
                 sceneStart(stage,"layouts/Multiplayer.fxml",ovoController);
                 break;
 
             case BTT:
-                final GameController bttController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForBeatTheTimerMode(5));
+                final GameController bttController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForBeatTheTimerMode(5),modality,difficulty);
                 sceneStart(stage,"layouts/SinglePlayer.fxml",bttController);
                 break;
         }
@@ -95,7 +95,9 @@ public class GraphicsImpl implements Graphics {
                 this.secondPlayerName = getPlayer.acquireSecond();
                 if(firstPlayerName.isPresent() && secondPlayerName.isPresent()) {
                     final Player firstPlayer = playerFactory.createPlayerFor1vs1Mode(firstPlayerName.get(),difficulty,secondPlayerName.get());
+                    System.out.println(firstPlayerName.get());
                     final Player secondPlayer = playerFactory.createPlayerFor1vs1Mode(secondPlayerName.get(),difficulty,firstPlayerName.get());
+                    System.out.println(secondPlayerName.get());
                     this.modalityController.setPlayers(Optional.of(firstPlayer),Optional.of(secondPlayer));
                 } else {
                     this.modalityController.setPlayers(Optional.empty(),Optional.empty());

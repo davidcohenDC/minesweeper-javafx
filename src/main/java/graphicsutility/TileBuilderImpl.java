@@ -4,6 +4,7 @@ import gamelogics.Pair;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 
+import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class TileBuilderImpl implements TileBuilder {
         try {
             tile = new Tile(x,y);
             this.tilesMap.put(new Pair<>(x, y),tile);
-        } catch (IOException e) {
+        } catch (IOException | LineUnavailableException e) {
             e.printStackTrace();
             throw new IllegalStateException("Could not create tile correctly");
         }

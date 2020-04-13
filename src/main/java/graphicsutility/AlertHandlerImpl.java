@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
+import scoresystem.Player;
 
 import java.util.Optional;
 
@@ -20,9 +21,9 @@ public class AlertHandlerImpl implements AlertHandler{
     }
 
     @Override
-    public void won() {
+    public void won(final int score) {
         alert.setTitle("| CONGRATULATIONS |");
-        alert.setContentText("YOU WON!!");
+        alert.setContentText("YOU WON!!" + "Your score: " + score);
         alert.setHeaderText(null);
         alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(green, darkgreen);" + "-fx-font-weight: bold;");
         alert.showAndWait();
