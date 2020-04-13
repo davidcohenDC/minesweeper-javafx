@@ -75,14 +75,9 @@ public class ScoreWriterImpl implements ScoreWriter {
             this.scoreboard.putAll(getScoreBoard(this.player.getModality(), this.player.getDifficuly()));
 
             // if player already played with this settings this if fetches its old high
-            // score
+            // score and puts it in the map or replaces the old value
             if (this.scoreboard.containsKey(this.player.getName())) {
                 this.previousHighScore = Optional.of(this.scoreboard.get(player.getName()));
-            }
-
-            // if the player already played it replaces its previous score otherwise put a
-            // new entry in the score board map
-            if (!this.scoreboard.containsKey(this.player.getName())) {
                 this.scoreboard.put(this.player.getName(), this.player.getScore());
             } else {
                 this.scoreboard.replace(this.player.getName(), this.player.getScore());
@@ -154,8 +149,8 @@ public class ScoreWriterImpl implements ScoreWriter {
     private void writeScoreForMultiplayer() {
 
         // converting the score board entries to strings
-        this.scoreboard.keySet().stream().forEach(playerName -> this.lines.add(playerName + SCORE_SEPARATOR
-                + this.scoreboard.get(playerName) + SCORE_SEPARATOR + this.player.getAdversary().get()));
+        this.scoreboard.keySet().stream()
+                                .forEach(playerName -> this.lines.add(format(playerName)));
     }
 
     /**
@@ -166,7 +161,17 @@ public class ScoreWriterImpl implements ScoreWriter {
     private void writeScoreForSingleplayer() {
         // converting the score board entries to strings
         this.scoreboard.keySet().stream()
-                .forEach(playerName -> this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName)));
+                                .forEach(playerName -> this.lines.add(format(playerName)));
+    }
+
+    private String format(final String playerName) {
+        final String formattedLine = playerName.concat(SCORE_SEPARATOR)
+                                               .concat(this.scoreboard.get(playerName).toString());
+        if (this.player.getModality().equals(Modality.ONE_VS_ONE)) {
+            return formattedLine.concat(SCORE_SEPARATOR)
+                                .concat(this.adversaries.get(playerName));
+        }
+        return formattedLine;
     }
 
     /**
