@@ -9,7 +9,9 @@ import gamelogics.GameStatus;
 /**
  * A Player.
  * <p>
- * This class describes all the attributes that should be known about a Player.
+ * This class describes all the attributes that should be known about a
+ * Player.<br>
+ * Every Player will be identified with its name.
  */
 public interface Player {
 

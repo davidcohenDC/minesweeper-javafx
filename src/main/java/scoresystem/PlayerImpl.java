@@ -19,7 +19,7 @@ public class PlayerImpl implements Player {
     private final Optional<String> adversary;
 
     /**
-     * Creates the Player.
+     * Creates the {@link Player}.
      * 
      * @param name
      *                          The name of the Player.
@@ -33,6 +33,7 @@ public class PlayerImpl implements Player {
      */
     protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty,
             final Optional<String> adversaryName) {
+        check(name.equals(adversaryName.get()), "Two different players can't have the same name");
         this.name = name;
         this.gameMode = gameMode;
         this.difficuly = difficulty;
