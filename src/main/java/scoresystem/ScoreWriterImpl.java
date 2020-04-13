@@ -186,8 +186,13 @@ public class ScoreWriterImpl implements ScoreWriter {
             check(this.player.getResult().equals(GameStatus.LOST), "Player has lost");
             check(this.player.getDifficuly().equals(Difficulty.PERSONALIZED),
                     "Scores for personalized difficulty must not be written");
-            check(this.previousHighScore.isPresent() && this.player.getScore() > this.previousHighScore.get(),
-                    "Previous score was better");
+            if (this.player.getModality().equals(Modality.BTT)) {
+                check(this.previousHighScore.isPresent() && this.player.getScore() < this.previousHighScore.get(),
+                        "Previous score was better");
+            } else {
+                check(this.previousHighScore.isPresent() && this.player.getScore() > this.previousHighScore.get(),
+                        "Previous score was better");
+            }
         } catch (IllegalStateException e) {
             return false;
         }
