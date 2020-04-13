@@ -1,28 +1,20 @@
 package graphics;
 
-import controlutility.Difficulty;
-import controlutility.Modality;
-import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
 import gamelogics.*;
 import graphicsutility.*;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import scoresystem.Player;
 import scoresystem.ScoreWriter;
 import scoresystem.ScoreWriterImpl;
 import timer.*;
 import timer.Timer;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,8 +25,6 @@ public class SinglePlayerController extends AbstractGameController {
     private final int height;
     private final int width;
     private final int mines;
-    private final Modality modality;
-    private final Difficulty difficulty;
     private final GameEngine engine;
     private final Timer timer;
     private Map<Pair<Integer, Integer>, Tile> tilesMap;
@@ -65,14 +55,12 @@ public class SinglePlayerController extends AbstractGameController {
     @FXML
     private AnchorPane rootPane;
 
-    public SinglePlayerController(final int height, final int width, final int mines, final Timer timer, final Modality modality, final Difficulty difficulty) {
+    public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) {
         super(height,width,mines,timer);
         this.height = height;
         this.width = width;
         this.mines = mines;
         this.timer = timer;
-        this.difficulty = difficulty;
-        this.modality = modality;
         this.engine = new GameEngineImpl(width,height,mines);
     }
 
@@ -123,7 +111,7 @@ public class SinglePlayerController extends AbstractGameController {
             try {
                 music.close();
                 timer.stop();
-                btnAction.backHome();
+                btnAction.restartGame();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -143,30 +131,24 @@ public class SinglePlayerController extends AbstractGameController {
         if (!tile.isFlagged()) {
             this.engine.hit(new Pair<>(x,y));
             refreshBoard(this.engine,this.tilesMap);
+
         }
 
         if (!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
             endGame(this.engine.getGameStatus());
-        } else {
-            if (tile.getValue() == 0) {
-                tile.clipBigClick();
-            } else {
-                tile.clipAudioClick();
-            }
         }
     }
 
     @Override
     public void endGame(GameStatus gameStatus) {
-        closeElements();
         if (gameStatus.equals(GameStatus.LOST)) {
-            writePlayer(GameStatus.LOST);
+            closeElements();
             if(this.timerOver) {
                 alert.lostWithTimer();
             } else {
                 alert.lost();
             }
-
+            writePlayer(GameStatus.LOST);
             try {
                 btnAction.backHome();
             } catch (IOException e) {
@@ -174,8 +156,9 @@ public class SinglePlayerController extends AbstractGameController {
             }
 
         } else if (gameStatus.equals(GameStatus.WON)) {
+            alert.won();
             writePlayer(GameStatus.WON);
-            alert.won(this.firstplayer.get().getScore());
+            closeElements();
             try {
                 btnAction.backHome();
             } catch (IOException e) {
@@ -211,7 +194,6 @@ public class SinglePlayerController extends AbstractGameController {
         this.timerOver= true;
         endGame(GameStatus.LOST);
     }
-
 
 
 

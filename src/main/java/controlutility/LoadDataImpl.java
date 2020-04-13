@@ -22,8 +22,6 @@ public class LoadDataImpl implements LoadData {
     private final List<String> sound = new ArrayList<>(
             Arrays.asList("song01.wav", "song02.wav", "song03.wav", "song04.wav", "song05.wav", 
                     "song06.wav", "song07.wav", "song08.wav", "song09.wav", "song10.wav"));
-    private final List<String> audioeffect = new ArrayList<>(
-            Arrays.asList("addflag.wav", "click.wav", "firstclick.wav", "removeflag.wav"));
 
     /**
      * @throws IOException
@@ -39,26 +37,7 @@ public class LoadDataImpl implements LoadData {
             loadImage();
             loadSound();
             loadScoreSystem();
-            loadAudioEffect();
         }
-    }
-
-    private void loadAudioEffect() throws IOException {
-        final String strAudioEffect = this.root + "audioeffect" + SEPARATOR;
-        final File file = new File(strAudioEffect);
-        if (!file.exists() && file.mkdir()) {
-            for (final String s : this.audioeffect) {
-                try (InputStream fis = loader.getResourceAsStream("audioeffect/" + s)) {
-                    try {
-                        Files.copy(fis, Paths.get(strAudioEffect + s), StandardCopyOption.REPLACE_EXISTING);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        }
-
     }
 
     private void loadImage() throws IOException {

@@ -20,7 +20,6 @@ public abstract class AbstractGameController implements GameController{
     private Optional<Player> secondplayer;
     private NodeEffect effect;
     private Boolean whoPlay = true;
-    private Boolean emptyvalue = false;
 
     @FXML
     private BorderPane mainBorderPane;
@@ -51,7 +50,6 @@ public abstract class AbstractGameController implements GameController{
 
     @Override
     public void refreshBoard(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap) {
-
         for (final Box box : engine.getBoard()) {
             final Tile tmpTile = tilesMap.get(box.getPosition());
             if (box.isClicked()) {
@@ -60,7 +58,7 @@ public abstract class AbstractGameController implements GameController{
                 } else {
                     tmpTile.setValue(box.getBombNear());
                     tmpTile.disable();
-                    tmpTile.style(box.getBombNear());
+                    tmpTile.style();
                 }
             }
             if (engine.getGameStatus().equals((GameStatus.LOST))) {
@@ -71,7 +69,6 @@ public abstract class AbstractGameController implements GameController{
                 }
             }
         }
-        System.out.println(engine.getBoard());
     }
 
     @Override

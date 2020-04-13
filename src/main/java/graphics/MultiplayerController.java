@@ -15,7 +15,6 @@ import javafx.scene.layout.GridPane;
 import scoresystem.Player;
 import scoresystem.ScoreWriter;
 import scoresystem.ScoreWriterImpl;
-import timer.DoubleTimer;
 import timer.Timer;
 import timer.TimerView;
 import timer.TimerViewImpl;
@@ -32,7 +31,8 @@ public class MultiplayerController extends AbstractGameController{
     private final int mines;
     private final GameEngine engineP1;
     private final GameEngine engineP2;
-    private final DoubleTimer timer;
+    private final Timer timerP1;
+    private final Timer timerP2;
     private Map<Pair<Integer, Integer>, Tile> tilesMap1;
     private Map<Pair<Integer, Integer>, Tile> tilesMap2;
     private Optional<Player> firstplayer;
@@ -46,7 +46,7 @@ public class MultiplayerController extends AbstractGameController{
     private Boolean firstClick = false;
     private Boolean whoPlay = true;
     private int clickCount = 0;
-    private static final int MAX_CLICK = 1;
+    private int maxClick;
 
     @FXML
     private Label lbTimerP2 = new Label();
@@ -71,20 +71,21 @@ public class MultiplayerController extends AbstractGameController{
     @FXML
     private AnchorPane rootPane;
 
-    public MultiplayerController(int height, int width, int mines, DoubleTimer timer) {
+    public MultiplayerController(int height, int width, int mines, Timer timer) {
         super(height,width,mines,timer);
         this.height = height;
         this.width = width;
         this.mines = mines;
-        this.timer = timer;
+        this.timerP1 = timer;
+        this.timerP2 = timer;
         this.engineP1 = new GameEngineImpl(width,height,mines);
         this.engineP2 = new GameEngineImpl(width,height,mines);
     }
 
     @Override
     public void initialize() throws IOException{
-        this.timerViewP1 = new TimerViewImpl(timer.getPlayer1Timer(),lbTimerP1);
-        this.timerViewP2 = new TimerViewImpl(timer.getPlayer2Timer(),lbTimerP2);
+        this.timerViewP1 = new TimerViewImpl(timerP1,lbTimerP1);
+        this.timerViewP2 = new TimerViewImpl(timerP2,lbTimerP2);
         this.scoreWriter = new ScoreWriterImpl();
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(new RWSettingsImpl());
@@ -95,13 +96,13 @@ public class MultiplayerController extends AbstractGameController{
             lbNameP1.setText(this.firstplayer.get().getName());
         else
             lbNameP1.setText("No One");
-        lbTimerP1.setText(String.valueOf(timer.getPlayer1Timer().getValue()));
+        lbTimerP1.setText(String.valueOf(timerP1.getValue()));
         lbFlagP2.setText("F:" + this.mines);
         if(this.firstplayer.isPresent())
             lbNameP2.setText(this.firstplayer.get().getAdversary().get());
         else
             lbNameP2.setText("No One");
-        lbTimerP2.setText(String.valueOf(timer.getPlayer2Timer().getValue()));
+        lbTimerP2.setText(String.valueOf(timerP2.getValue()));
 
         GridPane grid1 = new GridPane();
         final TileBuilder tb1 = new TileBuilderImpl();
@@ -121,6 +122,7 @@ public class MultiplayerController extends AbstractGameController{
         this.secondPlayerPane.setCenter(grid2);
 
         this.secondPlayerPane.setDisable(true);
+        this.maxClick = 2;
         this.music.play();
 
         setButtons();
@@ -133,7 +135,8 @@ public class MultiplayerController extends AbstractGameController{
         btnGiveUpP1.setOnAction(t -> {
             try {
                 music.close();
-                this.timer.stop();
+                timerP1.stop();
+                timerP2.stop();
                 btnAction.backHome();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -142,7 +145,8 @@ public class MultiplayerController extends AbstractGameController{
         btnGiveUpP2.setOnAction(t -> {
             try {
                 music.close();
-                this.timer.stop();
+                timerP1.stop();
+                timerP2.stop();
                 btnAction.backHome();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -156,10 +160,10 @@ public class MultiplayerController extends AbstractGameController{
         if (!this.firstClick) {
             this.firstClick = true;
             timerViewP1.startDisplaying();
-            timer.start();
+            timerP1.start();
             timerViewP2.startDisplaying();
         }
-        tile.clipAudioClick();
+
         if(whoPlay) {
             if (!tile.isFlagged()) {
                 this.engineP1.hit(new Pair<>(x,y));
@@ -180,7 +184,7 @@ public class MultiplayerController extends AbstractGameController{
             }
         }
 
-        if(this.clickCount == MAX_CLICK) {
+        if(this.clickCount == this.maxClick) {
             switchPane();
             this.clickCount = 0;
         }
@@ -188,26 +192,27 @@ public class MultiplayerController extends AbstractGameController{
 
     @Override
     public void endGame(GameStatus gameStatus) {
-        closeElements();
         if (gameStatus.equals(GameStatus.LOST)) {
-            writePlayer(GameStatus.LOST);
+            closeElements();
             if(this.whoPlay) {
                 alert.lost();//...
             } else {
                 alert.lost();//...
             }
+            writePlayer(GameStatus.LOST);
             try {
                 btnAction.backHome();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else if (gameStatus.equals(GameStatus.WON)) {
-            writePlayer(GameStatus.WON);
             if(this.whoPlay) {
-                alert.won(this.secondplayer.get().getScore());
+                alert.won();//...
             } else {
-                alert.won(this.firstplayer.get().getScore());
+                alert.won();//...
             }
+            writePlayer(GameStatus.WON);
+            closeElements();
             try {
                 btnAction.backHome();
             } catch (IOException e) {
@@ -218,20 +223,20 @@ public class MultiplayerController extends AbstractGameController{
 
     @Override
     public void closeElements() {
-        this.timer.stop();
+        timerP1.stop();
+        timerP2.stop();
         music.close();
     }
 
     @Override
     public void writePlayer(GameStatus status) {
-        System.out.println(this.firstplayer.isPresent());
-        System.out.println(this.secondplayer.isPresent());
+
         if (this.firstplayer.isPresent()) {
             if (status.equals(GameStatus.LOST)) {
                 if (whoPlay) {
                     this.firstplayer.get().lost();
                 } else {
-                    this.firstplayer.get().won((int) this.timer.getPlayer1Timer().getValue());
+                    this.firstplayer.get().won((int) this.timerP1.getValue());
                 }
             }
             this.scoreWriter.write(this.firstplayer.get());
@@ -241,7 +246,7 @@ public class MultiplayerController extends AbstractGameController{
                     if (whoPlay) {
                         this.secondplayer.get().lost();
                     } else {
-                        this.secondplayer.get().won((int) this.timer.getPlayer2Timer().getValue());
+                        this.secondplayer.get().won((int) this.timerP1.getValue());
                     }
                 }
                 this.scoreWriter.write(this.secondplayer.get());
@@ -259,12 +264,18 @@ public class MultiplayerController extends AbstractGameController{
             this.firstPlayerPane.setDisable(true);
             this.secondPlayerPane.setDisable(false);
             this.whoPlay = false;
-            timer.switchTurn();
+            timerViewP1.stopDisplaying();
+            timerViewP2.startDisplaying();
+            timerP1.stop();
+            timerP2.start();
         } else {
             this.firstPlayerPane.setDisable(false);
             this.secondPlayerPane.setDisable(true);
             this.whoPlay = true;
-            timer.switchTurn();
+            timerViewP1.startDisplaying();
+            timerViewP2.stopDisplaying();
+            timerP2.stop();
+            timerP1.start();
         }
 
     }
