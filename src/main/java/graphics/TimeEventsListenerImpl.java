@@ -16,7 +16,7 @@ public class TimeEventsListenerImpl implements TimeEventsListener {
 
     @Override
     public final void singlePlayerTimeEvent(final OutOfTimeEvent event) {
-        this.controller.endTimer();
+        this.controller.endTimer(GameStatus.LOST);
     }
 
 

@@ -36,7 +36,7 @@ public class TileBuilderImpl implements TileBuilder {
     @Override
     public Map<Pair<Integer, Integer>, Tile> build() {
         IntStream.range(0, this.height)
-                .forEach(r -> IntStream.range(0, this.width).forEach(c -> grid.add(createTile(r, c), c, r)));
+                .forEach(r -> IntStream.range(0, this.width).forEach(c -> grid.add(createTile(c, r), c, r)));
         grid.setAlignment(Pos.CENTER);
         grid.setStyle(" -fx-grid-lines-visible: true; -fx-grid-border-style: solid inside;");
 
