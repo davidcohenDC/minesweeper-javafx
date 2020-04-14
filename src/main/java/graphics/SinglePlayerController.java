@@ -136,7 +136,6 @@ public class SinglePlayerController extends AbstractGameController {
             refreshBoard(this.engine,this.tilesMap);
         }
 
-        System.out.println(engine.getGameStatus());
         if (!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
             endGame(this.engine.getGameStatus());
         } else {
@@ -156,7 +155,7 @@ public class SinglePlayerController extends AbstractGameController {
             if(this.timerOver) {
                 alert.lostWithTimer();
             } else {
-                alert.lost();
+                alert.lost(this.firstplayer);
             }
             try {
                 btnAction.backHome();
@@ -166,7 +165,7 @@ public class SinglePlayerController extends AbstractGameController {
 
         } else if (gameStatus.equals(GameStatus.WON)) {
             writePlayer(GameStatus.WON);
-            alert.wonWithPlayer(this.firstplayer);
+            alert.won(this.firstplayer);
             try {
                 btnAction.backHome();
             } catch (IOException e) {

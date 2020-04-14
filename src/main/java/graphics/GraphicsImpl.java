@@ -32,7 +32,8 @@ public class GraphicsImpl implements Graphics {
     private Modality modality;
     private Optional<String> firstPlayerName;
     private Optional<String> secondPlayerName;
-    public RWSettings rwSett;
+    private RWSettings rwSett;
+    private AlertHandler alert;
     private AcquireDialog getPlayer;
     private static final int TIMER_MOLTIPLICATOR = 5;
 
@@ -44,6 +45,7 @@ public class GraphicsImpl implements Graphics {
         this.playerFactory = new PlayerFactoryImpl();
         this.rwSett = new RWSettingsImpl();
         this.getPlayer = new AcquireDialogImpl();
+        this.alert = new AlertHandlerImpl();
         this.modality = modality;
 
         TimerFactory timerFactory = new TimerFactoryImpl();
@@ -95,7 +97,13 @@ public class GraphicsImpl implements Graphics {
                 break;
 
             case ONE_VS_ONE:
-                this.secondPlayerName = getPlayer.acquireSecond();
+
+                do {
+                    this.secondPlayerName = getPlayer.acquireSecond();
+                    if(firstPlayerName.get().equals(secondPlayerName.get())){
+                        alert.sameName();
+                    }
+                }while (firstPlayerName.get().equals(secondPlayerName.get()));
                 if(firstPlayerName.isPresent() && secondPlayerName.isPresent()) {
                     final Player firstPlayer = playerFactory.createPlayerFor1vs1Mode(firstPlayerName.get(),difficulty,secondPlayerName.get());
                     System.out.println(firstPlayerName.get());

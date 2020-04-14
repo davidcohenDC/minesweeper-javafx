@@ -71,7 +71,6 @@ public abstract class AbstractGameController implements GameController{
     public void refreshBoard(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap) {
 
         for (final Box box : engine.getBoard()) {
-            System.out.println("test >"+box.getPosition());
             final Tile tmpTile = tilesMap.get(box.getPosition());
             if (box.isClicked()) {
                 if (box.containsBomb()) {

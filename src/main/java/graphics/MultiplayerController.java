@@ -133,7 +133,6 @@ public class MultiplayerController extends AbstractGameController{
             try {
                 music.close();
                 this.timer.stop();
-                alert.lost();
                 btnAction.backHome();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -192,9 +191,9 @@ public class MultiplayerController extends AbstractGameController{
         if (gameStatus.equals(GameStatus.LOST)) {
             writePlayer(GameStatus.LOST);
             if(this.whoPlay) {
-                alert.lost();//...
+                alert.lost(this.firstplayer);
             } else {
-                alert.lost();//...
+                alert.lost(this.secondplayer);
             }
             try {
                 btnAction.backHome();
@@ -204,9 +203,9 @@ public class MultiplayerController extends AbstractGameController{
         } else if (gameStatus.equals(GameStatus.WON)) {
             writePlayer(GameStatus.WON);
             if(this.whoPlay) {
-                alert.wonWithPlayer(this.firstplayer);
+                alert.won(this.firstplayer);
             } else {
-                alert.wonWithPlayer(this.secondplayer);
+                alert.won(this.secondplayer);
             }
             try {
                 btnAction.backHome();

@@ -39,4 +39,5 @@ public class AcquireDialogImpl implements AcquireDialog{
         return dialogSinglePlayer.showAndWait();
     }
 
+
 }
