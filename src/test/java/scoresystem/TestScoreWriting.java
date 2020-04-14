@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -109,22 +110,17 @@ class TestScoreWriting {
             fail("FILE WAS NOT CANCELLED AT THE BEGGING OF THIS TEST SO IT MAKES THE REST USELESS");
         }
 
-        final List<Integer> expectedScoreBoard = new ArrayList<>();
-        int score;
         final int numberOfPlayers = 10;
 
         // generate numberOfPlayers players and gives them a random score
         for (int i = 0; i < numberOfPlayers; i++) {
             p = f.createPlayerForStandardMode("p" + i, Difficulty.MEDIUM);
-            score = rnd.nextInt(1_000);
-            expectedScoreBoard.add(score); // this keeps track of the scores being written
-            p.won(score);
+            p.won(rnd.nextInt(1_000));
             sw.write(p);
         }
 
         // sorts the expected score board
-        expectedScoreBoard.sort((score1, score2) -> score1 - score2);
-        assertEquals(expectedScoreBoard, getLines(path));
+        assertEquals(getLines(path).stream().sorted().collect(Collectors.toList()), getLines(path));
     }
 
     @Test
@@ -152,11 +148,8 @@ class TestScoreWriting {
         // file should have been written since p1 won
         assertTrue(Files.exists(path));
 
-        final List<String> lines = new ArrayList<>();
-        lines.addAll(Converter.fileToList(path, "-"));
-
         // p1 won so only one line should be present in the file
-        assertEquals(1, lines.size());
+        assertEquals(1, Converter.fileToList(path, "-").size());
         assertEquals(100, sw.getScoreBoard(p1.getModality(), p1.getDifficuly()).get(p1.getName()));
 
         // same 2 players play again
@@ -171,11 +164,8 @@ class TestScoreWriting {
         sw.write(p1);
         sw.write(p2);
 
-        lines.clear();
-        lines.addAll(Converter.fileToList(path, "-"));
-
         // p1 won so only one line should be present in the file
-        assertEquals(1, lines.size());
+        assertEquals(1, Converter.fileToList(path, "-").size());
         assertEquals(10, sw.getScoreBoard(p1.getModality(), p1.getDifficuly()).get(p1.getName()));
     }
 
