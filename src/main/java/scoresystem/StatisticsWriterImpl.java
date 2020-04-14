@@ -179,7 +179,7 @@ public class StatisticsWriterImpl implements StatistcsWriter {
 
     /**
      * Maps a file from the wanted format. Format: <i>player</i> : <i>value</i> :
-     * <i>value</i> : ...
+     * <i>value</i> : <i>...</i>
      * 
      * @param path
      *                 The path of the statistics file to map.
