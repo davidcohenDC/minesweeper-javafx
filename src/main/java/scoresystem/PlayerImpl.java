@@ -14,7 +14,7 @@ public class PlayerImpl implements Player {
     private final String name;
     private final Modality gameMode;
     private final Difficulty difficuly;
-    private Optional<Integer> score = Optional.empty();
+    private Optional<Long> score = Optional.empty();
     private Optional<GameStatus> result = Optional.empty();
     private final Optional<String> adversary;
 
@@ -41,7 +41,7 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public final void won(final int score) {
+    public final void won(final long score) {
         check(!this.result.isEmpty(), "Player's result cannot be modified after its initial registration");
         this.result = Optional.of(GameStatus.WON);
         this.score = Optional.of(score);
@@ -54,7 +54,7 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public final int getScore() {
+    public final long getScore() {
         check(this.score.isEmpty(), "Nothing to score");
         return this.score.get();
     }

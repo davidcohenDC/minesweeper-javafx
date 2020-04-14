@@ -30,12 +30,12 @@ public class ScoreWriterImpl implements ScoreWriter {
     private final StatistcsWriter statisticsWriter;
 
     private final List<String> lines;
-    private final Map<String, Integer> scoreboard;
+    private final Map<String, Long> scoreboard;
     private final Map<String, String> adversaries;
 
     private Player player;
     private Path path;
-    private Optional<Integer> previousHighScore = Optional.empty();
+    private Optional<Long> previousHighScore = Optional.empty();
 
     /**
      * Sets up the necessary tools to write scores.
@@ -103,12 +103,12 @@ public class ScoreWriterImpl implements ScoreWriter {
     }
 
     @Override
-    public final Map<String, Integer> getScoreBoard(final Modality gameMode, final Difficulty difficulty) {
+    public final Map<String, Long> getScoreBoard(final Modality gameMode, final Difficulty difficulty) {
         this.path = Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION);
-        final Map<String, Integer> scoreboard = new HashMap<>();
+        final Map<String, Long> scoreboard = new HashMap<>();
         for (final String line : convertFileToList(this.path)) {
             final List<String> entry = List.of(line.split(SCORE_SEPARATOR));
-            scoreboard.put(entry.get(0), Integer.valueOf(entry.get(POINTS_COLUMN)));
+            scoreboard.put(entry.get(0), Long.valueOf(entry.get(POINTS_COLUMN)));
             if (gameMode.equals(Modality.ONE_VS_ONE)) {
                 this.adversaries.put(entry.get(0), entry.get(ADVERSARY_COLUMN));
             }

@@ -21,7 +21,7 @@ public interface Player {
      * @param score
      *                  The score with which the player has won
      */
-    void won(int score);
+    void won(long score);
 
     /**
      * The Player has lost the game.
@@ -31,7 +31,7 @@ public interface Player {
     /**
      * @return Returns the player's score
      */
-    int getScore();
+    long getScore();
 
     /**
      * @return Returns the player's modality.
