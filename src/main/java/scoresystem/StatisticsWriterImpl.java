@@ -207,18 +207,7 @@ public class StatisticsWriterImpl implements StatistcsWriter {
      * @return return a List of strings
      */
     private List<String> convertFileToList(final Path path) {
-        final List<String> lines = new ArrayList<>();
-        try {
-            for (final Object line : Files.lines(path).toArray()) {
-                if (String.valueOf(line).contains(DATA_SEPARATOR)) { // this control should keep wrong format of lines out
-                    lines.add(String.valueOf(line));
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("The lines from the file were not transfered correctly.");
-            System.err.println(lines);
-        }
-        return lines;
+        return Converter.fileToList(path, DATA_SEPARATOR);
     }
 
 }
