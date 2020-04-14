@@ -111,7 +111,7 @@ class TestScoreWriting {
 
         final List<Integer> expectedScoreBoard = new ArrayList<>();
         int score;
-        final int numberOfPlayers = 100;
+        final int numberOfPlayers = 10;
 
         // generate numberOfPlayers players and gives them a random score
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -153,14 +153,7 @@ class TestScoreWriting {
         assertTrue(Files.exists(path));
 
         final List<String> lines = new ArrayList<>();
-        try {
-            for (final Object line : Files.lines(path).toArray()) {
-                lines.add(String.valueOf(line));
-            }
-        } catch (IOException e) {
-            System.err.println("The lines from the file were not transfered correctly.");
-            System.err.println(lines);
-        }
+        lines.addAll(Converter.fileToList(path, "-"));
 
         // p1 won so only one line should be present in the file
         assertEquals(1, lines.size());
@@ -179,14 +172,7 @@ class TestScoreWriting {
         sw.write(p2);
 
         lines.clear();
-        try {
-            for (final Object line : Files.lines(path).toArray()) {
-                lines.add(String.valueOf(line));
-            }
-        } catch (IOException e) {
-            System.err.println("The lines from the file were not transfered correctly.");
-            System.err.println(lines);
-        }
+        lines.addAll(Converter.fileToList(path, "-"));
 
         // p1 won so only one line should be present in the file
         assertEquals(1, lines.size());
@@ -202,15 +188,8 @@ class TestScoreWriting {
      */
     private Collection<? extends Integer> getLines(final Path path) {
         final List<Integer> actualScoreBoard = new ArrayList<>();
-        try {
-            for (final Object line : Files.lines(path).toArray()) {
-                final String string = String.valueOf(line);
-                actualScoreBoard.add(Integer.valueOf(string.split("-")[1]));
-            }
-        } catch (IOException e) {
-            System.err.println("The lines from the file were not transfered correctly.");
-            System.err.println(actualScoreBoard);
-        }
+        Converter.fileToList(path, "-").stream()
+                                       .forEach(line -> actualScoreBoard.add(Integer.valueOf(line.split("-")[1])));
         return actualScoreBoard;
     }
 }

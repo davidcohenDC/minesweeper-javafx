@@ -1,15 +1,22 @@
 package graphics;
 
-import gamelogics.GameStatus;
-import graphicsutility.AlertHandler;
 import timer.OutOfTimeEvent;
+
 /**
- * The implementation of {@link TimeEventsListener} to handle {@link OutOfTimeEvent}.
+ * The implementation of {@link TimeEventsListener} to handle
+ * {@link OutOfTimeEvent}.
  */
 public class TimeEventsListenerImpl implements TimeEventsListener {
 
-    private SinglePlayerController controller;
+    private final SinglePlayerController controller;
 
+    /**
+     * Creates a {@link TimeEventsListener}.
+     * 
+     * @param controller
+     *                       The {@link SinglePlayerController} of the game to
+     *                       notify.
+     */
     public TimeEventsListenerImpl(final SinglePlayerController controller) {
         this.controller = controller;
     }
@@ -18,6 +25,5 @@ public class TimeEventsListenerImpl implements TimeEventsListener {
     public final void singlePlayerTimeEvent(final OutOfTimeEvent event) {
         this.controller.endTimer();
     }
-
 
 }

@@ -16,6 +16,6 @@ public interface TimeEventsListener extends EventListener {
      * @param event
      *                  The event occurred.
      */
-    void singlePlayerTimeEvent(final OutOfTimeEvent event);
+    void singlePlayerTimeEvent(OutOfTimeEvent event);
 
 }
