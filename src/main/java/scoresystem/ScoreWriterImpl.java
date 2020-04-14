@@ -64,7 +64,7 @@ public class ScoreWriterImpl implements ScoreWriter {
                     System.err.println("Could not create new file.");
                 }
             }
-            this.lines.addAll(convertFileToList(this.path));
+            this.lines.addAll(Converter.fileToList(path, SCORE_SEPARATOR));
 
             // updates a player statistics using a different writer
             this.statisticsWriter.write(this.player);
@@ -106,7 +106,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     public final Map<String, Long> getScoreBoard(final Modality gameMode, final Difficulty difficulty) {
         this.path = Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION);
         final Map<String, Long> scoreboard = new HashMap<>();
-        for (final String line : convertFileToList(this.path)) {
+        for (final String line : Converter.fileToList(this.path, SCORE_SEPARATOR)) {
             final List<String> entry = List.of(line.split(SCORE_SEPARATOR));
             scoreboard.put(entry.get(0), Long.valueOf(entry.get(POINTS_COLUMN)));
             if (gameMode.equals(Modality.ONE_VS_ONE)) {
@@ -114,17 +114,6 @@ public class ScoreWriterImpl implements ScoreWriter {
             }
         }
         return scoreboard;
-    }
-
-    /**
-     * Converts a file in a list of its lines.
-     *
-     * @param path
-     *                 Path of the file to convert.
-     * @return Returns a List of Strings.
-     */
-    private List<String> convertFileToList(final Path path) {
-        return Converter.fileToList(path, SCORE_SEPARATOR);
     }
 
     /**

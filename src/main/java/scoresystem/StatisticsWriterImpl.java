@@ -58,7 +58,7 @@ public class StatisticsWriterImpl implements StatistcsWriter {
                 }
             }
             // represent the file in a list of lines
-            this.lines.addAll(convertFileToList(this.path));
+            this.lines.addAll(Converter.fileToList(path, DATA_SEPARATOR));
 
             // map the file
             this.statistics.putAll(mapFileLines(this.path));
@@ -188,7 +188,7 @@ public class StatisticsWriterImpl implements StatistcsWriter {
      */
     private Map<String, List<Integer>> mapFileLines(final Path path) {
         final Map<String, List<Integer>> map = new HashMap<>();
-        for (final String line : convertFileToList(path)) {
+        for (final String line : Converter.fileToList(path, DATA_SEPARATOR)) {
             final List<String> entry = List.of(line.split(DATA_SEPARATOR));
             final List<Integer> data = new ArrayList<>();
             for (final String value : entry.subList(1, entry.size())) {
@@ -198,16 +198,4 @@ public class StatisticsWriterImpl implements StatistcsWriter {
         }
         return map;
     }
-
-    /**
-     * Converts a file in a list of its lines.
-     * 
-     * @param path
-     *                 path of the file to convert
-     * @return return a List of strings
-     */
-    private List<String> convertFileToList(final Path path) {
-        return Converter.fileToList(path, DATA_SEPARATOR);
-    }
-
 }
