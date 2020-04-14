@@ -34,6 +34,7 @@ public class GraphicsImpl implements Graphics {
     private Optional<String> secondPlayerName;
     public RWSettings rwSett;
     private AcquireDialog getPlayer;
+    private static final int TIMER_MOLTIPLICATOR = 5;
 
     public GraphicsImpl(final Modality modality, final Difficulty difficulty, final int mines, final int height, final int width, final Stage stage) throws IOException {
         this.difficulty = difficulty;
@@ -48,17 +49,19 @@ public class GraphicsImpl implements Graphics {
         TimerFactory timerFactory = new TimerFactoryImpl();
         switch (modality) {
             case STANDARD:
-                final GameController sdController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForStandardMode(),modality,difficulty);
+                final GameController sdController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForStandardMode());
                 sceneStart(stage,"layouts/SinglePlayer.fxml",sdController);
                 break;
 
             case ONE_VS_ONE:
+
                 final GameController ovoController = new MultiplayerController(height, width, mines, timerFactory.createTimersFor1vs1Mode());
                 sceneStart(stage,"layouts/Multiplayer.fxml",ovoController);
                 break;
 
             case BTT:
-                final GameController bttController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForBeatTheTimerMode(5),modality,difficulty);
+                final int timerValue = this.mines* TIMER_MOLTIPLICATOR;
+                final GameController bttController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForBeatTheTimerMode(timerValue));
                 sceneStart(stage,"layouts/SinglePlayer.fxml",bttController);
                 break;
         }
@@ -75,8 +78,7 @@ public class GraphicsImpl implements Graphics {
         final Scene beatTheTimeScene = new Scene(parentPane, stage.getScene().getWidth(), stage.getScene().getHeight());
         beatTheTimeScene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
         stage.setScene(beatTheTimeScene);
-        stage.show();
-    }
+        stage.show();    }
 
     @Override
     public void setPlayer() {
@@ -84,6 +86,7 @@ public class GraphicsImpl implements Graphics {
         switch (modality) {
             case STANDARD:
                 if(firstPlayerName.isPresent()) {
+                    System.out.println(firstPlayerName.get());
                     final Player firstPlayer = playerFactory.createPlayerForStandardMode(firstPlayerName.get(),difficulty);
                     this.modalityController.setPlayers(Optional.of(firstPlayer),Optional.empty());
                 } else {
@@ -124,6 +127,7 @@ public class GraphicsImpl implements Graphics {
     public Integer getHeight() {
         return this.height;
     }
+
 
 
 }

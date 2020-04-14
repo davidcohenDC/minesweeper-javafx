@@ -39,6 +39,7 @@ public class Tile extends Button {
     private ImageView imgFlag;
     private ImageView imgMine;
     private final RWSettings rwSett;
+    private NodeEffect effect;
 
 
 
@@ -52,6 +53,7 @@ public class Tile extends Button {
         this.setStyle("-fx-padding:0");
         this.clip = AudioSystem.getClip();
         this.clip2 = AudioSystem.getClip();
+        this.effect = new NodeEffectImpl();
     }
 
     public void openStreamFlag() throws IOException{
@@ -201,6 +203,10 @@ public class Tile extends Button {
         }
 
 
+    }
+
+    public void fallingEffect() {
+        effect.fallingTiles(this);
     }
 
 }

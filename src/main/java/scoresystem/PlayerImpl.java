@@ -33,7 +33,8 @@ public class PlayerImpl implements Player {
      */
     protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty,
             final Optional<String> adversaryName) {
-        check(name.equals(adversaryName.get()), "Two different players can't have the same name");
+        if(adversaryName.isPresent())
+            check(name.equals(adversaryName.get()), "Two different players can't have the same name");
         this.name = name;
         this.gameMode = gameMode;
         this.difficuly = difficulty;

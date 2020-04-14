@@ -50,7 +50,7 @@ public class GameEngineImpl implements GameEngine {
             if (this.lost) {
                 return GameStatus.LOST;
             }
-            if (box.isClicked() || box.isFlagged()) {
+            if ((!box.isClicked() && box.containsBomb()) || box.isClicked() || box.isFlagged()) {
                 goodBoxCount++;
             }
         }

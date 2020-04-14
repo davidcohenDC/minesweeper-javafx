@@ -1,28 +1,20 @@
 package graphics;
 
-import controlutility.Difficulty;
-import controlutility.Modality;
-import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
 import gamelogics.*;
 import graphicsutility.*;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import scoresystem.Player;
 import scoresystem.ScoreWriter;
 import scoresystem.ScoreWriterImpl;
 import timer.*;
 import timer.Timer;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -30,11 +22,10 @@ import java.util.Optional;
  * The Controller related to the SinglePlayer.fxml GUI.
  */
 public class SinglePlayerController extends AbstractGameController {
+
     private final int height;
     private final int width;
     private final int mines;
-    private final Modality modality;
-    private final Difficulty difficulty;
     private final GameEngine engine;
     private final Timer timer;
     private Map<Pair<Integer, Integer>, Tile> tilesMap;
@@ -65,14 +56,12 @@ public class SinglePlayerController extends AbstractGameController {
     @FXML
     private AnchorPane rootPane;
 
-    public SinglePlayerController(final int height, final int width, final int mines, final Timer timer, final Modality modality, final Difficulty difficulty) {
+    public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) {
         super(height,width,mines,timer);
         this.height = height;
         this.width = width;
         this.mines = mines;
         this.timer = timer;
-        this.difficulty = difficulty;
-        this.modality = modality;
         this.engine = new GameEngineImpl(width,height,mines);
     }
 
@@ -86,10 +75,12 @@ public class SinglePlayerController extends AbstractGameController {
 
         lbFlagP1.setText("Flags:" + this.mines);
         lbNameP1.setText("No One");
-        if(this.firstplayer.isPresent())
+        if(this.firstplayer.isPresent()) {
             lbNameP1.setText(this.firstplayer.get().getName());
-        else
+        }
+        else {
             lbNameP1.setText("No One");
+        }
         lbTimerP1.setText(String.valueOf(timer.getValue()));
         btnSong.setText("MUTE");
 
@@ -123,7 +114,8 @@ public class SinglePlayerController extends AbstractGameController {
             try {
                 music.close();
                 timer.stop();
-                btnAction.backHome();
+                timer.start();
+                btnAction.restartGame(this);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -139,12 +131,12 @@ public class SinglePlayerController extends AbstractGameController {
             timerView.startDisplaying();
             timer.start();
         }
-
         if (!tile.isFlagged()) {
             this.engine.hit(new Pair<>(x,y));
             refreshBoard(this.engine,this.tilesMap);
         }
 
+        System.out.println(engine.getGameStatus());
         if (!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
             endGame(this.engine.getGameStatus());
         } else {
@@ -166,7 +158,6 @@ public class SinglePlayerController extends AbstractGameController {
             } else {
                 alert.lost();
             }
-
             try {
                 btnAction.backHome();
             } catch (IOException e) {
@@ -175,7 +166,7 @@ public class SinglePlayerController extends AbstractGameController {
 
         } else if (gameStatus.equals(GameStatus.WON)) {
             writePlayer(GameStatus.WON);
-            alert.won(this.firstplayer.get().getScore());
+            alert.wonWithPlayer(this.firstplayer);
             try {
                 btnAction.backHome();
             } catch (IOException e) {
@@ -196,7 +187,8 @@ public class SinglePlayerController extends AbstractGameController {
             if (status.equals(GameStatus.LOST)) {
                 this.firstplayer.get().lost();
             } else {
-                this.firstplayer.get().won((int) this.timer.getValue());
+                this.firstplayer.get().won(55);
+                System.out.println(this.firstplayer.get().getScore());
             }
             scoreWriter.write(this.firstplayer.get());
         }
@@ -207,10 +199,17 @@ public class SinglePlayerController extends AbstractGameController {
         this.secondplayer = secondplayer;
     }
 
-    void endTimer(GameStatus gameStatus) {
+    void endTimer() {
         this.timerOver= true;
         endGame(GameStatus.LOST);
     }
+
+    public String getFXML() {
+        final String layout = "layouts/SinglePlayer.fxml";
+        return layout;
+    }
+
+
 
 
 
