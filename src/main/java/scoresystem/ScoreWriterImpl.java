@@ -75,20 +75,18 @@ public class ScoreWriterImpl implements ScoreWriter {
             this.scoreboard.putAll(getScoreBoard(this.player.getModality(), this.player.getDifficuly()));
 
             // if player already played with this settings this if fetches its old high
-            // score and puts it in the map or replaces the old value
+            // score
             if (this.scoreboard.containsKey(this.player.getName())) {
                 this.previousHighScore = Optional.of(this.scoreboard.get(player.getName()));
-                this.scoreboard.put(this.player.getName(), this.player.getScore());
-            } else {
                 this.scoreboard.replace(this.player.getName(), this.player.getScore());
+            } else {
+                this.scoreboard.put(this.player.getName(), this.player.getScore());
             }
 
             this.lines.clear();
-            if (this.player.getModality().equals(Modality.ONE_VS_ONE)) {
-                writeScoreForMultiplayer();
-            } else {
-                writeScoreForSingleplayer();
-            }
+
+            // converting the scoreboard in a list of lines
+            this.scoreboard.keySet().stream().forEach(playerName -> this.lines.add(format(playerName)));
 
             // sorts the list of lines
             this.lines.sort((playerA, playerB) -> Integer.parseInt(playerA.split(SCORE_SEPARATOR)[POINTS_COLUMN])
@@ -119,7 +117,7 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     /**
      * Converts a file in a list of its lines.
-     * 
+     *
      * @param path
      *                 Path of the file to convert.
      * @return Returns a List of Strings.
@@ -142,41 +140,26 @@ public class ScoreWriterImpl implements ScoreWriter {
     }
 
     /**
-     * Creates the lines to put in the score file in the format of multiplayer
-     * modalities.<br>
-     * Format: <i>winner</i> - <i>point of the winner</i> - <i>loser</i>
+     * Creates the lines to put in the score file in the right format.
+     * <p>
+     * Singleplayer format: <i>player</i> - <i>score</i><br>
+     * Multiplayer format: <i>winner</i> - <i>point of the winner</i> - <i>loser</i>
+     * 
+     * @param playerName
+     *                       The name of the player which score needs to be written.
+     * @return Returns a string in the format according to the modality.
      */
-    private void writeScoreForMultiplayer() {
-
-        // converting the score board entries to strings
-        this.scoreboard.keySet().stream()
-                                .forEach(playerName -> this.lines.add(format(playerName)));
-    }
-
-    /**
-     * Creates the lines to put in the score file in the format of singleplayer
-     * modalities.<br>
-     * Format: <i>player</i> - <i>score</i>
-     */
-    private void writeScoreForSingleplayer() {
-        // converting the score board entries to strings
-        this.scoreboard.keySet().stream()
-                                .forEach(playerName -> this.lines.add(format(playerName)));
-    }
-
     private String format(final String playerName) {
-        final String formattedLine = playerName.concat(SCORE_SEPARATOR)
-                                               .concat(this.scoreboard.get(playerName).toString());
+        final String formattedLine = playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName);
         if (this.player.getModality().equals(Modality.ONE_VS_ONE)) {
-            return formattedLine.concat(SCORE_SEPARATOR)
-                                .concat(this.adversaries.get(playerName));
+            return formattedLine + SCORE_SEPARATOR + this.adversaries.get(playerName);
         }
         return formattedLine;
     }
 
     /**
      * Controls if a score is suitable for writing on file.
-     * 
+     *
      * @return Returns true if the score that is trying to be written should be
      *         written, returns false if it should be discarded.
      */
@@ -202,7 +185,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     /**
      * The method checks if an expression is correct.<br>
      * If the expression is true it will throw an <code>IllegalStateExeption</code>.
-     * 
+     *
      * @param expression
      *                         The <code>boolean</code> expression to check.
      * @param errorMessage
