@@ -237,16 +237,16 @@ public class MultiplayerController extends AbstractGameController{
             }
             this.scoreWriter.write(this.firstplayer.get());
         }
-            if (this.secondplayer.isPresent()) {
-                if (status.equals(GameStatus.LOST)) {
-                    if (whoPlay) {
-                        this.secondplayer.get().lost();
-                    } else {
-                        this.secondplayer.get().won((int) this.timer.getPlayer2Timer().getValue());
-                    }
+        if (this.secondplayer.isPresent()) {
+            if (status.equals(GameStatus.LOST)) {
+                if (whoPlay) {
+                    this.secondplayer.get().lost();
+                } else {
+                    this.secondplayer.get().won((int) this.timer.getPlayer2Timer().getValue());
                 }
-                this.scoreWriter.write(this.secondplayer.get());
             }
+            this.scoreWriter.write(this.secondplayer.get());
+        }
     }
 
     @Override
