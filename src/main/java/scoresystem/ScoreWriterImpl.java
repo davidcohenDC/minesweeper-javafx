@@ -125,11 +125,9 @@ public class ScoreWriterImpl implements ScoreWriter {
     private List<String> convertFileToList(final Path path) {
         final List<String> lines = new ArrayList<>();
         try {
-            for (final Object line : Files.lines(path).toArray()) {
-                if (String.valueOf(line).contains(SCORE_SEPARATOR)) { // this control should keep wrong format of lines out
-                    lines.add(String.valueOf(line));
-                }
-            }
+            List.of(Files.lines(path).toArray()).stream()
+                                                .filter(line -> String.valueOf(line).contains(SCORE_SEPARATOR))
+                                                .forEach(line -> lines.add(String.valueOf(line)));
         } catch (IOException e) {
             if (Files.exists(path)) {
                 System.err.println("The lines from the file were not transfered correctly.");
