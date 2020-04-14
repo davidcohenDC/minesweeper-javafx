@@ -34,6 +34,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     private final Map<String, String> adversaries;
 
     private Player player;
+    private Path path;
     private Optional<Integer> previousHighScore = Optional.empty();
 
     /**
@@ -51,19 +52,19 @@ public class ScoreWriterImpl implements ScoreWriter {
 
         this.player = player;
         // "ROOT/MODE/Difficulty.txt"
-        final Path path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR
+        this.path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR
                 + this.player.getDifficuly().getName() + FILE_EXTENCION);
 
         if (!player.getDifficuly().equals(Difficulty.PERSONALIZED)) {
 
-            if (Files.notExists(path)) {
+            if (Files.notExists(this.path)) {
                 try {
-                    Files.createFile(path);
+                    Files.createFile(this.path);
                 } catch (IOException e) {
                     System.err.println("Could not create new file.");
                 }
             }
-            this.lines.addAll(convertFileToList(path));
+            this.lines.addAll(convertFileToList(this.path));
 
             // updates a player statistics using a different writer
             this.statisticsWriter.write(this.player);
@@ -94,7 +95,7 @@ public class ScoreWriterImpl implements ScoreWriter {
 
             // actually writes the file
             try {
-                Files.write(path, this.lines);
+                Files.write(this.path, this.lines);
             } catch (IOException e) {
                 System.err.println("File writing was unsuccessful");
             }
@@ -103,9 +104,9 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     @Override
     public final Map<String, Integer> getScoreBoard(final Modality gameMode, final Difficulty difficulty) {
+        this.path = Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION);
         final Map<String, Integer> scoreboard = new HashMap<>();
-        for (final String line : convertFileToList(
-                Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION))) {
+        for (final String line : convertFileToList(this.path)) {
             final List<String> entry = List.of(line.split(SCORE_SEPARATOR));
             scoreboard.put(entry.get(0), Integer.valueOf(entry.get(POINTS_COLUMN)));
             if (gameMode.equals(Modality.ONE_VS_ONE)) {
