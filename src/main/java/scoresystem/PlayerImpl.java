@@ -14,13 +14,13 @@ public class PlayerImpl implements Player {
     private final String name;
     private final Modality gameMode;
     private final Difficulty difficuly;
-    private Optional<Integer> score = Optional.empty();
+    private Optional<Long> score = Optional.empty();
     private Optional<GameStatus> result = Optional.empty();
     private final Optional<String> adversary;
 
     /**
      * Creates the {@link Player}.
-     * 
+     *
      * @param name
      *                          The name of the Player.
      * @param gameMode
@@ -32,9 +32,8 @@ public class PlayerImpl implements Player {
      *                          playing alone the adversary field will be empty.
      */
     protected PlayerImpl(final String name, final Modality gameMode, final Difficulty difficulty,
-            final Optional<String> adversaryName) {
-        if(adversaryName.isPresent())
-            check(name.equals(adversaryName.get()), "Two different players can't have the same name");
+                         final Optional<String> adversaryName) {
+        check(adversaryName.isPresent() && name.equals(adversaryName.get()), "Two different players can't have the same name");
         this.name = name;
         this.gameMode = gameMode;
         this.difficuly = difficulty;
@@ -42,12 +41,10 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public final void won(final int score) {
+    public final void won(final long score) {
         check(!this.result.isEmpty(), "Player's result cannot be modified after its initial registration");
         this.result = Optional.of(GameStatus.WON);
-        if (!this.difficuly.equals(Difficulty.PERSONALIZED)) {
-            this.score = Optional.of(score);
-        }
+        this.score = Optional.of(score);
     }
 
     @Override
@@ -57,7 +54,7 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public final int getScore() {
+    public final long getScore() {
         check(this.score.isEmpty(), "Nothing to score");
         return this.score.get();
     }
@@ -91,7 +88,7 @@ public class PlayerImpl implements Player {
     /**
      * The method checks if an expression is correct.<br>
      * If the expression is true it will throw an <code>IllegalStateExeption</code>.
-     * 
+     *
      * @param expression
      *                         The <code>boolean</code> expression to check.
      * @param errorMessage

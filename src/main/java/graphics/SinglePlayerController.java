@@ -187,7 +187,7 @@ public class SinglePlayerController extends AbstractGameController {
             if (status.equals(GameStatus.LOST)) {
                 this.firstplayer.get().lost();
             } else {
-                this.firstplayer.get().won(55);
+                this.firstplayer.get().won(timer.getValue());
                 System.out.println(this.firstplayer.get().getScore());
             }
             scoreWriter.write(this.firstplayer.get());
