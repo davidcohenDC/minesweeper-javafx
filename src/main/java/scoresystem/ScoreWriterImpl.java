@@ -30,11 +30,12 @@ public class ScoreWriterImpl implements ScoreWriter {
     private final StatistcsWriter statisticsWriter;
 
     private final List<String> lines;
-    private final Map<String, Integer> scoreboard;
+    private final Map<String, Long> scoreboard;
     private final Map<String, String> adversaries;
 
     private Player player;
-    private Optional<Integer> previousHighScore = Optional.empty();
+    private Path path;
+    private Optional<Long> previousHighScore = Optional.empty();
 
     /**
      * Sets up the necessary tools to write scores.
@@ -51,19 +52,19 @@ public class ScoreWriterImpl implements ScoreWriter {
 
         this.player = player;
         // "ROOT/MODE/Difficulty.txt"
-        final Path path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR
+        this.path = Path.of(ROOT + this.player.getModality().getDirectoryName() + FILE_SEPARATOR
                 + this.player.getDifficuly().getName() + FILE_EXTENCION);
 
         if (!player.getDifficuly().equals(Difficulty.PERSONALIZED)) {
 
-            if (Files.notExists(path)) {
+            if (Files.notExists(this.path)) {
                 try {
-                    Files.createFile(path);
+                    Files.createFile(this.path);
                 } catch (IOException e) {
                     System.err.println("Could not create new file.");
                 }
             }
-            this.lines.addAll(convertFileToList(path));
+            this.lines.addAll(convertFileToList(this.path));
 
             // updates a player statistics using a different writer
             this.statisticsWriter.write(this.player);
@@ -78,22 +79,15 @@ public class ScoreWriterImpl implements ScoreWriter {
             // score
             if (this.scoreboard.containsKey(this.player.getName())) {
                 this.previousHighScore = Optional.of(this.scoreboard.get(player.getName()));
-            }
-
-            // if the player already played it replaces its previous score otherwise put a
-            // new entry in the score board map
-            if (!this.scoreboard.containsKey(this.player.getName())) {
-                this.scoreboard.put(this.player.getName(), this.player.getScore());
-            } else {
                 this.scoreboard.replace(this.player.getName(), this.player.getScore());
+            } else {
+                this.scoreboard.put(this.player.getName(), this.player.getScore());
             }
 
             this.lines.clear();
-            if (this.player.getModality().equals(Modality.ONE_VS_ONE)) {
-                writeScoreForMultiplayer();
-            } else {
-                writeScoreForSingleplayer();
-            }
+
+            // converting the scoreboard in a list of lines
+            this.scoreboard.keySet().stream().forEach(playerName -> this.lines.add(format(playerName)));
 
             // sorts the list of lines
             this.lines.sort((playerA, playerB) -> Integer.parseInt(playerA.split(SCORE_SEPARATOR)[POINTS_COLUMN])
@@ -101,7 +95,7 @@ public class ScoreWriterImpl implements ScoreWriter {
 
             // actually writes the file
             try {
-                Files.write(path, this.lines);
+                Files.write(this.path, this.lines);
             } catch (IOException e) {
                 System.err.println("File writing was unsuccessful");
             }
@@ -109,12 +103,12 @@ public class ScoreWriterImpl implements ScoreWriter {
     }
 
     @Override
-    public final Map<String, Integer> getScoreBoard(final Modality gameMode, final Difficulty difficulty) {
-        final Map<String, Integer> scoreboard = new HashMap<>();
-        for (final String line : convertFileToList(
-                Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION))) {
+    public final Map<String, Long> getScoreBoard(final Modality gameMode, final Difficulty difficulty) {
+        this.path = Path.of(ROOT + gameMode.getDirectoryName() + FILE_SEPARATOR + difficulty.getName() + FILE_EXTENCION);
+        final Map<String, Long> scoreboard = new HashMap<>();
+        for (final String line : convertFileToList(this.path)) {
             final List<String> entry = List.of(line.split(SCORE_SEPARATOR));
-            scoreboard.put(entry.get(0), Integer.valueOf(entry.get(POINTS_COLUMN)));
+            scoreboard.put(entry.get(0), Long.valueOf(entry.get(POINTS_COLUMN)));
             if (gameMode.equals(Modality.ONE_VS_ONE)) {
                 this.adversaries.put(entry.get(0), entry.get(ADVERSARY_COLUMN));
             }
@@ -124,7 +118,7 @@ public class ScoreWriterImpl implements ScoreWriter {
 
     /**
      * Converts a file in a list of its lines.
-     * 
+     *
      * @param path
      *                 Path of the file to convert.
      * @return Returns a List of Strings.
@@ -132,11 +126,9 @@ public class ScoreWriterImpl implements ScoreWriter {
     private List<String> convertFileToList(final Path path) {
         final List<String> lines = new ArrayList<>();
         try {
-            for (final Object line : Files.lines(path).toArray()) {
-                if (String.valueOf(line).contains(SCORE_SEPARATOR)) { // this control should keep wrong format of lines out
-                    lines.add(String.valueOf(line));
-                }
-            }
+            List.of(Files.lines(path).toArray()).stream()
+                                                .filter(line -> String.valueOf(line).contains(SCORE_SEPARATOR))
+                                                .forEach(line -> lines.add(String.valueOf(line)));
         } catch (IOException e) {
             if (Files.exists(path)) {
                 System.err.println("The lines from the file were not transfered correctly.");
@@ -147,36 +139,26 @@ public class ScoreWriterImpl implements ScoreWriter {
     }
 
     /**
-     * Creates the lines to put in the score file in the format of multiplayer
-     * modalities.<br>
-     * Format: <i>winner</i> - <i>point of the winner</i> - <i>loser</i>
+     * Creates the lines to put in the score file in the right format.
+     * <p>
+     * Singleplayer format: <i>player</i> - <i>score</i><br>
+     * Multiplayer format: <i>winner</i> - <i>point of the winner</i> - <i>loser</i>
+     * 
+     * @param playerName
+     *                       The name of the player which score needs to be written.
+     * @return Returns a string in the format according to the modality.
      */
-    private void writeScoreForMultiplayer() {
-
-        // converting the score board entries to strings
-        for (final String playerName : this.scoreboard.keySet()) {
-            this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName) + SCORE_SEPARATOR
-                    + this.player.getAdversary().get());
+    private String format(final String playerName) {
+        final String formattedLine = playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName);
+        if (this.player.getModality().equals(Modality.ONE_VS_ONE)) {
+            return formattedLine + SCORE_SEPARATOR + this.adversaries.get(playerName);
         }
-    }
-
-    /**
-     * Creates the lines to put in the score file in the format of singleplayer
-     * modalities.<br>
-     * Format: <i>player</i> - <i>score</i>
-     */
-    private void writeScoreForSingleplayer() {
-
-        // converting the score board entries to strings
-        for (final String playerName : this.scoreboard.keySet()) {
-            this.lines.add(playerName + SCORE_SEPARATOR + this.scoreboard.get(playerName));
-        }
-
+        return formattedLine;
     }
 
     /**
      * Controls if a score is suitable for writing on file.
-     * 
+     *
      * @return Returns true if the score that is trying to be written should be
      *         written, returns false if it should be discarded.
      */
@@ -202,7 +184,7 @@ public class ScoreWriterImpl implements ScoreWriter {
     /**
      * The method checks if an expression is correct.<br>
      * If the expression is true it will throw an <code>IllegalStateExeption</code>.
-     * 
+     *
      * @param expression
      *                         The <code>boolean</code> expression to check.
      * @param errorMessage

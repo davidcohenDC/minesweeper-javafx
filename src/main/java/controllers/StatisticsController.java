@@ -72,12 +72,12 @@ public class StatisticsController implements StatisticsControllerInterface {
         final ScoreWriter scoreWriter = new ScoreWriterImpl();
         for (final Difficulty difficulty : Difficulty.values()) {
             if (difficulty != Difficulty.PERSONALIZED) {
-                final Map<String, Integer> top10 = scoreWriter.getScoreBoard(modality, difficulty)
+                final Map<String, Long> top10 = scoreWriter.getScoreBoard(modality, difficulty)
                         .entrySet()
                         .stream()
-                        .sorted(Map.Entry.<String, Integer>comparingByValue())
+                        .sorted(Map.Entry.<String, Long>comparingByValue())
                         .limit(10)
-                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                        .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
                 final CategoryAxis yAxis = new CategoryAxis();
                 final NumberAxis xAxis = new NumberAxis();
@@ -85,7 +85,7 @@ public class StatisticsController implements StatisticsControllerInterface {
                 chart.setTitle("Top 10-" + difficulty);
                 xAxis.setLabel("POINTS");
                 yAxis.setLabel("PLAYERS");
-                for (final Entry<String, Integer> entry : top10.entrySet()) {
+                for (final Entry<String, Long> entry : top10.entrySet()) {
                     final XYChart.Series<Number, String> p = new XYChart.Series<>();
                     p.setName(entry.getKey());
                     p.getData().add(new XYChart.Data<>(entry.getValue(), p.getName() + " (" + entry.getValue() + ")"));

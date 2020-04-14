@@ -36,7 +36,7 @@ public class TimerViewImpl implements TimerView {
     public TimerViewImpl(final Timer timer, final Label label) {
         this.timer = timer;
         this.label = label;
-        this.displayRefresher = new Timeline(new KeyFrame(Duration.millis(UPDATE_RATE), updateView()));
+        this.displayRefresher = new Timeline(new KeyFrame(Duration.millis(UPDATE_RATE / 2), updateView()));
 
     }
 

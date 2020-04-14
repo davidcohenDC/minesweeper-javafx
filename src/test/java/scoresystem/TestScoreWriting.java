@@ -127,22 +127,6 @@ class TestScoreWriting {
         assertEquals(expectedScoreBoard, getLines(path));
     }
 
-    // gets the lines from the file and puts the scores without changing the order
-    // in actualScoreBoard
-    private Collection<? extends Integer> getLines(final Path path) {
-        final List<Integer> actualScoreBoard = new ArrayList<>();
-        try {
-            for (final Object line : Files.lines(path).toArray()) {
-                final String string = String.valueOf(line);
-                actualScoreBoard.add(Integer.valueOf(string.split("-")[1]));
-            }
-        } catch (IOException e) {
-            System.err.println("The lines from the file were not transfered correctly.");
-            System.err.println(actualScoreBoard);
-        }
-        return actualScoreBoard;
-    }
-
     @Test
     public void multiplayerScoreWritingTest() {
         path = Path
@@ -154,7 +138,7 @@ class TestScoreWriting {
         }
 
         // 2 players play against each other
-        Player p1 = f.createPlayerFor1vs1Mode("winner", Difficulty.HARD, "loser");
+        Player p1 = f.createPlayerFor1vs1Mode("winner", Difficulty.HARD, "loserAdversary");
         Player p2 = f.createPlayerFor1vs1Mode("loserAdversary", Difficulty.HARD, p1.getName());
 
         // game ends
@@ -207,5 +191,26 @@ class TestScoreWriting {
         // p1 won so only one line should be present in the file
         assertEquals(1, lines.size());
         assertEquals(10, sw.getScoreBoard(p1.getModality(), p1.getDifficuly()).get(p1.getName()));
+    }
+
+    /**
+     * Gets the lines from the file and puts the scores without changing the order.
+     * 
+     * @param path
+     *                 The Path of the file.
+     * @return Return a List of scores.
+     */
+    private Collection<? extends Integer> getLines(final Path path) {
+        final List<Integer> actualScoreBoard = new ArrayList<>();
+        try {
+            for (final Object line : Files.lines(path).toArray()) {
+                final String string = String.valueOf(line);
+                actualScoreBoard.add(Integer.valueOf(string.split("-")[1]));
+            }
+        } catch (IOException e) {
+            System.err.println("The lines from the file were not transfered correctly.");
+            System.err.println(actualScoreBoard);
+        }
+        return actualScoreBoard;
     }
 }
