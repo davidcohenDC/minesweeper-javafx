@@ -6,11 +6,15 @@ import java.util.Optional;
 
 public interface AlertHandler {
 
-    void won(final int score);
+    void wonWithoutPlayer();
+
+    void wonWithPlayer(final Optional<Player> player);
 
     void lost();
 
     void lostWithTimer();
+
+    public void confirm();
 
 
 }

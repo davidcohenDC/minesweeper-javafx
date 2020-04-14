@@ -1,11 +1,14 @@
 package graphics;
 
+import controlutility.Difficulty;
+import controlutility.Modality;
 import gamelogics.*;
 import graphicsutility.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import scoresystem.Player;
 import timer.Timer;
 import java.io.IOException;
@@ -14,13 +17,17 @@ import java.util.Optional;
 
 
 public abstract class AbstractGameController implements GameController{
+    private final int height;
+    private final int width;
+    private final int mines;
+    private Timer timer;
     private int ccflagsP1;
     private int ccflagsP2;
     private Optional<Player> firstplayer;
     private Optional<Player> secondplayer;
     private NodeEffect effect;
     private Boolean whoPlay = true;
-    private Boolean emptyvalue = false;
+    //private Boolean emptyvalue = false;
 
     @FXML
     private BorderPane mainBorderPane;
@@ -29,10 +36,21 @@ public abstract class AbstractGameController implements GameController{
     @FXML
     private Label lbFlagP2;
 
-    public AbstractGameController(final int height, final int width, final int mines, final Timer timer){
+    public AbstractGameController(final int height, final int width, final int mines, final Timer timer, final Modality modality, final Difficulty difficulty){
+        this.height = height;
+        this.mines = mines;
+        this.width = width;
+        this.timer = timer;
         this.effect = new NodeEffectImpl();
         this.ccflagsP1 = mines;
         this.ccflagsP2 = mines;
+    }
+
+    public AbstractGameController(final int height, final int width, final int mines, final Timer timer) {
+        this.height = height;
+        this.mines = mines;
+        this.width = width;
+        this.timer = timer;
     }
 
     @Override
@@ -53,6 +71,7 @@ public abstract class AbstractGameController implements GameController{
     public void refreshBoard(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap) {
 
         for (final Box box : engine.getBoard()) {
+            System.out.println("test >"+box.getPosition());
             final Tile tmpTile = tilesMap.get(box.getPosition());
             if (box.isClicked()) {
                 if (box.containsBomb()) {
@@ -67,11 +86,10 @@ public abstract class AbstractGameController implements GameController{
                 if (box.containsBomb()) {
                     tmpTile.setMine();
                 } else {
-                    effect.fallingTiles(tmpTile);
+                    tmpTile.fallingEffect();
                 }
             }
         }
-        System.out.println(engine.getBoard());
     }
 
     @Override
@@ -110,6 +128,25 @@ public abstract class AbstractGameController implements GameController{
 
     @Override
     public abstract void closeElements();
+
+    public abstract String getFXML();
+
+
+    public int getHeight() {
+        return this.height;
+    }
+    public int getMines() {
+        return this.mines;
+    }
+    public int getWidth() {
+        return this.width;
+    }
+
+    public Timer getTimer() {
+        return this.timer;
+    }
+
+
 
 
 

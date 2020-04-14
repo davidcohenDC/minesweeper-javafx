@@ -5,6 +5,8 @@ import gamelogics.GameStatus;
 import gamelogics.Pair;
 import graphicsutility.Tile;
 import scoresystem.Player;
+import timer.Timer;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -30,6 +32,16 @@ public interface GameController {
     void setClickHandler(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap);
 
     void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer);
+
+    int getWidth();
+
+    int getHeight();
+
+    int getMines();
+
+    Timer getTimer();
+
+    public String getFXML();
 
 
 

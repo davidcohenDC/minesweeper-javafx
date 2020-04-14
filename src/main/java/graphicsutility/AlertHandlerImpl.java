@@ -21,13 +21,37 @@ public class AlertHandlerImpl implements AlertHandler{
     }
 
     @Override
-    public void won(final int score) {
-        alert.setTitle("| CONGRATULATIONS |");
-        alert.setContentText("YOU WON!!" + "Your score: " + score);
+    public void wonWithPlayer(final Optional<Player> player) {
+        if(player.isPresent()) {
+            alert.setTitle( "| " +player.get().getScore() +"CONGRATULATIONS |");
+            alert.setContentText("YOU WON!!" + "Your score: " + player.get().getScore());
+        } else {
+            alert.setTitle("| CONGRATULATIONS |");
+            alert.setContentText("YOU WON!!");
+        }
+
         alert.setHeaderText(null);
         alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(green, darkgreen);" + "-fx-font-weight: bold;");
         alert.showAndWait();
 
+    }
+
+    @Override
+    public void wonWithoutPlayer() {
+        alert.setTitle("| CONGRATULATIONS |");
+        alert.setContentText("YOU WON!!");
+        alert.setHeaderText(null);
+        alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(green, darkgreen);" + "-fx-font-weight: bold;");
+        alert.showAndWait();
+    }
+
+    @Override
+    public void confirm() {
+        alert.setTitle("| ARE YOU SURE? |");
+        alert.setContentText("Leave the game");
+        alert.setHeaderText(null);
+        alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(green, darkgreen);" + "-fx-font-weight: bold;");
+        alert.showAndWait();
     }
 
     @Override

@@ -16,7 +16,6 @@ import scoresystem.Player;
 import scoresystem.ScoreWriter;
 import scoresystem.ScoreWriterImpl;
 import timer.DoubleTimer;
-import timer.Timer;
 import timer.TimerView;
 import timer.TimerViewImpl;
 import java.io.IOException;
@@ -134,6 +133,7 @@ public class MultiplayerController extends AbstractGameController{
             try {
                 music.close();
                 this.timer.stop();
+                alert.lost();
                 btnAction.backHome();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -143,7 +143,7 @@ public class MultiplayerController extends AbstractGameController{
             try {
                 music.close();
                 this.timer.stop();
-                btnAction.backHome();
+                btnAction.restartGame(this);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -204,9 +204,9 @@ public class MultiplayerController extends AbstractGameController{
         } else if (gameStatus.equals(GameStatus.WON)) {
             writePlayer(GameStatus.WON);
             if(this.whoPlay) {
-                alert.won(this.secondplayer.get().getScore());
+                alert.wonWithPlayer(this.firstplayer);
             } else {
-                alert.won(this.firstplayer.get().getScore());
+                alert.wonWithPlayer(this.secondplayer);
             }
             try {
                 btnAction.backHome();
@@ -221,6 +221,7 @@ public class MultiplayerController extends AbstractGameController{
         this.timer.stop();
         music.close();
     }
+
 
     @Override
     public void writePlayer(GameStatus status) {
@@ -267,6 +268,11 @@ public class MultiplayerController extends AbstractGameController{
             timer.switchTurn();
         }
 
+    }
+
+    public String getFXML() {
+        final String layout = "layouts/Multiplayer.fxml";
+        return layout;
     }
 
 }
