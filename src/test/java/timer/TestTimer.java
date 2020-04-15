@@ -19,6 +19,7 @@ class TestTimer {
         final Timer t = f.createTimerForStandardMode();
         assertFalse(t.isRunning());
         assertEquals(0, t.getValue());
+        assertEquals(Verse.UP.getLimit(), t.getLimit());
 
         t.start();
         while (t.getValue() == 0) {
@@ -33,10 +34,11 @@ class TestTimer {
     @Test
     public void beatTheTimerTest() {
 
-        final int startingAmmount = 10;
+        final int startingAmmount = 2;
         final Timer t = f.createTimerForBeatTheTimerMode(startingAmmount);
         assertFalse(t.isRunning());
-        assertEquals(startingAmmount, t.getValue());
+        assertEquals(startingAmmount * 1_000, t.getValue());
+        assertEquals(Verse.DOWN.getLimit(), t.getLimit());
 
         t.start();
         assertTrue(t.isRunning());
@@ -48,12 +50,12 @@ class TestTimer {
         assertTrue(t.isRunning());
 
         while (t.getValue() > 0) {
-            assertTrue(t.getValue() <= startingAmmount);
+            assertTrue(t.getValue() <= startingAmmount * 1_000);
         }
 
         // timer should not go beyond its limit
         for (int i = 0; i < 10; i++) {
-            assertTrue(t.isRunning());
+            assertFalse(t.isRunning());
             assertEquals(0, t.getValue());
         }
     }
@@ -61,7 +63,6 @@ class TestTimer {
     @Test
     public void doubleTimerTest() {
         final DoubleTimer dt = f.createTimersFor1vs1Mode();
-
         assertEquals(0, dt.getValue());
         assertFalse(dt.isRunning());
 
