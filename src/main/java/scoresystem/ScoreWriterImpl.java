@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import controlutility.Difficulty;
 import controlutility.Modality;
@@ -87,7 +88,9 @@ public class ScoreWriterImpl implements ScoreWriter {
             this.lines.clear();
 
             // converting the scoreboard in a list of lines
-            this.scoreboard.keySet().stream().forEach(playerName -> this.lines.add(format(playerName)));
+            this.lines.addAll(this.scoreboard.keySet().stream()
+                                                      .map(playerName -> format(playerName))
+                                                      .collect(Collectors.toList()));
 
             // sorts the list of lines
             this.lines.sort((playerA, playerB) -> Integer.parseInt(playerA.split(SCORE_SEPARATOR)[POINTS_COLUMN])
