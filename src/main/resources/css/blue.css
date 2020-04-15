@@ -34,6 +34,28 @@
 		-fx-font-color: black;
 		}
 
+#btnBackHome {
+
+		-fx-background-radius: 30, 30, 29, 28;
+		-fx-padding: 3px 10px 3px 10px;
+		-fx-background-color: linear-gradient(#00ffff, #6680e6 );
+        }
+
+#btnBackHome:hover {
+        -fx-background-color: linear-gradient(#00ffff, #4554ba );
+        }
+
+#btnSong {
+
+        -fx-background-radius: 30, 30, 29, 28;
+        -fx-padding: 3px 10px 3px 10px;
+        -fx-background-color: linear-gradient(#00ffff, #6680e6 );
+        }
+
+#btnSong:hover {
+        -fx-background-color: linear-gradient(#00ffff, #4554ba );
+        }
+
 #tile:hover {
         -fx-background-color: linear-gradient(#00ffff, #4554ba );
         }
@@ -42,11 +64,6 @@
                -fx-scale-x: 0.9;
         }
 
-#buttonsong {
-		-fx-background-radius: 30, 30, 29, 28;
-		-fx-padding: 3px 10px 3px 10px;
-		-fx-background-color: linear-gradient(#00ffff, #6680e6 );
-}
 .button:focused {
     -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
     -fx-background-insets: 0 0 -1 0, 0, 1, 2;

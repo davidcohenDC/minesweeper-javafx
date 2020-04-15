@@ -4,118 +4,121 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1">
-    <BorderPane id="borderPane" layoutX="190.0" layoutY="93.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <BorderPane id="borderPane" layoutX="190.0" layoutY="93.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <center>
             <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                    <BorderPane id="borderPane" fx:id="firstPlayerPane" layoutX="48.0" layoutY="75.0"
-                                prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
-                                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                AnchorPane.topAnchor="0.0">
+                    <BorderPane id="borderPane" fx:id="firstPlayerPane" layoutX="48.0" layoutY="75.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                         <top>
                             <BorderPane prefHeight="47.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                                 <left>
-                                    <Label fx:id="lbFlagP1" alignment="CENTER" disable="true" prefHeight="40.0"
-                                           prefWidth="80.0" style="-fx-background-color: lightgray;" text="F"
-                                           textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                    <Label fx:id="lbFlagP1" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="F" textAlignment="CENTER" BorderPane.alignment="CENTER">
                                         <font>
-                                            <Font name="System Bold" size="28.0"/>
+                                            <Font name="System Bold" size="28.0" />
                                         </font>
                                     </Label>
                                 </left>
-                                <right>
-                                    <Label fx:id="lbTimerP1" alignment="CENTER" disable="true" prefHeight="40.0"
-                                           prefWidth="80.0" style="-fx-background-color: lightgray;" text="T"
-                                           textAlignment="CENTER" BorderPane.alignment="CENTER">
-                                        <font>
-                                            <Font name="System Bold" size="28.0"/>
-                                        </font>
-                                    </Label>
-                                </right>
-                                <center>
-                                    <Label fx:id="lbNameP1" alignment="CENTER" prefHeight="39.0"
-                                           prefWidth="105.0" text=" Player" BorderPane.alignment="CENTER">
-                                        <font>
-                                            <Font name="System Bold" size="27.0"/>
-                                        </font>
-                                    </Label>
-                                </center>
+                            <center>
+                                <Label fx:id="lbTimerP1" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" text="T" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                    <font>
+                                        <Font name="System Bold" size="28.0" />
+                                    </font>
+                                </Label>
+                            </center>
+                            <right>
+                                <Label fx:id="lbMines" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="M" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                    <font>
+                                        <Font name="System Bold" size="28.0" />
+                                    </font>
+                                </Label>
+                            </right>
                             </BorderPane>
                         </top>
                         <bottom>
                             <BorderPane prefHeight="46.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-                                <center>
-                                    <Button id="btnAction" fx:id="btnGiveUpP1" mnemonicParsing="false"
-                                            prefHeight="38.0" prefWidth="74.0" text="GIVE UP"
-                                            textAlignment="CENTER" BorderPane.alignment="CENTER">
-                                        <font>
-                                            <Font name="System Bold" size="12.0"/>
-                                        </font>
-
-                                    </Button>
-                                </center>
+                        <left>
+                        <Button id="btnGiveUp" fx:id="btnGiveUpP1" mnemonicParsing="false" prefHeight="38.0" prefWidth="75.0" text="GIVE UP" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Button>
+                        </left>
+                        <center>
+                            <Label fx:id="lbNameP1" alignment="CENTER" disable="true" prefHeight="39.0" prefWidth="140.0" text=" Player" BorderPane.alignment="CENTER">
+                                <font>
+                                    <Font name="System Bold" size="27.0" />
+                                </font>
+                            </Label>
+                        </center>
+                        <right>
+                            <Button id="btnSong" fx:id="btnSongP1" mnemonicParsing="false" prefHeight="38.0" prefWidth="75.0" text="MUSIC" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                <font>
+                                    <Font name="System Bold" size="12.0" />
+                                </font>
+                            </Button>
+                        </right>
                             </BorderPane>
                         </bottom>
                         <center>
-                            <SplitPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+                            <SplitPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                         </center>
                     </BorderPane>
                 </AnchorPane>
                 <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                    <BorderPane id="borderPane" fx:id="secondPlayerPane" layoutX="48.0" layoutY="75.0"
-                                prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
-                                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                AnchorPane.topAnchor="0.0">
+                    <BorderPane id="borderPane" fx:id="secondPlayerPane" layoutX="48.0" layoutY="75.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                         <top>
                             <BorderPane prefHeight="47.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                                 <left>
-                                    <Label fx:id="lbFlagP2" alignment="CENTER" disable="true" prefHeight="40.0"
-                                           prefWidth="80.0" style="-fx-background-color: lightgray;" text="F"
-                                           textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                    <Label fx:id="lbFlagP2" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="F" textAlignment="CENTER" BorderPane.alignment="CENTER">
                                         <font>
-                                            <Font name="System Bold" size="28.0"/>
+                                            <Font name="System Bold" size="28.0" />
                                         </font>
                                     </Label>
                                 </left>
-                                <right>
-                                    <Label fx:id="lbTimerP2" alignment="CENTER" disable="true" prefHeight="40.0"
-                                           prefWidth="80.0" style="-fx-background-color: lightgray;" text="T"
-                                           textAlignment="CENTER" BorderPane.alignment="CENTER">
-                                        <font>
-                                            <Font name="System Bold" size="28.0"/>
-                                        </font>
-                                    </Label>
-                                </right>
-                                <center>
-                                    <Label fx:id="lbNameP2" alignment="CENTER" prefHeight="39.0"
-                                           prefWidth="105.0" text=" Player" BorderPane.alignment="CENTER">
-                                        <font>
-                                            <Font name="System Bold" size="27.0"/>
-                                        </font>
-                                    </Label>
-                                </center>
+                            <center>
+                                <Label fx:id="lbTimerP2" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="T" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                    <font>
+                                        <Font name="System Bold" size="28.0" />
+                                    </font>
+                                </Label>
+                            </center>
+                            <right>
+                                <Label fx:id="lbMines" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="M" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                    <font>
+                                        <Font name="System Bold" size="28.0" />
+                                    </font>
+                                </Label>
+                            </right>
                             </BorderPane>
                         </top>
                         <bottom>
                             <BorderPane prefHeight="46.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-                                <center>
-                                    <Button id="btnAction" fx:id="btnGiveUpP2" mnemonicParsing="false"
-                                            prefHeight="38.0" prefWidth="74.0" text="GIVE UP"
-                                            textAlignment="CENTER" BorderPane.alignment="CENTER">
-                                        <font>
-                                            <Font name="System Bold" size="12.0"/>
-                                        </font>
-
-                                    </Button>
-                                </center>
+                        <left>
+                            <Button id="btnGiveUp" fx:id="btnGiveUpP2" mnemonicParsing="false" prefHeight="38.0" prefWidth="75.0" text="GIVE UP" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                <font>
+                                    <Font name="System Bold" size="12.0" />
+                                </font>
+                            </Button>
+                        </left>
+                        <center>
+                            <Label fx:id="lbNameP2" alignment="CENTER" disable="true" prefHeight="39.0" prefWidth="140.0" text=" Player" BorderPane.alignment="CENTER">
+                                <font>
+                                    <Font name="System Bold" size="27.0" />
+                                </font>
+                            </Label>
+                        </center>
+                        <right>
+                            <Button id="btnSong" fx:id="btnSongP2" mnemonicParsing="false" prefHeight="38.0" prefWidth="75.0" text="MUSIC" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                <font>
+                                    <Font name="System Bold" size="12.0" />
+                                </font>
+                            </Button>
+                        </right>
                             </BorderPane>
                         </bottom>
                         <center>
-                            <SplitPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+                            <SplitPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                         </center>
                     </BorderPane>
                 </AnchorPane>
