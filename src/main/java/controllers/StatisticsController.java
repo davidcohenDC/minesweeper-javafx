@@ -38,8 +38,6 @@ import scoresystem.StatisticsWriterImpl;
 public class StatisticsController implements StatisticsControllerInterface {
     private final Modality modality;
     private final String buttonText;
-    private final double oldHeight;
-    private final double oldWidth;
     @FXML
     private Text title;
     @FXML 
@@ -51,14 +49,10 @@ public class StatisticsController implements StatisticsControllerInterface {
     /**constructor that initialize field.
      * @param modality modality chosen.
      * @param buttonText set title in order the modality chosen.
-     * @param oldW weight of mainStatistic.
-     * @param oldH height of mainStatistic.
     */
-    public StatisticsController(final Modality modality, final String buttonText, final double oldW, final double oldH) {
+    public StatisticsController(final Modality modality, final String buttonText) {
         this.modality = modality;
         this.buttonText = buttonText;
-        this.oldWidth = oldW;
-        this.oldHeight = oldH;
     }
     @Override
     public final void initialize() {
@@ -117,7 +111,8 @@ public class StatisticsController implements StatisticsControllerInterface {
         final RWSettings rwSett = new RWSettingsImpl();
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/mainStatistics.fxml"));
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
-        final Scene scene = new Scene(pane, this.oldWidth, this.oldHeight);
+        final Scene scene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
+        //final Scene scene = new Scene(pane, this.oldWidth, this.oldHeight);
         scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
         stage.setScene(scene);
     }
