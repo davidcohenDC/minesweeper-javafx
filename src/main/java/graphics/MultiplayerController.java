@@ -168,7 +168,8 @@ public class MultiplayerController extends AbstractGameController{
 
     @Override
     public void leftClickHandler(final Tile tile, final int x, final int y){
-        if (!this.timer.getPlayer1Timer().isRunning()) {
+        this.clickCount++;
+        if (!this.timer.getPlayer2Timer().isRunning()) {
             timer.start();
         }
         tile.clipAudioClick();
@@ -285,7 +286,7 @@ public class MultiplayerController extends AbstractGameController{
             this.secondPlayerPane.setDisable(true);
         }
         supervisorP1.giveMaster();
-        timer.start();
+        timer.switchTurn();
 
     }
 

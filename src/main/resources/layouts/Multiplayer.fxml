@@ -77,7 +77,7 @@
                                     </Label>
                                 </left>
                             <center>
-                                <Label fx:id="lbTimerP2" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="T" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                <Label fx:id="lbTimerP2" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" text="T" textAlignment="CENTER" BorderPane.alignment="CENTER">
                                     <font>
                                         <Font name="System Bold" size="28.0" />
                                     </font>

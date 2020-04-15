@@ -41,7 +41,6 @@ public abstract class AbstractGameController implements GameController{
     public void setClickHandler(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap) {
         for (final Box box : engine.getBoard()) {
             final Tile tmpTile = tilesMap.get(box.getPosition());
-            System.out.println(box.getPosition());
             tmpTile.setOnMouseClicked(e -> {
                 if (e.getButton() == MouseButton.PRIMARY) {
                     leftClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
