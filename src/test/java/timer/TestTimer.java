@@ -11,6 +11,11 @@ import org.junit.jupiter.api.Test;
  */
 class TestTimer {
 
+    /**
+     * The amount of milliseconds in a second.
+     */
+    private static final int TO_SECONDS = 1_000;
+
     private final TimerFactory f = new TimerFactoryImpl();
 
     @Test
@@ -19,7 +24,7 @@ class TestTimer {
         final Timer t = f.createTimerForStandardMode();
         assertFalse(t.isRunning());
         assertEquals(0, t.getValue());
-        assertEquals(Verse.UP.getLimit(), t.getLimit());
+        assertEquals(Verse.UP.getLimit() * TO_SECONDS, t.getLimit());
 
         t.start();
         while (t.getValue() == 0) {
@@ -37,7 +42,7 @@ class TestTimer {
         final int startingAmmount = 2;
         final Timer t = f.createTimerForBeatTheTimerMode(startingAmmount);
         assertFalse(t.isRunning());
-        assertEquals(startingAmmount * 1_000, t.getValue());
+        assertEquals(startingAmmount * TO_SECONDS, t.getValue());
         assertEquals(Verse.DOWN.getLimit(), t.getLimit());
 
         t.start();
@@ -49,15 +54,13 @@ class TestTimer {
         t.start();
         assertTrue(t.isRunning());
 
-        while (t.getValue() > 0) {
-            assertTrue(t.getValue() <= startingAmmount * 1_000);
+        while (t.getValue() != 0) {
+            assertTrue(t.getValue() <= startingAmmount * TO_SECONDS);
         }
 
         // timer should not go beyond its limit
-        for (int i = 0; i < 10; i++) {
-            assertFalse(t.isRunning());
-            assertEquals(0, t.getValue());
-        }
+        assertFalse(t.isRunning());
+        assertEquals(0, t.getValue());
     }
 
     @Test
