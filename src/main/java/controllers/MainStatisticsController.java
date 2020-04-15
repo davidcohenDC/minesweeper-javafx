@@ -37,8 +37,8 @@ public class MainStatisticsController extends BackHomeController implements Main
     private void switchScene(final Modality modality, final String buttonText) throws IOException {
         final FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/statistics.fxml"));
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
-        final double oldH = stage.getScene().getHeight();
-        final double oldW = stage.getScene().getWidth();
+        final double oldH = stage.getHeight();
+        final double oldW = stage.getWidth();
         final StatisticsControllerInterface statController = new StatisticsController(modality, buttonText);
         loader.setController(statController);
         if (stage.isMaximized()) {
@@ -49,9 +49,12 @@ public class MainStatisticsController extends BackHomeController implements Main
             final Scene scene = new Scene(loader.load());
             scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
             stage.setScene(scene);
+            stage.sizeToScene();
+            if (oldH > stage.getHeight() && oldW > stage.getWidth()) {
+                stage.setWidth(oldW);
+                stage.setHeight(oldH);
+            }
         }
-       /* scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
-        stage.setScene(scene);*/
     }
 
     @Override
