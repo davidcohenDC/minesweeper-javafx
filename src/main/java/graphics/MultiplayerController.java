@@ -47,6 +47,7 @@ public class MultiplayerController extends AbstractGameController{
     final HashMap<PlayerSupervisor,Boolean> playermap = new HashMap<>();
     private int ccflagsP1;
     private int ccflagsP2;
+    private Boolean firstclick = false;
 
 
     @FXML
@@ -107,6 +108,8 @@ public class MultiplayerController extends AbstractGameController{
         lbTimerP2.setText(String.valueOf(timer.getPlayer2Timer().getValue()));
         this.ccflagsP1 = this.mines;
         this.ccflagsP2 = this.mines;
+        timerViewP1.startDisplaying();
+        timerViewP2.startDisplaying();
 
         GridPane grid1 = new GridPane();
         final TileBuilder tb1 = new TileBuilderImpl();
@@ -165,11 +168,8 @@ public class MultiplayerController extends AbstractGameController{
 
     @Override
     public void leftClickHandler(final Tile tile, final int x, final int y){
-        this.clickCount++;
-        if (this.timer.getPlayer1Timer().getValue() == 0) {
-            timerViewP1.startDisplaying();
+        if (!this.timer.getPlayer1Timer().isRunning()) {
             timer.start();
-            timerViewP2.startDisplaying();
         }
         tile.clipAudioClick();
         if(this.supervisorP1.isMaster()) {
@@ -285,7 +285,7 @@ public class MultiplayerController extends AbstractGameController{
             this.secondPlayerPane.setDisable(true);
         }
         supervisorP1.giveMaster();
-        timer.switchTurn();
+        timer.start();
 
     }
 

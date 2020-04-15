@@ -52,6 +52,17 @@
         -fx-background-color: linear-gradient(#00ffff, #6680e6 );
         }
 
+#btnGiveUp {
+
+        -fx-background-radius: 30, 30, 29, 28;
+        -fx-padding: 3px 10px 3px 10px;
+        -fx-background-color: linear-gradient(#00ffff, #6680e6 );
+        }
+
+#btnGiveUp:hover {
+        -fx-background-color: linear-gradient(#00ffff, #4554ba );
+        }
+
 #btnSong:hover {
         -fx-background-color: linear-gradient(#00ffff, #4554ba );
         }

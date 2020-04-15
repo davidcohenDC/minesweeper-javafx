@@ -122,7 +122,7 @@ public class SinglePlayerController extends AbstractGameController {
 
     @Override
     public void leftClickHandler(final Tile tile, final int x, final int y) {
-        if (this.timer.getValue() == 0) {
+        if (!this.timer.isRunning()) {
             timerView.setTimeEventListener(new TimeEventsListenerImpl(this));
             timerView.startDisplaying();
             timer.start();
