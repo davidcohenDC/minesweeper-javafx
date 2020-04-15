@@ -1,12 +1,15 @@
 package graphicsutility;
 
 import graphics.GameController;
+import javafx.scene.control.Button;
 
 import java.io.IOException;
 
 public interface ButtonReaction {
 
-    void backHome() throws IOException;
+    Boolean backHome() throws IOException;
 
-    void restartGame(final GameController controller) throws IOException;
+    void checkMusic(final Button btnSong, final SongAgent music);
+
+    void checkDualMusic(final Button btnSong,final Button btnSong2, final SongAgent music);
 }

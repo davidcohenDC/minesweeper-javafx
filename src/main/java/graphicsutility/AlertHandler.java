@@ -13,7 +13,7 @@ public interface AlertHandler {
 
     void lostWithTimer();
 
-    void confirm();
+    Boolean confirm();
 
     void sameName();
 

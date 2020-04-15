@@ -1,13 +1,11 @@
 package graphicsutility;
 
+
 import controlutility.AlertStyle;
 import controlutility.AlertStyleImpl;
-import gamelogics.GameStatus;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextInputDialog;
-import org.checkerframework.checker.nullness.Opt;
 import scoresystem.Player;
 
 import java.util.Optional;
@@ -15,6 +13,7 @@ import java.util.Optional;
 public class AlertHandlerImpl implements AlertHandler{
     private AlertStyle alStyle;
     final Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private Alert alConfirm;
 
 
     public AlertHandlerImpl() {
@@ -37,12 +36,17 @@ public class AlertHandlerImpl implements AlertHandler{
 
     }
     @Override
-    public void confirm() {
-        alert.setTitle("| ARE YOU SURE? |");
-        alert.setContentText("Leave the game");
-        alert.setHeaderText(null);
-        alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(green, darkgreen);" + "-fx-font-weight: bold;");
-        alert.showAndWait();
+    public Boolean confirm() {
+
+        ButtonType btnOk = new ButtonType("Ok");
+        ButtonType btnNo = new ButtonType("No");
+        this.alConfirm = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?" , btnOk, btnNo);
+        alConfirm.showAndWait();
+        if (alConfirm.getResult() == btnOk) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
