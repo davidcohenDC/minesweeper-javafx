@@ -112,7 +112,6 @@ public class StatisticsController implements StatisticsControllerInterface {
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/mainStatistics.fxml"));
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
         final Scene scene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
-        //final Scene scene = new Scene(pane, this.oldWidth, this.oldHeight);
         scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
         stage.setScene(scene);
     }
