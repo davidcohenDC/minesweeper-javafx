@@ -10,11 +10,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import scoresystem.Player;
-import scoresystem.ScoreWriter;
-import scoresystem.ScoreWriterImpl;
 import timer.*;
 import timer.Timer;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,15 +28,16 @@ public class SinglePlayerController extends AbstractGameController {
     private final GameEngine engine;
     private final Timer timer;
     private Map<Pair<Integer, Integer>, Tile> tilesMap;
+    private HashMap<PlayerSupervisor,Boolean> playermap;
     private Optional<Player> firstplayer;
     private Optional<Player> secondplayer;
     private TimerView timerView;
-    private ScoreWriter scoreWriter;
     private AlertHandler alert;
     private SongAgent music;
     private ButtonReaction btnAction;
     private Boolean timerOver = false;
-    private Boolean firstClick = false;
+    private PlayerSupervisor supervisorP1;
+    private int ccflagsP1;
 
     @FXML
     private Label lbTimerP1 = new Label();
@@ -45,6 +45,8 @@ public class SinglePlayerController extends AbstractGameController {
     private Label lbFlagP1;
     @FXML
     private Label lbNameP1;
+    @FXML
+    private Label lbMinesP1;
     @FXML
     private Button btnRestart;
     @FXML
@@ -67,22 +69,14 @@ public class SinglePlayerController extends AbstractGameController {
 
     @Override
     public void initialize() throws IOException {
-        this.timerView = new TimerViewImpl(timer, lbTimerP1);
-        this.scoreWriter = new ScoreWriterImpl();
-        this.alert = new AlertHandlerImpl();
-        this.music = new SongAgentImpl(new RWSettingsImpl());
-        this.btnAction = new ButtonReactionimpl(this.rootPane);
+        Implementations();
 
-        lbFlagP1.setText("Flags:" + this.mines);
-        lbNameP1.setText("No One");
-        if(this.firstplayer.isPresent()) {
-            lbNameP1.setText(this.firstplayer.get().getName());
-        }
-        else {
-            lbNameP1.setText("No One");
-        }
+        lbFlagP1.setText("FLAGS:" + this.mines);
+        lbMinesP1.setText("MINE:" + this.mines);
+        this.supervisorP1.view(lbNameP1);
         lbTimerP1.setText(String.valueOf(timer.getValue()));
         btnSong.setText("MUTE");
+        this.ccflagsP1 = this.mines;
 
         GridPane grid = new GridPane();
         final TileBuilder tb = new TileBuilderImpl();
@@ -96,37 +90,39 @@ public class SinglePlayerController extends AbstractGameController {
 
         setButtons();
         setClickHandler(this.engine,this.tilesMap);
+    }
 
+    private void Implementations() throws IOException{
+        this.playermap = new HashMap<>();
+        this.timerView = new TimerViewImpl(timer, lbTimerP1);
+        this.alert = new AlertHandlerImpl();
+        this.music = new SongAgentImpl(new RWSettingsImpl());
+        this.btnAction = new ButtonReactionimpl(this.rootPane);
+        this.supervisorP1 = new PlayerSupervisorImpl(this.firstplayer,true,this.playermap);
     }
 
     @Override
     public void setButtons() {
-        btnBackHome.setOnAction(t -> {
+        this.btnBackHome.setOnAction(t -> {
             try {
-                music.close();
-                timer.stop();
-                btnAction.backHome();
+                this.music.pause();
+                this.timer.stop();
+                if(this.btnAction.backHome()) {
+                    closeElements();
+                } else {
+                    this.music.play();
+                    this.timer.start();
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace(); //scrivi...
             }
         });
-        btnRestart.setOnAction(t -> {
-            try {
-                music.close();
-                timer.stop();
-                timer.start();
-                btnAction.restartGame(this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        });
-        btnSong.setOnMouseClicked(t -> music.checkSong(btnSong));
+       this.btnSong.setOnMouseClicked(t -> btnAction.checkMusic(this.btnSong,this.music));
     }
 
     @Override
     public void leftClickHandler(final Tile tile, final int x, final int y) {
-        if (!this.firstClick) {
+        if (this.timer.getValue() == 0) {
             timerView.setTimeEventListener(new TimeEventsListenerImpl(this));
             timerView.startDisplaying();
             timer.start();
@@ -147,6 +143,17 @@ public class SinglePlayerController extends AbstractGameController {
         }
     }
 
+    public void rightClickHandler(final Tile tile, final int x, final int y,final GameEngine engine) {
+        engine.setFlag(new Pair<>(x, y));
+        if (!tile.isFlagged()) {
+            this.ccflagsP1--;
+        } else {
+            this.ccflagsP1++;
+        }
+        tile.setflag();
+        this.lbFlagP1.setText("F:" + this.ccflagsP1);
+    }
+
     @Override
     public void endGame(GameStatus gameStatus) {
         closeElements();
@@ -158,7 +165,7 @@ public class SinglePlayerController extends AbstractGameController {
                 alert.lost(this.firstplayer);
             }
             try {
-                btnAction.backHome();
+                backHome();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -167,7 +174,7 @@ public class SinglePlayerController extends AbstractGameController {
             writePlayer(GameStatus.WON);
             alert.won(this.firstplayer);
             try {
-                btnAction.backHome();
+                backHome();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -182,16 +189,9 @@ public class SinglePlayerController extends AbstractGameController {
 
     @Override
     public void writePlayer(GameStatus status) {
-        if (this.firstplayer.isPresent()) {
-            if (status.equals(GameStatus.LOST)) {
-                this.firstplayer.get().lost();
-            } else {
-                this.firstplayer.get().won(timer.getValue());
-                System.out.println(this.firstplayer.get().getScore());
-            }
-            scoreWriter.write(this.firstplayer.get());
-        }
+        this.supervisorP1.writePlayer(status);
     }
+
     @Override
     public void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer) {
         this.firstplayer = firstplayer;
@@ -204,8 +204,7 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     public String getFXML() {
-        final String layout = "layouts/SinglePlayer.fxml";
-        return layout;
+        return "layouts/SinglePlayer.fxml";
     }
 
 

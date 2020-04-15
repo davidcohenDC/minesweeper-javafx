@@ -33,6 +33,8 @@ public interface GameController {
 
     void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer);
 
+    void backHome() throws IOException;
+
     int getWidth();
 
     int getHeight();
@@ -41,7 +43,7 @@ public interface GameController {
 
     Timer getTimer();
 
-    public String getFXML();
+    String getFXML();
 
 
 

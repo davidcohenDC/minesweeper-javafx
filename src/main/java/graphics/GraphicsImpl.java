@@ -52,19 +52,19 @@ public class GraphicsImpl implements Graphics {
         switch (modality) {
             case STANDARD:
                 final GameController sdController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForStandardMode());
-                sceneStart(stage,"layouts/SinglePlayer.fxml",sdController);
+                sceneStart(stage,sdController.getFXML(),sdController);
                 break;
 
             case ONE_VS_ONE:
 
                 final GameController ovoController = new MultiplayerController(height, width, mines, timerFactory.createTimersFor1vs1Mode());
-                sceneStart(stage,"layouts/Multiplayer.fxml",ovoController);
+                sceneStart(stage,ovoController.getFXML(),ovoController);
                 break;
 
             case BTT:
                 final int timerValue = this.mines* TIMER_MOLTIPLICATOR;
                 final GameController bttController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForBeatTheTimerMode(timerValue));
-                sceneStart(stage,"layouts/SinglePlayer.fxml",bttController);
+                sceneStart(stage,bttController.getFXML(),bttController);
                 break;
         }
     }
@@ -100,9 +100,12 @@ public class GraphicsImpl implements Graphics {
 
                 do {
                     this.secondPlayerName = getPlayer.acquireSecond();
-                    if(firstPlayerName.get().equals(secondPlayerName.get())){
-                        alert.sameName();
+                    if(this.secondPlayerName.isPresent()) {
+                        if(firstPlayerName.get().equals(secondPlayerName.get())){
+                            alert.sameName();
+                        }
                     }
+
                 }while (firstPlayerName.get().equals(secondPlayerName.get()));
                 if(firstPlayerName.isPresent() && secondPlayerName.isPresent()) {
                     final Player firstPlayer = playerFactory.createPlayerFor1vs1Mode(firstPlayerName.get(),difficulty,secondPlayerName.get());
