@@ -301,12 +301,21 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     private void stopElements() {
-        this.timer.stop();
+        if(supervisorP1.isMaster()){
+            this.timer.getPlayer1Timer().stop();
+        } else {
+            this.timer.getPlayer2Timer().stop();
+        }
         this.music.pause();
+
     }
 
     private void resumeElements() {
-        this.timer.start();
+        if(supervisorP1.isMaster()){
+            this.timer.getPlayer1Timer().start();
+        } else {
+            this.timer.getPlayer2Timer().start();
+        }
         this.music.play();
     }
 
