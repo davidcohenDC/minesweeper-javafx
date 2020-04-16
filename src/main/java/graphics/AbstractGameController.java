@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -16,21 +15,18 @@ import timer.Timer;
 import java.io.IOException;
 import java.util.Map;
 
-
 public abstract class AbstractGameController implements GameController{
     private final int height;
     private final int width;
     private final int mines;
-    private Timer timer;
-
-    private NodeEffect effect;
+    private final Timer timer;
 
     @FXML
     private BorderPane mainBorderPane;
     @FXML
     private AnchorPane rootPane;
 
-    public AbstractGameController(final int height, final int width, final int mines, final Timer timer) {
+    protected AbstractGameController(final int height, final int width, final int mines, final Timer timer) {
         this.height = height;
         this.mines = mines;
         this.width = width;
@@ -42,10 +38,13 @@ public abstract class AbstractGameController implements GameController{
         for (final Box box : engine.getBoard()) {
             final Tile tmpTile = tilesMap.get(box.getPosition());
             tmpTile.setOnMouseClicked(e -> {
-                if (e.getButton() == MouseButton.PRIMARY) {
-                    leftClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
-                } else if (e.getButton() == MouseButton.SECONDARY) {
-                    rightClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY(),engine);
+                switch (e.getButton()) {
+                    case PRIMARY:
+                        leftClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
+                        break;
+                    case SECONDARY:
+                        rightClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY(), engine);
+                        break;
                 }
             });
         }
@@ -64,7 +63,7 @@ public abstract class AbstractGameController implements GameController{
                     tmpTile.style(box.getBombNear());
                 }
             }
-            if (engine.getGameStatus().equals((GameStatus.LOST))) {
+            if (engine.getGameStatus().equals(GameStatus.LOST)) {
                 if (box.containsBomb()) {
                     tmpTile.setMine();
                 } else {
@@ -83,7 +82,6 @@ public abstract class AbstractGameController implements GameController{
         scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
         stage.setScene(scene);
     }
-
 
     @Override
     public int getHeight() {
@@ -106,7 +104,7 @@ public abstract class AbstractGameController implements GameController{
     }
 
     @Override
-    public abstract void rightClickHandler(final Tile tile, final int x, final int y,final GameEngine engine);
+    public abstract void rightClickHandler(final Tile tile, final int x, final int y, final GameEngine engine);
 
     @Override
     public abstract void initialize() throws IOException;

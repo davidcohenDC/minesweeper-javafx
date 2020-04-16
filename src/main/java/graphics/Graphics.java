@@ -10,13 +10,6 @@ import java.io.IOException;
 
 public interface Graphics {
 
-    Integer getWidth();
-
-    Integer getHeight();
-
     void setPlayer();
-
-
-
 
 }

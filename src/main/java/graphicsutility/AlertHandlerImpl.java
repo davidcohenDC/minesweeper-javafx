@@ -1,6 +1,5 @@
 package graphicsutility;
 
-
 import controlutility.AlertStyle;
 import controlutility.AlertStyleImpl;
 import javafx.application.Platform;
@@ -11,10 +10,8 @@ import scoresystem.Player;
 import java.util.Optional;
 
 public class AlertHandlerImpl implements AlertHandler{
-    private AlertStyle alStyle;
-    final Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    private Alert alConfirm;
-
+    private final AlertStyle alStyle;
+    private final Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
     public AlertHandlerImpl() {
     this.alStyle = new AlertStyleImpl();
@@ -23,64 +20,58 @@ public class AlertHandlerImpl implements AlertHandler{
     @Override
     public void won(final Optional<Player> player) {
         if(player.isPresent()) {
-            alert.setTitle( "|CONGRATULATIONS |");
-            alert.setContentText(player.get().getName()+" YOU WON!!"+'\r'+ "Your score: " + player.get().getScore());
+            this.alert.setTitle( "|CONGRATULATIONS |");
+            this.alert.setContentText(player.get().getName()+" YOU WON!!"+'\r'+ "Your score: " + player.get().getScore());
         } else {
-            alert.setTitle("| CONGRATULATIONS |");
-            alert.setContentText("YOU WON!!");
+            this.alert.setTitle("| CONGRATULATIONS |");
+            this.alert.setContentText("YOU WON!!");
         }
 
-        alert.setHeaderText(null);
-        alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(green, darkgreen);" + "-fx-font-weight: bold;");
-        alert.showAndWait();
+        this.alert.setHeaderText(null);
+        this.alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(green, darkgreen);" + "-fx-font-weight: bold;");
+        this.alert.showAndWait();
 
     }
+
     @Override
     public Boolean confirm() {
-
         ButtonType btnOk = new ButtonType("Ok");
         ButtonType btnNo = new ButtonType("No");
-        this.alConfirm = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?" , btnOk, btnNo);
+        Alert alConfirm = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", btnOk, btnNo);
         alConfirm.showAndWait();
-        if (alConfirm.getResult() == btnOk) {
-            return true;
-        } else {
-            return false;
-        }
+        return alConfirm.getResult() == btnOk;
     }
 
     @Override
     public void lost(final Optional<Player> player) {
-        if ((!player.isPresent()) || player.get().getName().equals("")) {
-            alert.setTitle("| GAME OVER |");
-            alert.setContentText("YOU LOST!!");
+        if ((player.isEmpty()) || player.get().getName().equals("")) {
+            this.alert.setTitle("| GAME OVER |");
+            this.alert.setContentText("YOU LOST!!");
         } else {
-            alert.setTitle( "|GAME OVER |");
-            alert.setContentText(player.get().getName()+" YOU LOST!!");
+            this.alert.setTitle( "|GAME OVER |");
+            this.alert.setContentText(player.get().getName()+" YOU LOST!!");
         }
-        alert.setHeaderText(null);
-        alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(red, darkred);" + "-fx-font-weight: bold;");
-        alert.showAndWait();
+        this.alert.setHeaderText(null);
+        this.alert.getDialogPane().setStyle("-fx-background-color: linear-gradient(red, darkred);" + "-fx-font-weight: bold;");
+        this.alert.showAndWait();
     }
 
+    @Override
     public void lostWithTimer() {
-        alert.setTitle("GAME OVER");
-        alert.setContentText("YOU LOST!");
-        alert.setHeaderText(null);
-        this.alStyle.setStyle(alert);
-        Platform.runLater(alert::showAndWait);
+        this.alert.setTitle("GAME OVER");
+        this.alert.setContentText("YOU LOST!");
+        this.alert.setHeaderText(null);
+        this.alStyle.setStyle(this.alert);
+        Platform.runLater(this.alert::showAndWait);
     }
 
+    @Override
     public void sameName() {
-        alert.setTitle("| ERROR |");
-        alert.setContentText("Same name!!");
-        alert.setHeaderText(null);
-        alert.getDialogPane().setStyle("-fx-font-weight: bold;");
-        alert.showAndWait();
+        this.alert.setTitle("| ERROR |");
+        this.alert.setContentText("Same name!!");
+        this.alert.setHeaderText(null);
+        this.alert.getDialogPane().setStyle("-fx-font-weight: bold;");
+        this.alert.showAndWait();
     }
-
-
-
-
 
 }

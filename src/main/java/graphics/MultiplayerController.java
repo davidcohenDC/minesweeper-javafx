@@ -13,6 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import scoresystem.Player;
+import scoresystem.ScoreWriter;
+import scoresystem.ScoreWriterImpl;
 import timer.DoubleTimer;
 import timer.TimerView;
 import timer.TimerViewImpl;
@@ -31,24 +33,20 @@ public class MultiplayerController extends AbstractGameController{
     private final GameEngine engineP1;
     private final GameEngine engineP2;
     private final DoubleTimer timer;
+    private static final int MAX_CLICK = 1;
     private Map<Pair<Integer, Integer>, Tile> tilesMap1;
     private Map<Pair<Integer, Integer>, Tile> tilesMap2;
+    private HashMap<PlayerSupervisor,Boolean> playersMap = new HashMap<>();
     private Optional<Player> firstplayer;
     private Optional<Player> secondplayer;
-    private TimerView timerViewP1;
-    private TimerView timerViewP2;
+    private PlayerSupervisor supervisorP1;
+    private ScoreWriter scoreWriter;
     private AlertHandler alert;
     private SongAgent music;
     private ButtonReaction btnAction;
     private int clickCount = 0;
-    private static final int MAX_CLICK = 1;
-    private PlayerSupervisor supervisorP1;
-    private PlayerSupervisor supervisorP2;
-    final HashMap<PlayerSupervisor,Boolean> playermap = new HashMap<>();
     private int ccflagsP1;
     private int ccflagsP2;
-    private Boolean firstclick = false;
-
 
     @FXML
     private Label lbTimerP2 = new Label();
@@ -63,7 +61,9 @@ public class MultiplayerController extends AbstractGameController{
     @FXML
     private Label lbNameP2;
     @FXML
-    private Label lbMines;
+    private Label lbMinesP1;
+    @FXML
+    private Label lbMinesP2;
     @FXML
     private Button btnGiveUpP1;
     @FXML
@@ -91,49 +91,51 @@ public class MultiplayerController extends AbstractGameController{
 
     @Override
     public void initialize() throws IOException{
-        this.timerViewP1 = new TimerViewImpl(timer.getPlayer1Timer(),lbTimerP1);
-        this.timerViewP2 = new TimerViewImpl(timer.getPlayer2Timer(),lbTimerP2);
+        TimerView timerViewP1 = new TimerViewImpl(this.timer.getPlayer1Timer(), this.lbTimerP1);
+        TimerView timerViewP2 = new TimerViewImpl(this.timer.getPlayer2Timer(), this.lbTimerP2);
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(new RWSettingsImpl());
         this.btnAction = new ButtonReactionimpl(this.rootPane);
-        this.supervisorP1 = new PlayerSupervisorImpl(this.firstplayer,true,this.playermap);
-        this.supervisorP2 = new PlayerSupervisorImpl(this.secondplayer,false,this.playermap);
+        this.supervisorP1 = new PlayerSupervisorImpl(this.firstplayer,true,this.playersMap);
+        PlayerSupervisor supervisorP2 = new PlayerSupervisorImpl(this.secondplayer, false, this.playersMap);
+        this.scoreWriter = new ScoreWriterImpl();
 
-        lbMines.setText("M:" + this.mines);
-        lbFlagP1.setText("F:" + this.mines);
-        this.supervisorP1.view(lbNameP1);
-        lbTimerP1.setText(String.valueOf(timer.getPlayer1Timer().getValue()));
-        lbFlagP2.setText("F:" + this.mines);
-        this.supervisorP2.view(lbNameP2);
-        lbTimerP2.setText(String.valueOf(timer.getPlayer2Timer().getValue()));
-        this.ccflagsP1 = this.mines;
-        this.ccflagsP2 = this.mines;
-        timerViewP1.startDisplaying();
-        timerViewP2.startDisplaying();
+        this.lbMinesP1.setText("M:" + this.mines);
+        this.lbMinesP1.setText("M:" + this.mines);
+        this.lbFlagP1.setText("F:" + this.mines);
+        this.supervisorP1.view(this.lbNameP1);
+        this.lbTimerP1.setText(String.valueOf(this.timer.getPlayer1Timer().getValue()));
+        this.lbFlagP2.setText("F:" + this.mines);
+        supervisorP2.view(this.lbNameP2);
+        this.lbTimerP2.setText(String.valueOf(this.timer.getPlayer2Timer().getValue()));
 
         GridPane grid1 = new GridPane();
         final TileBuilder tb1 = new TileBuilderImpl();
-        tb1.withHeight(height);
-        tb1.withWidth(width);
+        tb1.withHeight(this.height);
+        tb1.withWidth(this.width);
         tb1.withGrid(grid1);
         this.tilesMap1 = tb1.build();
 
         GridPane grid2 = new GridPane();
         final TileBuilder tb2 = new TileBuilderImpl();
-        tb2.withHeight(height);
-        tb2.withWidth(width);
+        tb2.withHeight(this.height);
+        tb2.withWidth(this.width);
         tb2.withGrid(grid2);
         this.tilesMap2 = tb2.build();
 
         this.firstPlayerPane.setCenter(grid1);
         this.secondPlayerPane.setCenter(grid2);
-
         this.secondPlayerPane.setDisable(true);
-        this.music.play();
 
         setButtons();
         setClickHandler(this.engineP1,this.tilesMap1);
         setClickHandler(this.engineP2,this.tilesMap2);
+
+        this.ccflagsP1 = this.mines;
+        this.ccflagsP2 = this.mines;
+        timerViewP1.startDisplaying();
+        timerViewP2.startDisplaying();
+        this.music.play();
     }
 
     @Override
@@ -170,7 +172,7 @@ public class MultiplayerController extends AbstractGameController{
     public void leftClickHandler(final Tile tile, final int x, final int y){
         this.clickCount++;
         if (!this.timer.getPlayer2Timer().isRunning()) {
-            timer.start();
+            this.timer.start();
         }
         tile.clipAudioClick();
         if(this.supervisorP1.isMaster()) {
@@ -179,7 +181,7 @@ public class MultiplayerController extends AbstractGameController{
                 refreshBoard(this.engineP1,this.tilesMap1);
             }
 
-            if (!this.engineP1.getGameStatus().equals((GameStatus.PLAYING))) {
+            if (!this.engineP1.getGameStatus().equals(GameStatus.PLAYING)) {
                 endGame(this.engineP1.getGameStatus());
             }
         } else {
@@ -188,7 +190,7 @@ public class MultiplayerController extends AbstractGameController{
                 refreshBoard(this.engineP2,this.tilesMap2);
             }
 
-            if (!this.engineP2.getGameStatus().equals((GameStatus.PLAYING))) {
+            if (!this.engineP2.getGameStatus().equals(GameStatus.PLAYING)) {
                 endGame(this.engineP2.getGameStatus());
             }
         }
@@ -199,6 +201,7 @@ public class MultiplayerController extends AbstractGameController{
         }
     }
 
+    @Override
     public void rightClickHandler(final Tile tile, final int x, final int y,final GameEngine engine) {
         engine.setFlag(new Pair<>(x, y));
         if (this.supervisorP1.isMaster()) {
@@ -208,7 +211,11 @@ public class MultiplayerController extends AbstractGameController{
                 this.ccflagsP1++;
             }
             tile.setflag();
-            this.lbFlagP1.setText("F:" + this.ccflagsP1);
+            if(this.ccflagsP1 >= 0 && this.ccflagsP1 < 10) {
+                this.lbFlagP1.setText("F:0" + this.ccflagsP1);
+            } else {
+                this.lbFlagP1.setText("F:" + this.ccflagsP1);
+            }
         } else {
             if (!tile.isFlagged()) {
                 this.ccflagsP2--;
@@ -216,7 +223,11 @@ public class MultiplayerController extends AbstractGameController{
                 this.ccflagsP2++;
             }
             tile.setflag();
-            this.lbFlagP2.setText("F:" + this.ccflagsP2);
+            if((this.ccflagsP2 >= 0) && (this.ccflagsP2 < 10)) {
+                this.lbFlagP2.setText("F:0" + this.ccflagsP2);
+            } else {
+                this.lbFlagP2.setText("F:" + this.ccflagsP2);
+            }
         }
     }
 
@@ -224,72 +235,52 @@ public class MultiplayerController extends AbstractGameController{
     public void endGame(GameStatus gameStatus){
         closeElements();
         if (gameStatus.equals(GameStatus.LOST)) {
-            writePlayer(GameStatus.LOST);
-            if(supervisorP1.isMaster()) {
-                alert.lost(this.firstplayer);
-            } else {
-                alert.lost(this.secondplayer);
-            }
-            try {
-                backHome();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            writePlayer(gameStatus);
+            alert.lost(this.supervisorP1.isMaster() ? this.firstplayer : this.secondplayer);
         } else if (gameStatus.equals(GameStatus.WON)) {
-            writePlayer(GameStatus.WON);
-            if(this.supervisorP1.isMaster()) {
-                alert.won(this.firstplayer);
-            } else {
-                alert.won(this.secondplayer);
-            }
-            try {
-                backHome();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            alert.won(this.supervisorP1.isMaster() ? this.firstplayer : this.secondplayer);
+        }
+        try {
+            backHome();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-
-
 
     @Override
     public void writePlayer(GameStatus status) {
-        if (this.firstplayer.isPresent()) {
-            if (status.equals(GameStatus.LOST)) {
+        switch (status) {
+            case LOST:
                 if (this.supervisorP1.isMaster()) {
-                    this.supervisorP1.writePlayer(status);
+                    this.firstplayer.ifPresent(Player::lost);
+                    this.secondplayer.ifPresent(player -> player.won(this.timer.getPlayer1Timer().getValue()));
                 } else {
-                    this.supervisorP2.writePlayer(status);
+                    this.firstplayer.ifPresent(player -> player.won(this.timer.getPlayer2Timer().getValue()));
+                    this.secondplayer.ifPresent(Player::lost);
                 }
-            } else {
-                if(this.supervisorP1.isMaster()) {
-                    this.supervisorP1.writePlayer(status);
+                break;
+
+            case WON:
+                if (this.supervisorP1.isMaster()) {
+                    this.firstplayer.ifPresent(player -> player.won(this.timer.getPlayer1Timer().getValue()));
+                    this.secondplayer.ifPresent(Player::lost);
                 } else {
-                    this.supervisorP2.writePlayer(status);
+                    this.firstplayer.ifPresent(Player::lost);
+                    this.secondplayer.ifPresent(player -> player.won(this.timer.getPlayer2Timer().getValue()));
                 }
-            }
+                break;
         }
+        this.firstplayer.ifPresent(player -> this.scoreWriter.write(player));
+        this.secondplayer.ifPresent(player -> this.scoreWriter.write(player));
     }
 
     @Override
-    public void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer) {
-        this.firstplayer = firstplayer;
-        this.secondplayer = secondplayer;
+    public void setPlayers(Optional<Player> playerP1, Optional<Player> playerP2) {
+        this.firstplayer = playerP1;
+        this.secondplayer = playerP2;
     }
 
-    private void switchPane() {
-        if(this.supervisorP1.isMaster()) {
-            this.firstPlayerPane.setDisable(true);
-            this.secondPlayerPane.setDisable(false);
-        } else {
-            this.firstPlayerPane.setDisable(false);
-            this.secondPlayerPane.setDisable(true);
-        }
-        supervisorP1.giveMaster();
-        timer.switchTurn();
-
-    }
-
+    @Override
     public String getFXML() {
         return "layouts/Multiplayer.fxml";
     }
@@ -317,6 +308,18 @@ public class MultiplayerController extends AbstractGameController{
             this.timer.getPlayer2Timer().start();
         }
         this.music.play();
+    }
+
+    private void switchPane() {
+        if(this.supervisorP1.isMaster()) {
+            this.firstPlayerPane.setDisable(true);
+            this.secondPlayerPane.setDisable(false);
+        } else {
+            this.firstPlayerPane.setDisable(false);
+            this.secondPlayerPane.setDisable(true);
+        }
+        this.supervisorP1.giveMaster();
+        this.timer.switchTurn();
     }
 
 }

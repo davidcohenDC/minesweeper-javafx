@@ -27,7 +27,7 @@
                                 </Label>
                             </center>
                             <right>
-                                <Label fx:id="lbMines" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="M" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                <Label fx:id="lbMinesP1" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="M" textAlignment="CENTER" BorderPane.alignment="CENTER">
                                     <font>
                                         <Font name="System Bold" size="28.0" />
                                     </font>
@@ -84,7 +84,7 @@
                                 </Label>
                             </center>
                             <right>
-                                <Label fx:id="lbMines" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="M" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                                <Label fx:id="lbMinesP2" alignment="CENTER" disable="true" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: lightgray;" text="M" textAlignment="CENTER" BorderPane.alignment="CENTER">
                                     <font>
                                         <Font name="System Bold" size="28.0" />
                                     </font>

@@ -1,7 +1,6 @@
 package graphicsutility;
 
 import scoresystem.Player;
-
 import java.util.Optional;
 
 public interface AlertHandler {

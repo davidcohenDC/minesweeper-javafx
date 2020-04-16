@@ -2,33 +2,27 @@ package graphicsutility;
 
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
-import gamelogics.GameStatus;
-import graphics.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import javax.sound.sampled.Clip;
 import java.io.IOException;
-
 
 public class ButtonReactionimpl implements ButtonReaction {
     private AnchorPane rootPane;
     private AlertHandler alert;
-    //private AbstractGameController controller;
 
 
-    public ButtonReactionimpl(final AnchorPane rootPane) throws IOException{
+    public ButtonReactionimpl(final AnchorPane rootPane) {
         this.rootPane = rootPane;
         this.alert = new AlertHandlerImpl();
     }
 
     @Override
     public Boolean backHome() throws IOException {
-        if(alert.confirm()) {
+        if(this.alert.confirm()) {
             final RWSettings rwSett = new RWSettingsImpl();
             final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/playGame.fxml"));
             final Stage stage = (Stage) this.rootPane.getScene().getWindow();
@@ -41,7 +35,7 @@ public class ButtonReactionimpl implements ButtonReaction {
         }
     }
 
-
+    @Override
     public void checkMusic(final Button btnSong, final SongAgent music) {
         if(music.isPlaying()) {
             btnSong.setText("MUTED");
@@ -64,6 +58,5 @@ public class ButtonReactionimpl implements ButtonReaction {
             music.play();
         }
     }
-
 
 }

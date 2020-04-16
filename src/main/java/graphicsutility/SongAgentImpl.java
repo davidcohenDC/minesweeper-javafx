@@ -1,11 +1,9 @@
 package graphicsutility;
 
 import controlutility.RWSettings;
-
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-
 import javafx.scene.control.Button;
 
 public class SongAgentImpl implements SongAgent {
@@ -22,12 +20,9 @@ public class SongAgentImpl implements SongAgent {
 
     @Override
     public void close() {
-        clip.stop();
-        clip.close();
+        this.clip.stop();
+        this.clip.close();
     }
-
-
-
 
     @Override
     public Boolean isPlaying() {
@@ -37,36 +32,34 @@ public class SongAgentImpl implements SongAgent {
     @Override
     public Boolean shift() {
         this.playing = !playing;
-        return playing;
+        return this.playing;
     }
 
     @Override
     public void play() {
         this.playing = true;
 
-        if(checkStart) {
-            clip.start();
+        if(this.checkStart) {
+            this.clip.start();
         } else {
-            start();
+            this.start();
         }
     }
 
     @Override
     public void pause() {
         this.playing = false;
-        clip.stop();
+        this.clip.stop();
     }
 
     @Override
     public void checkSong(final Button btnSong) {
-        if(isPlaying()) {
-            //btnSong.setText("MUTED");
+        if(this.isPlaying()) {
             btnSong.setText("MUTED");
             pause();
         } else {
-            //btnSong.setText("MUTE");
             btnSong.setText("MUTE");
-            play();
+            this.play();
         }
     }
 
@@ -77,11 +70,11 @@ public class SongAgentImpl implements SongAgent {
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
-        final String path = urlSound + rwSett.getSong();
+        final String path =  this.urlSound +  this.rwSett.getSong();
         try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile())) {
-            clip.open(audioStream);
-            clip.start();
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            this.clip.open(audioStream);
+            this.clip.start();
+            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex) {
             ex.printStackTrace();
         }

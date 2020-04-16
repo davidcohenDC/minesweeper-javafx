@@ -3,19 +3,16 @@ package graphicsutility;
 import gamelogics.Pair;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
-
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 public class TileBuilderImpl implements TileBuilder {
 
     private final Map<Pair<Integer, Integer>, Tile> tilesMap = new HashMap<>();
     private int height;
     private int width;
-
     private GridPane grid;
 
     public TileBuilder withWidth(final int width) {
@@ -35,11 +32,13 @@ public class TileBuilderImpl implements TileBuilder {
 
     @Override
     public Map<Pair<Integer, Integer>, Tile> build() {
-        IntStream.range(0, this.height)
-                .forEach(r -> IntStream.range(0, this.width).forEach(c -> grid.add(createTile(r, c), c, r)));
-        grid.setAlignment(Pos.CENTER);
-        grid.setStyle(" -fx-grid-lines-visible: true; -fx-grid-border-style: solid inside;");
-
+        for(int r = 0; r < this.height;r++) {
+            for(int c = 0; c < this.width;c++) {
+                this.grid.add(createTile(c, r), r, c);
+            }
+        }
+        this.grid.setAlignment(Pos.CENTER);
+        this.grid.setStyle(" -fx-grid-lines-visible: true; -fx-grid-border-style: solid inside;");
         return this.tilesMap;
     }
 
@@ -52,7 +51,6 @@ public class TileBuilderImpl implements TileBuilder {
             e.printStackTrace();
             throw new IllegalStateException("Could not create tile correctly");
         }
-
         return tile;
     }
 }

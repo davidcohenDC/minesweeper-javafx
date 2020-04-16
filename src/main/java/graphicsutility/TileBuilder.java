@@ -2,7 +2,6 @@ package graphicsutility;
 
 import gamelogics.Pair;
 import javafx.scene.layout.GridPane;
-
 import java.util.Map;
 
 public interface TileBuilder {

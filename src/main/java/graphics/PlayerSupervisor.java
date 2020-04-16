@@ -1,9 +1,6 @@
 package graphics;
 
-import gamelogics.GameStatus;
 import javafx.scene.control.Label;
-
-import java.util.Map;
 
 public interface PlayerSupervisor {
 
@@ -17,9 +14,6 @@ public interface PlayerSupervisor {
 
     void giveMaster();
 
-    void setMaster(final Map<PlayerSupervisor,Boolean> playermap);
-
-    void writePlayer(GameStatus status);
 
 
 }

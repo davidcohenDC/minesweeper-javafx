@@ -10,6 +10,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import scoresystem.Player;
+import scoresystem.ScoreWriter;
+import scoresystem.ScoreWriterImpl;
 import timer.*;
 import timer.Timer;
 import java.io.IOException;
@@ -38,6 +40,7 @@ public class SinglePlayerController extends AbstractGameController {
     private Boolean timerOver = false;
     private PlayerSupervisor supervisorP1;
     private int ccflagsP1;
+    private ScoreWriter scoreWriter;
 
     @FXML
     private Label lbTimerP1 = new Label();
@@ -99,6 +102,7 @@ public class SinglePlayerController extends AbstractGameController {
         this.music = new SongAgentImpl(new RWSettingsImpl());
         this.btnAction = new ButtonReactionimpl(this.rootPane);
         this.supervisorP1 = new PlayerSupervisorImpl(this.firstplayer,true,this.playermap);
+        this.scoreWriter = new ScoreWriterImpl();
     }
 
     @Override
@@ -151,7 +155,12 @@ public class SinglePlayerController extends AbstractGameController {
             this.ccflagsP1++;
         }
         tile.setflag();
-        this.lbFlagP1.setText("F:" + this.ccflagsP1);
+        if(this.ccflagsP1 >= 0 && this.ccflagsP1 < 10) {
+            this.lbFlagP1.setText("FLAGS:0" + this.ccflagsP1);
+        } else {
+            this.lbFlagP1.setText("FLAGS:" + this.ccflagsP1);
+        }
+
     }
 
     @Override
@@ -189,7 +198,12 @@ public class SinglePlayerController extends AbstractGameController {
 
     @Override
     public void writePlayer(GameStatus status) {
-        this.supervisorP1.writePlayer(status);
+        if (status.equals(GameStatus.LOST)) {
+            this.firstplayer.ifPresent(Player::lost);
+        } else {
+            this.firstplayer.ifPresent(player -> player.won(this.timer.getValue()));
+        }
+        this.firstplayer.ifPresent(player -> this.scoreWriter.write(player));
     }
 
     @Override
