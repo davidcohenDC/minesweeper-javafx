@@ -40,8 +40,6 @@ public final class Converter {
         } catch (IOException e) {
             if (Files.exists(path)) {
                 System.err.println("The lines from the file were not transfered correctly.");
-            } else {
-                System.err.println("The path: " + path.toString() + " does not exist.");
             }
         }
         return List.of();
