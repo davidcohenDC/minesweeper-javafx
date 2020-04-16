@@ -45,12 +45,14 @@ public interface Box {
 
     /**
      * Set the number of near bombs.
+     * 
      * @param bombNear
      */
     void setBombNear(int bombNear);
 
     /**
      * Get the number of near bombs.
+     * 
      * @return the number of near bombs
      */
     int getBombNear();
