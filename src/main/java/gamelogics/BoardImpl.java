@@ -75,15 +75,16 @@ public class BoardImpl implements Board {
             boxString.append("\n\t");
         }
 
-        return "width=" + width
-                + ", height=" + height
-                + ", board=" + boxString;
+        return "width=" + width + ", height=" + height + ", board=" + boxString;
     }
 
     /**
      * Control if 2 coordinates are near without consider the diagonal.
-     * @param pos1 first position to compare
-     * @param pos2 second position to compare
+     * 
+     * @param pos1
+     *                 first position to compare
+     * @param pos2
+     *                 second position to compare
      * @return true if 2 coordinates are near, false otherwise
      */
     private boolean isNear(final Pair<Integer, Integer> pos1, final Pair<Integer, Integer> pos2) {

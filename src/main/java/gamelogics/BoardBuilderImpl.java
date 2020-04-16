@@ -48,7 +48,9 @@ public class BoardBuilderImpl implements BoardBuilder {
 
     /**
      * Count the bomb near a box.
-     * @param selectedBox the box to search near bombs
+     * 
+     * @param selectedBox
+     *                        the box to search near bombs
      * @return the number of bombs near a box
      */
     private int getBombNear(final Box selectedBox) {
@@ -65,8 +67,11 @@ public class BoardBuilderImpl implements BoardBuilder {
 
     /**
      * Control if 2 coordinates are near considering also the diagonal.
-     * @param pos1 first position to compare
-     * @param pos2 second position to compare
+     * 
+     * @param pos1
+     *                 first position to compare
+     * @param pos2
+     *                 second position to compare
      * @return true if 2 coordinates are near, false otherwise
      */
     private boolean isNear(final Pair<Integer, Integer> pos1, final Pair<Integer, Integer> pos2) {
