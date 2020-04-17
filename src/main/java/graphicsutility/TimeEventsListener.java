@@ -1,4 +1,4 @@
-package graphics;
+package graphicsutility;
 
 import java.util.EventListener;
 

@@ -212,7 +212,7 @@ public class SinglePlayerController extends AbstractGameController {
         this.secondplayer = secondplayer;
     }
 
-    void endTimer() {
+    public void endTimer() {
         this.timerOver= true;
         endGame(GameStatus.LOST);
     }

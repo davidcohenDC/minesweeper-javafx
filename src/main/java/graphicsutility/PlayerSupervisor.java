@@ -1,4 +1,4 @@
-package graphics;
+package graphicsutility;
 
 import javafx.scene.control.Label;
 

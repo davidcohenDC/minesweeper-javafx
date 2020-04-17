@@ -25,6 +25,8 @@ public interface GameController {
 
     void endGame(final GameStatus gameStatus);
 
+    void endTimer();
+
     void writePlayer(final GameStatus status);
 
     void closeElements();

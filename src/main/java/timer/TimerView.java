@@ -1,6 +1,6 @@
 package timer;
 
-import graphics.TimeEventsListener;
+import graphicsutility.TimeEventsListener;
 
 /**
  * A Class to show a {@link Timer} on a Label in real time.

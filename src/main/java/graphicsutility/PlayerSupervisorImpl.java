@@ -1,11 +1,8 @@
-package graphics;
+package graphicsutility;
 
-import graphicsutility.AlertHandler;
-import graphicsutility.AlertHandlerImpl;
 import javafx.scene.control.Label;
 import scoresystem.Player;
-import scoresystem.ScoreWriter;
-import scoresystem.ScoreWriterImpl;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
