@@ -1,0 +1,67 @@
+#gridPane {
+              -fx-background-color:  linear-gradient(lightgray, gray);
+              -fx-border-color: white;
+              -fx-border-radius: 20;
+              -fx-padding: 10 10 10 10;
+              -fx-background-radius: 20;
+             }
+ #borderPane {
+ 			-fx-background-color:  linear-gradient(gray, DimGrey );
+ 			}
+ #button {
+ 		-fx-background-radius: 30, 30, 29, 28;
+ 		-fx-padding: 3px 10px 3px 10px;
+                -fx-background-color: linear-gradient(#000000, #1a1a1a );
+                -fx-text-fill: white;
+ 		}
+ #text {
+ 		 -fx-fill:  linear-gradient(#000000 , #1a1a1a);
+ 		}
+ #txt {
+ 		 -fx-fill:  linear-gradient(black , black);
+ 		}
+
+
+
+
+
+ #tile {
+ 		-fx-background-color: linear-gradient(#000000, #1a1a1a );
+ 		}
+ #tile:hover {
+         -fx-background-color: linear-gradient(#000000, #2e2e2e );
+         }
+ #tile:pressed {
+                -fx-scale-y: 0.9;
+                -fx-scale-x: 0.9;
+         }
+ .button:focused {
+     -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+ }
+
+
+ #btnsong {
+ 		-fx-padding: 3px 10px 3px 10px;
+         -fx-background-color:  gray;
+         -fx-background-color: linear-gradient(#000000, #1a1a1a );
+ }
+ #btnsong:hover {
+         -fx-background-color: linear-gradient(#000000, #2e2e2e );
+ }
+
+ #btnAction {
+ 		-fx-background-radius: 30, 30, 29, 28;
+ 		-fx-padding: 3px 10px 3px 10px;
+ 		-fx-background-color: linear-gradient(#000000, #1a1a1a );
+ }
+ #btnAction:hover {
+         -fx-background-color: linear-gradient(#000000, #2e2e2e );
+ }
+ #lbFlags {
+          -fx-background-color: transparent;
+ }
+
+ #lbMines {
+      -fx-background-color: transparent;
+ }
