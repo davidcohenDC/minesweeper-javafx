@@ -12,7 +12,7 @@ public class BoxImpl implements Box {
     private int bombNear;
 
     /**
-     * The box entity.
+     * The box entity with default withBomb parameter.
      * 
      * @param coord
      *                  The coordinates of the box
@@ -25,6 +25,15 @@ public class BoxImpl implements Box {
         this.bombNear = 0;
     }
 
+    /**
+     * The box entity.
+     * 
+     * @param coord
+     *                     The coordinates of the box
+     * @param withBomb
+     *                     A boolean that represent the bomb (true if this box contains
+     *                     a bomb, false otherwise)
+     */
     public BoxImpl(final Pair<Integer, Integer> coord, final boolean withBomb) {
         this.coord = coord;
         this.withBomb = withBomb;
