@@ -59,8 +59,8 @@ class TestTimer {
         }
 
         // timer should not go beyond its limit
-        assertFalse(t.isRunning());
         assertEquals(0, t.getValue());
+        assertFalse(t.isRunning());
     }
 
     @Test

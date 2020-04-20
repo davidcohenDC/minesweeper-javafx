@@ -47,6 +47,7 @@ public interface Box {
      * Set the number of near bombs.
      * 
      * @param bombNear
+     *                     The number of near bomb
      */
     void setBombNear(int bombNear);
 

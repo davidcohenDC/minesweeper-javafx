@@ -11,6 +11,12 @@ public class BoxImpl implements Box {
     private boolean clicked;
     private int bombNear;
 
+    /**
+     * Setup a box with default withBomb parameter.
+     * 
+     * @param coord
+     *                  The coordinates of the box
+     */
     public BoxImpl(final Pair<Integer, Integer> coord) {
         this.coord = coord;
         this.withBomb = false;
@@ -19,6 +25,15 @@ public class BoxImpl implements Box {
         this.bombNear = 0;
     }
 
+    /**
+     * Setup a box.
+     * 
+     * @param coord
+     *                     The coordinates of the box
+     * @param withBomb
+     *                     A boolean that represent the bomb (true if this box contains
+     *                     a bomb, false otherwise)
+     */
     public BoxImpl(final Pair<Integer, Integer> coord, final boolean withBomb) {
         this.coord = coord;
         this.withBomb = withBomb;

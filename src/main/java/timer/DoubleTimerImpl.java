@@ -14,7 +14,7 @@ public class DoubleTimerImpl implements DoubleTimer {
      * @param firstTimer
      *                        The Timer to assign to player1.
      * @param secondTimer
-     *                        The timer to assign to player2.
+     *                        The Timer to assign to player2.
      */
     protected DoubleTimerImpl(final Timer firstTimer, final Timer secondTimer) {
         this.player1Timer = firstTimer;

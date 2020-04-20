@@ -19,7 +19,7 @@ public final class Converter {
     }
 
     /**
-     * Converts a File in a List of its Lines.
+     * Converts a File in a List of strings containing its Lines.
      * 
      * @param path
      *                      The Path of the file to convert.
