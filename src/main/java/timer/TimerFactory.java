@@ -1,7 +1,7 @@
 package timer;
 
 /**
- * Factory to create the {@link Timer} for each {@link Modality}.
+ * Factory to create right the {@link Timer} for each {@link Modality}.
  */
 public interface TimerFactory {
 
@@ -25,7 +25,7 @@ public interface TimerFactory {
     /**
      * Creates two Timers for the "1 vs 1" mode of the game.
      * 
-     * @return Returns a {@link DoubleTimer} to handle the two Timers.
+     * @return Returns a {@link DoubleTimer} to handle two Standard Timers.
      */
     DoubleTimer createTimersFor1vs1Mode();
 }

@@ -13,10 +13,6 @@ import javafx.util.Duration;
  */
 public class TimerViewImpl implements TimerView {
 
-    /**
-     * This is the refresh rate of the displayed value, expressed in
-     * <i>milliseconds</i>.
-     */
     private static final int UPDATE_RATE = 1_000;
 
     private final Timer timer;
