@@ -11,6 +11,12 @@ public class BoxImpl implements Box {
     private boolean clicked;
     private int bombNear;
 
+    /**
+     * The box entity.
+     * 
+     * @param coord
+     *                  The coordinates of the box
+     */
     public BoxImpl(final Pair<Integer, Integer> coord) {
         this.coord = coord;
         this.withBomb = false;

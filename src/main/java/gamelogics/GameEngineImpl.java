@@ -8,6 +8,16 @@ public class GameEngineImpl implements GameEngine {
     private final Board board;
     private boolean lost;
 
+    /**
+     * The game engine.
+     * 
+     * @param width
+     *                   The width of the board
+     * @param height
+     *                   The height of the board
+     * @param bombs
+     *                   The number of bombs in the board
+     */
     public GameEngineImpl(final int width, final int height, final int bombs) {
         this.lost = false;
 

@@ -16,6 +16,16 @@ public class BoardImpl implements Board {
     private final int height;
     private final Set<Box> boxSet;
 
+    /**
+     * The board entity.
+     * 
+     * @param width
+     *                   The width of the board
+     * @param height
+     *                   The height of the board
+     * @param boxSet
+     *                   A set of box of the board
+     */
     public BoardImpl(final int width, final int height, final Set<Box> boxSet) {
         this.boxSet = boxSet;
         this.width = width;

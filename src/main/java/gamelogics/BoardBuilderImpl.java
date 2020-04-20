@@ -63,5 +63,4 @@ public class BoardBuilderImpl implements BoardBuilder {
         return count;
     }
 
-
 }

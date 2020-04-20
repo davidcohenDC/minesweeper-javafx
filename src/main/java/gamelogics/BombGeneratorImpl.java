@@ -12,6 +12,16 @@ public class BombGeneratorImpl implements BombGenerator {
     private int head = -1;
     private final List<Boolean> bombList = new LinkedList<>();
 
+    /**
+     * The bombs generator.
+     * 
+     * @param width
+     *                   The width of the board
+     * @param height
+     *                   The height of the board
+     * @param bombs
+     *                   The number of bombs in the board
+     */
     public BombGeneratorImpl(final int width, final int height, final int bombs) {
         final int size = width * height;
         for (int i = 0; i < bombs; i++) {
