@@ -9,11 +9,16 @@ public class DoubleTimerImpl implements DoubleTimer {
     private final Timer player2Timer;
 
     /**
-     * Sets up the Timers as Standard Timers.
+     * Sets up the Timers.
+     * 
+     * @param firstTimer
+     *                        The Timer to assign to player1.
+     * @param secondTimer
+     *                        The timer to assign to player2.
      */
-    protected DoubleTimerImpl() {
-        this.player1Timer = new TimerImpl(0, Verse.UP);
-        this.player2Timer = new TimerImpl(0, Verse.UP);
+    protected DoubleTimerImpl(final Timer firstTimer, final Timer secondTimer) {
+        this.player1Timer = firstTimer;
+        this.player2Timer = secondTimer;
     }
 
     @Override

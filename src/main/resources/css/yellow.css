@@ -11,14 +11,15 @@
 #button {
 		-fx-background-radius: 30, 30, 29, 28;
 		-fx-padding: 3px 10px 3px 10px;
-		-fx-background-color: linear-gradient(#ff00ff, #ff1a1a );
+		-fx-background-color: linear-gradient(#ffea00, #ffbf00 );
 		}	
 #text {
-		 -fx-fill:  linear-gradient(#ff00ff , #ff1a1a);
+		 -fx-fill:  linear-gradient(#ffea00 , #ffbf00);
 		}
 #txt {
 		 -fx-fill:  linear-gradient(black , black);
 		}
+
 .dialog-pane {
     -fx-background-color: linear-gradient(lightgray, gray );
     -fx-font-weight: bold;
@@ -26,7 +27,7 @@
 
 
 #tile {
-		-fx-background-color: linear-gradient(#ff00ff, #ff1a1a );
+		-fx-background-color: linear-gradient(#ffea00, #ffbf00 );
 		-fx-font-size: 20px;
 		-fx-font-color: black;
 		}
@@ -35,37 +36,37 @@
 
 		-fx-background-radius: 30, 30, 29, 28;
 		-fx-padding: 3px 10px 3px 10px;
-		-fx-background-color: linear-gradient(#ff00ff, #ff1a1a );
+		-fx-background-color: linear-gradient(#ffea00, #ffbf00 );
         }
 
 #btnBackHome:hover {
-        -fx-background-color: linear-gradient(#ff00ff, #4554ba );
+        -fx-background-color: linear-gradient(#ffea00, #4554ba );
         }
 
 #btnSong {
 
         -fx-background-radius: 30, 30, 29, 28;
         -fx-padding: 3px 10px 3px 10px;
-        -fx-background-color: linear-gradient(#ff00ff, #ff1a1a );
+        -fx-background-color: linear-gradient(#ffea00, #ffbf00 );
         }
 
 #btnGiveUp {
 
         -fx-background-radius: 30, 30, 29, 28;
         -fx-padding: 3px 10px 3px 10px;
-        -fx-background-color: linear-gradient(#ff00ff, #ff1a1a );
+        -fx-background-color: linear-gradient(#ffea00, #ffbf00 );
         }
 
 #btnGiveUp:hover {
-        -fx-background-color: linear-gradient(#ff00ff, #4554ba );
+        -fx-background-color: linear-gradient(#ffea00, #4554ba );
         }
 
 #btnSong:hover {
-        -fx-background-color: linear-gradient(#ff00ff, #4554ba );
+        -fx-background-color: linear-gradient(#ffea00, #4554ba );
         }
 
 #tile:hover {
-        -fx-background-color: linear-gradient(#ff00ff, #4554ba );
+        -fx-background-color: linear-gradient(#ffea00, #4554ba );
         }
 #tile:pressed {
                -fx-scale-y: 0.9;

@@ -30,6 +30,8 @@ public final class Main extends Application {
         stage.setTitle("MINESWEEPER");
         stage.setScene(scene);
         stage.show();
+        stage.setMinWidth(stage.getWidth());
+        stage.setMinHeight(stage.getHeight());
     }
 
     /**

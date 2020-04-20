@@ -51,5 +51,10 @@ public interface RWSettings {
      */
     String getCss();
 
+    /**
+     * @return the click's sound saved.
+     */
+    String getClick();
+
 
 }

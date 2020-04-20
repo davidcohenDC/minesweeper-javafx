@@ -5,8 +5,6 @@ import java.util.EnumMap;
 import java.util.Optional;
 
 import controlutility.Modality;
-//import controlutility.RWSettings;
-//import controlutility.RWSettingsImpl;
 import controlutility.AlertStyle;
 import controlutility.AlertStyleImpl;
 import controlutility.Difficulty;
@@ -39,7 +37,6 @@ public final class PlayGameController extends BackHomeController implements Play
     private Optional<Difficulty> difficulty;
     private boolean personalized; // abilita/ disabilita gli spinner
     private Alert alert;
-    //private RWSettings rwSett;
     private int width;
     private int height;
     private int mines;
@@ -76,7 +73,6 @@ public final class PlayGameController extends BackHomeController implements Play
         this.modality = Optional.empty();
         this.difficulty = Optional.empty();
         this.enableTextField();
-        //this.rwSett = new RWSettingsImpl();
         final AlertStyle alStyle = new AlertStyleImpl();
         this.alert = new Alert(AlertType.ERROR);
         alStyle.setStyle(alert);
@@ -277,15 +273,10 @@ public final class PlayGameController extends BackHomeController implements Play
     @Override
     public void btPlay() {
         if (this.modality.equals(Optional.empty()) || this.difficulty.equals(Optional.empty())) {
-            System.out.println("non puoi giocare");
             alert.setContentText("You haven't select the modality or the difficulty");
             alert.showAndWait();
         } else {
             if (this.checkRange()) {
-                System.out.println("modalità " + modality.get() + " difficoltà " + difficulty.get());
-                ///System.out.println("mines: " + this.mines);
-                //System.out.println("width: " + this.width);
-                //System.out.println("height: " + this.height);
                 try {
                     final Stage stage = (Stage) this.rbtStd.getScene().getWindow();
                     new GraphicsImpl(this.modality.get(), this.difficulty.get(), this.mines, this.height, this.width, stage);

@@ -41,7 +41,8 @@ public final class SettingsController extends BackHomeController implements Sett
     private final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
             + "flags" + SEPARATOR;
     private final String urlSound = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "sound" + SEPARATOR;
-    private final List<String> css = new ArrayList<>(Arrays.asList("orange.css", "blue.css", "green.css", "pink.css"));
+    private final List<String> css = new ArrayList<>(Arrays.asList("orange.css", "blue.css", "green.css", "pink.css", "white.css", 
+            "yellow.css", "red.css", "black.css"));
     private RWSettings rwSett;
     private Clip clip;
 

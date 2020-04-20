@@ -1,0 +1,83 @@
+#gridPane {
+              -fx-background-color:  linear-gradient(lightgray, gray);
+              -fx-border-color: white;
+              -fx-border-radius: 20;
+              -fx-padding: 10 10 10 10;
+              -fx-background-radius: 20;
+             }
+ #borderPane {
+ 			-fx-background-color:  linear-gradient(gray, DimGrey );
+ 			}
+ #button {
+ 		-fx-background-radius: 30, 30, 29, 28;
+ 		-fx-padding: 3px 10px 3px 10px;
+ 		-fx-background-color: linear-gradient(#ff0000, #d40000 );
+		 -fx-text-fill: white;
+ 		}
+ #text {
+ 		 -fx-fill:  linear-gradient(#ff0000 , #d40000);
+ 		}
+ #txt {
+ 		 -fx-fill:  linear-gradient(black , black);
+ 		}
+
+
+
+.dialog-pane {
+    -fx-background-color: linear-gradient(lightgray, gray );
+    -fx-font-weight: bold;
+}
+
+
+#tile {
+		-fx-background-color: linear-gradient(#ff0000, #d40000 );
+		-fx-font-size: 20px;
+		-fx-font-color: black;
+		}
+
+#btnBackHome {
+
+		-fx-background-radius: 30, 30, 29, 28;
+		-fx-padding: 3px 10px 3px 10px;
+		-fx-background-color: linear-gradient(#ff0000, #d40000 );
+        }
+
+#btnBackHome:hover {
+        -fx-background-color: linear-gradient(#ff0000, #4554ba );
+        }
+
+#btnSong {
+
+        -fx-background-radius: 30, 30, 29, 28;
+        -fx-padding: 3px 10px 3px 10px;
+        -fx-background-color: linear-gradient(#ff0000, #d40000 );
+        }
+
+#btnGiveUp {
+
+        -fx-background-radius: 30, 30, 29, 28;
+        -fx-padding: 3px 10px 3px 10px;
+        -fx-background-color: linear-gradient(#ff0000, #d40000 );
+        }
+
+#btnGiveUp:hover {
+        -fx-background-color: linear-gradient(#ff0000, #4554ba );
+        }
+
+#btnSong:hover {
+        -fx-background-color: linear-gradient(#ff0000, #4554ba );
+        }
+
+#tile:hover {
+        -fx-background-color: linear-gradient(#ff0000, #4554ba );
+        }
+#tile:pressed {
+               -fx-scale-y: 0.9;
+               -fx-scale-x: 0.9;
+        }
+
+.button:focused {
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+
+}

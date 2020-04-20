@@ -70,6 +70,7 @@ public class RWSettingsImpl implements RWSettings {
         return this.lines.get(3);
     }
 
+    @Override
     public final String getClick() {
         return this.lines.get(4);
     }

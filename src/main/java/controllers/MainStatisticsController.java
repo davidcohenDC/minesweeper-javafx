@@ -41,19 +41,13 @@ public class MainStatisticsController extends BackHomeController implements Main
         final double oldW = stage.getWidth();
         final StatisticsControllerInterface statController = new StatisticsController(modality, buttonText);
         loader.setController(statController);
-        if (stage.isMaximized()) {
-            final Scene scene = new Scene(loader.load(), oldW, oldH);
-            scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
-            stage.setScene(scene);
-        } else {
-            final Scene scene = new Scene(loader.load());
-            scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
-            stage.setScene(scene);
-            stage.sizeToScene();
-            if (oldH > stage.getHeight() && oldW > stage.getWidth()) {
-                stage.setWidth(oldW);
-                stage.setHeight(oldH);
-            }
+        final Scene scene = new Scene(loader.load());
+        scene.getStylesheets().add(ClassLoader.getSystemResource("css/" + rwSett.getCss()).toExternalForm());
+        stage.setScene(scene);
+        stage.sizeToScene();
+        if (oldH > stage.getHeight() && oldW > stage.getWidth()) {
+            stage.setWidth(oldW);
+            stage.setHeight(oldH);
         }
     }
 
