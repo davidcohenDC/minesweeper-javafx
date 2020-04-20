@@ -8,8 +8,6 @@ import java.util.Set;
  */
 public class BoardBuilderImpl implements BoardBuilder {
 
-    private static final int NEAR_DISTANCE = 1;
-
     private int width;
     private int height;
     private final Set<Box> boxSet = new HashSet<>();
@@ -57,7 +55,7 @@ public class BoardBuilderImpl implements BoardBuilder {
         final Pair<Integer, Integer> selectedBoxPos = selectedBox.getPosition();
         int count = 0;
         for (final Box box : this.boxSet) {
-            if (this.isNear(selectedBoxPos, box.getPosition()) && box.containsBomb()) {
+            if (BoardImpl.isNear(selectedBoxPos, box.getPosition()) && box.containsBomb()) {
                 count++;
             }
         }
@@ -65,17 +63,5 @@ public class BoardBuilderImpl implements BoardBuilder {
         return count;
     }
 
-    /**
-     * Control if 2 coordinates are near considering also the diagonal.
-     * 
-     * @param pos1
-     *                 first position to compare
-     * @param pos2
-     *                 second position to compare
-     * @return true if 2 coordinates are near, false otherwise
-     */
-    private boolean isNear(final Pair<Integer, Integer> pos1, final Pair<Integer, Integer> pos2) {
-        return !pos1.equals(pos2) && Math.abs(pos1.getX() - pos2.getX()) <= NEAR_DISTANCE
-                && Math.abs(pos1.getY() - pos2.getY()) <= NEAR_DISTANCE;
-    }
+
 }

@@ -47,7 +47,7 @@ public class BoardImpl implements Board {
         final Set<Box> set = new HashSet<>();
         final Pair<Integer, Integer> selectedBoxPos = selectedBox.getPosition();
         for (final Box box : this.boxSet) {
-            if (this.isNear(selectedBoxPos, box.getPosition())) {
+            if (isNear(selectedBoxPos, box.getPosition())) {
                 set.add(box);
             }
         }
@@ -87,7 +87,7 @@ public class BoardImpl implements Board {
      *                 second position to compare
      * @return true if 2 coordinates are near, false otherwise
      */
-    private boolean isNear(final Pair<Integer, Integer> pos1, final Pair<Integer, Integer> pos2) {
+    public static boolean isNear(final Pair<Integer, Integer> pos1, final Pair<Integer, Integer> pos2) {
         return !pos1.equals(pos2) && Math.abs(pos1.getX() - pos2.getX()) <= NEAR_DISTANCE
                 && Math.abs(pos1.getY() - pos2.getY()) <= NEAR_DISTANCE;
     }
