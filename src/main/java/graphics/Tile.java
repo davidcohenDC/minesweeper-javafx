@@ -1,4 +1,4 @@
-package graphicsutility;
+package graphics;
 
 
 import java.io.File;
@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
+import graphicsutility.NodeEffect;
+import graphicsutility.NodeEffectImpl;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

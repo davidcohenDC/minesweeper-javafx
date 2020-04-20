@@ -3,7 +3,6 @@ package graphics;
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
 import gamelogics.*;
-import graphicsutility.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,15 +25,14 @@ public abstract class AbstractGameController implements GameController{
     @FXML
     private AnchorPane rootPane;
 
-    protected AbstractGameController(final int height, final int width, final int mines, final Timer timer) {
+    public AbstractGameController(final int height, final int width, final int mines, final Timer timer) {
         this.height = height;
         this.mines = mines;
         this.width = width;
         this.timer = timer;
     }
 
-    @Override
-    public void setClickHandler(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap) {
+    protected void setClickHandler(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap) {
         for (final Box box : engine.getBoard()) {
             final Tile tmpTile = tilesMap.get(box.getPosition());
             tmpTile.setOnMouseClicked(e -> {
@@ -50,8 +48,8 @@ public abstract class AbstractGameController implements GameController{
         }
     }
 
-    @Override
-    public void refreshBoard(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap) {
+
+    protected void refreshBoard(final GameEngine engine, final Map<Pair<Integer, Integer>, Tile> tilesMap) {
         for (final Box box : engine.getBoard()) {
             final Tile tmpTile = tilesMap.get(box.getPosition());
             if (box.isClicked()) {
@@ -73,8 +71,8 @@ public abstract class AbstractGameController implements GameController{
         }
     }
 
-    @Override
-    public void backHome() throws IOException{
+
+    protected void backHome() throws IOException{
         final RWSettings rwSett = new RWSettingsImpl();
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/playGame.fxml"));
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
@@ -107,16 +105,16 @@ public abstract class AbstractGameController implements GameController{
     public abstract void rightClickHandler(final Tile tile, final int x, final int y, final GameEngine engine);
 
     @Override
-    public abstract void initialize() throws IOException;
-
-    @Override
-    public abstract void setButtons();
-
-    @Override
     public abstract void leftClickHandler(final Tile tile, final int x, final int y);
 
     @Override
+    public abstract void initialize() throws IOException;
+
+    @Override
     public abstract void endGame(final GameStatus gameStatus);
+
+    @Override
+    public abstract void setButtons();
 
     @Override
     public abstract void closeElements();

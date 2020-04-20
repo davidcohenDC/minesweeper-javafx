@@ -238,6 +238,7 @@ public class MultiplayerController extends AbstractGameController{
             writePlayer(gameStatus);
             alert.lost(this.supervisorP1.isMaster() ? this.firstplayer : this.secondplayer);
         } else if (gameStatus.equals(GameStatus.WON)) {
+            writePlayer(gameStatus);
             alert.won(this.supervisorP1.isMaster() ? this.firstplayer : this.secondplayer);
         }
         try {

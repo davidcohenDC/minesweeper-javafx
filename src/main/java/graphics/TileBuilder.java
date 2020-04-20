@@ -1,4 +1,4 @@
-package graphicsutility;
+package graphics;
 
 import gamelogics.Pair;
 import javafx.scene.layout.GridPane;
