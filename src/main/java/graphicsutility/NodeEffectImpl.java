@@ -1,5 +1,6 @@
 package graphicsutility;
 
+import graphics.Tile;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;

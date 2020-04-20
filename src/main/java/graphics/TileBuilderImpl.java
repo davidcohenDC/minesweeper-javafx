@@ -1,6 +1,8 @@
-package graphicsutility;
+package graphics;
 
 import gamelogics.Pair;
+import graphics.Tile;
+import graphics.TileBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javax.sound.sampled.LineUnavailableException;

@@ -72,7 +72,13 @@ public class SinglePlayerController extends AbstractGameController {
 
     @Override
     public void initialize() throws IOException {
-        Implementations();
+        this.playermap = new HashMap<>();
+        this.timerView = new TimerViewImpl(timer, lbTimerP1);
+        this.alert = new AlertHandlerImpl();
+        this.music = new SongAgentImpl(new RWSettingsImpl());
+        this.btnAction = new ButtonReactionimpl(this.rootPane);
+        this.supervisorP1 = new PlayerSupervisorImpl(this.firstplayer,true,this.playermap);
+        this.scoreWriter = new ScoreWriterImpl();
 
         lbFlagP1.setText("FLAGS:" + this.mines);
         lbMinesP1.setText("MINE:" + this.mines);
@@ -93,16 +99,6 @@ public class SinglePlayerController extends AbstractGameController {
 
         setButtons();
         setClickHandler(this.engine,this.tilesMap);
-    }
-
-    private void Implementations() throws IOException{
-        this.playermap = new HashMap<>();
-        this.timerView = new TimerViewImpl(timer, lbTimerP1);
-        this.alert = new AlertHandlerImpl();
-        this.music = new SongAgentImpl(new RWSettingsImpl());
-        this.btnAction = new ButtonReactionimpl(this.rootPane);
-        this.supervisorP1 = new PlayerSupervisorImpl(this.firstplayer,true,this.playermap);
-        this.scoreWriter = new ScoreWriterImpl();
     }
 
     @Override
