@@ -120,11 +120,6 @@ public class TileImpl extends Button implements Tile{
 
     @Override
     public final void setValue(final int n) {
-        if (n == 0) {
-            audioBigClick();
-        } else {
-            audioClick();
-        }
         this.value = n;
     }
 

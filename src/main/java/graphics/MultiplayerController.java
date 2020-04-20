@@ -195,6 +195,11 @@ public class MultiplayerController extends AbstractGameController{
                 endGame(this.engineP2.getGameStatus());
             }
         }
+        if (tile.getValue() == 0) {
+            tile.audioBigClick();
+        } else {
+            tile.audioClick();
+        }
 
         if(this.clickCount == MAX_CLICK) {
             switchPane();
