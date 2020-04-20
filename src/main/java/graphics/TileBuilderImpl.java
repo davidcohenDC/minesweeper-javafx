@@ -36,7 +36,7 @@ public class TileBuilderImpl implements TileBuilder {
     public Map<Pair<Integer, Integer>, Tile> build() {
         for(int r = 0; r < this.height;r++) {
             for(int c = 0; c < this.width;c++) {
-                this.grid.add(createTile(c, r), r, c);
+                this.grid.add(createTile(c, r), c, r);
             }
         }
         this.grid.setAlignment(Pos.CENTER);
