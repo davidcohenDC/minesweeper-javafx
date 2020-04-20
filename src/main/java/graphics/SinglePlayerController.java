@@ -82,6 +82,7 @@ public class SinglePlayerController extends AbstractGameController {
 
         lbFlagP1.setText("FLAGS:" + this.mines);
         lbMinesP1.setText("MINE:" + this.mines);
+        this.timerView.startDisplaying();
         this.supervisorP1.view(lbNameP1);
         lbTimerP1.setText(String.valueOf(timer.getValue()));
         btnSong.setText("MUTE");
@@ -124,7 +125,6 @@ public class SinglePlayerController extends AbstractGameController {
     public void leftClickHandler(final Tile tile, final int x, final int y) {
         if (!this.timer.isRunning()) {
             timerView.setTimeEventListener(new TimeEventsListenerImpl(this));
-            timerView.startDisplaying();
             timer.start();
         }
         if (!tile.isFlagged()) {

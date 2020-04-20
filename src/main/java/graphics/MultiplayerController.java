@@ -103,9 +103,11 @@ public class MultiplayerController extends AbstractGameController{
         this.lbMinesP1.setText("M:" + this.mines);
         this.lbMinesP1.setText("M:" + this.mines);
         this.lbFlagP1.setText("F:" + this.mines);
+        timerViewP1.startDisplaying();
         this.supervisorP1.view(this.lbNameP1);
         this.lbTimerP1.setText(String.valueOf(this.timer.getPlayer1Timer().getValue()));
         this.lbFlagP2.setText("F:" + this.mines);
+        timerViewP2.startDisplaying();
         supervisorP2.view(this.lbNameP2);
         this.lbTimerP2.setText(String.valueOf(this.timer.getPlayer2Timer().getValue()));
 
