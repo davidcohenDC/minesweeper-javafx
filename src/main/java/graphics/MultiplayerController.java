@@ -34,8 +34,8 @@ public class MultiplayerController extends AbstractGameController{
     private final GameEngine engineP2;
     private final DoubleTimer timer;
     private static final int MAX_CLICK = 1;
-    private Map<Pair<Integer, Integer>, Tile> tilesMap1;
-    private Map<Pair<Integer, Integer>, Tile> tilesMap2;
+    private Map<Pair<Integer, Integer>, TileImpl> tilesMap1;
+    private Map<Pair<Integer, Integer>, TileImpl> tilesMap2;
     private HashMap<PlayerSupervisor,Boolean> playersMap = new HashMap<>();
     private Optional<Player> firstplayer;
     private Optional<Player> secondplayer;
@@ -171,12 +171,11 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     @Override
-    public void leftClickHandler(final Tile tile, final int x, final int y){
+    public void leftClickHandler(final TileImpl tile, final int x, final int y){
         this.clickCount++;
         if (!this.timer.getPlayer2Timer().isRunning()) {
             this.timer.start();
         }
-        tile.clipAudioClick();
         if(this.supervisorP1.isMaster()) {
             if (!tile.isFlagged()) {
                 this.engineP1.hit(new Pair<>(x,y));
@@ -204,15 +203,14 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     @Override
-    public void rightClickHandler(final Tile tile, final int x, final int y,final GameEngine engine) {
-        engine.setFlag(new Pair<>(x, y));
+    public void rightClickHandler(final TileImpl tile, final int x, final int y) {
         if (this.supervisorP1.isMaster()) {
             if (!tile.isFlagged()) {
                 this.ccflagsP1--;
             } else {
                 this.ccflagsP1++;
             }
-            tile.setflag();
+            tile.setFlag();
             if(this.ccflagsP1 >= 0 && this.ccflagsP1 < 10) {
                 this.lbFlagP1.setText("F:0" + this.ccflagsP1);
             } else {
@@ -224,7 +222,7 @@ public class MultiplayerController extends AbstractGameController{
             } else {
                 this.ccflagsP2++;
             }
-            tile.setflag();
+            tile.setFlag();
             if((this.ccflagsP2 >= 0) && (this.ccflagsP2 < 10)) {
                 this.lbFlagP2.setText("F:0" + this.ccflagsP2);
             } else {
@@ -234,13 +232,13 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     @Override
-    public void endGame(GameStatus gameStatus){
+    public void endGame(GameStatus status){
         closeElements();
-        if (gameStatus.equals(GameStatus.LOST)) {
-            writePlayer(gameStatus);
+        if (status.equals(GameStatus.LOST)) {
+            writePlayer(status);
             alert.lost(this.supervisorP1.isMaster() ? this.firstplayer : this.secondplayer);
-        } else if (gameStatus.equals(GameStatus.WON)) {
-            writePlayer(gameStatus);
+        } else if (status.equals(GameStatus.WON)) {
+            writePlayer(status);
             alert.won(this.supervisorP1.isMaster() ? this.firstplayer : this.secondplayer);
         }
         try {
@@ -294,6 +292,10 @@ public class MultiplayerController extends AbstractGameController{
         music.close();
     }
 
+    /**
+     * Stop the elements of the Game
+     *
+     */
     private void stopElements() {
         if(supervisorP1.isMaster()){
             this.timer.getPlayer1Timer().stop();
@@ -304,6 +306,10 @@ public class MultiplayerController extends AbstractGameController{
 
     }
 
+    /**
+     * Resume the elements of the Game
+     *
+     */
     private void resumeElements() {
         if(supervisorP1.isMaster()){
             this.timer.getPlayer1Timer().start();
@@ -313,6 +319,10 @@ public class MultiplayerController extends AbstractGameController{
         this.music.play();
     }
 
+    /**
+     * Supported with {@link PlayerSupervisor} switch the Pane
+     *
+     */
     private void switchPane() {
         if(this.supervisorP1.isMaster()) {
             this.firstPlayerPane.setDisable(true);

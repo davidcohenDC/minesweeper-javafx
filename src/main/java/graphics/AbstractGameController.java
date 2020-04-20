@@ -1,5 +1,6 @@
 package graphics;
 
+import controllers.PlayGameInterface;
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
 import gamelogics.*;
@@ -14,6 +15,9 @@ import timer.Timer;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * The Abstract Class of {@link GameController}
+ */
 public abstract class AbstractGameController implements GameController{
     private final int height;
     private final int width;
@@ -25,6 +29,7 @@ public abstract class AbstractGameController implements GameController{
     @FXML
     private AnchorPane rootPane;
 
+
     public AbstractGameController(final int height, final int width, final int mines, final Timer timer) {
         this.height = height;
         this.mines = mines;
@@ -32,46 +37,69 @@ public abstract class AbstractGameController implements GameController{
         this.timer = timer;
     }
 
-    protected void setClickHandler(final GameEngine engine,final Map<Pair<Integer, Integer>,Tile>tilesMap) {
+    /**
+     * set the functions to handle when user press left/right click in the {@link GameController}
+     *
+     * @param engine
+     *                  the {@link GameEngine} for handle it
+     * @param tilesMap
+     *                  the Map of {@link TileImpl}
+     *
+     */
+    protected void setClickHandler(final GameEngine engine,final Map<Pair<Integer, Integer>, TileImpl>tilesMap) {
         for (final Box box : engine.getBoard()) {
-            final Tile tmpTile = tilesMap.get(box.getPosition());
+            final TileImpl tmpTile = tilesMap.get(box.getPosition());
             tmpTile.setOnMouseClicked(e -> {
                 switch (e.getButton()) {
                     case PRIMARY:
                         leftClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
                         break;
                     case SECONDARY:
-                        rightClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY(), engine);
+                        engine.setFlag(new Pair<>(tmpTile.getX(),tmpTile.getY()));
+                        rightClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
                         break;
                 }
             });
         }
     }
 
-
-    protected void refreshBoard(final GameEngine engine, final Map<Pair<Integer, Integer>, Tile> tilesMap) {
+    /**
+     * Update the {@link Board} and the Map of {@link Tile} associated
+     *
+     * @param engine
+     *                  the {@link GameEngine} for handle it and check the status
+     * @param tilesMap
+     *                  the Map of {@link Tile} for handle each of them
+     *
+     */
+    protected void refreshBoard(final GameEngine engine, final Map<Pair<Integer, Integer>, TileImpl> tilesMap) {
         for (final Box box : engine.getBoard()) {
-            final Tile tmpTile = tilesMap.get(box.getPosition());
+            final TileImpl tmpTile = tilesMap.get(box.getPosition());
             if (box.isClicked()) {
                 if (box.containsBomb()) {
                     tmpTile.setMine();
                 } else {
                     tmpTile.setValue(box.getBombNear());
-                    tmpTile.disable();
-                    tmpTile.style(box.getBombNear());
+                    tmpTile.setDisable();
+                    tmpTile.SetStyle(box.getBombNear());
                 }
             }
             if (engine.getGameStatus().equals(GameStatus.LOST)) {
                 if (box.containsBomb()) {
                     tmpTile.setMine();
                 } else {
-                    tmpTile.fallingEffect();
+                    tmpTile.SetEffect();
                 }
             }
         }
     }
 
-
+    /**
+     * Set the {@link Scene} to the {@link PlayGameInterface}
+     *
+     * @exception IOException
+     *                            if an I/O error occurs.
+     */
     protected void backHome() throws IOException{
         final RWSettings rwSett = new RWSettingsImpl();
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/playGame.fxml"));
@@ -102,16 +130,16 @@ public abstract class AbstractGameController implements GameController{
     }
 
     @Override
-    public abstract void rightClickHandler(final Tile tile, final int x, final int y, final GameEngine engine);
+    public abstract void rightClickHandler(final TileImpl tile, final int x, final int y);
 
     @Override
-    public abstract void leftClickHandler(final Tile tile, final int x, final int y);
+    public abstract void leftClickHandler(final TileImpl tile, final int x, final int y);
 
     @Override
     public abstract void initialize() throws IOException;
 
     @Override
-    public abstract void endGame(final GameStatus gameStatus);
+    public abstract void endGame(final GameStatus status);
 
     @Override
     public abstract void setButtons();

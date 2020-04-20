@@ -1,6 +1,6 @@
 package graphicsutility;
 
-import graphics.Tile;
+import graphics.TileImpl;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
@@ -9,7 +9,7 @@ public class NodeEffectImpl implements NodeEffect {
     public FadeTransition fade;
 
     @Override
-    public void fallingTiles(Tile tile) {
+    public void fallingTiles(TileImpl tile) {
         TranslateTransition transition = new TranslateTransition();
         this.fade = new FadeTransition();
         this.fade.setFromValue(1.0);

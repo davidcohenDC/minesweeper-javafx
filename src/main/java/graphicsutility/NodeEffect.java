@@ -1,9 +1,9 @@
 package graphicsutility;
 
-import graphics.Tile;
+import graphics.TileImpl;
 
 public interface NodeEffect {
 
-    void fallingTiles(Tile tile);
+    void fallingTiles(TileImpl tile);
 
 }

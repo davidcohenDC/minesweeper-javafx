@@ -1,7 +1,6 @@
 package graphicsutility;
 
 import java.util.EventListener;
-
 import timer.OutOfTimeEvent;
 
 /**

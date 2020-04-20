@@ -29,7 +29,7 @@ public class SinglePlayerController extends AbstractGameController {
     private final int mines;
     private final GameEngine engine;
     private final Timer timer;
-    private Map<Pair<Integer, Integer>, Tile> tilesMap;
+    private Map<Pair<Integer, Integer>, TileImpl> tilesMap;
     private HashMap<PlayerSupervisor,Boolean> playermap;
     private Optional<Player> firstplayer;
     private Optional<Player> secondplayer;
@@ -122,7 +122,7 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     @Override
-    public void leftClickHandler(final Tile tile, final int x, final int y) {
+    public void leftClickHandler(final TileImpl tile, final int x, final int y) {
         if (!this.timer.isRunning()) {
             timerView.setTimeEventListener(new TimeEventsListenerImpl(this));
             timer.start();
@@ -134,23 +134,22 @@ public class SinglePlayerController extends AbstractGameController {
 
         if (!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
             endGame(this.engine.getGameStatus());
+        }
+        if (tile.getValue() == 0) {
+            tile.audioBigClick();
         } else {
-            if (tile.getValue() == 0) {
-                tile.clipBigClick();
-            } else {
-                tile.clipAudioClick();
-            }
+            tile.audioClick();
         }
     }
 
-    public void rightClickHandler(final Tile tile, final int x, final int y,final GameEngine engine) {
-        engine.setFlag(new Pair<>(x, y));
+    @Override
+    public void rightClickHandler(final TileImpl tile, final int x, final int y) {
         if (!tile.isFlagged()) {
             this.ccflagsP1--;
         } else {
             this.ccflagsP1++;
         }
-        tile.setflag();
+        tile.setFlag();
         if(this.ccflagsP1 >= 0 && this.ccflagsP1 < 10) {
             this.lbFlagP1.setText("FLAGS:0" + this.ccflagsP1);
         } else {
@@ -160,9 +159,9 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     @Override
-    public void endGame(GameStatus gameStatus) {
+    public void endGame(GameStatus status) {
         closeElements();
-        if (gameStatus.equals(GameStatus.LOST)) {
+        if (status.equals(GameStatus.LOST)) {
             writePlayer(GameStatus.LOST);
             if(this.timerOver) {
                 alert.lostWithTimer();
@@ -175,7 +174,7 @@ public class SinglePlayerController extends AbstractGameController {
                 e.printStackTrace();
             }
 
-        } else if (gameStatus.equals(GameStatus.WON)) {
+        } else if (status.equals(GameStatus.WON)) {
             writePlayer(GameStatus.WON);
             alert.won(this.firstplayer);
             try {
@@ -208,18 +207,20 @@ public class SinglePlayerController extends AbstractGameController {
         this.secondplayer = secondplayer;
     }
 
-    public void endTimer() {
-        this.timerOver= true;
-        endGame(GameStatus.LOST);
-    }
-
+    @Override
     public String getFXML() {
         return "layouts/SinglePlayer.fxml";
     }
 
-
-
-
-
+    /**
+     * The {@link OutOfTimeEvent} class talk with the {@link TimeEventsListener}
+     * <p>
+     * This method should occur if a {@link Timer} reaching its limit.
+     *
+     */
+    public void endTimer() {
+        this.timerOver= true;
+        endGame(GameStatus.LOST);
+    }
 
 }

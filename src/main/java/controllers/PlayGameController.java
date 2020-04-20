@@ -8,7 +8,7 @@ import controlutility.Modality;
 import controlutility.AlertStyle;
 import controlutility.AlertStyleImpl;
 import controlutility.Difficulty;
-import graphics.GraphicsImpl;
+import graphics.ContextGraphics;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
@@ -279,7 +279,7 @@ public final class PlayGameController extends BackHomeController implements Play
             if (this.checkRange()) {
                 try {
                     final Stage stage = (Stage) this.rbtStd.getScene().getWindow();
-                    new GraphicsImpl(this.modality.get(), this.difficulty.get(), this.mines, this.height, this.width, stage);
+                    new ContextGraphics(this.modality.get(), this.difficulty.get(), this.mines, this.height, this.width, stage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
