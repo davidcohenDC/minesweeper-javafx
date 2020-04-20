@@ -12,7 +12,7 @@ public class BoxImpl implements Box {
     private int bombNear;
 
     /**
-     * The box entity with default withBomb parameter.
+     * Setup a box with default withBomb parameter.
      * 
      * @param coord
      *                  The coordinates of the box
@@ -26,7 +26,7 @@ public class BoxImpl implements Box {
     }
 
     /**
-     * The box entity.
+     * Setup a box.
      * 
      * @param coord
      *                     The coordinates of the box

@@ -9,7 +9,7 @@ public class GameEngineImpl implements GameEngine {
     private boolean lost;
 
     /**
-     * The game engine.
+     * Setup the game engine.
      * 
      * @param width
      *                   The width of the board

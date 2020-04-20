@@ -17,7 +17,7 @@ public class BoardImpl implements Board {
     private final Set<Box> boxSet;
 
     /**
-     * The board entity.
+     * Setup the board entity.
      * 
      * @param width
      *                   The width of the board

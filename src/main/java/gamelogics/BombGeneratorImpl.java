@@ -13,7 +13,7 @@ public class BombGeneratorImpl implements BombGenerator {
     private final List<Boolean> bombList = new LinkedList<>();
 
     /**
-     * The bombs generator.
+     * Setup the bombs generator.
      * 
      * @param width
      *                   The width of the board
