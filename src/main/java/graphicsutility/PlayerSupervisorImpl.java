@@ -8,12 +8,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The implementation of {@link PlayerSupervisor}.
+ */
 public class PlayerSupervisorImpl implements PlayerSupervisor {
     private final Optional<Player> player;
     private Boolean baton;
     private HashMap<PlayerSupervisor,Boolean> playersMap;
-
-
 
     public PlayerSupervisorImpl(final Optional<Player> player, final Boolean baton, final HashMap<PlayerSupervisor,Boolean> playersMap) {
         this.player = player;
@@ -23,7 +24,7 @@ public class PlayerSupervisorImpl implements PlayerSupervisor {
     }
 
     @Override
-    public void giveMaster() {
+    public void giveMaster(final HashMap<PlayerSupervisor,Boolean> playersMap) {
         Iterator<Map.Entry<PlayerSupervisor, Boolean>> entries = playersMap.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<PlayerSupervisor, Boolean> entry = entries.next();

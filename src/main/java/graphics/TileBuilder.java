@@ -11,6 +11,7 @@ import java.util.Map;
  *</p>
  */
 public interface TileBuilder {
+
     /**
      * Set the {@link TileBuilder} height.
      *
@@ -19,6 +20,7 @@ public interface TileBuilder {
      * @return {@link TileBuilder}
      */
     TileBuilder withWidth(final int width);
+
     /**
      * Set the {@link TileBuilder} height.
      *
@@ -36,6 +38,7 @@ public interface TileBuilder {
      * @return {@link TileBuilder}
      */
     TileBuilder withGrid(final GridPane grid);
+
     /**
      * Build the {@link TileBuilder}.
      *

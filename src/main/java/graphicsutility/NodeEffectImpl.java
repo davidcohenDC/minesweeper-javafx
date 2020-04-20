@@ -5,6 +5,9 @@ import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 
+/**
+ * The implementation of {@link NodeEffect}.
+ */
 public class NodeEffectImpl implements NodeEffect {
     public FadeTransition fade;
 

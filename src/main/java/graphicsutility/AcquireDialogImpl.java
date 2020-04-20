@@ -1,8 +1,13 @@
 package graphicsutility;
 
 import javafx.scene.control.*;
+import scoresystem.PlayerFactory;
+
 import java.util.Optional;
 
+/**
+ * The implementation of {@link AcquireDialog}.
+ */
 public class AcquireDialogImpl implements AcquireDialog{
     private TextInputDialog dialogSinglePlayer = new TextInputDialog("");
 

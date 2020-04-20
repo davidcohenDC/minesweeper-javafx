@@ -331,7 +331,7 @@ public class MultiplayerController extends AbstractGameController{
             this.firstPlayerPane.setDisable(false);
             this.secondPlayerPane.setDisable(true);
         }
-        this.supervisorP1.giveMaster();
+        this.supervisorP1.giveMaster(this.playersMap);
         this.timer.switchTurn();
     }
 

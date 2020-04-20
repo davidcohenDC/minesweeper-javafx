@@ -13,6 +13,7 @@ public interface Tile {
      *
      */
     void setMine();
+
     /**
      * Disable the {@link Tile}
      *
@@ -23,6 +24,7 @@ public interface Tile {
      * @return the x value
      */
     int getX();
+
     /**
      * @return the y value
      */
@@ -32,6 +34,7 @@ public interface Tile {
      * @return the value of {@link Tile}
      */
     int getValue();
+
     /**
      * Set the flag
      */
@@ -42,6 +45,7 @@ public interface Tile {
      * @return the boolean value of flag
      */
     Boolean isFlagged();
+
     /**
      * Set the Value of the {@link Tile}
      *
@@ -50,6 +54,7 @@ public interface Tile {
      *
      */
     void setValue(final int value);
+
     /**
      * Add style to {@link Tile} depending on the value
      *
@@ -58,26 +63,31 @@ public interface Tile {
      *
      */
     void SetStyle(final int value);
+
     /**
      * Set the effect of {@link Tile}
      *
      */
     void SetEffect();
+
     /**
      * Set the audio click of {@link Tile}
      *
      */
     void audioClick();
+
     /**
      * Set the secondary audio click of {@link Tile}
      *
      */
     void audioBigClick();
+
     /**
      * Set the audio of add flag of {@link Tile}
      *
      */
     void audioAddFlag();
+
     /**
      * Set the audio remove flag of {@link Tile}
      *

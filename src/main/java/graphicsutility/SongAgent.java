@@ -2,18 +2,31 @@ package graphicsutility;
 
 import javafx.scene.control.Button;
 
+/**
+ * The interface for manage Song
+ */
 public interface SongAgent {
 
-
+     /**
+      * Play the song
+      */
      void play();
 
+     /**
+      * Pause the song
+      */
      void pause();
 
-     Boolean shift();
-
+     /**
+      * Check if the Song is playing
+      *
+      * @return the status of the music
+      */
      Boolean isPlaying();
 
+     /**
+      * Close the song
+      */
      void close();
 
-     void checkSong(final Button btnSong);
 }

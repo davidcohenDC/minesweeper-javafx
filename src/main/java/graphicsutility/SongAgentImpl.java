@@ -4,8 +4,10 @@ import controlutility.RWSettings;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-import javafx.scene.control.Button;
 
+/**
+ * The implementation of {@link SongAgent}.
+ */
 public class SongAgentImpl implements SongAgent {
     private static final String SEPARATOR = System.getProperty("file.separator");
     private final String urlSound = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "sound" + SEPARATOR;
@@ -30,12 +32,6 @@ public class SongAgentImpl implements SongAgent {
     }
 
     @Override
-    public Boolean shift() {
-        this.playing = !playing;
-        return this.playing;
-    }
-
-    @Override
     public void play() {
         this.playing = true;
 
@@ -52,17 +48,9 @@ public class SongAgentImpl implements SongAgent {
         this.clip.stop();
     }
 
-    @Override
-    public void checkSong(final Button btnSong) {
-        if(this.isPlaying()) {
-            btnSong.setText("MUTED");
-            pause();
-        } else {
-            btnSong.setText("MUTE");
-            this.play();
-        }
-    }
-
+    /**
+     * Start the {@link Clip}
+     */
     private void start() {
         this.checkStart = true;
         try {

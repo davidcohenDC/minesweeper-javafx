@@ -223,6 +223,7 @@ public class TileImpl extends Button implements Tile{
         this.imgFlag = new ImageView(flag);
 
     }
+
     /**
      * The handler for open bomb image stream of {@link Tile}
      * @exception IOException

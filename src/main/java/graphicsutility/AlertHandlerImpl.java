@@ -9,6 +9,9 @@ import scoresystem.Player;
 
 import java.util.Optional;
 
+/**
+ * The implementation of {@link AlertHandler}.
+ */
 public class AlertHandlerImpl implements AlertHandler{
     private final AlertStyle alStyle;
     private final Alert alert = new Alert(Alert.AlertType.INFORMATION);
