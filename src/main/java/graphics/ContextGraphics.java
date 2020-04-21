@@ -39,23 +39,43 @@ public class ContextGraphics {
         if(this.firstPlayerName.isPresent()) {
             switch (modality) {
             case STANDARD:
-                this.firstPlayer = playerFactory.createPlayerForStandardMode(this.firstPlayerName.get(),difficulty);
                 final GameController sdController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForStandardMode());
-                sdController.setPlayers(Optional.of(this.firstPlayer), Optional.empty());
+                if(this.firstPlayerName.get().isEmpty()) {
+                    sdController.setPlayers(Optional.empty(), Optional.empty());
+                } else{
+                    this.firstPlayer = playerFactory.createPlayerForStandardMode(this.firstPlayerName.get(),difficulty);
+                    sdController.setPlayers(Optional.of(this.firstPlayer), Optional.empty());
+                }
                 sceneStart(stage, sdController.getFXML(), sdController);
                 break;
 
             case ONE_VS_ONE:
                 this.secondPlayerName = getPlayer.acquireSecond();
                 if(this.secondPlayerName.isPresent()) {
-                    if (this.firstPlayerName.get().equals(this.secondPlayerName.get())) {
-                        alert.sameName();
-                    } else {
-                        this.firstPlayer = playerFactory.createPlayerFor1vs1Mode(this.firstPlayerName.get(), difficulty, this.secondPlayerName.get());
-                        final Player secondPlayer = playerFactory.createPlayerFor1vs1Mode(this.secondPlayerName.get(), difficulty, this.firstPlayerName.get());
+                    if (this.secondPlayerName.get().isEmpty()) {
                         final GameController ovoController = new MultiplayerController(height, width, mines, timerFactory.createTimersFor1vs1Mode());
-                        ovoController.setPlayers(Optional.of(this.firstPlayer), Optional.of(secondPlayer));
+                        if (this.firstPlayerName.get().isEmpty()) {
+                            ovoController.setPlayers(Optional.empty(), Optional.empty());
+                        } else {
+                            this.firstPlayer = playerFactory.createPlayerFor1vs1Mode(this.firstPlayerName.get(), difficulty, this.secondPlayerName.get());
+                            ovoController.setPlayers(Optional.of(this.firstPlayer), Optional.empty());
+                        }
                         sceneStart(stage, ovoController.getFXML(), ovoController);
+                    } else {
+                        if(this.firstPlayerName.get().equals(this.secondPlayerName.get())) {
+                            alert.sameName();
+                        } else {
+                            this.firstPlayer = playerFactory.createPlayerFor1vs1Mode(this.firstPlayerName.get(), difficulty, this.secondPlayerName.get());
+                            final Player secondPlayer = playerFactory.createPlayerFor1vs1Mode(this.secondPlayerName.get(), difficulty, this.firstPlayerName.get());
+                            final GameController ovoController = new MultiplayerController(height, width, mines, timerFactory.createTimersFor1vs1Mode());
+                            if (this.firstPlayerName.get().isEmpty()) {
+                                ovoController.setPlayers(Optional.of(this.firstPlayer), Optional.empty());
+                            } else {
+                                ovoController.setPlayers(Optional.of(this.firstPlayer), Optional.of(secondPlayer));
+                            }
+                            sceneStart(stage, ovoController.getFXML(), ovoController);
+                        }
+
                     }
                 }
                 break;
@@ -64,7 +84,11 @@ public class ContextGraphics {
                 this.firstPlayer = playerFactory.createPlayerForBeatTheTimerMode(this.firstPlayerName.get(),difficulty);
                 final int timerValue = mines * TIMER_MULTIPLIER;
                 final GameController bttController = new SinglePlayerController(height, width, mines, timerFactory.createTimerForBeatTheTimerMode(timerValue));
-                bttController.setPlayers(Optional.of(this.firstPlayer),Optional.empty());
+                if(this.firstPlayerName.get().isEmpty()) {
+                    bttController.setPlayers(Optional.empty(), Optional.empty());
+                } else{
+                    bttController.setPlayers(Optional.of(this.firstPlayer), Optional.empty());
+                }
                 sceneStart(stage,bttController.getFXML(),bttController);
                 break;
             }
