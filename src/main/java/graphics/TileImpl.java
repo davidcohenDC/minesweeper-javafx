@@ -26,7 +26,7 @@ public class TileImpl extends Button implements Tile{
     private final String srcRemoveFlag = urlAudioEffects + "removeflag.wav";
     private final String srcOpenTile = urlAudioEffects + "click.wav";
     private final String srcOpenBigTile = urlAudioEffects + "firstclick.wav";
-    private static final int BUTTON_SIZE = 35;
+    private final double size;
     private static final int IMAGE_SIZE = 26;
     private final Clip clip;
     private final Clip clip2;
@@ -40,13 +40,14 @@ public class TileImpl extends Button implements Tile{
     private ImageView imgFlag;
     private ImageView imgMine;
 
-    public TileImpl(final int x, final int y) throws IOException, LineUnavailableException {
+    public TileImpl(final int x, final int y, final double size) throws IOException, LineUnavailableException {
         this.rwSett = new RWSettingsImpl();
         this.x = x;
         this.y = y;
+        this.size = size;
         this.setText("");
         this.setId("tile");
-        this.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
+        this.setPrefSize(this.size, this.size);
         this.setStyle("-fx-padding:0");
         this.clip = AudioSystem.getClip();
         this.clip2 = AudioSystem.getClip();
@@ -96,22 +97,22 @@ public class TileImpl extends Button implements Tile{
     }
 
     @Override
-    public final void SetStyle(final int value) {
+    public final void setStyle(final int value) {
         switch (value) {
             case 0:
                 this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-font-weight: bold;");
                 break;
             case 1:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-font-size: 20px; -fx-text-fill: blue; -fx-font-weight: bold;");
+                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: blue; -fx-font-weight: bold;");
                 break;
             case 2:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-font-size: 20px; -fx-text-fill: green; -fx-font-weight: bold;");
+                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: green; -fx-font-weight: bold;");
                 break;
             case 3:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-font-size: 20px; -fx-text-fill: darkred; -fx-font-weight: bold;");
+                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: darkred; -fx-font-weight: bold;");
                 break;
             case 4:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-font-size: 20px; -fx-text-fill: purple; -fx-font-weight: bold;");
+                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: purple; -fx-font-weight: bold;");
                 break;
         }
 
@@ -144,7 +145,7 @@ public class TileImpl extends Button implements Tile{
     }
 
     @Override
-    public void SetEffect() {
+    public void setEffect() {
         this.effect.fallingTiles(this);
     }
 

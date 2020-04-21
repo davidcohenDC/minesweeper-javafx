@@ -1,5 +1,7 @@
-package graphicsutility;
+package graphics;
 
+import graphicsutility.PlayerSupervisor;
+import graphicsutility.PlayerSupervisorImpl;
 import org.junit.jupiter.api.Test;
 import scoresystem.Player;
 import java.util.HashMap;

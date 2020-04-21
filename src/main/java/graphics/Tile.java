@@ -62,13 +62,13 @@ public interface Tile {
      *              the value of {@link Tile}
      *
      */
-    void SetStyle(final int value);
+    void setStyle(final int value);
 
     /**
      * Set the effect of {@link Tile}
      *
      */
-    void SetEffect();
+    void setEffect();
 
     /**
      * Set the audio click of {@link Tile}

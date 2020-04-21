@@ -60,7 +60,11 @@ public class TileBuilderImpl implements TileBuilder {
     private TileImpl createTile(final int x, final int y) {
         final TileImpl tile;
         try {
-            tile = new TileImpl(x,y);
+            double size = 35;
+            if(this.height > 16 || this.width > 16) {
+                size = 25;
+            }
+            tile = new TileImpl(x,y,size);
             this.tilesMap.put(new Pair<>(x, y),tile);
         } catch (IOException | LineUnavailableException e) {
             e.printStackTrace();

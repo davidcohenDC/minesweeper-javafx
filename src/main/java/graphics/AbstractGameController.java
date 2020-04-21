@@ -81,14 +81,14 @@ public abstract class AbstractGameController implements GameController{
                 } else {
                     tmpTile.setValue(box.getBombNear());
                     tmpTile.setDisable();
-                    tmpTile.SetStyle(box.getBombNear());
+                    tmpTile.setStyle(box.getBombNear());
                 }
             }
             if (engine.getGameStatus().equals(GameStatus.LOST)) {
                 if (box.containsBomb()) {
                     tmpTile.setMine();
                 } else {
-                    tmpTile.SetEffect();
+                    tmpTile.setEffect();
                 }
             }
         }

@@ -26,6 +26,8 @@
 
  #tile {
  		-fx-background-color: linear-gradient(#ffa500, #ff4500 );
+        -fx-font-size: 15px;
+        -fx-font-color: black;
  		}
  #tile:hover {
          -fx-background-color: linear-gradient(#ffa500, #ab6f00 );

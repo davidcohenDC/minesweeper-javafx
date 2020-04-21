@@ -31,8 +31,8 @@
 
 #tile {
 		-fx-background-color: linear-gradient(#ff0000, #d40000 );
-		-fx-font-size: 20px;
-		-fx-font-color: black;
+        -fx-font-size: 15px;
+        -fx-font-color: black;
 		}
 
 #btnBackHome {
