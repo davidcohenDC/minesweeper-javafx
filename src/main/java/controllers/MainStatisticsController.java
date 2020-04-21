@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 /**
  * The Controller related to the mainStatistics.fxml GUI.
+ * The implementation of {@link MainStatisticsControllerInterface }.
  */
 public class MainStatisticsController extends BackHomeController implements MainStatisticsControllerInterface {
     private RWSettings rwSett;

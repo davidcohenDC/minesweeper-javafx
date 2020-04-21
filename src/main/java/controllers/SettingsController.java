@@ -32,7 +32,9 @@ import javafx.stage.FileChooser;
 
 import javafx.stage.FileChooser.ExtensionFilter;
 /**
- * */
+ * The Controller related to the settings.fxml GUI.
+ * The implementation of {@link SettingsInterface }.
+ */
 
 public final class SettingsController extends BackHomeController implements SettingsInterface {
     private static final String SEPARATOR = System.getProperty("file.separator");
