@@ -14,11 +14,9 @@ import java.util.Optional;
 public class PlayerSupervisorImpl implements PlayerSupervisor {
     private final Optional<Player> player;
     private Boolean baton;
-    private HashMap<PlayerSupervisor,Boolean> playersMap;
-
+    
     public PlayerSupervisorImpl(final Optional<Player> player, final Boolean baton, final HashMap<PlayerSupervisor,Boolean> playersMap) {
         this.player = player;
-        this.playersMap = playersMap;
         this.baton = baton;
         playersMap.put(this,baton);
     }

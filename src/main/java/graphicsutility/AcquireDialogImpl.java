@@ -1,7 +1,6 @@
 package graphicsutility;
 
 import javafx.scene.control.*;
-import scoresystem.PlayerFactory;
 
 import java.util.Optional;
 

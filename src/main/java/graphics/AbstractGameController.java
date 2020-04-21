@@ -58,6 +58,8 @@ public abstract class AbstractGameController implements GameController{
                         engine.setFlag(new Pair<>(tmpTile.getX(),tmpTile.getY()));
                         rightClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
                         break;
+                default:
+                    break;
                 }
             });
         }
