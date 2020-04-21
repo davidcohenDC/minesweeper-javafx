@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/***/
+/** *The implementation of {@link RWSettings}. */
 public class RWSettingsImpl implements RWSettings {
     private static final String SEPARATOR = System.getProperty("file.separator");
     private final String fileName;

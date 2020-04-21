@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/***/
+/** *The implementation of {@link LoadData}. */
 public class LoadDataImpl implements LoadData {
     private static final String SEPARATOR = System.getProperty("file.separator");
     private final ClassLoader loader = Thread.currentThread().getContextClassLoader();

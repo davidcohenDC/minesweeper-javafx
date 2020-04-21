@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 
 /**
  * The Controller related to the howToPlay.fxml GUI.
- *
+ * The implementation of {@link HowToPlayInterface }.
  */
 public final class HowToPlayController extends BackHomeController implements HowToPlayInterface {
 

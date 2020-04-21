@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 /**
  * The Controller related to the playGame.fxml GUI.
- *
+ * The implementation of {@link PlayGameInterface }.
  */
 public final class PlayGameController extends BackHomeController implements PlayGameInterface {
     private static final int MIN_MINES = 10;

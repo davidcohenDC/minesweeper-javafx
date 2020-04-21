@@ -34,6 +34,7 @@ import scoresystem.StatisticsWriterImpl;
 
 /**
  * The Controller related to the statistics.fxml GUI.
+ * The implementation of {@link StatisticsControllerInterface }.
  */
 public class StatisticsController implements StatisticsControllerInterface {
     private final Modality modality;

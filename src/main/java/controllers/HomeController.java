@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 /**
  * The Controller related to the home.fxml GUI.
+ * The implementation of {@link HomeInterface}.
  */
 public final class HomeController implements HomeInterface {
     private RWSettings rwSett;

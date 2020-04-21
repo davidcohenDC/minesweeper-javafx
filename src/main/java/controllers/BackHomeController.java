@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 /**
  * The Controller common to Settings,Statistics,PlayGame,HowToPlay.fxml. It
  * control the Home button.
- *
+ * The implementation of {@link BackHomeInterface}.
  */
 public class BackHomeController implements BackHomeInterface {
 

@@ -10,8 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * */
+/** *The implementation of {@link ReadRules}. */
 public class ReadRulesImpl implements ReadRules {
     private final List<String> lines;
 
