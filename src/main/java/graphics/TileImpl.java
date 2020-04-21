@@ -114,6 +114,18 @@ public class TileImpl extends Button implements Tile{
             case 4:
                 this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: purple; -fx-font-weight: bold;");
                 break;
+            case 5:
+                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: white; -fx-font-weight: bold;");
+                break;
+            case 6:
+                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: orange; -fx-font-weight: bold;");
+                break;
+            case 7:
+                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: yellow; -fx-font-weight: bold;");
+                break;
+            case 8:
+                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: black; -fx-font-weight: bold;");
+                break;
         }
 
 
