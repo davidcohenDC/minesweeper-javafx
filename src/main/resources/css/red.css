@@ -36,10 +36,10 @@
 		}
 
 #btnBackHome {
-
-		-fx-background-radius: 30, 30, 29, 28;
-		-fx-padding: 3px 10px 3px 10px;
-		-fx-background-color: linear-gradient(#ff0000, #d40000 );
+ 		-fx-background-radius: 30, 30, 29, 28;
+ 		-fx-padding: 3px 10px 3px 10px;
+ 		-fx-background-color: linear-gradient(#ff0000, #d40000 );
+		 -fx-text-fill: white;
         }
 
 #btnBackHome:hover {
@@ -47,17 +47,17 @@
         }
 
 #btnSong {
-
-        -fx-background-radius: 30, 30, 29, 28;
-        -fx-padding: 3px 10px 3px 10px;
-        -fx-background-color: linear-gradient(#ff0000, #d40000 );
+ 		-fx-background-radius: 30, 30, 29, 28;
+ 		-fx-padding: 3px 10px 3px 10px;
+ 		-fx-background-color: linear-gradient(#ff0000, #d40000 );
+		 -fx-text-fill: white;
         }
 
 #btnGiveUp {
-
-        -fx-background-radius: 30, 30, 29, 28;
-        -fx-padding: 3px 10px 3px 10px;
-        -fx-background-color: linear-gradient(#ff0000, #d40000 );
+ 		-fx-background-radius: 30, 30, 29, 28;
+ 		-fx-padding: 3px 10px 3px 10px;
+ 		-fx-background-color: linear-gradient(#ff0000, #d40000 );
+		 -fx-text-fill: white;
         }
 
 #btnGiveUp:hover {

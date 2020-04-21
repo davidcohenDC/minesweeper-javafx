@@ -11,8 +11,8 @@
  #button {
  		-fx-background-radius: 30, 30, 29, 28;
  		-fx-padding: 3px 10px 3px 10px;
-                -fx-background-color: linear-gradient(#000000, #1a1a1a );
-                -fx-text-fill: white;
+        -fx-background-color: linear-gradient(#000000, #1a1a1a );
+        -fx-text-fill: white;
  		}
  #text {
  		 -fx-fill:  linear-gradient(#000000 , #1a1a1a);
@@ -34,10 +34,10 @@
 		}
 
 #btnBackHome {
-
-		-fx-background-radius: 30, 30, 29, 28;
-		-fx-padding: 3px 10px 3px 10px;
-		-fx-background-color: linear-gradient(#000000, #1a1a1a );
+ 		-fx-background-radius: 30, 30, 29, 28;
+ 		-fx-padding: 3px 10px 3px 10px;
+        -fx-background-color: linear-gradient(#000000, #1a1a1a );
+        -fx-text-fill: white;
         }
 
 #btnBackHome:hover {
@@ -45,17 +45,17 @@
         }
 
 #btnSong {
-
-        -fx-background-radius: 30, 30, 29, 28;
-        -fx-padding: 3px 10px 3px 10px;
+ 		-fx-background-radius: 30, 30, 29, 28;
+ 		-fx-padding: 3px 10px 3px 10px;
         -fx-background-color: linear-gradient(#000000, #1a1a1a );
+        -fx-text-fill: white;
         }
 
 #btnGiveUp {
-
-        -fx-background-radius: 30, 30, 29, 28;
-        -fx-padding: 3px 10px 3px 10px;
+ 		-fx-background-radius: 30, 30, 29, 28;
+ 		-fx-padding: 3px 10px 3px 10px;
         -fx-background-color: linear-gradient(#000000, #1a1a1a );
+        -fx-text-fill: white;
         }
 
 #btnGiveUp:hover {
