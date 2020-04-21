@@ -134,11 +134,12 @@ public class SinglePlayerController extends AbstractGameController {
 
         if (!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
             endGame(this.engine.getGameStatus());
-        }
-        if (tile.getValue() == 0) {
-            tile.audioBigClick();
         } else {
-            tile.audioClick();
+            if (tile.getValue() == 0) {
+                tile.audioBigClick();
+            } else {
+                tile.audioClick();
+            }
         }
     }
 
