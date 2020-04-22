@@ -20,12 +20,15 @@ class BoardTest {
 
     @org.junit.jupiter.api.BeforeAll
     public static void initialize() {
+        //Setup a board
+        final int width = 4;
+        final int height = 4;
         final BoardBuilder bb = new BoardBuilderImpl()
             .withWidth(4)
             .withHeight(4);
 
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 final Box box = new BoxImpl(new Pair<>(i, j));
                 bb.addBox(box);
             }

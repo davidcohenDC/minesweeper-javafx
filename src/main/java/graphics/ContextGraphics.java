@@ -14,18 +14,15 @@ import scoresystem.PlayerFactory;
 import scoresystem.PlayerFactoryImpl;
 import timer.*;
 
-import javax.print.DocFlavor;
 
 /**
  * This class redirect the scene to the correct GameController
  */
 public class ContextGraphics {
     private final RWSettings rwSett;
-
     private static final int TIMER_MULTIPLIER = 5;
-
-    Optional<String> firstPlayerName;
-    Optional<String> secondPlayerName;
+    private Optional<String> firstPlayerName;
+    private Optional<String> secondPlayerName;
     Player firstPlayer;
 
     public ContextGraphics(final Modality modality, final Difficulty difficulty, final int mines, final int height, final int width, final Stage stage) throws IOException {

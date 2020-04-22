@@ -37,8 +37,8 @@ public class MultiplayerController extends AbstractGameController{
     private Map<Pair<Integer, Integer>, TileImpl> tilesMap1;
     private Map<Pair<Integer, Integer>, TileImpl> tilesMap2;
     private HashMap<PlayerSupervisor,Boolean> playersMap = new HashMap<>();
-    private Optional<Player> firstplayer;
-    private Optional<Player> secondplayer;
+    private Optional<Player> firstPlayer;
+    private Optional<Player> secondPlayer;
     private PlayerSupervisor supervisorP1;
     private ScoreWriter scoreWriter;
     private AlertHandler alert;
@@ -96,8 +96,8 @@ public class MultiplayerController extends AbstractGameController{
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(new RWSettingsImpl());
         this.btnAction = new ButtonReactionimpl(this.rootPane);
-        this.supervisorP1 = new PlayerSupervisorImpl(this.firstplayer,true,this.playersMap);
-        PlayerSupervisor supervisorP2 = new PlayerSupervisorImpl(this.secondplayer, false, this.playersMap);
+        this.supervisorP1 = new PlayerSupervisorImpl(this.firstPlayer,true,this.playersMap);
+        PlayerSupervisor supervisorP2 = new PlayerSupervisorImpl(this.secondPlayer, false, this.playersMap);
         this.scoreWriter = new ScoreWriterImpl();
 
         this.lbMinesP1.setText("M:" + this.mines);
@@ -243,10 +243,10 @@ public class MultiplayerController extends AbstractGameController{
         closeElements();
         if (status.equals(GameStatus.LOST)) {
             writePlayer(status);
-            alert.lost(this.supervisorP1.isMaster() ? this.firstplayer : this.secondplayer);
+            this.alert.lost(this.supervisorP1.isMaster() ? this.firstPlayer : this.secondPlayer);
         } else if (status.equals(GameStatus.WON)) {
             writePlayer(status);
-            alert.won(this.supervisorP1.isMaster() ? this.firstplayer : this.secondplayer);
+            this.alert.won(this.supervisorP1.isMaster() ? this.firstPlayer : this.secondPlayer);
         }
         try {
             backHome();
@@ -260,32 +260,34 @@ public class MultiplayerController extends AbstractGameController{
         switch (status) {
             case LOST:
                 if (this.supervisorP1.isMaster()) {
-                    this.firstplayer.ifPresent(Player::lost);
-                    this.secondplayer.ifPresent(player -> player.won(this.timer.getPlayer1Timer().getValue()));
+                    this.firstPlayer.ifPresent(Player::lost);
+                    this.secondPlayer.ifPresent(player -> player.won(this.timer.getPlayer1Timer().getValue()));
                 } else {
-                    this.firstplayer.ifPresent(player -> player.won(this.timer.getPlayer2Timer().getValue()));
-                    this.secondplayer.ifPresent(Player::lost);
+                    this.firstPlayer.ifPresent(player -> player.won(this.timer.getPlayer2Timer().getValue()));
+                    this.secondPlayer.ifPresent(Player::lost);
                 }
                 break;
 
             case WON:
                 if (this.supervisorP1.isMaster()) {
-                    this.firstplayer.ifPresent(player -> player.won(this.timer.getPlayer1Timer().getValue()));
-                    this.secondplayer.ifPresent(Player::lost);
+                    this.firstPlayer.ifPresent(player -> player.won(this.timer.getPlayer1Timer().getValue()));
+                    this.secondPlayer.ifPresent(Player::lost);
                 } else {
-                    this.firstplayer.ifPresent(Player::lost);
-                    this.secondplayer.ifPresent(player -> player.won(this.timer.getPlayer2Timer().getValue()));
+                    this.firstPlayer.ifPresent(Player::lost);
+                    this.secondPlayer.ifPresent(player -> player.won(this.timer.getPlayer2Timer().getValue()));
                 }
                 break;
+            default:
+            break;
         }
-        this.firstplayer.ifPresent(player -> this.scoreWriter.write(player));
-        this.secondplayer.ifPresent(player -> this.scoreWriter.write(player));
+        this.firstPlayer.ifPresent(player -> this.scoreWriter.write(player));
+        this.secondPlayer.ifPresent(player -> this.scoreWriter.write(player));
     }
 
     @Override
     public void setPlayers(Optional<Player> playerP1, Optional<Player> playerP2) {
-        this.firstplayer = playerP1;
-        this.secondplayer = playerP2;
+        this.firstPlayer = playerP1;
+        this.secondPlayer = playerP2;
     }
 
     @Override

@@ -30,9 +30,7 @@ public class SinglePlayerController extends AbstractGameController {
     private final GameEngine engine;
     private final Timer timer;
     private Map<Pair<Integer, Integer>, TileImpl> tilesMap;
-    private HashMap<PlayerSupervisor,Boolean> playermap;
-    private Optional<Player> firstplayer;
-    private Optional<Player> secondplayer;
+    private Optional<Player> firstPlayer;
     private TimerView timerView;
     private AlertHandler alert;
     private SongAgent music;
@@ -72,20 +70,20 @@ public class SinglePlayerController extends AbstractGameController {
 
     @Override
     public void initialize() throws IOException {
-        this.playermap = new HashMap<>();
-        this.timerView = new TimerViewImpl(timer, lbTimerP1);
+        HashMap<PlayerSupervisor, Boolean> playerMap = new HashMap<>();
+        this.timerView = new TimerViewImpl(this.timer, this.lbTimerP1);
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(new RWSettingsImpl());
         this.btnAction = new ButtonReactionimpl(this.rootPane);
-        this.supervisorP1 = new PlayerSupervisorImpl(this.firstplayer,true,this.playermap);
+        this.supervisorP1 = new PlayerSupervisorImpl(this.firstPlayer,true, playerMap);
         this.scoreWriter = new ScoreWriterImpl();
 
-        lbFlagP1.setText("FLAGS:" + this.mines);
-        lbMinesP1.setText("MINE:" + this.mines);
+        this.lbFlagP1.setText("FLAGS:" + this.mines);
+        this.lbMinesP1.setText("MINE:" + this.mines);
         this.timerView.startDisplaying();
-        this.supervisorP1.view(lbNameP1);
-        lbTimerP1.setText(String.valueOf(timer.getValue()));
-        btnSong.setText("MUTE");
+        this.supervisorP1.view(this.lbNameP1);
+        this.lbTimerP1.setText(String.valueOf(this.timer.getValue()));
+        this.btnSong.setText("MUTE");
         this.ccflagsP1 = this.mines;
 
         GridPane grid = new GridPane();
@@ -115,17 +113,17 @@ public class SinglePlayerController extends AbstractGameController {
                     this.timer.start();
                 }
             } catch (IOException e) {
-                e.printStackTrace(); //scrivi...
+                e.printStackTrace();
             }
         });
-       this.btnSong.setOnMouseClicked(t -> btnAction.checkMusic(this.btnSong,this.music));
+       this.btnSong.setOnMouseClicked(t -> this.btnAction.checkMusic(this.btnSong,this.music));
     }
 
     @Override
     public void leftClickHandler(final TileImpl tile, final int x, final int y) {
         if (!this.timer.isRunning()) {
-            timerView.setTimeEventListener(new TimeEventsListenerImpl(this));
-            timer.start();
+            this.timerView.setTimeEventListener(new TimeEventsListenerImpl(this));
+            this.timer.start();
         }
         if (!tile.isFlagged()) {
             this.engine.hit(new Pair<>(x,y));
@@ -165,9 +163,9 @@ public class SinglePlayerController extends AbstractGameController {
         if (status.equals(GameStatus.LOST)) {
             writePlayer(GameStatus.LOST);
             if(this.timerOver) {
-                alert.lostWithTimer();
+                this.alert.lostWithTimer();
             } else {
-                alert.lost(this.firstplayer);
+                this.alert.lost(this.firstPlayer);
             }
             try {
                 backHome();
@@ -177,7 +175,7 @@ public class SinglePlayerController extends AbstractGameController {
 
         } else if (status.equals(GameStatus.WON)) {
             writePlayer(GameStatus.WON);
-            alert.won(this.firstplayer);
+            this.alert.won(this.firstPlayer);
             try {
                 backHome();
             } catch (IOException e) {
@@ -188,24 +186,23 @@ public class SinglePlayerController extends AbstractGameController {
 
     @Override
     public void closeElements() {
-        timer.stop();
-        music.close();
+        this.timer.stop();
+        this.music.close();
     }
 
     @Override
     public void writePlayer(GameStatus status) {
         if (status.equals(GameStatus.LOST)) {
-            this.firstplayer.ifPresent(Player::lost);
+            this.firstPlayer.ifPresent(Player::lost);
         } else {
-            this.firstplayer.ifPresent(player -> player.won(this.timer.getValue()));
+            this.firstPlayer.ifPresent(player -> player.won(this.timer.getValue()));
         }
-        this.firstplayer.ifPresent(player -> this.scoreWriter.write(player));
+        this.firstPlayer.ifPresent(player -> this.scoreWriter.write(player));
     }
 
     @Override
     public void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer) {
-        this.firstplayer = firstplayer;
-        this.secondplayer = secondplayer;
+        this.firstPlayer = firstplayer;
     }
 
     @Override
