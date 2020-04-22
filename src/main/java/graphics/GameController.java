@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * The GameController
+ * The GameController.
  * <p>
  * This class sets the base of the playing field for every modality<br>
  *</p>
@@ -41,19 +41,20 @@ public interface GameController {
     void rightClickHandler(final TileImpl tile, final int x, final int y);
 
     /**
-     * The handler for Initialize all the elements of the game
+     * The handler for Initialize all the elements of the game.
+     * 
      * @exception IOException
      *                            if an I/O error occurs.
      */
     void initialize() throws IOException;
 
     /**
-     *  Set the buttons used in the game
+     *  Set the buttons used in the game.
      */
     void setButtons();
 
     /**
-     *  The handler when engine status of the game change to won or lost
+     *  The handler when engine status of the game change to won or lost.
      * @param status
      *              the actual {@link GameStatus} of the game
      *
@@ -61,7 +62,7 @@ public interface GameController {
     void endGame(final GameStatus status);
 
     /**
-     *  Write the player that win or lost the game
+     *  Write the player that win or lost the game.
      * @param status
      *              the actual {@link GameStatus} of the game
      *
@@ -69,13 +70,13 @@ public interface GameController {
     void writePlayer(final GameStatus status);
 
     /**
-     *  Remove or close all elements used in the game
+     *  Remove or close all elements used in the game.
      *
      */
     void closeElements();
 
     /**
-     *  Used for set the Player in the game
+     *  Used for set the Player in the game.
      * @param  firstplayer
      *                  the first player
      * @param secondplayer
@@ -85,27 +86,27 @@ public interface GameController {
     void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer);
 
     /**
-     * @return Returns the width
+     * @return Returns the width.
      */
     int getWidth();
 
     /**
-     * @return Returns the height
+     * @return Returns the height.
      */
     int getHeight();
 
     /**
-     * @return Returns mines
+     * @return Returns mines.
      */
     int getMines();
 
     /**
-     * @return Returns {@link Timer}
+     * @return Returns {@link Timer}.
      */
     Timer getTimer();
 
     /**
-     * @return Returns the string of FXML file
+     * @return Returns the string of FXML file.
      */
     String getFXML();
 

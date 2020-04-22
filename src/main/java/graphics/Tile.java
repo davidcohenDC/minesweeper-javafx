@@ -1,7 +1,7 @@
 package graphics;
 
 /**
- * The tile Interface
+ * The tile Interface.
  * <p>
  * This interface manage the tile<br>
  *</p>
@@ -9,13 +9,13 @@ package graphics;
 public interface Tile {
 
     /**
-     * Set the mine
+     * Set the mine.
      *
      */
     void setMine();
 
     /**
-     * Disable the {@link Tile}
+     * Disable the {@link Tile}.
      *
      */
     void setDisable();
@@ -36,18 +36,19 @@ public interface Tile {
     int getValue();
 
     /**
-     * Set the flag
+     * Set the flag.
      */
     void setFlag();
 
     /**
-     * Check if the flag is on
+     * Check if the flag is on.
+     * 
      * @return the boolean value of flag
      */
     Boolean isFlagged();
 
     /**
-     * Set the Value of the {@link Tile}
+     * Set the Value of the {@link Tile}.
      *
      * @param value
      *              the value of {@link Tile}
@@ -56,7 +57,7 @@ public interface Tile {
     void setValue(final int value);
 
     /**
-     * Add style to {@link Tile} depending on the value
+     * Add style to {@link Tile} depending on the value.
      *
      * @param value
      *              the value of {@link Tile}
@@ -65,31 +66,31 @@ public interface Tile {
     void setStyle(final int value);
 
     /**
-     * Set the effect of {@link Tile}
+     * Set the effect of {@link Tile}.
      *
      */
     void setEffect();
 
     /**
-     * Set the audio click of {@link Tile}
+     * Set the audio click of {@link Tile}.
      *
      */
     void audioClick();
 
     /**
-     * Set the secondary audio click of {@link Tile}
+     * Set the secondary audio click of {@link Tile}.
      *
      */
     void audioBigClick();
 
     /**
-     * Set the audio of add flag of {@link Tile}
+     * Set the audio of add flag of {@link Tile}.
      *
      */
     void audioAddFlag();
 
     /**
-     * Set the audio remove flag of {@link Tile}
+     * Set the audio remove flag of {@link Tile}.
      *
      */
     void audioRemoveFlag();

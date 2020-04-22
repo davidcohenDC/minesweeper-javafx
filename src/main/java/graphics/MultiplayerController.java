@@ -26,7 +26,7 @@ import java.util.Optional;
 /**
  * The Controller related to the Multiplayer.fxml GUI.
  */
-public class MultiplayerController extends AbstractGameController{
+public class MultiplayerController extends AbstractGameController {
     private final int height;
     private final int width;
     private final int mines;
@@ -36,7 +36,7 @@ public class MultiplayerController extends AbstractGameController{
     private static final int MAX_CLICK = 1;
     private Map<Pair<Integer, Integer>, TileImpl> tilesMap1;
     private Map<Pair<Integer, Integer>, TileImpl> tilesMap2;
-    private HashMap<PlayerSupervisor,Boolean> playersMap = new HashMap<>();
+    private HashMap<PlayerSupervisor, Boolean> playersMap = new HashMap<>();
     private Optional<Player> firstPlayer;
     private Optional<Player> secondPlayer;
     private PlayerSupervisor supervisorP1;
@@ -80,23 +80,23 @@ public class MultiplayerController extends AbstractGameController{
     private AnchorPane rootPane;
 
     public MultiplayerController(int height, int width, int mines, DoubleTimer timer) {
-        super(height,width,mines,timer);
+        super(height, width, mines, timer);
         this.height = height;
         this.width = width;
         this.mines = mines;
         this.timer = timer;
-        this.engineP1 = new GameEngineImpl(width,height,mines);
-        this.engineP2 = new GameEngineImpl(width,height,mines);
+        this.engineP1 = new GameEngineImpl(width, height, mines);
+        this.engineP2 = new GameEngineImpl(width, height, mines);
     }
 
     @Override
-    public void initialize() throws IOException{
+    public final void initialize() throws IOException {
         TimerView timerViewP1 = new TimerViewImpl(this.timer.getPlayer1Timer(), this.lbTimerP1);
         TimerView timerViewP2 = new TimerViewImpl(this.timer.getPlayer2Timer(), this.lbTimerP2);
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(new RWSettingsImpl());
         this.btnAction = new ButtonReactionimpl(this.rootPane);
-        this.supervisorP1 = new PlayerSupervisorImpl(this.firstPlayer,true,this.playersMap);
+        this.supervisorP1 = new PlayerSupervisorImpl(this.firstPlayer, true, this.playersMap);
         PlayerSupervisor supervisorP2 = new PlayerSupervisorImpl(this.secondPlayer, false, this.playersMap);
         this.scoreWriter = new ScoreWriterImpl();
 
@@ -130,8 +130,8 @@ public class MultiplayerController extends AbstractGameController{
         this.secondPlayerPane.setDisable(true);
 
         setButtons();
-        setClickHandler(this.engineP1,this.tilesMap1);
-        setClickHandler(this.engineP2,this.tilesMap2);
+        setClickHandler(this.engineP1, this.tilesMap1);
+        setClickHandler(this.engineP2, this.tilesMap2);
 
         this.ccflagsP1 = this.mines;
         this.ccflagsP2 = this.mines;
@@ -141,45 +141,45 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     @Override
-    public void setButtons() {
+    public final void setButtons() {
         this.btnGiveUpP1.setOnAction(t -> {
             try {
                 stopElements();
-                if(this.btnAction.backHome()) {
-                    closeElements();
-                } else {
-                resumeElements();
-                }
-            } catch (IOException e) {
-                e.printStackTrace(); //scrivi...
-            }
-        });
-        this.btnGiveUpP2.setOnAction(t -> {
-            try {
-                stopElements();
-                if(this.btnAction.backHome()) {
+                if (this.btnAction.backHome()) {
                     closeElements();
                 } else {
                     resumeElements();
                 }
             } catch (IOException e) {
-                e.printStackTrace(); //scrivi...
+                e.printStackTrace(); // scrivi...
             }
         });
-        this.btnSongP1.setOnMouseClicked(t -> this.btnAction.checkDualMusic(this.btnSongP1,this.btnSongP2,this.music));
-        this.btnSongP2.setOnMouseClicked(t -> this.btnAction.checkDualMusic(this.btnSongP1,this.btnSongP2,this.music));
+        this.btnGiveUpP2.setOnAction(t -> {
+            try {
+                stopElements();
+                if (this.btnAction.backHome()) {
+                    closeElements();
+                } else {
+                    resumeElements();
+                }
+            } catch (IOException e) {
+                e.printStackTrace(); // scrivi...
+            }
+        });
+        this.btnSongP1.setOnMouseClicked(t -> this.btnAction.checkDualMusic(this.btnSongP1, this.btnSongP2, this.music));
+        this.btnSongP2.setOnMouseClicked(t -> this.btnAction.checkDualMusic(this.btnSongP1, this.btnSongP2, this.music));
     }
 
     @Override
-    public void leftClickHandler(final TileImpl tile, final int x, final int y){
+    public final void leftClickHandler(final TileImpl tile, final int x, final int y) {
         this.clickCount++;
         if (!this.timer.getPlayer2Timer().isRunning()) {
             this.timer.start();
         }
-        if(this.supervisorP1.isMaster()) {
+        if (this.supervisorP1.isMaster()) {
             if (!tile.isFlagged()) {
-                this.engineP1.hit(new Pair<>(x,y));
-                refreshBoard(this.engineP1,this.tilesMap1);
+                this.engineP1.hit(new Pair<>(x, y));
+                refreshBoard(this.engineP1, this.tilesMap1);
             }
 
             if (!this.engineP1.getGameStatus().equals(GameStatus.PLAYING)) {
@@ -187,8 +187,8 @@ public class MultiplayerController extends AbstractGameController{
             }
         } else {
             if (!tile.isFlagged()) {
-                this.engineP2.hit(new Pair<>(x,y));
-                refreshBoard(this.engineP2,this.tilesMap2);
+                this.engineP2.hit(new Pair<>(x, y));
+                refreshBoard(this.engineP2, this.tilesMap2);
             }
 
             if (!this.engineP2.getGameStatus().equals(GameStatus.PLAYING)) {
@@ -202,15 +202,14 @@ public class MultiplayerController extends AbstractGameController{
             }
         }
 
-
-        if(this.clickCount == MAX_CLICK) {
+        if (this.clickCount == MAX_CLICK) {
             switchPane();
             this.clickCount = 0;
         }
     }
 
     @Override
-    public void rightClickHandler(final TileImpl tile, final int x, final int y) {
+    public final void rightClickHandler(final TileImpl tile, final int x, final int y) {
         if (this.supervisorP1.isMaster()) {
             if (!tile.isFlagged()) {
                 this.ccflagsP1--;
@@ -218,7 +217,7 @@ public class MultiplayerController extends AbstractGameController{
                 this.ccflagsP1++;
             }
             tile.setFlag();
-            if(this.ccflagsP1 >= 0 && this.ccflagsP1 < 10) {
+            if (this.ccflagsP1 >= 0 && this.ccflagsP1 < 10) {
                 this.lbFlagP1.setText("F:0" + this.ccflagsP1);
             } else {
                 this.lbFlagP1.setText("F:" + this.ccflagsP1);
@@ -230,7 +229,7 @@ public class MultiplayerController extends AbstractGameController{
                 this.ccflagsP2++;
             }
             tile.setFlag();
-            if((this.ccflagsP2 >= 0) && (this.ccflagsP2 < 10)) {
+            if ((this.ccflagsP2 >= 0) && (this.ccflagsP2 < 10)) {
                 this.lbFlagP2.setText("F:0" + this.ccflagsP2);
             } else {
                 this.lbFlagP2.setText("F:" + this.ccflagsP2);
@@ -239,7 +238,7 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     @Override
-    public void endGame(GameStatus status){
+    public final void endGame(GameStatus status) {
         closeElements();
         if (status.equals(GameStatus.LOST)) {
             writePlayer(status);
@@ -256,28 +255,28 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     @Override
-    public void writePlayer(GameStatus status) {
+    public final void writePlayer(GameStatus status) {
         switch (status) {
-            case LOST:
-                if (this.supervisorP1.isMaster()) {
-                    this.firstPlayer.ifPresent(Player::lost);
-                    this.secondPlayer.ifPresent(player -> player.won(this.timer.getPlayer1Timer().getValue()));
-                } else {
-                    this.firstPlayer.ifPresent(player -> player.won(this.timer.getPlayer2Timer().getValue()));
-                    this.secondPlayer.ifPresent(Player::lost);
-                }
-                break;
+        case LOST:
+            if (this.supervisorP1.isMaster()) {
+                this.firstPlayer.ifPresent(Player::lost);
+                this.secondPlayer.ifPresent(player -> player.won(this.timer.getPlayer1Timer().getValue()));
+            } else {
+                this.firstPlayer.ifPresent(player -> player.won(this.timer.getPlayer2Timer().getValue()));
+                this.secondPlayer.ifPresent(Player::lost);
+            }
+            break;
 
-            case WON:
-                if (this.supervisorP1.isMaster()) {
-                    this.firstPlayer.ifPresent(player -> player.won(this.timer.getPlayer1Timer().getValue()));
-                    this.secondPlayer.ifPresent(Player::lost);
-                } else {
-                    this.firstPlayer.ifPresent(Player::lost);
-                    this.secondPlayer.ifPresent(player -> player.won(this.timer.getPlayer2Timer().getValue()));
-                }
-                break;
-            default:
+        case WON:
+            if (this.supervisorP1.isMaster()) {
+                this.firstPlayer.ifPresent(player -> player.won(this.timer.getPlayer1Timer().getValue()));
+                this.secondPlayer.ifPresent(Player::lost);
+            } else {
+                this.firstPlayer.ifPresent(Player::lost);
+                this.secondPlayer.ifPresent(player -> player.won(this.timer.getPlayer2Timer().getValue()));
+            }
+            break;
+        default:
             break;
         }
         this.firstPlayer.ifPresent(player -> this.scoreWriter.write(player));
@@ -285,28 +284,28 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     @Override
-    public void setPlayers(Optional<Player> playerP1, Optional<Player> playerP2) {
+    public final void setPlayers(Optional<Player> playerP1, Optional<Player> playerP2) {
         this.firstPlayer = playerP1;
         this.secondPlayer = playerP2;
     }
 
     @Override
-    public String getFXML() {
+    public final String getFXML() {
         return "layouts/Multiplayer.fxml";
     }
 
     @Override
-    public void closeElements() {
+    public final void closeElements() {
         this.timer.stop();
         music.close();
     }
 
     /**
-     * Stop the elements of the Game
+     * Stop the elements of the Game.
      *
      */
     private void stopElements() {
-        if(supervisorP1.isMaster()){
+        if (supervisorP1.isMaster()) {
             this.timer.getPlayer1Timer().stop();
         } else {
             this.timer.getPlayer2Timer().stop();
@@ -316,11 +315,11 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     /**
-     * Resume the elements of the Game
+     * Resume the elements of the Game.
      *
      */
     private void resumeElements() {
-        if(supervisorP1.isMaster()){
+        if (supervisorP1.isMaster()) {
             this.timer.getPlayer1Timer().start();
         } else {
             this.timer.getPlayer2Timer().start();
@@ -329,11 +328,11 @@ public class MultiplayerController extends AbstractGameController{
     }
 
     /**
-     * Supported with {@link PlayerSupervisor} switch the Pane
+     * Supported with {@link PlayerSupervisor} switch the Pane.
      *
      */
     private void switchPane() {
-        if(this.supervisorP1.isMaster()) {
+        if (this.supervisorP1.isMaster()) {
             this.firstPlayerPane.setDisable(true);
             this.secondPlayerPane.setDisable(false);
         } else {

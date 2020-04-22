@@ -5,10 +5,10 @@ import javafx.scene.layout.GridPane;
 import java.util.Map;
 
 /**
- * The Builder of {@link TileImpl} grid
+ * The Builder of {@link TileImpl} grid.
  * <p>
  * This class build the grid of the game<br>
- *</p>
+ * </p>
  */
 public interface TileBuilder {
 
@@ -16,7 +16,7 @@ public interface TileBuilder {
      * Set the {@link TileBuilder} height.
      *
      * @param width
-     *              width of the {@link TileBuilder}
+     *                  width of the {@link TileBuilder}
      * @return {@link TileBuilder}
      */
     TileBuilder withWidth(final int width);
@@ -25,7 +25,7 @@ public interface TileBuilder {
      * Set the {@link TileBuilder} height.
      *
      * @param height
-     *              height of the {@link TileBuilder}
+     *                   height of the {@link TileBuilder}
      * @return {@link TileBuilder}
      */
     TileBuilder withHeight(final int height);
@@ -34,7 +34,7 @@ public interface TileBuilder {
      * Set the {@link TileBuilder} grid.
      *
      * @param grid
-     *              grid of the {@link TileBuilder}
+     *                 grid of the {@link TileBuilder}
      * @return {@link TileBuilder}
      */
     TileBuilder withGrid(final GridPane grid);
@@ -44,6 +44,6 @@ public interface TileBuilder {
      *
      * @return A builded {@link TileBuilder}
      */
-    Map<Pair<Integer,Integer>, TileImpl> build();
+    Map<Pair<Integer, Integer>, TileImpl> build();
 
 }

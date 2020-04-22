@@ -15,13 +15,14 @@ import javax.sound.sampled.*;
 /**
  * The implementation of {@link Tile}.
  */
-public class TileImpl extends Button implements Tile{
+public class TileImpl extends Button implements Tile {
     private static final String SEPARATOR = System.getProperty("file.separator");
-    private static final String urlImgMine = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
-            + "mines" + SEPARATOR;
-    private static final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image" + SEPARATOR
-            + "flags" + SEPARATOR;
-    private static final String urlAudioEffects = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "audioeffect" + SEPARATOR;
+    private static final String urlImgMine = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image"
+            + SEPARATOR + "mines" + SEPARATOR;
+    private static final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image"
+            + SEPARATOR + "flags" + SEPARATOR;
+    private static final String urlAudioEffects = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR
+            + "audioeffect" + SEPARATOR;
     private final String srcAddFlag = urlAudioEffects + "addflag.wav";
     private final String srcRemoveFlag = urlAudioEffects + "removeflag.wav";
     private final String srcOpenTile = urlAudioEffects + "click.wav";
@@ -99,35 +100,24 @@ public class TileImpl extends Button implements Tile{
     @Override
     public final void setStyle(final int value) {
         switch (value) {
-            case 0:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-font-weight: bold;");
-                break;
-            case 1:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: blue; -fx-font-weight: bold;");
-                break;
-            case 2:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: green; -fx-font-weight: bold;");
-                break;
-            case 3:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: darkred; -fx-font-weight: bold;");
-                break;
-            case 4:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: purple; -fx-font-weight: bold;");
-                break;
-            case 5:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: white; -fx-font-weight: bold;");
-                break;
-            case 6:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: orange; -fx-font-weight: bold;");
-                break;
-            case 7:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: yellow; -fx-font-weight: bold;");
-                break;
-            case 8:
-                this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: black; -fx-font-weight: bold;");
-                break;
+        case 0:
+            this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-font-weight: bold;");
+            break;
+        case 1:
+            this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: blue; -fx-font-weight: bold;");
+            break;
+        case 2:
+            this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: green; -fx-font-weight: bold;");
+            break;
+        case 3:
+            this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: darkred; -fx-font-weight: bold;");
+            break;
+        case 4:
+            this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: purple; -fx-font-weight: bold;");
+            break;
+        default:
+            break;
         }
-
 
     }
 
@@ -137,33 +127,33 @@ public class TileImpl extends Button implements Tile{
     }
 
     @Override
-    public int getX() {
+    public final int getX() {
         return this.x;
     }
 
     @Override
-    public int getY() {
+    public final int getY() {
         return this.y;
     }
 
     @Override
-    public int getValue() {
+    public final int getValue() {
         return this.value;
     }
 
     @Override
-    public Boolean isFlagged() {
+    public final Boolean isFlagged() {
         return this.flagged;
     }
 
     @Override
-    public void setEffect() {
+    public final void setEffect() {
         this.effect.fallingTiles(this);
     }
 
     @Override
-    public void audioClick() {
-        if(this.clip.isOpen()) {
+    public final void audioClick() {
+        if (this.clip.isOpen()) {
             this.clip.close();
             this.clip.flush();
         }
@@ -177,8 +167,8 @@ public class TileImpl extends Button implements Tile{
     }
 
     @Override
-    public void audioBigClick() {
-        if(this.clip.isOpen()) {
+    public final void audioBigClick() {
+        if (this.clip.isOpen()) {
             this.clip.close();
             this.clip.flush();
         }
@@ -192,8 +182,8 @@ public class TileImpl extends Button implements Tile{
     }
 
     @Override
-    public void audioAddFlag() {
-        if(this.clip.isOpen()) {
+    public final void audioAddFlag() {
+        if (this.clip.isOpen()) {
             this.clip.close();
             this.clip.flush();
         }
@@ -207,8 +197,8 @@ public class TileImpl extends Button implements Tile{
     }
 
     @Override
-    public void audioRemoveFlag() {
-        if(this.clip2.isOpen()) {
+    public final void audioRemoveFlag() {
+        if (this.clip2.isOpen()) {
             this.clip2.close();
             this.clip2.flush();
         }
@@ -222,29 +212,28 @@ public class TileImpl extends Button implements Tile{
     }
 
     /**
-     * The handler for open flag image stream of {@link Tile}
+     * The handler for open flag image stream of {@link Tile}.
+     * 
      * @exception IOException
      *                            if an I/O error occurs.
      */
-    private void openStreamFlag() throws IOException{
-        final Image flag = new Image(new FileInputStream(urlImgFlag + this.rwSett.getFlags()), IMAGE_SIZE, IMAGE_SIZE, true, true);
+    private void openStreamFlag() throws IOException {
+        final Image flag = new Image(new FileInputStream(urlImgFlag + this.rwSett.getFlags()), IMAGE_SIZE, IMAGE_SIZE, true,
+                true);
         this.imgFlag = new ImageView(flag);
 
     }
 
     /**
-     * The handler for open bomb image stream of {@link Tile}
+     * The handler for open bomb image stream of {@link Tile}.
+     * 
      * @exception IOException
      *                            if an I/O error occurs.
      */
-    private void openStreamBomb() throws IOException{
-        final Image mine = new Image(new FileInputStream(urlImgMine + this.rwSett.getMines()), IMAGE_SIZE, IMAGE_SIZE, true, true);
+    private void openStreamBomb() throws IOException {
+        final Image mine = new Image(new FileInputStream(urlImgMine + this.rwSett.getMines()), IMAGE_SIZE, IMAGE_SIZE, true,
+                true);
         this.imgMine = new ImageView(mine);
     }
 
-
-
-
-
 }
-

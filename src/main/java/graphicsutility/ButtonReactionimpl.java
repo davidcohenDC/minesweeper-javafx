@@ -23,8 +23,8 @@ public class ButtonReactionimpl implements ButtonReaction {
     }
 
     @Override
-    public Boolean backHome() throws IOException {
-        if(this.alert.confirm()) {
+    public final Boolean backHome() throws IOException {
+        if (this.alert.confirm()) {
             final RWSettings rwSett = new RWSettingsImpl();
             final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/playGame.fxml"));
             final Stage stage = (Stage) this.rootPane.getScene().getWindow();
@@ -38,8 +38,8 @@ public class ButtonReactionimpl implements ButtonReaction {
     }
 
     @Override
-    public void checkMusic(final Button btnSong, final SongAgent music) {
-        if(music.isPlaying()) {
+    public final void checkMusic(final Button btnSong, final SongAgent music) {
+        if (music.isPlaying()) {
             btnSong.setText("MUTED");
             music.pause();
         } else {
@@ -49,8 +49,8 @@ public class ButtonReactionimpl implements ButtonReaction {
     }
 
     @Override
-    public void checkDualMusic(final Button btnSong,final Button btnSong2, final SongAgent music) {
-        if(music.isPlaying()) {
+    public final void checkDualMusic(final Button btnSong, final Button btnSong2, final SongAgent music) {
+        if (music.isPlaying()) {
             btnSong.setText("MUTED");
             btnSong2.setText("MUTED");
             music.pause();

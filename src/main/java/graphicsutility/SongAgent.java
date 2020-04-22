@@ -2,29 +2,29 @@ package graphicsutility;
 
 
 /**
- * The interface for manage Song
+ * The interface for manage Song.
  */
 public interface SongAgent {
 
      /**
-      * Play the song
+      * Play the song.
       */
      void play();
 
      /**
-      * Pause the song
+      * Pause the song.
       */
      void pause();
 
      /**
-      * Check if the Song is playing
+      * Check if the Song is playing.
       *
       * @return the status of the music
       */
      Boolean isPlaying();
 
      /**
-      * Close the song
+      * Close the song.
       */
      void close();
 

@@ -16,9 +16,9 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * The Abstract Class of {@link GameController}
+ * The Abstract Class of {@link GameController}.
  */
-public abstract class AbstractGameController implements GameController{
+public abstract class AbstractGameController implements GameController {
     private final int height;
     private final int width;
     private final int mines;
@@ -29,7 +29,6 @@ public abstract class AbstractGameController implements GameController{
     @FXML
     private AnchorPane rootPane;
 
-
     public AbstractGameController(final int height, final int width, final int mines, final Timer timer) {
         this.height = height;
         this.mines = mines;
@@ -38,26 +37,27 @@ public abstract class AbstractGameController implements GameController{
     }
 
     /**
-     * set the functions to handle when user press left/right click in the {@link GameController}
+     * set the functions to handle when user press left/right click in the
+     * {@link GameController}.
      *
      * @param engine
-     *                  the {@link GameEngine} for handle it
+     *                     the {@link GameEngine} for handle it
      * @param tilesMap
-     *                  the Map of {@link TileImpl}
+     *                     the Map of {@link TileImpl}
      *
      */
-    protected void setClickHandler(final GameEngine engine,final Map<Pair<Integer, Integer>, TileImpl>tilesMap) {
+    protected void setClickHandler(final GameEngine engine, final Map<Pair<Integer, Integer>, TileImpl> tilesMap) {
         for (final Box box : engine.getBoard()) {
             final TileImpl tmpTile = tilesMap.get(box.getPosition());
             tmpTile.setOnMouseClicked(e -> {
                 switch (e.getButton()) {
-                    case PRIMARY:
-                        leftClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
-                        break;
-                    case SECONDARY:
-                        engine.setFlag(new Pair<>(tmpTile.getX(),tmpTile.getY()));
-                        rightClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
-                        break;
+                case PRIMARY:
+                    leftClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
+                    break;
+                case SECONDARY:
+                    engine.setFlag(new Pair<>(tmpTile.getX(), tmpTile.getY()));
+                    rightClickHandler(tmpTile, tmpTile.getX(), tmpTile.getY());
+                    break;
                 default:
                     break;
                 }
@@ -66,12 +66,12 @@ public abstract class AbstractGameController implements GameController{
     }
 
     /**
-     * Update the {@link Board} and the Map of {@link Tile} associated
+     * Update the {@link Board} and the Map of {@link Tile} associated.
      *
      * @param engine
-     *                  the {@link GameEngine} for handle it and check the status
+     *                     the {@link GameEngine} for handle it and check the status
      * @param tilesMap
-     *                  the Map of {@link Tile} for handle each of them
+     *                     the Map of {@link Tile} for handle each of them
      *
      */
     protected void refreshBoard(final GameEngine engine, final Map<Pair<Integer, Integer>, TileImpl> tilesMap) {
@@ -97,12 +97,12 @@ public abstract class AbstractGameController implements GameController{
     }
 
     /**
-     * Set the {@link Scene} to the {@link PlayGameInterface}
+     * Set the {@link Scene} to the {@link PlayGameInterface}.
      *
      * @exception IOException
      *                            if an I/O error occurs.
      */
-    protected void backHome() throws IOException{
+    protected void backHome() throws IOException {
         final RWSettings rwSett = new RWSettingsImpl();
         final Parent pane = FXMLLoader.load(ClassLoader.getSystemResource("layouts/playGame.fxml"));
         final Stage stage = (Stage) this.rootPane.getScene().getWindow();
@@ -112,22 +112,22 @@ public abstract class AbstractGameController implements GameController{
     }
 
     @Override
-    public int getHeight() {
+    public final int getHeight() {
         return this.height;
     }
 
     @Override
-    public int getMines() {
+    public final int getMines() {
         return this.mines;
     }
 
     @Override
-    public int getWidth() {
+    public final int getWidth() {
         return this.width;
     }
 
     @Override
-    public Timer getTimer() {
+    public final Timer getTimer() {
         return this.timer;
     }
 

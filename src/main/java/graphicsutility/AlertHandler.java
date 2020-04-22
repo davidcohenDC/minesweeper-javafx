@@ -5,12 +5,12 @@ import scoresystem.Player;
 import java.util.Optional;
 
 /**
- * Interface to handle and manage the Alerts
+ * Interface to handle and manage the Alerts.
  */
 public interface AlertHandler {
 
     /**
-     * The won alert for the player selected
+     * The won alert for the player selected.
      *
      * @param player
      *                  the {@link Player} selected to perform the alert
@@ -19,7 +19,7 @@ public interface AlertHandler {
     void won(final Optional<Player> player);
 
     /**
-     * The lost alert for the player selected
+     * The lost alert for the player selected.
      *
      * @param player
      *                  the {@link Player} selected to perform the alert
@@ -28,13 +28,13 @@ public interface AlertHandler {
     void lost(final Optional<Player> player);
 
     /**
-     * The lost alert when event from {@link OutOfTimeEvent} occur
+     * The lost alert when event from {@link OutOfTimeEvent} occur.
      *
      */
     void lostWithTimer();
 
     /**
-     * The confirm alert
+     * The confirm alert.
      *
      * @return the chosen of the player
      *
@@ -42,7 +42,7 @@ public interface AlertHandler {
     Boolean confirm();
 
     /**
-     * The alert to handle the same name error of {@link Player}
+     * The alert to handle the same name error of {@link Player}.
      *
      */
     void sameName();

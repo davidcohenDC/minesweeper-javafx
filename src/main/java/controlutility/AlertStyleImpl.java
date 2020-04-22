@@ -1,6 +1,5 @@
 package controlutility;
 
-
 import javafx.scene.control.Alert;
 
 /** *The implementation of {@link AlertStyle}. */

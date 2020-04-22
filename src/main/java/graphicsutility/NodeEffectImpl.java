@@ -9,10 +9,12 @@ import javafx.util.Duration;
  * The implementation of {@link NodeEffect}.
  */
 public class NodeEffectImpl implements NodeEffect {
-    public FadeTransition fade;
-
+    private FadeTransition fade;
+    private static final int SHIFT_AMOUNT = 200;
+    private static final int DURATION_AMOUNT = 3000;
+    
     @Override
-    public void fallingTiles(TileImpl tile) {
+    public final void fallingTiles(TileImpl tile) {
         TranslateTransition transition = new TranslateTransition();
         this.fade = new FadeTransition();
         this.fade.setFromValue(1.0);
@@ -20,8 +22,8 @@ public class NodeEffectImpl implements NodeEffect {
         this.fade.setDuration(Duration.millis(1000));
         this.fade.setNode(tile);
 
-        transition.setByY(200);
-        transition.setDuration(Duration.millis(3000));
+        transition.setByY(SHIFT_AMOUNT);
+        transition.setDuration(Duration.millis(DURATION_AMOUNT));
         transition.setNode(tile);
 
         transition.play();

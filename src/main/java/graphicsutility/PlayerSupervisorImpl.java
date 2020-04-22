@@ -14,22 +14,23 @@ import java.util.Optional;
 public class PlayerSupervisorImpl implements PlayerSupervisor {
     private final Optional<Player> player;
     private Boolean baton;
-    
-    public PlayerSupervisorImpl(final Optional<Player> player, final Boolean baton, final HashMap<PlayerSupervisor,Boolean> playersMap) {
+
+    public PlayerSupervisorImpl(final Optional<Player> player, final Boolean baton,
+            final HashMap<PlayerSupervisor, Boolean> playersMap) {
         this.player = player;
         this.baton = baton;
-        playersMap.put(this,baton);
+        playersMap.put(this, baton);
     }
 
     @Override
-    public void giveMaster(final HashMap<PlayerSupervisor,Boolean> playersMap) {
+    public final void giveMaster(final HashMap<PlayerSupervisor, Boolean> playersMap) {
         Iterator<Map.Entry<PlayerSupervisor, Boolean>> entries = playersMap.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<PlayerSupervisor, Boolean> entry = entries.next();
-            if(entry.getValue()) {
+            if (entry.getValue()) {
                 entry.setValue(false);
                 entry.getKey().unsetBaton();
-                if(entries.hasNext()) {
+                if (entries.hasNext()) {
                     entry = entries.next();
                     entry.setValue(true);
                     entry.getKey().setBaton();
@@ -46,26 +47,23 @@ public class PlayerSupervisorImpl implements PlayerSupervisor {
     }
 
     @Override
-    public void view(final Label label) {
+    public final void view(final Label label) {
         label.setText(player.isPresent() ? player.get().getName() : "NONE");
     }
 
     @Override
-    public void setBaton() {
+    public final void setBaton() {
         this.baton = true;
     }
 
     @Override
-    public void unsetBaton() {
+    public final void unsetBaton() {
         this.baton = false;
     }
 
     @Override
-    public Boolean isMaster() {
+    public final Boolean isMaster() {
         return this.baton;
     }
-
-
-
 
 }

@@ -60,22 +60,22 @@ public class SinglePlayerController extends AbstractGameController {
     private AnchorPane rootPane;
 
     public SinglePlayerController(final int height, final int width, final int mines, final Timer timer) {
-        super(height,width,mines,timer);
+        super(height, width, mines, timer);
         this.height = height;
         this.width = width;
         this.mines = mines;
         this.timer = timer;
-        this.engine = new GameEngineImpl(width,height,mines);
+        this.engine = new GameEngineImpl(width, height, mines);
     }
 
     @Override
-    public void initialize() throws IOException {
+    public final void initialize() throws IOException {
         HashMap<PlayerSupervisor, Boolean> playerMap = new HashMap<>();
         this.timerView = new TimerViewImpl(this.timer, this.lbTimerP1);
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(new RWSettingsImpl());
         this.btnAction = new ButtonReactionimpl(this.rootPane);
-        this.supervisorP1 = new PlayerSupervisorImpl(this.firstPlayer,true, playerMap);
+        this.supervisorP1 = new PlayerSupervisorImpl(this.firstPlayer, true, playerMap);
         this.scoreWriter = new ScoreWriterImpl();
 
         this.lbFlagP1.setText("FLAGS:" + this.mines);
@@ -97,16 +97,16 @@ public class SinglePlayerController extends AbstractGameController {
         this.music.play();
 
         setButtons();
-        setClickHandler(this.engine,this.tilesMap);
+        setClickHandler(this.engine, this.tilesMap);
     }
 
     @Override
-    public void setButtons() {
+    public final void setButtons() {
         this.btnBackHome.setOnAction(t -> {
             try {
                 this.music.pause();
                 this.timer.stop();
-                if(this.btnAction.backHome()) {
+                if (this.btnAction.backHome()) {
                     closeElements();
                 } else {
                     this.music.play();
@@ -116,18 +116,18 @@ public class SinglePlayerController extends AbstractGameController {
                 e.printStackTrace();
             }
         });
-       this.btnSong.setOnMouseClicked(t -> this.btnAction.checkMusic(this.btnSong,this.music));
+        this.btnSong.setOnMouseClicked(t -> this.btnAction.checkMusic(this.btnSong, this.music));
     }
 
     @Override
-    public void leftClickHandler(final TileImpl tile, final int x, final int y) {
+    public final void leftClickHandler(final TileImpl tile, final int x, final int y) {
         if (!this.timer.isRunning()) {
             this.timerView.setTimeEventListener(new TimeEventsListenerImpl(this));
             this.timer.start();
         }
         if (!tile.isFlagged()) {
-            this.engine.hit(new Pair<>(x,y));
-            refreshBoard(this.engine,this.tilesMap);
+            this.engine.hit(new Pair<>(x, y));
+            refreshBoard(this.engine, this.tilesMap);
         }
 
         if (!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
@@ -142,14 +142,14 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     @Override
-    public void rightClickHandler(final TileImpl tile, final int x, final int y) {
+    public final void rightClickHandler(final TileImpl tile, final int x, final int y) {
         if (!tile.isFlagged()) {
             this.ccflagsP1--;
         } else {
             this.ccflagsP1++;
         }
         tile.setFlag();
-        if(this.ccflagsP1 >= 0 && this.ccflagsP1 < 10) {
+        if (this.ccflagsP1 >= 0 && this.ccflagsP1 < 10) {
             this.lbFlagP1.setText("FLAGS:0" + this.ccflagsP1);
         } else {
             this.lbFlagP1.setText("FLAGS:" + this.ccflagsP1);
@@ -158,11 +158,11 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     @Override
-    public void endGame(GameStatus status) {
+    public final void endGame(GameStatus status) {
         closeElements();
         if (status.equals(GameStatus.LOST)) {
             writePlayer(GameStatus.LOST);
-            if(this.timerOver) {
+            if (this.timerOver) {
                 this.alert.lostWithTimer();
             } else {
                 this.alert.lost(this.firstPlayer);
@@ -185,13 +185,13 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     @Override
-    public void closeElements() {
+    public final void closeElements() {
         this.timer.stop();
         this.music.close();
     }
 
     @Override
-    public void writePlayer(GameStatus status) {
+    public final void writePlayer(GameStatus status) {
         if (status.equals(GameStatus.LOST)) {
             this.firstPlayer.ifPresent(Player::lost);
         } else {
@@ -201,23 +201,23 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     @Override
-    public void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer) {
+    public final void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer) {
         this.firstPlayer = firstplayer;
     }
 
     @Override
-    public String getFXML() {
+    public final String getFXML() {
         return "layouts/SinglePlayer.fxml";
     }
 
     /**
-     * The {@link OutOfTimeEvent} class talk with the {@link TimeEventsListener}
+     * The {@link OutOfTimeEvent} class talk with the {@link TimeEventsListener}.
      * <p>
      * This method should occur if a {@link Timer} reaching its limit.
      *
      */
     public void endTimer() {
-        this.timerOver= true;
+        this.timerOver = true;
         endGame(GameStatus.LOST);
     }
 

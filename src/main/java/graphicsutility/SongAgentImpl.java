@@ -10,7 +10,8 @@ import java.io.IOException;
  */
 public class SongAgentImpl implements SongAgent {
     private static final String SEPARATOR = System.getProperty("file.separator");
-    private final String urlSound = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "sound" + SEPARATOR;
+    private final String urlSound = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "sound"
+            + SEPARATOR;
     private Clip clip;
     private Boolean playing = false;
     private Boolean checkStart = false;
@@ -21,21 +22,21 @@ public class SongAgentImpl implements SongAgent {
     }
 
     @Override
-    public void close() {
+    public final void close() {
         this.clip.stop();
         this.clip.close();
     }
 
     @Override
-    public Boolean isPlaying() {
+    public final Boolean isPlaying() {
         return this.playing;
     }
 
     @Override
-    public void play() {
+    public final void play() {
         this.playing = true;
 
-        if(this.checkStart) {
+        if (this.checkStart) {
             this.clip.start();
         } else {
             this.start();
@@ -43,13 +44,13 @@ public class SongAgentImpl implements SongAgent {
     }
 
     @Override
-    public void pause() {
+    public final void pause() {
         this.playing = false;
         this.clip.stop();
     }
 
     /**
-     * Start the {@link Clip}
+     * Start the {@link Clip}.
      */
     private void start() {
         this.checkStart = true;
@@ -58,7 +59,7 @@ public class SongAgentImpl implements SongAgent {
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
-        final String path =  this.urlSound +  this.rwSett.getSong();
+        final String path = this.urlSound + this.rwSett.getSong();
         try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile())) {
             this.clip.open(audioStream);
             this.clip.start();
@@ -68,10 +69,5 @@ public class SongAgentImpl implements SongAgent {
         }
 
     }
-
-
-
-
-
 
 }
