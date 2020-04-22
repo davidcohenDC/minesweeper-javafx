@@ -2,7 +2,7 @@ GUIDA UTENTE
 
 Per iniziare una nuova partita, selezionare “Play Game”, si aprirà una nuova pagina in cui selezionare la modalità di gioco (standard, 1 vs 1, beat the timer) e la difficoltà (easy, medium, hard, personalized).
 Una volta scelte le opzioni di gioco basterà cliccare sul pulsante “Play” situato in basso a destra. 
-Sarà ora richiesto all’utente di inserire il suo nome, o selezionare tra quelli già memorizzati, altrimenti il suo punteggio andrà perso. 
+Sarà ora richiesto all’utente di inserire il suo nome, altrimenti il suo punteggio andrà perso. 
 Fatto si aprirà una nuova pagina, diversa in base alla modalità scelta.
 Lo scopo del gioco è riuscire è trovare tutte le mine in un campo minato senza farle esplodere nel minor tempo possibile.
 
