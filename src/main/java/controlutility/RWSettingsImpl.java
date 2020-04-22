@@ -75,6 +75,7 @@ public class RWSettingsImpl implements RWSettings {
         return this.lines.get(4);
     }
 
+    /**Save changes in settings.txt.*/
     private void save() {
         try (PrintStream ps = new PrintStream(fileName)) {
             for (final String s : lines) {

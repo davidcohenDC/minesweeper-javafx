@@ -33,7 +33,9 @@ public class MainStatisticsController extends BackHomeController implements Main
         this.rwSett = new RWSettingsImpl();
     }
 
-    /** used to switch scene on the same stage. 
+    /** used to switch scene on the same stage.
+     * @param modality represent the select modality
+     * @param buttonText represent the text of button select. 
      * @throws IOException */
     private void switchScene(final Modality modality, final String buttonText) throws IOException {
         final FXMLLoader loader = new FXMLLoader(ClassLoader.getSystemResource("layouts/statistics.fxml"));

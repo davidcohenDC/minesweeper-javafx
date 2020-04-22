@@ -55,6 +55,7 @@ public class StatisticsController implements StatisticsControllerInterface {
         this.modality = modality;
         this.buttonText = buttonText;
     }
+
     @Override
     public final void initialize() {
         this.title.setText("STATISTICS - " + this.buttonText);
@@ -63,6 +64,7 @@ public class StatisticsController implements StatisticsControllerInterface {
         this.addClassify();
     }
 
+    /**Create and add classify charters, one for each difficulty. */
     private void addClassify() {
         final ScoreWriter scoreWriter = new ScoreWriterImpl();
         for (final Difficulty difficulty : Difficulty.values()) {
@@ -92,7 +94,7 @@ public class StatisticsController implements StatisticsControllerInterface {
             }
         }
     }
-
+    /**Create and add grneral charter, that represent global wins and losses of a specific modality. */
     private void addGeneralChart() {
         final StatistcsWriter statisticWriter = new StatisticsWriterImpl();
         final ObservableList<PieChart.Data> generalPieChartData =

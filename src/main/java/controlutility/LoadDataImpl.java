@@ -31,8 +31,6 @@ public class LoadDataImpl implements LoadData {
      **/
     @Override
     public void loadData() throws IOException {
-        // se esiste .minesweeper/ in user.home non fa nulla, altrimenti la crea e copia
-        // dentro i file contenuti in resources
         final File file = new File(this.root);
         if (!file.exists() && file.mkdir()) {
             loadSettings();
@@ -43,6 +41,7 @@ public class LoadDataImpl implements LoadData {
         }
     }
 
+    /**Load audio effect into audioeffect folder.*/
     private void loadAudioEffect() throws IOException {
         final String strAudioEffect = this.root + "audioeffect" + SEPARATOR;
         final File file = new File(strAudioEffect);
@@ -61,6 +60,7 @@ public class LoadDataImpl implements LoadData {
 
     }
 
+    /**Load Images into mines and flags.*/
     private void loadImage() throws IOException {
         final String strImg = this.root + "image" + SEPARATOR;
         final String strMine = strImg + "mines" + SEPARATOR;
@@ -92,6 +92,7 @@ public class LoadDataImpl implements LoadData {
 
     }
 
+    /**Load the settings file into settings folder.*/
     private void loadSettings() throws IOException {
         final String strSett = this.root + "settings" + SEPARATOR;
         final File file = new File(strSett);
@@ -106,6 +107,7 @@ public class LoadDataImpl implements LoadData {
         }
     }
 
+    /**Load soundtracks  into sound folder.*/
     private void loadSound() throws IOException {
         final String strSound = this.root + "sound" + SEPARATOR;
         final File file = new File(strSound);
@@ -124,6 +126,7 @@ public class LoadDataImpl implements LoadData {
 
     }
 
+    /**Create scoreSystems folder width a subfolder for each modality.*/
     private void loadScoreSystem() {
         final String strScores = this.root + "score_files" + SEPARATOR;
         final File file = new File(strScores);
