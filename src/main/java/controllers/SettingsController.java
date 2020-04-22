@@ -82,7 +82,7 @@ public final class SettingsController extends BackHomeController implements Sett
     }
 
 
-
+    /**Event associate to mines' menu button.*/
     private final EventHandler<ActionEvent> selectMine = new EventHandler<ActionEvent>() {
         @Override
         public void handle(final ActionEvent e) {
@@ -95,7 +95,7 @@ public final class SettingsController extends BackHomeController implements Sett
         }
     };
 
-
+    /**Event associate to flags' menu button.*/
     private final EventHandler<ActionEvent> selectFlag = new EventHandler<ActionEvent>() {
         @Override
         public void handle(final ActionEvent e) {
@@ -108,6 +108,7 @@ public final class SettingsController extends BackHomeController implements Sett
         }
     };
 
+    /**Event associate to style' menu button.*/
     private final EventHandler<ActionEvent> selectCss = new EventHandler<ActionEvent>() {
         @Override
         public void handle(final ActionEvent e) {
@@ -118,6 +119,7 @@ public final class SettingsController extends BackHomeController implements Sett
         }
     };
 
+    /**Populate Mines menu button with the name of mines' images.*/
     private void createMenuButtonM() {
         try (Stream<Path> walk = Files.walk(Paths.get(urlImgMine))) {
             final List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
@@ -132,6 +134,7 @@ public final class SettingsController extends BackHomeController implements Sett
         this.mbtMines.getItems().forEach(e -> e.setOnAction(selectMine));
     }
 
+    /**Set the select name of mine image in the mines menu button.*/
     private void updateImgMines() throws FileNotFoundException {
         this.ivMines.setImage(new Image(new FileInputStream(this.urlImgMine + this.rwSett.getMines())));
         this.mbtMines.setText(this.rwSett.getMines());
@@ -154,6 +157,7 @@ public final class SettingsController extends BackHomeController implements Sett
         }
     }
 
+    /**Populate Flags menu button with the name of flags' images.*/
     private void createMenuButtonF() {
         try (Stream<Path> walk = Files.walk(Paths.get(urlImgFlag))) {
             final List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
@@ -168,6 +172,7 @@ public final class SettingsController extends BackHomeController implements Sett
         this.mbtFlags.getItems().forEach(e -> e.setOnAction(selectFlag));
     }
 
+    /**Set the select name of flag image in the image menu button.*/
     private void updateImgFlag() throws FileNotFoundException {
         this.ivFlags.setImage(new Image(new FileInputStream(this.urlImgFlag + this.rwSett.getFlags())));
         this.mbtFlags.setText(this.rwSett.getFlags());
@@ -190,6 +195,7 @@ public final class SettingsController extends BackHomeController implements Sett
         }
     }
 
+    /**Populate Style menu button with the name of css.*/
     private void createMenuButtonC() throws IOException {
         for (final String l : this.css) {
             final MenuItem item = new MenuItem(l);
@@ -199,6 +205,7 @@ public final class SettingsController extends BackHomeController implements Sett
         }
     }
 
+    /**Event associate to Song' menu button.*/
     private final EventHandler<ActionEvent> selectSound = new EventHandler<ActionEvent>() {
         @Override
         public void handle(final ActionEvent e) {
@@ -216,7 +223,7 @@ public final class SettingsController extends BackHomeController implements Sett
         }
     };
 
-
+    /**Populate Song menu button with the name of soundtracks.*/
     private void createMenuButtonS() {
         try (Stream<Path> walk = Files.walk(Paths.get(urlSound))) {
             final List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());

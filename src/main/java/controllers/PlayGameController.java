@@ -80,6 +80,7 @@ public final class PlayGameController extends BackHomeController implements Play
         alert.setHeaderText(null);
     }
 
+    /**Associate to each Difficulty button the respective difficulty and status (select or not select).*/
     private void populateBtsDifficulty() {
         this.btsDifficulty.put(Difficulty.EASY, false);
         this.btsDifficulty.put(Difficulty.MEDIUM, false);
@@ -88,12 +89,14 @@ public final class PlayGameController extends BackHomeController implements Play
 
     }
 
+    /**Associate to each Modality button the respective modality and status (select or not select).*/
     private void populateBtsModality() {
         this.btsModality.put(Modality.STANDARD, false);
         this.btsModality.put(Modality.ONE_VS_ONE, false);
         this.btsModality.put(Modality.BTT, false);
     }
 
+    /**Enable and disable text field according to the selection of personalize difficulty.*/
     private void enableTextField() {
         if (this.personalized) {
             this.tfMines.setDisable(false);
@@ -110,6 +113,8 @@ public final class PlayGameController extends BackHomeController implements Play
         }
     }
 
+    /**Update modality according to the selection.
+     * @param mod new chose modality*/
     private void loadModality(final Modality mod) {
         if (this.btsModality.get(mod)) {
             this.btsModality.replace(mod, false);
@@ -126,12 +131,15 @@ public final class PlayGameController extends BackHomeController implements Play
         setStatusMod();
     }
 
+    /**Set and unset modalities radio buttons.*/
     private void setStatusMod() {
         this.rbtStd.setSelected(this.btsModality.get(Modality.STANDARD));
         this.rbtOnevsOne.setSelected(this.btsModality.get(Modality.ONE_VS_ONE));
         this.rbtBtt.setSelected(this.btsModality.get(Modality.BTT));
     }
 
+    /**Update difficulty according to the selection.
+     * @param diff new chose difficulty*/
     private void loadDifficulty(final Difficulty diff) {
         if (this.btsDifficulty.get(diff)) {
             this.btsDifficulty.replace(diff, false);
@@ -148,6 +156,7 @@ public final class PlayGameController extends BackHomeController implements Play
         setStatusDiff();
     }
 
+    /**Set and unset difficulties radio buttons.*/
     private void setStatusDiff() {
         this.rbtEasy.setSelected(this.btsDifficulty.get(Difficulty.EASY));
         this.rbtMedium.setSelected(this.btsDifficulty.get(Difficulty.MEDIUM));
@@ -264,6 +273,7 @@ public final class PlayGameController extends BackHomeController implements Play
         }
     }
 
+    /**Set text and show the alert for 'only number format'.*/
     private void alertNumberFormat() {
         alert.setContentText("Only number format");
         alert.showAndWait();
@@ -287,6 +297,7 @@ public final class PlayGameController extends BackHomeController implements Play
         }
     }
 
+    /**Check if parameters of personalized modality are in the range.*/
     private boolean checkRange() {
         if (this.mines < MIN_MINES || this.mines > MAX_MINES || this.height < MIN_HEIGHT || this.height > MAX_HEIGHT || this.width < MIN_WIDTH
                 || this.width > MAX_WIDTH) {
@@ -300,12 +311,14 @@ public final class PlayGameController extends BackHomeController implements Play
                 && this.width >= MIN_WIDTH && this.width <= MAX_WIDTH && this.mines <= this.height * this.width;
     }
 
+    /**Check if one modality radio button is select and the field is not empty.*/
     private void check() {
         if (this.btsModality.containsValue(true) && this.modality.equals(Optional.empty())) {
             throw new IllegalStateException();
         }
     }
 
+    /**Check if one difficulty radio button is select and the field is not empty.*/
     private void checkDiff() {
         if (this.btsDifficulty.containsValue(true) && this.difficulty.equals(Optional.empty())) {
             throw new IllegalStateException();
