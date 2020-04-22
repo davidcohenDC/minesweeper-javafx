@@ -1,17 +1,47 @@
 package logicstest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import gamelogics.BombGenerator;
 import gamelogics.BombGeneratorImpl;
 
 class BombGeneratorImplTest {
 
     @org.junit.jupiter.api.Test
-    public void next() {
+    public void nextTest() {
         final int width = 5;
         final int height = 4;
-        final BombGenerator bg = new BombGeneratorImpl(width, height, 5);
+
+        //setup without bombs
+        final BombGenerator withoutBomb = new BombGeneratorImpl(width, height, 0);
         for (int i = 0; i < width * height; i++) {
-            System.out.println(bg.next());
+            // 0 boolean false found
+            assertEquals(false, withoutBomb.next());
         }
+
+        //setup all box with a bomb
+        final BombGenerator fullBomb = new BombGeneratorImpl(width, height, width * height);
+        for (int i = 0; i < width * height; i++) {
+            // 0 boolean false found
+            assertEquals(true, fullBomb.next());
+        }
+    }
+
+    @org.junit.jupiter.api.Test
+    public void nextTestExeption() {
+        final int width = 5;
+        final int height = 4;
+
+        //setup with bomb
+        final BombGenerator withBomb = new BombGeneratorImpl(width, height, 3);
+        for (int i = 0; i < width * height; i++) {
+            withBomb.next();
+            //Uncomment down and comment up to test how boolean are distributed
+            //final boolean bomb = withBomb.next();
+            //System.out.println(bomb);
+        }
+        //Test throws exception if trying to get boolean that is out of range of the board
+        assertThrows(IndexOutOfBoundsException.class, () -> withBomb.next());
     }
 }
