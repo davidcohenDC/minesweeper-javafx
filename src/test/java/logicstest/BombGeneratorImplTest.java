@@ -1,6 +1,7 @@
 package logicstest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import gamelogics.BombGenerator;
@@ -17,14 +18,14 @@ class BombGeneratorImplTest {
         final BombGenerator withoutBomb = new BombGeneratorImpl(width, height, 0);
         for (int i = 0; i < width * height; i++) {
             // 0 boolean false found
-            assertEquals(false, withoutBomb.next());
+            assertFalse(withoutBomb.next());
         }
 
         //setup all box with a bomb
         final BombGenerator fullBomb = new BombGeneratorImpl(width, height, width * height);
         for (int i = 0; i < width * height; i++) {
             // 0 boolean false found
-            assertEquals(true, fullBomb.next());
+            assertTrue(fullBomb.next());
         }
     }
 
