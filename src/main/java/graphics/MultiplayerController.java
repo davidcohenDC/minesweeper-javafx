@@ -56,9 +56,9 @@ public class MultiplayerController extends AbstractGameController {
     private int ccflagsP2;
 
     @FXML
-    private final Label lbTimerP2 = new Label();
+    private Label lbTimerP2;
     @FXML
-    private final Label lbTimerP1 = new Label();
+    private Label lbTimerP1;
     @FXML
     private Label lbFlagP1;
     @FXML

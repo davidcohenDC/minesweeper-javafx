@@ -53,7 +53,7 @@ public class SinglePlayerController extends AbstractGameController {
     private ScoreWriter scoreWriter;
 
     @FXML
-    private final Label lbTimerP1 = new Label();
+    private Label lbTimerP1;
     @FXML
     private Label lbFlagP1;
     @FXML
