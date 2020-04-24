@@ -1,9 +1,11 @@
 package graphics;
 
-import controllers.PlayGameInterface;
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
-import gamelogics.*;
+import gamelogics.Box;
+import gamelogics.GameEngine;
+import gamelogics.GameStatus;
+import gamelogics.Pair;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -132,16 +134,16 @@ public abstract class AbstractGameController implements GameController {
     }
 
     @Override
-    public abstract void rightClickHandler(final TileImpl tile, final int x, final int y);
+    public abstract void rightClickHandler(TileImpl tile, int x, int y);
 
     @Override
-    public abstract void leftClickHandler(final TileImpl tile, final int x, final int y);
+    public abstract void leftClickHandler(TileImpl tile, int x, int y);
 
     @Override
     public abstract void initialize() throws IOException;
 
     @Override
-    public abstract void endGame(final GameStatus status);
+    public abstract void endGame(GameStatus status);
 
     @Override
     public abstract void setButtons();

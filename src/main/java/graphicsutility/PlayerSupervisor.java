@@ -1,7 +1,8 @@
 package graphicsutility;
 
+import java.util.Map;
+
 import javafx.scene.control.Label;
-import java.util.HashMap;
 
 /**
  * The PlayerSupervisor.
@@ -20,7 +21,7 @@ public interface PlayerSupervisor {
      *                  {@link scoresystem.Player} name
      *
      */
-    void view(final Label label);
+    void view(Label label);
 
     /**
      * Set the baton to this {@link PlayerSupervisor}.
@@ -48,6 +49,5 @@ public interface PlayerSupervisor {
      * @param playersMap
      *                       The map of all {@link PlayerSupervisor}
      */
-    void giveMaster(final HashMap<PlayerSupervisor, Boolean> playersMap);
-
+    void giveMaster(Map<PlayerSupervisor, Boolean> playersMap);
 }

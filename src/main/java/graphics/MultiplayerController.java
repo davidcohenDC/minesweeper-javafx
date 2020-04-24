@@ -5,7 +5,14 @@ import gamelogics.GameEngine;
 import gamelogics.GameEngineImpl;
 import gamelogics.GameStatus;
 import gamelogics.Pair;
-import graphicsutility.*;
+import graphicsutility.AlertHandler;
+import graphicsutility.AlertHandlerImpl;
+import graphicsutility.ButtonReaction;
+import graphicsutility.ButtonReactionimpl;
+import graphicsutility.PlayerSupervisor;
+import graphicsutility.PlayerSupervisorImpl;
+import graphicsutility.SongAgent;
+import graphicsutility.SongAgentImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -34,9 +41,9 @@ public class MultiplayerController extends AbstractGameController {
     private final GameEngine engineP2;
     private final DoubleTimer timer;
     private static final int MAX_CLICK = 1;
+    private final Map<PlayerSupervisor, Boolean> playersMap = new HashMap<>();
     private Map<Pair<Integer, Integer>, TileImpl> tilesMap1;
     private Map<Pair<Integer, Integer>, TileImpl> tilesMap2;
-    private HashMap<PlayerSupervisor, Boolean> playersMap = new HashMap<>();
     private Optional<Player> firstPlayer;
     private Optional<Player> secondPlayer;
     private PlayerSupervisor supervisorP1;
@@ -44,14 +51,14 @@ public class MultiplayerController extends AbstractGameController {
     private AlertHandler alert;
     private SongAgent music;
     private ButtonReaction btnAction;
-    private int clickCount = 0;
+    private int clickCount;
     private int ccflagsP1;
     private int ccflagsP2;
 
     @FXML
-    private Label lbTimerP2 = new Label();
+    private final Label lbTimerP2 = new Label();
     @FXML
-    private Label lbTimerP1 = new Label();
+    private final Label lbTimerP1 = new Label();
     @FXML
     private Label lbFlagP1;
     @FXML
@@ -79,7 +86,7 @@ public class MultiplayerController extends AbstractGameController {
     @FXML
     private AnchorPane rootPane;
 
-    public MultiplayerController(int height, int width, int mines, DoubleTimer timer) {
+    public MultiplayerController(final int height, final int width, final int mines, final DoubleTimer timer) {
         super(height, width, mines, timer);
         this.height = height;
         this.width = width;
@@ -91,15 +98,14 @@ public class MultiplayerController extends AbstractGameController {
 
     @Override
     public final void initialize() throws IOException {
-        TimerView timerViewP1 = new TimerViewImpl(this.timer.getPlayer1Timer(), this.lbTimerP1);
-        TimerView timerViewP2 = new TimerViewImpl(this.timer.getPlayer2Timer(), this.lbTimerP2);
+        final TimerView timerViewP1 = new TimerViewImpl(this.timer.getPlayer1Timer(), this.lbTimerP1);
+        final PlayerSupervisor supervisorP2 = new PlayerSupervisorImpl(this.secondPlayer, false, this.playersMap);
+        final TimerView timerViewP2 = new TimerViewImpl(this.timer.getPlayer2Timer(), this.lbTimerP2);
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(new RWSettingsImpl());
         this.btnAction = new ButtonReactionimpl(this.rootPane);
         this.supervisorP1 = new PlayerSupervisorImpl(this.firstPlayer, true, this.playersMap);
-        PlayerSupervisor supervisorP2 = new PlayerSupervisorImpl(this.secondPlayer, false, this.playersMap);
         this.scoreWriter = new ScoreWriterImpl();
-
         this.lbMinesP1.setText("M:" + this.mines);
         this.lbMinesP1.setText("M:" + this.mines);
         this.lbFlagP1.setText("F:" + this.mines);
@@ -111,14 +117,14 @@ public class MultiplayerController extends AbstractGameController {
         supervisorP2.view(this.lbNameP2);
         this.lbTimerP2.setText(String.valueOf(this.timer.getPlayer2Timer().getValue()));
 
-        GridPane grid1 = new GridPane();
+        final GridPane grid1 = new GridPane();
         final TileBuilder tb1 = new TileBuilderImpl();
         tb1.withHeight(this.height);
         tb1.withWidth(this.width);
         tb1.withGrid(grid1);
         this.tilesMap1 = tb1.build();
 
-        GridPane grid2 = new GridPane();
+        final GridPane grid2 = new GridPane();
         final TileBuilder tb2 = new TileBuilderImpl();
         tb2.withHeight(this.height);
         tb2.withWidth(this.width);
@@ -229,7 +235,7 @@ public class MultiplayerController extends AbstractGameController {
                 this.ccflagsP2++;
             }
             tile.setFlag();
-            if ((this.ccflagsP2 >= 0) && (this.ccflagsP2 < 10)) {
+            if (this.ccflagsP2 >= 0 && this.ccflagsP2 < 10) {
                 this.lbFlagP2.setText("F:0" + this.ccflagsP2);
             } else {
                 this.lbFlagP2.setText("F:" + this.ccflagsP2);
@@ -238,7 +244,7 @@ public class MultiplayerController extends AbstractGameController {
     }
 
     @Override
-    public final void endGame(GameStatus status) {
+    public final void endGame(final GameStatus status) {
         closeElements();
         if (status.equals(GameStatus.LOST)) {
             writePlayer(status);
@@ -255,7 +261,7 @@ public class MultiplayerController extends AbstractGameController {
     }
 
     @Override
-    public final void writePlayer(GameStatus status) {
+    public final void writePlayer(final GameStatus status) {
         switch (status) {
         case LOST:
             if (this.supervisorP1.isMaster()) {
@@ -284,7 +290,7 @@ public class MultiplayerController extends AbstractGameController {
     }
 
     @Override
-    public final void setPlayers(Optional<Player> playerP1, Optional<Player> playerP2) {
+    public final void setPlayers(final Optional<Player> playerP1, final Optional<Player> playerP2) {
         this.firstPlayer = playerP1;
         this.secondPlayer = playerP2;
     }

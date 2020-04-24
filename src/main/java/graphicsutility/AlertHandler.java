@@ -1,6 +1,5 @@
 package graphicsutility;
 
-import timer.OutOfTimeEvent;
 import scoresystem.Player;
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ public interface AlertHandler {
      *                  the {@link Player} selected to perform the alert
      *
      */
-    void won(final Optional<Player> player);
+    void won(Optional<Player> player);
 
     /**
      * The lost alert for the player selected.
@@ -25,7 +24,7 @@ public interface AlertHandler {
      *                  the {@link Player} selected to perform the alert
      *
      */
-    void lost(final Optional<Player> player);
+    void lost(Optional<Player> player);
 
     /**
      * The lost alert when event from {@link OutOfTimeEvent} occur.

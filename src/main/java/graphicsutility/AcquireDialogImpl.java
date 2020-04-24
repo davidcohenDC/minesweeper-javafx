@@ -1,14 +1,14 @@
 package graphicsutility;
 
-import javafx.scene.control.*;
-
 import java.util.Optional;
+
+import javafx.scene.control.TextInputDialog;
 
 /**
  * The implementation of {@link AcquireDialog}.
  */
 public class AcquireDialogImpl implements AcquireDialog {
-    private TextInputDialog dialogSinglePlayer = new TextInputDialog("");
+    private final TextInputDialog dialogSinglePlayer = new TextInputDialog("");
 
     public AcquireDialogImpl() {
         dialogSinglePlayer.setResizable(false);

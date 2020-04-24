@@ -26,7 +26,7 @@ public interface ButtonReaction {
      * @param music
      *                    The {@link SongAgent} for manage the music
      */
-    void checkMusic(final Button btnSong, final SongAgent music);
+    void checkMusic(Button btnSong, SongAgent music);
 
     /**
      * The function of back home {@link Button} return to the
@@ -41,5 +41,5 @@ public interface ButtonReaction {
      * @param music
      *                     The {@link SongAgent} for manage the music
      */
-    void checkDualMusic(final Button btnSong, final Button btnSong2, final SongAgent music);
+    void checkDualMusic(Button btnSong, Button btnSong2, SongAgent music);
 }

@@ -19,7 +19,7 @@ public interface TileBuilder {
      *                  width of the {@link TileBuilder}
      * @return {@link TileBuilder}
      */
-    TileBuilder withWidth(final int width);
+    TileBuilder withWidth(int width);
 
     /**
      * Set the {@link TileBuilder} height.
@@ -28,7 +28,7 @@ public interface TileBuilder {
      *                   height of the {@link TileBuilder}
      * @return {@link TileBuilder}
      */
-    TileBuilder withHeight(final int height);
+    TileBuilder withHeight(int height);
 
     /**
      * Set the {@link TileBuilder} grid.
@@ -37,7 +37,7 @@ public interface TileBuilder {
      *                 grid of the {@link TileBuilder}
      * @return {@link TileBuilder}
      */
-    TileBuilder withGrid(final GridPane grid);
+    TileBuilder withGrid(GridPane grid);
 
     /**
      * Build the {@link TileBuilder}.

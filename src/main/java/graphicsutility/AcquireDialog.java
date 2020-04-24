@@ -16,7 +16,7 @@ public interface AcquireDialog {
     Optional<String> acquireFirst();
 
     /**
-     * The {@link AcquireDialog} for acquire the second name used in the game.s
+     * The {@link AcquireDialog} for acquire the second name used in the game.
      *
      * @return a Optional {@link String} used for set the {@link scoresystem.Player} for second name
      *
