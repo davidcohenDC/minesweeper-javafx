@@ -7,7 +7,7 @@ L'applicazione combinerà i classici aspetti del videogioco creato nel 1989 aggi
 
 
 
-##Funzionalità obbligatorie:
+## Funzionalità obbligatorie:
 
 * Funzionamento gioco standard https://it.wikipedia.org/wiki/Campo_minato_(videogioco)#Modalit%C3%A0_di_gioco
 
@@ -21,7 +21,7 @@ L'applicazione combinerà i classici aspetti del videogioco creato nel 1989 aggi
 
 * Nuove modalità: '1 vs 1' e 'Beat the timer', con annesso regolamento come per le modalità originale 
 
-##Funzionalità opzionali:
+## Funzionalità opzionali:
 
 * Gestione di più giocatori sulla stessa piattaforma con statistiche basate sui loro dati di gioco 
 
@@ -29,7 +29,7 @@ L'applicazione combinerà i classici aspetti del videogioco creato nel 1989 aggi
 
 * Personalizzazione di: effetti sonori, soundtrack ,bombe e bandierine cambiando il loro aspetto di default con immagini a piacere
 
-##Challenge principali:
+## Challenge principali:
 
 * I dati saranno salvati su file, sarà quindi necessario gestire operazioni I/O su file
 
@@ -39,7 +39,7 @@ L'applicazione combinerà i classici aspetti del videogioco creato nel 1989 aggi
 
 
 
-##Suddivisione del lavoro:
+## Suddivisione del lavoro:
 
 Cohen: 
 
