@@ -1,8 +1,19 @@
 package graphics;
 
 import controlutility.RWSettingsImpl;
-import gamelogics.*;
-import graphicsutility.*;
+import gamelogics.GameEngine;
+import gamelogics.GameEngineImpl;
+import gamelogics.GameStatus;
+import gamelogics.Pair;
+import graphicsutility.AlertHandler;
+import graphicsutility.AlertHandlerImpl;
+import graphicsutility.ButtonReaction;
+import graphicsutility.ButtonReactionimpl;
+import graphicsutility.PlayerSupervisor;
+import graphicsutility.PlayerSupervisorImpl;
+import graphicsutility.SongAgent;
+import graphicsutility.SongAgentImpl;
+import graphicsutility.TimeEventsListenerImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,12 +23,14 @@ import javafx.scene.layout.GridPane;
 import scoresystem.Player;
 import scoresystem.ScoreWriter;
 import scoresystem.ScoreWriterImpl;
-import timer.*;
 import timer.Timer;
+import timer.TimerView;
+import timer.TimerViewImpl;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
 
 /**
  * The Controller related to the SinglePlayer.fxml GUI.
@@ -36,12 +49,11 @@ public class SinglePlayerController extends AbstractGameController {
     private SongAgent music;
     private ButtonReaction btnAction;
     private Boolean timerOver = false;
-    private PlayerSupervisor supervisorP1;
     private int ccflagsP1;
     private ScoreWriter scoreWriter;
 
     @FXML
-    private Label lbTimerP1 = new Label();
+    private final Label lbTimerP1 = new Label();
     @FXML
     private Label lbFlagP1;
     @FXML
@@ -70,23 +82,24 @@ public class SinglePlayerController extends AbstractGameController {
 
     @Override
     public final void initialize() throws IOException {
-        HashMap<PlayerSupervisor, Boolean> playerMap = new HashMap<>();
+        final Map<PlayerSupervisor, Boolean> playerMap = new HashMap<>();
+        PlayerSupervisor supervisorP1;
         this.timerView = new TimerViewImpl(this.timer, this.lbTimerP1);
         this.alert = new AlertHandlerImpl();
         this.music = new SongAgentImpl(new RWSettingsImpl());
         this.btnAction = new ButtonReactionimpl(this.rootPane);
-        this.supervisorP1 = new PlayerSupervisorImpl(this.firstPlayer, true, playerMap);
+        supervisorP1 = new PlayerSupervisorImpl(this.firstPlayer, true, playerMap);
         this.scoreWriter = new ScoreWriterImpl();
 
         this.lbFlagP1.setText("FLAGS:" + this.mines);
         this.lbMinesP1.setText("MINE:" + this.mines);
         this.timerView.startDisplaying();
-        this.supervisorP1.view(this.lbNameP1);
+        supervisorP1.view(this.lbNameP1);
         this.lbTimerP1.setText(String.valueOf(this.timer.getValue()));
         this.btnSong.setText("MUTE");
         this.ccflagsP1 = this.mines;
 
-        GridPane grid = new GridPane();
+        final GridPane grid = new GridPane();
         final TileBuilder tb = new TileBuilderImpl();
         tb.withHeight(height);
         tb.withWidth(width);
@@ -130,7 +143,7 @@ public class SinglePlayerController extends AbstractGameController {
             refreshBoard(this.engine, this.tilesMap);
         }
 
-        if (!this.engine.getGameStatus().equals((GameStatus.PLAYING))) {
+        if (!this.engine.getGameStatus().equals(GameStatus.PLAYING)) {
             endGame(this.engine.getGameStatus());
         } else {
             if (tile.getValue() == 0) {
@@ -158,7 +171,7 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     @Override
-    public final void endGame(GameStatus status) {
+    public final void endGame(final GameStatus status) {
         closeElements();
         if (status.equals(GameStatus.LOST)) {
             writePlayer(GameStatus.LOST);
@@ -191,7 +204,7 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     @Override
-    public final void writePlayer(GameStatus status) {
+    public final void writePlayer(final GameStatus status) {
         if (status.equals(GameStatus.LOST)) {
             this.firstPlayer.ifPresent(Player::lost);
         } else {
@@ -201,7 +214,7 @@ public class SinglePlayerController extends AbstractGameController {
     }
 
     @Override
-    public final void setPlayers(Optional<Player> firstplayer, Optional<Player> secondplayer) {
+    public final void setPlayers(final Optional<Player> firstplayer, final Optional<Player> secondplayer) {
         this.firstPlayer = firstplayer;
     }
 
@@ -220,5 +233,7 @@ public class SinglePlayerController extends AbstractGameController {
         this.timerOver = true;
         endGame(GameStatus.LOST);
     }
+
+
 
 }

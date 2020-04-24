@@ -14,8 +14,8 @@ import java.io.IOException;
  * The implementation of {@link ButtonReaction}.
  */
 public class ButtonReactionimpl implements ButtonReaction {
-    private AnchorPane rootPane;
-    private AlertHandler alert;
+    private final AnchorPane rootPane;
+    private final AlertHandler alert;
 
     public ButtonReactionimpl(final AnchorPane rootPane) {
         this.rootPane = rootPane;

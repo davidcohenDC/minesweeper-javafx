@@ -54,7 +54,7 @@ public interface Tile {
      *              the value of {@link Tile}
      *
      */
-    void setValue(final int value);
+    void setValue(int value);
 
     /**
      * Add style to {@link Tile} depending on the value.
@@ -63,7 +63,7 @@ public interface Tile {
      *              the value of {@link Tile}
      *
      */
-    void setStyle(final int value);
+    void setStyle(int value);
 
     /**
      * Set the effect of {@link Tile}.

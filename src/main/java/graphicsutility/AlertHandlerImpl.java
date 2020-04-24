@@ -39,16 +39,16 @@ public class AlertHandlerImpl implements AlertHandler {
 
     @Override
     public final Boolean confirm() {
-        ButtonType btnOk = new ButtonType("Ok");
-        ButtonType btnNo = new ButtonType("No");
-        Alert alConfirm = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", btnOk, btnNo);
+        final ButtonType btnOk = new ButtonType("Ok");
+        final ButtonType btnNo = new ButtonType("No");
+        final Alert alConfirm = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", btnOk, btnNo);
         alConfirm.showAndWait();
         return alConfirm.getResult() == btnOk;
     }
 
     @Override
     public final void lost(final Optional<Player> player) {
-        if ((player.isEmpty()) || player.get().getName().equals("")) {
+        if (player.isEmpty() || player.get().getName().equals("")) {
             this.alert.setTitle("| GAME OVER |");
             this.alert.setContentText("YOU LOST!!");
         } else {

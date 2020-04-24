@@ -3,6 +3,13 @@ package graphics;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import controlutility.RWSettings;
 import controlutility.RWSettingsImpl;
 import graphicsutility.NodeEffect;
@@ -10,25 +17,27 @@ import graphicsutility.NodeEffectImpl;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javax.sound.sampled.*;
 
 /**
  * The implementation of {@link Tile}.
  */
 public class TileImpl extends Button implements Tile {
     private static final String SEPARATOR = System.getProperty("file.separator");
-    private static final String urlImgMine = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image"
+    private static final String URL_IMG_MINE = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image"
             + SEPARATOR + "mines" + SEPARATOR;
-    private static final String urlImgFlag = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image"
+    private static final String URL_IMG_FLAG = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR + "image"
             + SEPARATOR + "flags" + SEPARATOR;
-    private static final String urlAudioEffects = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR
+    private static final String URL_AUDIO_EFFECTS = System.getProperty("user.home") + SEPARATOR + ".minesweeper" + SEPARATOR
             + "audioeffect" + SEPARATOR;
-    private final String srcAddFlag = urlAudioEffects + "addflag.wav";
-    private final String srcRemoveFlag = urlAudioEffects + "removeflag.wav";
-    private final String srcOpenTile = urlAudioEffects + "click.wav";
-    private final String srcOpenBigTile = urlAudioEffects + "firstclick.wav";
-    private final double size;
+    private final String srcAddFlag = URL_AUDIO_EFFECTS + "addflag.wav";
+    private final String srcRemoveFlag = URL_AUDIO_EFFECTS + "removeflag.wav";
+    private final String srcOpenTile = URL_AUDIO_EFFECTS + "click.wav";
+    private final String srcOpenBigTile = URL_AUDIO_EFFECTS + "firstclick.wav";
     private static final int IMAGE_SIZE = 26;
+    private static final int FIFTH = 5;
+    private static final int SIXTH = 6;
+    private static final int SEVENTH = 7;
+    private static final int EIGHT = 8;
     private final Clip clip;
     private final Clip clip2;
     private final int x;
@@ -45,10 +54,9 @@ public class TileImpl extends Button implements Tile {
         this.rwSett = new RWSettingsImpl();
         this.x = x;
         this.y = y;
-        this.size = size;
         this.setText("");
         this.setId("tile");
-        this.setPrefSize(this.size, this.size);
+        this.setPrefSize(size, size);
         this.setStyle("-fx-padding:0");
         this.clip = AudioSystem.getClip();
         this.clip2 = AudioSystem.getClip();
@@ -114,6 +122,18 @@ public class TileImpl extends Button implements Tile {
             break;
         case 4:
             this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: purple; -fx-font-weight: bold;");
+            break;
+        case FIFTH:
+            this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: yellow; -fx-font-weight: bold;");
+            break;
+        case SIXTH:
+            this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: orange; -fx-font-weight: bold;");
+            break;
+        case SEVENTH:
+            this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: grey; -fx-font-weight: bold;");
+            break;
+        case EIGHT:
+            this.setStyle("-fx-background-color:grey; -fx-padding:0; -fx-text-fill: black; -fx-font-weight: bold;");
             break;
         default:
             break;
@@ -218,7 +238,7 @@ public class TileImpl extends Button implements Tile {
      *                            if an I/O error occurs.
      */
     private void openStreamFlag() throws IOException {
-        final Image flag = new Image(new FileInputStream(urlImgFlag + this.rwSett.getFlags()), IMAGE_SIZE, IMAGE_SIZE, true,
+        final Image flag = new Image(new FileInputStream(URL_IMG_FLAG + this.rwSett.getFlags()), IMAGE_SIZE, IMAGE_SIZE, true,
                 true);
         this.imgFlag = new ImageView(flag);
 
@@ -231,7 +251,7 @@ public class TileImpl extends Button implements Tile {
      *                            if an I/O error occurs.
      */
     private void openStreamBomb() throws IOException {
-        final Image mine = new Image(new FileInputStream(urlImgMine + this.rwSett.getMines()), IMAGE_SIZE, IMAGE_SIZE, true,
+        final Image mine = new Image(new FileInputStream(URL_IMG_MINE + this.rwSett.getMines()), IMAGE_SIZE, IMAGE_SIZE, true,
                 true);
         this.imgMine = new ImageView(mine);
     }

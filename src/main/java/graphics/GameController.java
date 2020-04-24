@@ -25,7 +25,7 @@ public interface GameController {
      * @param y
      *                  the second coordinate
      */
-    void leftClickHandler(final TileImpl tile, final int x, final int y);
+    void leftClickHandler(TileImpl tile, int x, int y);
 
     /**
      * The handler for the Right click.
@@ -38,7 +38,7 @@ public interface GameController {
      *                  the second coordinate
      *
      */
-    void rightClickHandler(final TileImpl tile, final int x, final int y);
+    void rightClickHandler(TileImpl tile, int x, int y);
 
     /**
      * The handler for Initialize all the elements of the game.
@@ -59,7 +59,7 @@ public interface GameController {
      *              the actual {@link GameStatus} of the game
      *
      */
-    void endGame(final GameStatus status);
+    void endGame(GameStatus status);
 
     /**
      *  Write the player that win or lost the game.
@@ -67,7 +67,7 @@ public interface GameController {
      *              the actual {@link GameStatus} of the game
      *
      */
-    void writePlayer(final GameStatus status);
+    void writePlayer(GameStatus status);
 
     /**
      *  Remove or close all elements used in the game.

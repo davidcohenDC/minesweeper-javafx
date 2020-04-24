@@ -1,9 +1,13 @@
 package graphicsutility;
 
 import controlutility.RWSettings;
-import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * The implementation of {@link SongAgent}.
@@ -15,7 +19,7 @@ public class SongAgentImpl implements SongAgent {
     private Clip clip;
     private Boolean playing = false;
     private Boolean checkStart = false;
-    final RWSettings rwSett;
+    private final RWSettings rwSett;
 
     public SongAgentImpl(final RWSettings rwSett) {
         this.rwSett = rwSett;

@@ -2,8 +2,6 @@ package graphicsutility;
 
 import javafx.scene.control.Label;
 import scoresystem.Player;
-
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
@@ -16,15 +14,15 @@ public class PlayerSupervisorImpl implements PlayerSupervisor {
     private Boolean baton;
 
     public PlayerSupervisorImpl(final Optional<Player> player, final Boolean baton,
-            final HashMap<PlayerSupervisor, Boolean> playersMap) {
+            final Map<PlayerSupervisor, Boolean> playersMap) {
         this.player = player;
         this.baton = baton;
         playersMap.put(this, baton);
     }
 
     @Override
-    public final void giveMaster(final HashMap<PlayerSupervisor, Boolean> playersMap) {
-        Iterator<Map.Entry<PlayerSupervisor, Boolean>> entries = playersMap.entrySet().iterator();
+    public final void giveMaster(final Map<PlayerSupervisor, Boolean> playersMap) {
+        final Iterator<Map.Entry<PlayerSupervisor, Boolean>> entries = playersMap.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<PlayerSupervisor, Boolean> entry = entries.next();
             if (entry.getValue()) {
@@ -36,7 +34,7 @@ public class PlayerSupervisorImpl implements PlayerSupervisor {
                     entry.getKey().setBaton();
                     break;
                 } else {
-                    for (Map.Entry<PlayerSupervisor, Boolean> first : playersMap.entrySet()) {
+                    for (final Map.Entry<PlayerSupervisor, Boolean> first : playersMap.entrySet()) {
                         first.setValue(true);
                         first.getKey().setBaton();
                         break;
@@ -65,5 +63,6 @@ public class PlayerSupervisorImpl implements PlayerSupervisor {
     public final Boolean isMaster() {
         return this.baton;
     }
+
 
 }
