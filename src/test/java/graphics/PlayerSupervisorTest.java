@@ -10,10 +10,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Test PlayerSupervisor.*/
 public class PlayerSupervisorTest {
     private final Optional<Player> player = Optional.empty();
     private final Optional<Player> player2 = Optional.empty();
 
+    /**test the correct baton between players.*/
     @Test
     public void testPlayerSupervisor() {
         final Map<PlayerSupervisor, Boolean> playersMap = new HashMap<>();
