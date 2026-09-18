@@ -1,0 +1,24 @@
+{
+  "branches": ["master"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "./gradlew build -Pversion=${nextRelease.version} --no-daemon && cp build/libs/minesweeper-${nextRelease.version}-all.jar minesweeper-${nextRelease.version}.jar"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          { "path": "minesweeper-*.jar", "label": "Runnable jar (Java 17+, all platforms)" }
+        ],
+        "successComment": false,
+        "failComment": false,
+        "failTitle": false
+      }
+    ]
+  ]
+}

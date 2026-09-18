@@ -1,7 +1,17 @@
+# Gradle
 .gradle/
 build/
+
+# IDE metadata
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
 bin/
 out/
-.idea/
-# Ignored, as Gradle Buildship generates it on import / refresh
-.classpath
+
+# OS
+.DS_Store
+Thumbs.db

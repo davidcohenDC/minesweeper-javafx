@@ -32,8 +32,12 @@ class TestTimer {
         }
         t.stop();
         assertFalse(t.isRunning());
-        assertEquals(1, t.getValue());
-        assertTrue(t.getValue() > 0);
+        // The value is measured in milliseconds from the wall clock, so its exact amount
+        // after the first tick is timing-dependent; only check that it advanced and that
+        // a stopped timer stays put.
+        final long stoppedValue = t.getValue();
+        assertTrue(stoppedValue > 0);
+        assertEquals(stoppedValue, t.getValue());
     }
 
     @Test

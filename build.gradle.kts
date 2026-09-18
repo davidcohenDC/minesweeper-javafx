@@ -1,47 +1,75 @@
-// Declaration of the Gradle extension to use
+/*
+ * Minesweeper — OOP course project, University of Bologna, a.y. 2019/2020.
+ *
+ * The source code is frozen as it was delivered in April 2020. This build script
+ * was modernised afterwards (Gradle 8, Maven Central, JavaFX 21, Java 21 toolchain)
+ * only so that the project can still be built and run from a fresh clone.
+ */
 plugins {
     java
     application
-    /*
-     * Adds tasks to export a runnable jar.
-     * In order to create it, launch the "shadowJar" task.
-     * The runnable jar will be found in build/libs/projectname-all.jar
-     */
-    id("com.github.johnrengelman.shadow") version "5.2.0"
+    // Produces a single runnable jar (build/libs/minesweeper-<version>-all.jar) via the "shadowJar" task.
+    id("com.gradleup.shadow") version "8.3.6"
 }
+
+group = "it.unibo.oop19"
+// The version lives in gradle.properties; semantic-release overrides it with -Pversion=<x.y.z>.
+
 repositories {
-    jcenter() // Contains the whole Maven Central + other stuff
+    mavenCentral()
 }
-// List of JavaFX modules you need. Comment out things you are not using.
-val javaFXModules = listOf(
-    "base",
-    "controls",
-    "fxml",
-    "swing",
-    "graphics"
-)
-// All required for OOP
-val supportedPlatforms = listOf("linux", "mac", "win")
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+// JavaFX modules actually used by the application.
+val javaFxVersion = "21.0.6"
+val javaFxModules = listOf("base", "graphics", "controls", "fxml")
+// Native libraries for every platform are bundled so the same jar runs everywhere.
+val javaFxPlatforms = listOf("linux", "mac", "mac-aarch64", "win")
 
 dependencies {
-    // Example library: Guava. Add what you need (and remove Guava if you don't use it)
-    implementation("com.google.guava:guava:28.1-jre")
-    // JavaFX: comment out if you do not need them
-    for (platform in supportedPlatforms) {
-        for (module in javaFXModules) {
-            implementation("org.openjfx:javafx-$module:13:$platform")
+    for (platform in javaFxPlatforms) {
+        for (module in javaFxModules) {
+            implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
         }
     }
-    // JUnit API and testing engine
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
-}
 
-tasks.withType<Test> {
-    // Enables JUnit 5 Jupiter module
-    useJUnitPlatform()
+    testImplementation(platform("org.junit:junit-bom:5.11.4"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 application {
-    mainClassName = "application.Launcher"
+    // Launcher (not Main) so the app can start from a plain classpath jar without the module system.
+    mainClass.set("application.Launcher")
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+}
+
+tasks.test {
+    useJUnitPlatform()
+    // The application (and its tests) read and write ~/.minesweeper. Point "user.home" to a
+    // throw-away directory so tests never touch the real one and every run starts clean.
+    val testHome = layout.buildDirectory.dir("test-home")
+    systemProperty("user.home", testHome.get().asFile.absolutePath)
+    // Lets the TestHomeSetup extension (src/test) populate that directory before any test class runs.
+    systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
+    doFirst {
+        // LoadDataImpl uses File.mkdir() (not mkdirs()), so the parent must exist.
+        testHome.get().asFile.deleteRecursively()
+        testHome.get().asFile.mkdirs()
+    }
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
 }
